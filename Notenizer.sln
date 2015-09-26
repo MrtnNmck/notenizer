@@ -5,6 +5,8 @@ VisualStudioVersion = 12.0.30501.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Notenizer", "Notenizer\Notenizer.csproj", "{DB9A310A-10F3-462C-B435-43FEFD6DA363}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CLI", "CLI\CLI.csproj", "{41DCABFB-1E13-492B-BDC5-64EC95397AC6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{DB9A310A-10F3-462C-B435-43FEFD6DA363}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DB9A310A-10F3-462C-B435-43FEFD6DA363}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DB9A310A-10F3-462C-B435-43FEFD6DA363}.Release|Any CPU.Build.0 = Release|Any CPU
+		{41DCABFB-1E13-492B-BDC5-64EC95397AC6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{41DCABFB-1E13-492B-BDC5-64EC95397AC6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{41DCABFB-1E13-492B-BDC5-64EC95397AC6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{41DCABFB-1E13-492B-BDC5-64EC95397AC6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

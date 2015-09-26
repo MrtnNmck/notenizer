@@ -7,7 +7,7 @@
     <ProjectGuid>{DB9A310A-10F3-462C-B435-43FEFD6DA363}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Notenizer</RootNamespace>
+    <RootNamespace>nsNotenizer</RootNamespace>
     <AssemblyName>Notenizer</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -30,6 +30,105 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ejml-0.23">
+      <HintPath>..\packages\Stanford.NLP.CoreNLP.3.5.2\lib\ejml-0.23.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.AWT.WinForms">
+      <HintPath>..\packages\IKVM.8.0.5449.1\lib\IKVM.AWT.WinForms.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.Beans">
+      <HintPath>..\packages\IKVM.8.0.5449.1\lib\IKVM.OpenJDK.Beans.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.Charsets">
+      <HintPath>..\packages\IKVM.8.0.5449.1\lib\IKVM.OpenJDK.Charsets.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.Cldrdata">
+      <HintPath>..\packages\IKVM.8.0.5449.1\lib\IKVM.OpenJDK.Cldrdata.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.Corba">
+      <HintPath>..\packages\IKVM.8.0.5449.1\lib\IKVM.OpenJDK.Corba.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.Core">
+      <HintPath>..\packages\IKVM.8.0.5449.1\lib\IKVM.OpenJDK.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.Jdbc">
+      <HintPath>..\packages\IKVM.8.0.5449.1\lib\IKVM.OpenJDK.Jdbc.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.Localedata">
+      <HintPath>..\packages\IKVM.8.0.5449.1\lib\IKVM.OpenJDK.Localedata.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.Management">
+      <HintPath>..\packages\IKVM.8.0.5449.1\lib\IKVM.OpenJDK.Management.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.Media">
+      <HintPath>..\packages\IKVM.8.0.5449.1\lib\IKVM.OpenJDK.Media.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.Misc">
+      <HintPath>..\packages\IKVM.8.0.5449.1\lib\IKVM.OpenJDK.Misc.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.Naming">
+      <HintPath>..\packages\IKVM.8.0.5449.1\lib\IKVM.OpenJDK.Naming.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.Nashorn">
+      <HintPath>..\packages\IKVM.8.0.5449.1\lib\IKVM.OpenJDK.Nashorn.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.Remoting">
+      <HintPath>..\packages\IKVM.8.0.5449.1\lib\IKVM.OpenJDK.Remoting.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.Security">
+      <HintPath>..\packages\IKVM.8.0.5449.1\lib\IKVM.OpenJDK.Security.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.SwingAWT">
+      <HintPath>..\packages\IKVM.8.0.5449.1\lib\IKVM.OpenJDK.SwingAWT.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.Text">
+      <HintPath>..\packages\IKVM.8.0.5449.1\lib\IKVM.OpenJDK.Text.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.Tools">
+      <HintPath>..\packages\IKVM.8.0.5449.1\lib\IKVM.OpenJDK.Tools.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.Util">
+      <HintPath>..\packages\IKVM.8.0.5449.1\lib\IKVM.OpenJDK.Util.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.XML.API">
+      <HintPath>..\packages\IKVM.8.0.5449.1\lib\IKVM.OpenJDK.XML.API.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.XML.Bind">
+      <HintPath>..\packages\IKVM.8.0.5449.1\lib\IKVM.OpenJDK.XML.Bind.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.XML.Crypto">
+      <HintPath>..\packages\IKVM.8.0.5449.1\lib\IKVM.OpenJDK.XML.Crypto.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.XML.Parse">
+      <HintPath>..\packages\IKVM.8.0.5449.1\lib\IKVM.OpenJDK.XML.Parse.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.XML.Transform">
+      <HintPath>..\packages\IKVM.8.0.5449.1\lib\IKVM.OpenJDK.XML.Transform.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.XML.WebServices">
+      <HintPath>..\packages\IKVM.8.0.5449.1\lib\IKVM.OpenJDK.XML.WebServices.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.OpenJDK.XML.XPath">
+      <HintPath>..\packages\IKVM.8.0.5449.1\lib\IKVM.OpenJDK.XML.XPath.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.Runtime">
+      <HintPath>..\packages\IKVM.8.0.5449.1\lib\IKVM.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="IKVM.Runtime.JNI">
+      <HintPath>..\packages\IKVM.8.0.5449.1\lib\IKVM.Runtime.JNI.dll</HintPath>
+    </Reference>
+    <Reference Include="javax.json">
+      <HintPath>..\packages\Stanford.NLP.CoreNLP.3.5.2\lib\javax.json.dll</HintPath>
+    </Reference>
+    <Reference Include="joda-time">
+      <HintPath>..\packages\Stanford.NLP.CoreNLP.3.5.2\lib\joda-time.dll</HintPath>
+    </Reference>
+    <Reference Include="jollyday">
+      <HintPath>..\packages\Stanford.NLP.CoreNLP.3.5.2\lib\jollyday.dll</HintPath>
+    </Reference>
+    <Reference Include="stanford-corenlp-3.5.2">
+      <HintPath>..\packages\Stanford.NLP.CoreNLP.3.5.2\lib\stanford-corenlp-3.5.2.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -37,10 +136,185 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="xom">
+      <HintPath>..\packages\Stanford.NLP.CoreNLP.3.5.2\lib\xom.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="Notenizer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="stanford-corenlp-3.5.2-models\edu\stanford\nlp\dcoref\coref.properties">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="stanford-corenlp-3.5.2-models\edu\stanford\nlp\models\dcoref\coref.dict1.tsv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="stanford-corenlp-3.5.2-models\edu\stanford\nlp\models\dcoref\coref.dict2.tsv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="stanford-corenlp-3.5.2-models\edu\stanford\nlp\models\dcoref\coref.dict3.tsv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="stanford-corenlp-3.5.2-models\edu\stanford\nlp\models\dcoref\coref.dict4.tsv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="stanford-corenlp-3.5.2-models\edu\stanford\nlp\models\dcoref\countries">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="stanford-corenlp-3.5.2-models\edu\stanford\nlp\models\dcoref\gender.data.gz">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="stanford-corenlp-3.5.2-models\edu\stanford\nlp\models\dcoref\gender.map.ser.gz">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="stanford-corenlp-3.5.2-models\edu\stanford\nlp\models\dcoref\singleton.predictor.ser">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="stanford-corenlp-3.5.2-models\edu\stanford\nlp\models\dcoref\statesandprovinces">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="stanford-corenlp-3.5.2-models\edu\stanford\nlp\models\gender\first_name_map_small">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="stanford-corenlp-3.5.2-models\edu\stanford\nlp\models\lexparser\englishPCFG.ser.gz">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="stanford-corenlp-3.5.2-models\edu\stanford\nlp\models\lexparser\englishRNN.ser.gz">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="stanford-corenlp-3.5.2-models\edu\stanford\nlp\models\ner\english.all.3class.distsim.crf.ser.gz">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="stanford-corenlp-3.5.2-models\edu\stanford\nlp\models\ner\english.all.3class.distsim.prop">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="stanford-corenlp-3.5.2-models\edu\stanford\nlp\models\ner\english.conll.4class.distsim.crf.ser.gz">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="stanford-corenlp-3.5.2-models\edu\stanford\nlp\models\ner\english.conll.4class.distsim.prop">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="stanford-corenlp-3.5.2-models\edu\stanford\nlp\models\ner\english.muc.7class.distsim.crf.ser.gz">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="stanford-corenlp-3.5.2-models\edu\stanford\nlp\models\ner\english.muc.7class.distsim.prop">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="stanford-corenlp-3.5.2-models\edu\stanford\nlp\models\parser\nndep\CTB_CoNLL_params.txt.gz">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="stanford-corenlp-3.5.2-models\edu\stanford\nlp\models\parser\nndep\english_SD.gz">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="stanford-corenlp-3.5.2-models\edu\stanford\nlp\models\parser\nndep\english_UD.gz">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="stanford-corenlp-3.5.2-models\edu\stanford\nlp\models\parser\nndep\PTB_CoNLL_params.txt.gz">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="stanford-corenlp-3.5.2-models\edu\stanford\nlp\models\parser\nndep\wsj_SD.gz">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="stanford-corenlp-3.5.2-models\edu\stanford\nlp\models\pos-tagger\english-bidirectional\english-bidirectional-distsim.tagger">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="stanford-corenlp-3.5.2-models\edu\stanford\nlp\models\pos-tagger\english-bidirectional\english-bidirectional-distsim.tagger.props">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="stanford-corenlp-3.5.2-models\edu\stanford\nlp\models\pos-tagger\english-left3words\english-left3words-distsim.tagger">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="stanford-corenlp-3.5.2-models\edu\stanford\nlp\models\pos-tagger\english-left3words\english-left3words-distsim.tagger.props">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="stanford-corenlp-3.5.2-models\edu\stanford\nlp\models\regexner\type_map_clean">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="stanford-corenlp-3.5.2-models\edu\stanford\nlp\models\sentiment\sentiment.binary.ser.gz">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="stanford-corenlp-3.5.2-models\edu\stanford\nlp\models\sentiment\sentiment.ser.gz">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="stanford-corenlp-3.5.2-models\edu\stanford\nlp\models\supervised_relation_extractor\roth_relation_model_pipelineNER.ser">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="stanford-corenlp-3.5.2-models\edu\stanford\nlp\models\truecase\MixDisambiguation.list">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="stanford-corenlp-3.5.2-models\edu\stanford\nlp\models\truecase\truecasing.fast.caseless.prop">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="stanford-corenlp-3.5.2-models\edu\stanford\nlp\models\truecase\truecasing.fast.caseless.qn.ser.gz">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="stanford-corenlp-3.5.2-models\edu\stanford\nlp\models\truecase\truecasing.fast.prop">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="stanford-corenlp-3.5.2-models\edu\stanford\nlp\models\truecase\truecasing.fast.qn.ser.gz">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="stanford-corenlp-3.5.2-models\edu\stanford\nlp\models\upos\ENUniversalPOS.tsurgeon">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="stanford-corenlp-3.5.2-models\edu\stanford\nlp\pipeline\StanfordCoreNLP.properties">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="stanford-corenlp-3.5.2-models\META-INF\MANIFEST.MF">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="stanford-corenlp-3.5.2-models\edu\stanford\nlp\models\dcoref\animate.unigrams.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="stanford-corenlp-3.5.2-models\edu\stanford\nlp\models\dcoref\demonyms.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="stanford-corenlp-3.5.2-models\edu\stanford\nlp\models\dcoref\female.unigrams.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="stanford-corenlp-3.5.2-models\edu\stanford\nlp\models\dcoref\inanimate.unigrams.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="stanford-corenlp-3.5.2-models\edu\stanford\nlp\models\dcoref\male.unigrams.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="stanford-corenlp-3.5.2-models\edu\stanford\nlp\models\dcoref\namegender.combine.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="stanford-corenlp-3.5.2-models\edu\stanford\nlp\models\dcoref\ne.signatures.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="stanford-corenlp-3.5.2-models\edu\stanford\nlp\models\dcoref\neutral.unigrams.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="stanford-corenlp-3.5.2-models\edu\stanford\nlp\models\dcoref\plural.unigrams.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="stanford-corenlp-3.5.2-models\edu\stanford\nlp\models\dcoref\singular.unigrams.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="stanford-corenlp-3.5.2-models\edu\stanford\nlp\models\dcoref\state-abbreviations.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="stanford-corenlp-3.5.2-models\edu\stanford\nlp\models\sutime\defs.sutime.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="stanford-corenlp-3.5.2-models\edu\stanford\nlp\models\sutime\english.holidays.sutime.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="stanford-corenlp-3.5.2-models\edu\stanford\nlp\models\sutime\english.sutime.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="stanford-corenlp-3.5.2-models\edu\stanford\nlp\models\sutime\jollyday\Holidays_sutime.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
