@@ -11,6 +11,7 @@ using Console = System.Console;
 using edu.stanford.nlp.ling;
 using System.Globalization;
 using System.Threading;
+using edu.stanford.nlp.trees;
 
 namespace nsNotenizer
 {
@@ -75,6 +76,29 @@ namespace nsNotenizer
 			{
 				Console.WriteLine(sentence);
 			}
+
+
+			// getting dependencies
+			Annotation firstSentence = (annotation.get(typeof(CoreAnnotations.SentencesAnnotation)) as ArrayList).get(0) as Annotation;
+			Tree tree = firstSentence.get(typeof(TreeCoreAnnotations.TreeAnnotation)) as Tree;
+			TreebankLanguagePack treeBankLangPack = new PennTreebankLanguagePack();
+			GrammaticalStructureFactory gramStructFact = treeBankLangPack.grammaticalStructureFactory();
+			GrammaticalStructure gramStruct = gramStructFact.newGrammaticalStructure(tree);
+			Collection typedDependencies = gramStruct.typedDependenciesCollapsed();
+			Console.WriteLine(typedDependencies);
+
+			Object[] list = typedDependencies.toArray();
+			Console.WriteLine(list.Length);
+			TypedDependency typedDependency;
+			foreach (Object obj in list)
+			{
+				typedDependency = obj as TypedDependency;
+				Console.WriteLine("Dependancy name " + (typedDependency.dep() as IndexedWord) + " NODE " + typedDependency.reln());
+
+				// typedDependency contains functions dep() and gov() which return IndexedWord which has function like lemma(), new(), and so on..
+				// typedDependency alson ocntains reln() wich is a relation (like nsubjpass, ...)
+			}
+
 		}
     }
 }
