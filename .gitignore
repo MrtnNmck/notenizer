@@ -215,3 +215,6 @@ FakesAssemblies/
 **/*.Server/GeneratedArtifacts
 **/*.Server/ModelManifest.xml
 _Pvt_Extensions
+
+# Stanford CoreNLP model
+stanford-corenlp-3.5.2-models
