@@ -1,0 +1,11 @@
+1. Do 04.10.2015 (nedela)
+-----------------------------
+    - nastudovat si dependencies a dependency tree zo stanford manualu(http://nlp.stanford.edu/software/dependencies_manual.pdf)
+    - zistit ako ich pouzit ako pomoc pri extrahovani dolezitej info z vety
+    - zamysliet sa nad algoritmom
+
+2. Do 11.10.2015 (nedela|
+-----------------------------
+    - vyuzitim znalosti ziskanych z progressu c. 1 navrhnut zakladnu kostru algoritmu, ktory bude vyuzivat dependencies, POS a mozno aj NER na vytiahnutie dolezitej informacie z vety
+    - implementovat zakladnu kostru algoritmu
+    - otestovat na malej sade testovacich viet
