@@ -1,2 +1,2 @@
 # notenizer
-Bachelor project
+Bachelor's project
