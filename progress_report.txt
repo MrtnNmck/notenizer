@@ -1,1 +1,6 @@
-
+04.10.2015 (nedela)
+-----------------------------
+    - nastudovane dependencies a dependency tree zo stanford manualu(http://nlp.stanford.edu/software/dependencies_manual.pdf)
+    - navrhnutie zakladneho principu ako ich pouzit ako mozu pomoct pri extrahovani dolezitej info z vety
+    - zamysliet sa nad algoritmom
+	+ zaciatok implementacie algoritmu
