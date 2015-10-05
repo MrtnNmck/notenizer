@@ -1,1 +1,19 @@
-
+Poznatky:
+	DONE - noun ma nsubj / nsubjpass bud s dalsim noun alebo verb, toto treba rozlisit a podla toho dalej parsovat
+	DONE - ak je nsubj spojene noun, tka treba hladat COP, aby sme zistili sloveeso akym to je prepojene napriklad: Bratislava IS city
+	DONE - ak je nsubj prepojene verb, tak treba hladat object toho, napriklad dobj (hlavny), iobj (vedlajsie), napriklad: Clinton defeated Dote.
+		- Clinton <-- nsubj --> defetead
+		- defeated <-- dobj --> Dote.
+		- VBN, VBG, VBD, VBP, VBZ, VB, 
+	DONE - nemuselo by byt zle, ak je nsubj prepojene s verb, tak zistit jeho auxiliary
+	
+	DONE - zaujimave by mohlo byt tahat este k hlavnemu noun aj compound
+		- napriklad ked mame Bratislava <-- nsubj --> city, tak k city este dotiahnut city <-- compound --> capital
+		
+	- treba pozerat aj neg, aby sme neprekrutili informacie
+	- prechadzat nmod, aby sme nezostali len pri trojslovnych vetach, ale trochu ich doplnili
+		- treba premysliet, ktore nmod brat, podla coho ich filtrovat (POS ?), aby sme zas nezostali pri povodnej vete
+		- aspon prvy by nemuselo byt zle
+	- pozriet conj, aby ked su tam nejake &&, tak sme to odchytili
+	
+		17BA M:5972 T:a

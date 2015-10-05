@@ -12,6 +12,7 @@ using edu.stanford.nlp.ling;
 using System.Globalization;
 using System.Threading;
 using edu.stanford.nlp.trees;
+using nsExtensions;
 
 namespace nsNotenizer
 {
@@ -66,37 +67,102 @@ namespace nsNotenizer
 
 			// these are all the sentences in this document
 			// a CoreMap is essentially a Map that uses class objects as keys and has values with custom types
-			var sentences = annotation.get(typeof(CoreAnnotations.SentencesAnnotation));
-			if (sentences == null)
+			//var sentences = annotation.get(typeof(CoreAnnotations.SentencesAnnotation));
+			//if (sentences == null)
+			//{
+			//	return;
+			//}
+
+			//foreach (Annotation sentence in sentences as ArrayList)
+			//{
+			//	Console.WriteLine(sentence);
+			//}
+
+
+			String firstPart = String.Empty;
+			String midPart = String.Empty;
+			String endPart = String.Empty;
+			String note = String.Empty;
+			Dictionary<String, String> sentencesNoted = new Dictionary<String, String>();
+			bool findCOP = false;
+
+			foreach (Annotation sentence in annotation.get(typeof(CoreAnnotations.SentencesAnnotation)) as ArrayList)
 			{
-				return;
+				// getting dependencies
+				//Annotation firstSentence = (annotation.get(typeof(CoreAnnotations.SentencesAnnotation)) as ArrayList).get(1) as Annotation;
+				Tree tree = sentence.get(typeof(TreeCoreAnnotations.TreeAnnotation)) as Tree;
+				TreebankLanguagePack treeBankLangPack = new PennTreebankLanguagePack();
+				GrammaticalStructureFactory gramStructFact = treeBankLangPack.grammaticalStructureFactory();
+				GrammaticalStructure gramStruct = gramStructFact.newGrammaticalStructure(tree);
+				Collection typedDependencies = gramStruct.typedDependenciesCollapsed();
+				Console.WriteLine(typedDependencies);
+
+				List<TypedDependency> list = (typedDependencies as ArrayList).ToList<TypedDependency>();
+				Console.WriteLine(list.Count);
+
+				foreach (TypedDependency typedDependency in list)
+				{
+					//Console.WriteLine("Dependancy name " + (typedDependency.dep() as IndexedWord) + " NODE " + typedDependency.reln());
+
+					if (typedDependency.reln().IsGrammaticalRelation(EnglishGrammaticalRelations.NOMINAL_SUBJECT)
+						|| typedDependency.reln().IsGrammaticalRelation(EnglishGrammaticalRelations.NOMINAL_PASSIVE_SUBJECT))
+					{
+						firstPart = typedDependency.dep().word();
+
+						String pos = typedDependency.gov().get(typeof(CoreAnnotations.PartOfSpeechAnnotation)).ToString();
+						if (pos == "NN" || pos == "NNP")
+						{
+							TypedDependency compound = list
+								.Where(x => x.reln().getLongName() == "compound modifier")
+								.Where(y => y.gov().toString() == typedDependency.dep().toString())
+								.Select(z => z).FirstOrDefault();
+
+							firstPart = compound != null ? compound.dep().word() + " " + firstPart : firstPart;
+
+							TypedDependency cop = list
+								.Where(x => x.reln().IsGrammaticalRelation(EnglishGrammaticalRelations.COPULA))
+								.Where(y => y.gov().toString() == typedDependency.gov().toString())
+								.Select(z => z).FirstOrDefault();
+
+							midPart = cop.dep().word();
+							endPart = typedDependency.gov().word();
+						}
+						else if (pos == "VB" || pos == "VBN" || pos == "VBG" || pos == "VBD" || pos == "VBP" || pos == "VBZ")
+						{
+							midPart = typedDependency.gov().word();
+
+							TypedDependency dobj = list
+								.Where(x => x.reln().IsGrammaticalRelation(EnglishGrammaticalRelations.DIRECT_OBJECT))
+								.Where(y => y.gov().toString() == typedDependency.gov().toString())
+								.Select(z => z).FirstOrDefault();
+
+							TypedDependency aux = list
+								.Where(x => x.reln().IsGrammaticalRelation(EnglishGrammaticalRelations.AUX_MODIFIER) || x.reln().IsGrammaticalRelation(EnglishGrammaticalRelations.AUX_PASSIVE_MODIFIER))
+								.Where(y => y.gov().toString() == typedDependency.gov().toString())
+								.Select(z => z).FirstOrDefault();
+
+							if (aux != null)
+								endPart += aux.dep().word();
+
+							if (dobj != null)
+								endPart += dobj.dep().word();
+						}
+
+						sentencesNoted.Add(sentence.toString(), firstPart + " " + midPart + " " + endPart);
+
+						firstPart = midPart = endPart = String.Empty;
+					}
+					// typedDependency contains functions dep() and gov() which return IndexedWord which has function like lemma(), new(), and so on..
+					// typedDependency alson ocntains reln() wich is a relation (like nsubjpass, ...)
+				}
 			}
 
-			foreach (Annotation sentence in sentences as ArrayList)
+			Console.WriteLine();
+			Console.WriteLine("<======== NOTES ========>");
+
+			foreach (KeyValuePair<String, String> noteLoop in sentencesNoted)
 			{
-				Console.WriteLine(sentence);
-			}
-
-
-			// getting dependencies
-			Annotation firstSentence = (annotation.get(typeof(CoreAnnotations.SentencesAnnotation)) as ArrayList).get(0) as Annotation;
-			Tree tree = firstSentence.get(typeof(TreeCoreAnnotations.TreeAnnotation)) as Tree;
-			TreebankLanguagePack treeBankLangPack = new PennTreebankLanguagePack();
-			GrammaticalStructureFactory gramStructFact = treeBankLangPack.grammaticalStructureFactory();
-			GrammaticalStructure gramStruct = gramStructFact.newGrammaticalStructure(tree);
-			Collection typedDependencies = gramStruct.typedDependenciesCollapsed();
-			Console.WriteLine(typedDependencies);
-
-			Object[] list = typedDependencies.toArray();
-			Console.WriteLine(list.Length);
-			TypedDependency typedDependency;
-			foreach (Object obj in list)
-			{
-				typedDependency = obj as TypedDependency;
-				Console.WriteLine("Dependancy name " + (typedDependency.dep() as IndexedWord) + " NODE " + typedDependency.reln());
-
-				// typedDependency contains functions dep() and gov() which return IndexedWord which has function like lemma(), new(), and so on..
-				// typedDependency alson ocntains reln() wich is a relation (like nsubjpass, ...)
+				Console.WriteLine(noteLoop.Key + " --> " + noteLoop.Value);
 			}
 
 		}
