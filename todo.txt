@@ -14,6 +14,6 @@ Poznatky:
 	- prechadzat nmod, aby sme nezostali len pri trojslovnych vetach, ale trochu ich doplnili
 		- treba premysliet, ktore nmod brat, podla coho ich filtrovat (POS ?), aby sme zas nezostali pri povodnej vete
 		- aspon prvy by nemuselo byt zle
-	- pozriet conj, aby ked su tam nejake &&, tak sme to odchytili
+	DONE - pozriet conj, aby ked su tam nejake &&, tak sme to odchytili
 	
-		17BA M:5972 T:a
+		67A5 M:5987 T:a
