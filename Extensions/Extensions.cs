@@ -7,6 +7,7 @@ using java.util;
 using java.io;
 using edu.stanford.nlp.trees;
 using edu.stanford.nlp.ling;
+using nsConstants;
 
 namespace nsExtensions
 {
@@ -45,12 +46,15 @@ namespace nsExtensions
 
 		public static String Preppend(this String source, String preppendingText)
 		{
+            if (source.IsNullOrEmpty())
+                return preppendingText;
+
 			return source.Preppend(preppendingText, true);
 		}
 
 		public static String Preppend(this String source, String preppendingText, bool bSeparate)
 		{
-			return source.Preppend(preppendingText, bSeparate ? " " : String.Empty);
+			return source.Preppend(preppendingText, bSeparate ? NotenizerConstants.WordDelimeter : String.Empty);
 		}
 
 		public static String Preppend(this String source, String preppendingText, String separator)
@@ -83,5 +87,10 @@ namespace nsExtensions
 
 			return specific;
 		}
+
+        public static bool IsNullOrEmpty(this String source)
+        {
+            return String.IsNullOrEmpty(source);
+        }
     }
 }
