@@ -9,5 +9,7 @@ namespace nsConstants
     public class NotenizerConstants
     {
         public const String WordDelimeter = " ";
+        public const String SentenceFinisher = ".";
+        public const String SentenceDelimeter = SentenceFinisher + WordDelimeter;
     }
 }

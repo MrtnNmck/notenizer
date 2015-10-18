@@ -92,5 +92,10 @@ namespace nsExtensions
         {
             return String.IsNullOrEmpty(source);
         }
+
+        public static String CapitalizeSentence(this String sentence)
+        {
+            return sentence.First().ToString().ToUpper() + sentence.Substring(1);
+        }
     }
 }

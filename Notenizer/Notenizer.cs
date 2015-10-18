@@ -314,13 +314,13 @@ namespace nsNotenizer
                 sentencesNoted.Add(sentence.toString(), firstPart + " " + midPart + " " + endPart);
                 firstPart = midPart = endPart = nmods = String.Empty;
             }
-            PrintNotes(sentencesNoted);
+            //PrintNotes(sentencesNoted);
 
         }
 
-        public Dictionary<String, String> Parse(Annotation annotation)
+        public List<Note> Parse(Annotation annotation)
         {
-            Dictionary<String, String> sentencesNoted = new Dictionary<String, String>();
+            List<Note> sentencesNoted = new List<Note>();
 
             // ================== REFACTORED PART HERE ======================
             foreach (Annotation sentenceLoop in annotation.get(typeof(CoreAnnotations.SentencesAnnotation)) as ArrayList)
@@ -329,12 +329,16 @@ namespace nsNotenizer
                 NotePart mainPartNotePart = new NotePart();
                 NotePart lastPartNotePart = new NotePart();
                 NotenizerSentence sentence = new NotenizerSentence(sentenceLoop);
+                Note note = new Note(sentence);
+                Note noteLoop;
 
                 foreach (NotenizerDependency dependencyLoop in sentence.Dependencies)
                 {
                     if (dependencyLoop.Relation.IsRelation(GrammaticalConstants.NominalSubject)
                         || dependencyLoop.Relation.IsRelation(GrammaticalConstants.NominalSubjectPassive))
                     {
+                        noteLoop = new Note();
+
                         firstPartNotePart.MainWord = dependencyLoop.Dependant.Value;
 
                         String pos = dependencyLoop.Governor.POS;
@@ -457,12 +461,21 @@ namespace nsNotenizer
                         }
                         else if (POSConstants.VerbLikePOS.Contains(pos))
                         {
+                            noteLoop = new Note();
+
                             mainPartNotePart.MainWord = dependencyLoop.Governor.Value;
 
                             NotenizerDependency dobj = sentence.GetDependencyByShortName(dependencyLoop, Comparison.GovernorToGovernor, GrammaticalConstants.DirectObject);
 
                             if (dobj != null)
+                            {
                                 lastPartNotePart.MainWord = dobj.Dependant.Value;
+
+                                NotenizerDependency neg = sentence.GetDependencyByShortName(dobj, Comparison.DependantToGovernor, GrammaticalConstants.NegationModifier);
+
+                                if (neg != null)
+                                    lastPartNotePart.PrefixWord = neg.Dependant.Value;
+                            }
 
                             NotenizerDependency aux = sentence.GetDependencyByShortName(
                                 dependencyLoop,
@@ -481,7 +494,7 @@ namespace nsNotenizer
 
                             if (nmodsList != null && nmodsList.Count > 0)
                             {
-                                NotenizerDependency neg = sentence.GetDependencyByShortName(dependencyLoop, Comparison.DependantToGovernor, GrammaticalConstants.NegationModifier);
+                                NotenizerDependency neg = sentence.GetDependencyByShortName(nmodsList.First(), Comparison.DependantToGovernor, GrammaticalConstants.NegationModifier);
 
                                 if (neg == null)
                                 {
@@ -520,24 +533,27 @@ namespace nsNotenizer
                     }
                     // typedDependency contains functions dep() and gov() which return IndexedWord which has function like lemma(), new(), and so on..
                     // typedDependency alson ocntains reln() wich is a relation (like nsubjpass, ...)
+
+                    note.Concat(firstPartNotePart, mainPartNotePart, lastPartNotePart);
+                    firstPartNotePart = new NotePart();
+                    mainPartNotePart = new NotePart();
+                    lastPartNotePart = new NotePart();
                 }
 
-                Note note = new Note(firstPartNotePart, mainPartNotePart, lastPartNotePart);
-
-                sentencesNoted.Add(sentence.ToString(), note.Value);
+                sentencesNoted.Add(note);
             }
 
             return sentencesNoted;
         }
 
-        public void PrintNotes(Dictionary<String, String> notes)
+        public void PrintNotes(List<Note> notes)
         {
             Console.WriteLine();
             Console.WriteLine("<======== NOTES ========>");
 
-            foreach (KeyValuePair<String, String> kvpLoop in notes)
+            foreach (Note noteLoop in notes)
             {
-                Console.WriteLine(kvpLoop.Key + " ---> " + kvpLoop.Value);
+                Console.WriteLine(noteLoop.OriginalSentence + " ---> " + noteLoop.Value);
             }
         }
 
