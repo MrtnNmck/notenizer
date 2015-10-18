@@ -12,3 +12,8 @@
     - otestovat na malej sade testovacich viet
 	+ implementacie viac nez len zakladnej kostry algoritmu
 	+ otestovane na zakladnych textoch troch statov z wikipedia (Slovakia, Hungary, Czech Republic)
+	
+2. Do 18.10.2015 (nedela)
+-----------------------------
+	- refactoring kodu
+	- parsovanie viet s viacerymi nominal subject (suvetia)

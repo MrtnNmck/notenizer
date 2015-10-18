@@ -18,3 +18,10 @@
 	- prebratie progressu
 	- uprava algoritmu podla pripomienok
 	- test na vacsej sade viet
+	
+4. Do 25.10.2015 (nedela)
+-----------------------------
+	- prepojenie s DB (MONGO)
+	- ukladanie pravidiel do DB
+	- citanie pravidiel z DB
+	- parsovanie podla pravidiel
