@@ -27,8 +27,6 @@ namespace nsNotenizer
 
         public void RunCoreNLP(String text = null)
         {
-            // Path to the folder with models extracted from `stanford-corenlp-3.5.2-models.jar`
-            //var jarRoot = @"C:\Programs\StanfordNLP\models\stanford-corenlp-full-2015-04-20";
             var jarRoot = @"stanford-corenlp-3.5.2-models";
 
             // Text for processing

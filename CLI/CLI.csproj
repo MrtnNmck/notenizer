@@ -48,6 +48,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DB\DB.csproj">
+      <Project>{b91de5e7-3fd7-4087-85d6-a69eb30be1cc}</Project>
+      <Name>DB</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Notenizer\Notenizer.csproj">
       <Project>{db9a310a-10f3-462c-b435-43fefd6da363}</Project>
       <Name>Notenizer</Name>
