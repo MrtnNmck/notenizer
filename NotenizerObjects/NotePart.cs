@@ -14,72 +14,53 @@ namespace nsNotenizerObjects
         private String _postfixWord;
         private String _mainWord;
 
+        private List<NoteObject> _noteObjects;
+
         public NotePart()
         {
             _prefixWord = String.Empty;
             _postfixWord = String.Empty;
             _mainWord = String.Empty;
+
+            _noteObjects = new List<NoteObject>();
         }
 
-        public NotePart(String mainWord)
+        public NotePart(NotenizerSentence originalSentence)
         {
-            _prefixWord = String.Empty;
-            _postfixWord = String.Empty;
-            _mainWord = String.Empty;
+            _noteObjects = new List<NoteObject>();
+            InitializeStructure(originalSentence.DependencyWordsInSentenceCount());
         }
-
-        public String PrefixWord
-        {
-            get { return _prefixWord; }
-            set
-            {
-                if (!value.IsNullOrEmpty())
-                    _prefixWord = value;
-            }
-        }
-
-        public String PostfixWord
-        {
-            get { return _postfixWord; }
-            set
-            {
-                if (!value.IsNullOrEmpty())
-                    _postfixWord = value;
-            }
-        }
-
-        public String MainWord
-        {
-            get { return _mainWord; }
-            set
-            {
-                if (!value.IsNullOrEmpty())
-                    _mainWord = value;
-            }
-        }
-
+        
         public String Value
         {
             get
             {
-                StringBuilder sb = new StringBuilder();
-
-                if (!_prefixWord.IsNullOrEmpty())
-                    sb.Append(_prefixWord).Append(NotenizerConstants.WordDelimeter);
-
-                if (!_mainWord.IsNullOrEmpty())
-                    sb.Append(_mainWord);
-
-                if (!_postfixWord.IsNullOrEmpty())
+                String value = String.Empty;
+                foreach (NoteObject noteObjectLoop in _noteObjects)
                 {
-                    if (!_mainWord.IsNullOrEmpty() && !_mainWord.EndsWith(NotenizerConstants.WordDelimeter))
-                        sb.Append(NotenizerConstants.WordDelimeter).Append(_postfixWord);
-                    else
-                        sb.Append(_postfixWord);
+                    if (noteObjectLoop != null)
+                        value += noteObjectLoop.NoteWordValue + NotenizerConstants.WordDelimeter;
                 }
 
-                return sb.ToString();
+                return value;
             }
+        }
+
+        private void InitializeStructure(List<String> structureParts)
+        {
+            foreach (String structurePartLoop in structureParts)
+                _noteObjects.Add(null);
+        }
+
+        private void InitializeStructure(int count)
+        {
+            for (int i = 0; i < count; i++)
+                _noteObjects.Add(null);
+        }
+
+        public void Add(NoteObject noteObject)
+        {
+            _noteObjects[noteObject.NoteWord.Index - 1] = noteObject;
         }
     }
 }

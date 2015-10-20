@@ -9,20 +9,22 @@ namespace nsNotenizerObjects
 {
 	public class NotenizerDependency
 	{
-		private NotenizerWord _dependant;
+		private NotenizerWord _dependent;
 		private NotenizerWord _governor;
 		private NotenizerRelation _relation;
+        private TypedDependency _originalDependency;
 
         public NotenizerDependency(TypedDependency typedDependency)
         {
-            _dependant = new NotenizerWord(typedDependency.dep());
+            _dependent = new NotenizerWord(typedDependency.dep());
             _governor = new NotenizerWord(typedDependency.gov());
             _relation = new NotenizerRelation(typedDependency.reln());
+            _originalDependency = typedDependency;
         }
 
-        public NotenizerWord Dependant
+        public NotenizerWord Dependent
         {
-            get { return _dependant; }
+            get { return _dependent; }
         }
 
         public NotenizerWord Governor
@@ -33,6 +35,16 @@ namespace nsNotenizerObjects
         public NotenizerRelation Relation
         {
             get { return _relation; }
+        }
+
+        public TypedDependency OriginalDependency
+        {
+            get { return _originalDependency; }
+        }
+
+        public String Key
+        {
+            get { return _relation.ShortName + Governor.Word + Governor.Index + Dependent.Word + Dependent.Index; }
         }
 	}
 }

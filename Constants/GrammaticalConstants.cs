@@ -27,5 +27,6 @@ namespace nsConstants
         public const String AdjectivalModifier = "amod";
         public const String AgentRelationSpecific = "agent";
         public const String AdjustedAgentRelationSpecific = "by";
+        public const String CoordinatingConjuction = "cc";
     }
 }

@@ -93,24 +93,57 @@ namespace nsNotenizerObjects
             switch (comparisonType)
             {
                 case Comparison.DependantToDependant:
-                    return mainDependency.Dependant == secondaryDependency.Dependant;
+                    return mainDependency.Dependent == secondaryDependency.Dependent;
 
                 case Comparison.GovernorToGovernor:
                     return mainDependency.Governor == secondaryDependency.Governor;
 
                 case Comparison.DependantToGovernor:
-                    return mainDependency.Dependant == secondaryDependency.Governor;
+                    return mainDependency.Dependent == secondaryDependency.Governor;
 
                 case Comparison.GovernorToDependant:
-                    return mainDependency.Governor == secondaryDependency.Dependant;
+                    return mainDependency.Governor == secondaryDependency.Dependent;
             }
 
             throw new Exception("Error in CompareDependencies. Unidentified Comparison type.");
         }
 
+        public List<String> CopyStructure()
+        {
+            List<String> structure = new List<String>();
+
+            foreach (NotenizerDependency dependencyLoop in _dependencies)
+                structure.Add(dependencyLoop.Key);
+
+            return structure;
+        }
+
+        public int DependencyWordsInSentenceCount()
+        {
+            int dependentMax = _dependencies.Max(x => x.Dependent.Index);
+            int governorMax = _dependencies.Max(x => x.Governor.Index);
+
+            return dependentMax > governorMax ? dependentMax : governorMax;
+        }
+
         public override String ToString()
         {
             return _annotation.toString();
+        }
+
+        public int DependencyIndex(NotenizerDependency dependency)
+        {
+            for (int i = 0; i < _dependencies.Count; i++)
+            {
+                if (dependency.Dependent.Word == _dependencies[i].Dependent.Word
+                    && dependency.Governor.Word == _dependencies[i].Governor.Word
+                    && dependency.Relation.ShortName == _dependencies[i].Relation.ShortName
+                    && dependency.Dependent.Index == _dependencies[i].Dependent.Index
+                    && dependency.Governor.Index == _dependencies[i].Governor.Index)
+                    return i;
+            }
+
+            throw new Exception("Sentence doesn't contain dependency: " + dependency.ToString());
         }
     }
 }

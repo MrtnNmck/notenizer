@@ -97,5 +97,15 @@ namespace nsExtensions
         {
             return sentence.First().ToString().ToUpper() + sentence.Substring(1);
         }
+
+        public static int ToInt(this Object source)
+        {
+            int i;
+
+            if (Int32.TryParse(source.ToString(), out i))
+                return i;
+            else
+                throw new Exception(source.ToString() + " is not an integer.");
+        }
     }
 }

@@ -65,6 +65,10 @@
       <Project>{ce035769-8676-4ef9-a711-17da8ecd8e17}</Project>
       <Name>Constants</Name>
     </ProjectReference>
+    <ProjectReference Include="..\NotenizerObjects\NotenizerObjects.csproj">
+      <Project>{6fdbbec7-9acc-44ea-aaf3-86d771ee5f46}</Project>
+      <Name>NotenizerObjects</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

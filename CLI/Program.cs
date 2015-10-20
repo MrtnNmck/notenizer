@@ -20,7 +20,7 @@ namespace CLI
             //String text = "Regan has died.";
 
 
-            var s = DB.GetAll("notes").Result;
+            //var s = DB.GetAll("notes").Result;
 
 			notenizer.RunCoreNLP(text);
 			Console.ReadKey();

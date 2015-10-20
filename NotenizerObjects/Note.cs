@@ -1,10 +1,8 @@
 ﻿using nsConstants;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 using nsExtensions;
+using System.Collections.Generic;
 
 namespace nsNotenizerObjects
 {
@@ -12,6 +10,7 @@ namespace nsNotenizerObjects
     {
         private NotenizerSentence _originalSentence;
         private String _note;
+        private List<NotePart> _noteParts;
 
         public Note()
         {
@@ -19,12 +18,9 @@ namespace nsNotenizerObjects
 
         public Note(NotenizerSentence originalSentence)
         {
+            _note = String.Empty;
+            _noteParts = new List<NotePart>();
             _originalSentence = originalSentence;
-        }
-
-        public Note(NotePart firstPart, NotePart secondPart, NotePart thirdPart)
-        {
-            _note = JoinParts(firstPart, secondPart, thirdPart);
         }
 
         public NotenizerSentence OriginalSentence
@@ -34,23 +30,12 @@ namespace nsNotenizerObjects
 
         public String Value
         {
-            get { return _note + NotenizerConstants.SentenceFinisher; }
+            get { return _note; }
         }
 
-        public void Concat(NotePart firstPart, NotePart secondPart, NotePart thirdPart)
+        public void Add(NotePart notePart)
         {
-            if (firstPart.Value.IsNullOrEmpty() && secondPart.Value.IsNullOrEmpty() && thirdPart.Value.IsNullOrEmpty())
-                return;
-
-            if (_note.IsNullOrEmpty())
-                _note = JoinParts(firstPart, secondPart, thirdPart);
-            else
-                _note += NotenizerConstants.SentenceDelimeter + JoinParts(firstPart, secondPart, thirdPart);
-        }
-
-        private String JoinParts(NotePart firstPart, NotePart secondPart, NotePart thirdPart)
-        {
-            return String.Join(NotenizerConstants.WordDelimeter, firstPart.Value.Trim(), secondPart.Value.Trim(), thirdPart.Value.Trim()).CapitalizeSentence();
+            _note += notePart.Value.Trim().CapitalizeSentence() + NotenizerConstants.SentenceDelimeter;
         }
     }
 }

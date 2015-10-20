@@ -335,9 +335,12 @@ namespace nsNotenizer
                     if (dependencyLoop.Relation.IsRelation(GrammaticalConstants.NominalSubject)
                         || dependencyLoop.Relation.IsRelation(GrammaticalConstants.NominalSubjectPassive))
                     {
+                        NotePart notePart = new NotePart(sentence);
+
                         noteLoop = new Note();
 
-                        firstPartNotePart.MainWord = dependencyLoop.Dependant.Value;
+                        NoteObject nsubj = new NoteObject(dependencyLoop.Dependent.Word, dependencyLoop.Dependent, dependencyLoop);
+                        notePart.Add(nsubj);
 
                         String pos = dependencyLoop.Governor.POS;
                         if (POSConstants.NounLikePOS.Contains(pos))
@@ -348,7 +351,10 @@ namespace nsNotenizer
                                 GrammaticalConstants.CompoudModifier);
 
                             if (compound != null)
-                                firstPartNotePart.PrefixWord = compound.Dependant.Value;
+                            {
+                                NoteObject compoundObj = new NoteObject(compound.Dependent.Word, compound.Dependent, compound);
+                                notePart.Add(compoundObj);
+                            }
 
                             NotenizerDependency aux = sentence.GetDependencyByShortName(
                                 dependencyLoop,
@@ -357,12 +363,18 @@ namespace nsNotenizer
                                 GrammaticalConstants.AuxModifierPassive);
 
                             if (aux != null)
-                                firstPartNotePart.PostfixWord = aux.Dependant.Value;
+                            {
+                                NoteObject auxObj = new NoteObject(aux.Dependent.Word, aux.Dependent, aux);
+                                notePart.Add(auxObj);
+                            }
 
                             NotenizerDependency cop = sentence.GetDependencyByShortName(dependencyLoop, Comparison.GovernorToGovernor, GrammaticalConstants.Copula);
 
                             if (cop != null)
-                                mainPartNotePart.MainWord = cop.Dependant.Value;
+                            {
+                                NoteObject copObj = new NoteObject(cop.Dependent.Word, cop.Dependent, cop);
+                                notePart.Add(copObj);
+                            }
 
                             List<NotenizerDependency> conjuctions = sentence.GetDependenciesByShortName(
                                 dependencyLoop,
@@ -373,11 +385,22 @@ namespace nsNotenizer
                             String specific = String.Empty;
                             if (conjuctions != null && conjuctions.Count > 0)
                             {
-                                specific = NotenizerConstants.WordDelimeter + conjuctions.First().Relation.Specific + NotenizerConstants.WordDelimeter;
                                 List<NotenizerDependency> filteredConjs = FilterByPOS(conjuctions, POSConstants.ConjustionPOS);
 
-                                if (filteredConjs.Count > 0)
-                                    lastPartNotePart.MainWord = String.Join(specific, filteredConjs.Select(x => x.Dependant.Value)) + specific;
+                                foreach (NotenizerDependency filteredConjLoop in filteredConjs)
+                                {
+                                    NotenizerDependency cc = sentence.GetDependencyByShortName(dependencyLoop, Comparison.GovernorToGovernor, GrammaticalConstants.CoordinatingConjuction);
+
+                                    if (cc.Dependent.Word == filteredConjLoop.Relation.Specific
+                                        && sentence.DependencyIndex(filteredConjLoop) > sentence.DependencyIndex(cc))
+                                    {
+                                        NoteObject ccObj = new NoteObject(cc.Dependent.Word, cc.Dependent, cc);
+                                        NoteObject filteredConjObj = new NoteObject(filteredConjLoop.Dependent.Word, filteredConjLoop.Dependent, filteredConjLoop);
+
+                                        notePart.Add(ccObj);
+                                        notePart.Add(filteredConjObj);
+                                    }
+                                }
                             }
 
                             // <== NMODS ==>
@@ -391,14 +414,16 @@ namespace nsNotenizer
 
                                 if (neg == null)
                                 {
-                                    lastPartNotePart.PostfixWord =
-                                        nmodsList.First().Relation.AdjustedSpecific + NotenizerConstants.WordDelimeter + nmodsList.First().Dependant.Value;
+                                    NoteObject firstObj = new NoteObject(nmodsList.First().Relation.AdjustedSpecific + NotenizerConstants.WordDelimeter + nmodsList.First().Dependent.Word, nmodsList.First().Dependent, nmodsList.First());
+                                    notePart.Add(firstObj);
                                 }
                                 else
                                 {
-                                    lastPartNotePart.PostfixWord =
-                                        nmodsList.First().Relation.AdjustedSpecific + NotenizerConstants.WordDelimeter + neg.Dependant.Value
-                                        + NotenizerConstants.WordDelimeter + nmodsList.First().Dependant.Value;
+                                    NoteObject negObj = new NoteObject(neg.Dependent.Word, neg.Dependent, neg);
+                                    NoteObject firstObj = new NoteObject(nmodsList.First().Relation.AdjustedSpecific + NotenizerConstants.WordDelimeter + nmodsList.First().Dependent.Word, nmodsList.First().Dependent, nmodsList.First());
+
+                                    notePart.Add(negObj);
+                                    notePart.Add(firstObj);
                                 }
 
                                 // second nmod depending on first one
@@ -412,14 +437,16 @@ namespace nsNotenizer
 
                                     if (neg == null)
                                     {
-                                        lastPartNotePart.PostfixWord += NotenizerConstants.WordDelimeter +
-                                            nmodSecond.Relation.AdjustedSpecific + NotenizerConstants.WordDelimeter + nmodSecond.Dependant.Value;
+                                        NoteObject secondObj = new NoteObject(nmodSecond.Relation.AdjustedSpecific + NotenizerConstants.WordDelimeter + nmodSecond.Dependent.Word, nmodSecond.Dependent, nmodSecond);
+                                        notePart.Add(secondObj);
                                     }
                                     else
                                     {
-                                        lastPartNotePart.PostfixWord += NotenizerConstants.WordDelimeter +
-                                            nmodSecond.Relation.AdjustedSpecific + NotenizerConstants.WordDelimeter + neg.Dependant.Value
-                                            + NotenizerConstants.WordDelimeter + nmodSecond.Dependant.Value;
+                                        NoteObject negObj = new NoteObject(neg.Dependent.Word, neg.Dependent, neg);
+                                        NoteObject secondObj = new NoteObject(nmodSecond.Relation.AdjustedSpecific + NotenizerConstants.WordDelimeter + nmodSecond.Dependent.Word, nmodSecond.Dependent, nmodSecond);
+
+                                        notePart.Add(negObj);
+                                        notePart.Add(secondObj);
                                     }
                                 }
                             }
@@ -434,10 +461,16 @@ namespace nsNotenizer
                                 if (amod1 != null || amod2 != null)
                                 {
                                     if (amod1 != null)
-                                        firstPartNotePart.PrefixWord = firstPartNotePart.PrefixWord.Preppend(amod1.Dependant.Value);
+                                    {
+                                        NoteObject amod1Obj = new NoteObject(amod1.Dependent.Word, amod1.Dependent, amod1);
+                                        notePart.Add(amod1Obj);
+                                    }
 
                                     if (amod2 != null)
-                                        mainPartNotePart.PostfixWord = amod2.Dependant.Value;
+                                    {
+                                        NoteObject amod2Obj = new NoteObject(amod2.Dependent.Word, amod2.Dependent, amod2);
+                                        notePart.Add(amod2Obj);
+                                    }
                                 }
                                 else
                                 {
@@ -448,31 +481,43 @@ namespace nsNotenizer
                                     NotenizerDependency nummod2 = sentence.GetDependencyByShortName(dependencyLoop, Comparison.GovernorToGovernor, GrammaticalConstants.NumericModifier);
 
                                     if (nummod1 != null)
-                                        firstPartNotePart.PrefixWord = firstPartNotePart.PrefixWord.Preppend(nummod1.Dependant.Value);
+                                    {
+                                        NoteObject nummod1Obj = new NoteObject(nummod1.Dependent.Word, nummod1.Dependent, nummod1);
+                                        notePart.Add(nummod1Obj);
+                                    }
 
                                     if (nummod2 != null)
-                                        mainPartNotePart.PostfixWord = nummod2.Dependant.Value;
+                                    {
+                                        NoteObject nummod2Obj = new NoteObject(nummod2.Dependent.Word, nummod1.Dependent, nummod2);
+                                        notePart.Add(nummod2Obj);
+                                    }
                                 }
                             }
 
-                            lastPartNotePart.PostfixWord = lastPartNotePart.PostfixWord.Preppend(dependencyLoop.Governor.Value);
+                            NoteObject governorObj = new NoteObject(dependencyLoop.Governor.Word, dependencyLoop.Governor, dependencyLoop);
+                            notePart.Add(governorObj);
                         }
                         else if (POSConstants.VerbLikePOS.Contains(pos))
                         {
                             noteLoop = new Note();
 
-                            mainPartNotePart.MainWord = dependencyLoop.Governor.Value;
+                            NoteObject gov = new NoteObject(dependencyLoop.Governor.Word, dependencyLoop.Governor, dependencyLoop);
+                            notePart.Add(gov);
 
                             NotenizerDependency dobj = sentence.GetDependencyByShortName(dependencyLoop, Comparison.GovernorToGovernor, GrammaticalConstants.DirectObject);
 
                             if (dobj != null)
                             {
-                                lastPartNotePart.MainWord = dobj.Dependant.Value;
+                                NoteObject dobjObj = new NoteObject(dobj.Dependent.Word, dobj.Dependent, dobj);
+                                notePart.Add(dobjObj);
 
                                 NotenizerDependency neg = sentence.GetDependencyByShortName(dobj, Comparison.DependantToGovernor, GrammaticalConstants.NegationModifier);
 
                                 if (neg != null)
-                                    lastPartNotePart.PrefixWord = neg.Dependant.Value;
+                                {
+                                    NoteObject negObj = new NoteObject(neg.Dependent.Word, neg.Dependent, neg);
+                                    notePart.Add(negObj);
+                                }
                             }
 
                             NotenizerDependency aux = sentence.GetDependencyByShortName(
@@ -482,7 +527,10 @@ namespace nsNotenizer
                                 GrammaticalConstants.AuxModifierPassive);
 
                             if (aux != null)
-                                mainPartNotePart.PrefixWord = aux.Dependant.Value;
+                            {
+                                NoteObject auxObj = new NoteObject(aux.Dependent.Word, aux.Dependent, aux);
+                                notePart.Add(auxObj);
+                            }
 
                             // <== NMODS ==>
                             List<NotenizerDependency> nmodsList = sentence.GetDependenciesByShortName(
@@ -496,14 +544,15 @@ namespace nsNotenizer
 
                                 if (neg == null)
                                 {
-                                    lastPartNotePart.PostfixWord =
-                                        nmodsList.First().Relation.AdjustedSpecific + NotenizerConstants.WordDelimeter + nmodsList.First().Dependant.Value;
+                                    NoteObject firstObj = new NoteObject(nmodsList.First().Relation.AdjustedSpecific + NotenizerConstants.WordDelimeter + nmodsList.First().Dependent.Word, nmodsList.First().Dependent, nmodsList.First());
+                                    notePart.Add(firstObj);
                                 }
                                 else
                                 {
-                                    lastPartNotePart.PostfixWord =
-                                        nmodsList.First().Relation.AdjustedSpecific + NotenizerConstants.WordDelimeter +
-                                        neg.Dependant.Value + NotenizerConstants.WordDelimeter + nmodsList.First().Dependant.Value;
+                                    NoteObject negObj = new NoteObject(neg.Dependent.Word, neg.Dependent, neg);
+                                    NoteObject firstObj = new NoteObject(nmodsList.First().Relation.AdjustedSpecific + NotenizerConstants.WordDelimeter + nmodsList.First().Dependent.Word, nmodsList.First().Dependent, nmodsList.First());
+                                    notePart.Add(firstObj);
+                                    notePart.Add(negObj);
                                 }
 
                                 // second nmod depending on first one
@@ -515,27 +564,21 @@ namespace nsNotenizer
 
                                     if (neg == null)
                                     {
-                                        lastPartNotePart.PostfixWord += NotenizerConstants.WordDelimeter +
-                                            nmodSecond.Relation.AdjustedSpecific + NotenizerConstants.WordDelimeter + nmodSecond.Dependant.Value;
+                                        NoteObject secondObj = new NoteObject(nmodSecond.Relation.AdjustedSpecific + NotenizerConstants.WordDelimeter + nmodSecond.Dependent.Word, nmodSecond.Dependent, nmodSecond);
+                                        notePart.Add(secondObj);
                                     }
                                     else
                                     {
-                                        lastPartNotePart.PostfixWord += NotenizerConstants.WordDelimeter +
-                                            nmodSecond.Relation.AdjustedSpecific + NotenizerConstants.WordDelimeter +
-                                            neg.Dependant.Value + NotenizerConstants.WordDelimeter + nmodSecond.Dependant.Value;
+                                        NoteObject negObj = new NoteObject(neg.Dependent.Word, neg.Dependent, neg);
+                                        NoteObject secondObj = new NoteObject(nmodSecond.Relation.AdjustedSpecific + NotenizerConstants.WordDelimeter + nmodSecond.Dependent.Word, nmodSecond.Dependent, nmodSecond);
+                                        notePart.Add(secondObj);
+                                        notePart.Add(negObj);
                                     }
                                 }
                             }
                         }
-
+                        note.Add(notePart);
                     }
-                    // typedDependency contains functions dep() and gov() which return IndexedWord which has function like lemma(), new(), and so on..
-                    // typedDependency alson ocntains reln() wich is a relation (like nsubjpass, ...)
-
-                    note.Concat(firstPartNotePart, mainPartNotePart, lastPartNotePart);
-                    firstPartNotePart = new NotePart();
-                    mainPartNotePart = new NotePart();
-                    lastPartNotePart = new NotePart();
                 }
 
                 sentencesNoted.Add(note);
@@ -561,7 +604,7 @@ namespace nsNotenizer
 
             foreach (NotenizerDependency dependencyLoop in dependencies)
             {
-                if (poses.Contains(dependencyLoop.Dependant.POS))
+                if (poses.Contains(dependencyLoop.Dependent.POS))
                     filteredDependencies.Add(dependencyLoop);
             }
 

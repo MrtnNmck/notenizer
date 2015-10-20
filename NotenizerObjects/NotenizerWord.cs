@@ -1,4 +1,5 @@
 ﻿using edu.stanford.nlp.ling;
+using nsExtensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,7 @@ namespace nsNotenizerObjects
 		private String _lemma;
 		private String _ner;
         private String _pos;
+        private int _index;
 
 		public NotenizerWord(IndexedWord indexedWord)
 		{
@@ -26,7 +28,14 @@ namespace nsNotenizerObjects
 			_lemma = indexedWord.lemma();
 			_ner = indexedWord.ner();
 
-            Object temp = indexedWord.get(typeof(CoreAnnotations.PartOfSpeechAnnotation));
+            Object temp = indexedWord.get(typeof(CoreAnnotations.EndIndexAnnotation));
+
+            if (temp != null)
+                _index = temp.ToInt();
+            else
+                _index = -1;
+
+            temp = indexedWord.get(typeof(CoreAnnotations.PartOfSpeechAnnotation));
 
             if (temp != null)
                 _pos = temp.ToString();
@@ -34,7 +43,7 @@ namespace nsNotenizerObjects
                 _pos = String.Empty;
 		}
 
-		public String Value
+		public String Word
 		{
 			get { return _wordString; }
 		}
@@ -62,6 +71,11 @@ namespace nsNotenizerObjects
         public String POS
         {
             get { return _pos; }
+        }
+
+        public int Index
+        {
+            get { return _index; }
         }
 
         public override string ToString()
