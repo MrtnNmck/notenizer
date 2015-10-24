@@ -25,3 +25,22 @@
 	- ukladanie pravidiel do DB
 	- citanie pravidiel z DB
 	- parsovanie podla pravidiel
+	
+5. Do 01.11.2015 (nedela)
+-----------------------------
+	- dokoncit parsovanie podla pravidiel z DB
+	- moznost pozmenit vetu
+	- zapisovanie nejakeho hit countu sady pravidiel, ktore sa pouzili na parsovanie konkretnej vety
+	  a podla toho vyhodnocovat, ktore pouzit, ak bude pre vetu v DB viacero sad pravidiel
+	- zacat pozerat podobne aplikacie
+	
+6. Do 08.11.2015 (nedela)
+-----------------------------
+	- pozriet potrebny pocet podobnych aplikacii (paralel text)
+	- zacat pisat analyzu
+	- navrhnut GUI k Notenizer
+	
+7. Do 15.11.2015 (nedela)
+-----------------------------
+	- takmer hotova analyza (napisana)
+	- implementacia GUI
