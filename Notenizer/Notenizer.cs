@@ -15,6 +15,7 @@ using edu.stanford.nlp.trees;
 using nsExtensions;
 using nsNotenizerObjects;
 using nsConstants;
+using nsDB;
 
 namespace nsNotenizer
 {
@@ -330,6 +331,8 @@ namespace nsNotenizer
                 Note note = new Note(sentence);
                 Note noteLoop;
 
+               String temp = DB.GetAll("notes", DocumentCreator.CreateFilterByDependencies(sentence)).Result;
+
                 foreach (NotenizerDependency dependencyLoop in sentence.Dependencies)
                 {
                     if (dependencyLoop.Relation.IsRelation(GrammaticalConstants.NominalSubject)
@@ -580,7 +583,7 @@ namespace nsNotenizer
                         note.Add(notePart);
                     }
                 }
-
+                String _id = DB.InsertToCollection("notes", DocumentCreator.CreateNoteDocument(note, -1)).Result;
                 sentencesNoted.Add(note);
             }
 

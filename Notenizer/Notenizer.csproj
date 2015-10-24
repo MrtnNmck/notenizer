@@ -126,6 +126,13 @@
     <Reference Include="jollyday">
       <HintPath>..\packages\Stanford.NLP.CoreNLP.3.5.2\lib\jollyday.dll</HintPath>
     </Reference>
+    <Reference Include="MongoDB.Bson">
+      <HintPath>ExternalDll\MongoDB.Bson.dll</HintPath>
+    </Reference>
+    <Reference Include="MongoDB.Driver, Version=2.0.1.27, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>ExternalDll\MongoDB.Driver.dll</HintPath>
+    </Reference>
     <Reference Include="stanford-corenlp-3.5.2">
       <HintPath>..\packages\Stanford.NLP.CoreNLP.3.5.2\lib\stanford-corenlp-3.5.2.dll</HintPath>
     </Reference>
@@ -141,6 +148,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DocumentCreator.cs" />
     <Compile Include="Notenizer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -322,6 +330,10 @@
     <ProjectReference Include="..\Constants\Constants.csproj">
       <Project>{ce035769-8676-4ef9-a711-17da8ecd8e17}</Project>
       <Name>Constants</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DB\DB.csproj">
+      <Project>{b91de5e7-3fd7-4087-85d6-a69eb30be1cc}</Project>
+      <Name>DB</Name>
     </ProjectReference>
     <ProjectReference Include="..\Extensions\Extensions.csproj">
       <Project>{a935e0ec-5e82-46b1-a209-405d11faa30c}</Project>

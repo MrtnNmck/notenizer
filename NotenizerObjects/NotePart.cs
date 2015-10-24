@@ -46,6 +46,11 @@ namespace nsNotenizerObjects
             }
         }
 
+        public List<NoteObject> NoteObjects
+        {
+            get { return _noteObjects; }
+        }
+
         private void InitializeStructure(List<String> structureParts)
         {
             foreach (String structurePartLoop in structureParts)

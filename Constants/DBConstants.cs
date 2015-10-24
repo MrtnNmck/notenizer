@@ -9,5 +9,18 @@ namespace nsConstants
     public class DBConstants
     {
         public const String DatabaseName = "notenizer";
+        public const String POSFieldName = "pos";
+        public const String IndexFieldName = "index";
+        public const String GovernorFieldName = "governor";
+        public const String DependentFieldName = "dependent";
+        public const String PositionFieldName = "position";
+        public const String DependenciesFieldName = "dependencies";
+        public const String OriginalSentenceDependenciesFieldName = "originalDependencies";
+        public const String OriginalSentenceFieldName = "originalSentence";
+        public const String DependencyNameFieldName = "dependencyName";
+        public const String NoteDependenciesFieldName = "noteDependencies";
+        public const String NoteFieldName = "note";
+        public const String CreatedByFieldName = "createdBy";
+        public static String ArticleIdFieldName = "articleId";
     }
 }
