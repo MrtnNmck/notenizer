@@ -19,10 +19,13 @@ namespace nsNotenizer
             Dictionary<String, BsonArray> dependencies = new Dictionary<String, BsonArray>();
 
             BsonDocument doc = new BsonDocument();
+            BsonArray sentencesEnds = new BsonArray();
+
             doc.Add(DBConstants.OriginalSentenceFieldName, new BsonString(note.OriginalSentence.ToString()));
             doc.Add(DBConstants.NoteFieldName, new BsonString(note.Value));
             doc.Add(DBConstants.CreatedByFieldName, new BsonInt32((int)note.CreatedBy));
             doc.Add(DBConstants.ArticleIdFieldName, new BsonInt32(articleId));
+            doc.Add(DBConstants.SentencesEndsFieldName, sentencesEnds);
 
             BsonArray originalDepencenciesArr = new BsonArray();
             foreach (NotenizerDependency dependencyLoop in note.OriginalSentence.Dependencies)
@@ -39,6 +42,7 @@ namespace nsNotenizer
             dependencyPosition = 0;
             dependencies = new Dictionary<String, BsonArray>();
             BsonArray noteDependenciesArr = new BsonArray();
+
             foreach (NotePart notePartLoop in note.NoteParts)
             {
                 foreach (NoteObject noteObjectLoop in notePartLoop.NoteObjects)
@@ -52,10 +56,11 @@ namespace nsNotenizer
 
                     dependencyPosition++;
                 }
+
+                sentencesEnds.Add(new BsonInt32(dependencyPosition));
             }
 
             doc.Add(DBConstants.NoteDependenciesFieldName, noteDependenciesArr);
-
             return doc;
         }
 

@@ -51,6 +51,14 @@ namespace nsNotenizerObjects
             get { return _noteObjects; }
         }
 
+        public List<NoteObject> InitializedNoteObjects
+        {
+            get
+            {
+                return _noteObjects.Where(x => x != null).ToList();
+            }
+        }
+
         private void InitializeStructure(List<String> structureParts)
         {
             foreach (String structurePartLoop in structureParts)
@@ -61,6 +69,12 @@ namespace nsNotenizerObjects
         {
             for (int i = 0; i < count; i++)
                 _noteObjects.Add(null);
+        }
+
+        public void Add(List<NoteObject> noteObjects)
+        {
+            foreach (NoteObject noteObjectLoop in noteObjects)
+                Add(noteObjectLoop);
         }
 
         public void Add(NoteObject noteObject)

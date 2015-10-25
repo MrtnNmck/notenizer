@@ -331,12 +331,12 @@ namespace nsNotenizer
                 Note note = new Note(sentence);
                 Note noteLoop;
 
-                List<NotenizerDependency> deps = DocumentParser.ParseNoteDependencies(
+                NotenizerRule rule = DocumentParser.ParseNoteDependencies(
                     DB.GetFirst(DBConstants.NotesCollectionName, DocumentCreator.CreateFilterByDependencies(sentence)).Result);
 
-                if (deps != null && deps.Count > 0)
+                if (rule.RuleDependencies != null && rule.RuleDependencies.Count > 0)
                 {
-                    Note parsedNote = ApplyRules(sentence, deps);
+                    Note parsedNote = ApplyRule(sentence, rule);
                     Console.WriteLine("Parsed note: " + parsedNote.OriginalSentence + " ===> " + parsedNote.Value);
 
                     continue;
@@ -623,17 +623,19 @@ namespace nsNotenizer
             return filteredDependencies;
         }
 
-        private Note ApplyRules(NotenizerSentence sentence, List<NotenizerDependency> rules)
+        private Note ApplyRule(NotenizerSentence sentence, NotenizerRule rule)
         {
             Note note = new Note(sentence);
             NotePart notePart = new NotePart(sentence);
 
-            foreach (NotenizerDependency ruleLoop in rules)
+            foreach (NotenizerDependency ruleLoop in rule.RuleDependencies)
             {
                 ApplyRule(sentence, ruleLoop, notePart);
             }
 
             note.Add(notePart);
+
+            note.SplitToSentences(rule.SentencesEnds);
 
             return note;
         }

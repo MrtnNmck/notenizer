@@ -47,6 +47,7 @@
   <ItemGroup>
     <Compile Include="NotenizerDependency.cs" />
     <Compile Include="Note.cs" />
+    <Compile Include="NotenizerRule.cs" />
     <Compile Include="NoteObject.cs" />
     <Compile Include="NotePart.cs" />
     <Compile Include="NotenizerRelation.cs" />

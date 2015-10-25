@@ -9,7 +9,7 @@ namespace nsNotenizer
 {
     public static class DocumentParser
     {
-        public static List<NotenizerDependency> ParseNoteDependencies(BsonDocument dbEntry)
+        public static NotenizerRule ParseNoteDependencies(BsonDocument dbEntry)
         {
             List<NotenizerDependency> dependencies = new List<NotenizerDependency>();
 
@@ -35,7 +35,11 @@ namespace nsNotenizer
                 }
             }
 
-            return dependencies;
+            List<int> sentencesEnds = new List<int>();
+            foreach (BsonInt32 endLoop in dbEntry[DBConstants.SentencesEndsFieldName].AsBsonArray)
+                sentencesEnds.Add((int)endLoop);
+
+            return new NotenizerRule(dependencies, sentencesEnds);
         }
     }
 }
