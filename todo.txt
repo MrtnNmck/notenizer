@@ -10,15 +10,16 @@ Poznatky:
 	DONE - zaujimave by mohlo byt tahat este k hlavnemu noun aj compound
 		- napriklad ked mame Bratislava <-- nsubj --> city, tak k city este dotiahnut city <-- compound --> capital
 		
-	- treba pozerat aj neg, aby sme neprekrutili informacie
-	- prechadzat nmod, aby sme nezostali len pri trojslovnych vetach, ale trochu ich doplnili
+	DONE - treba pozerat aj neg, aby sme neprekrutili informacie
+	DONE - prechadzat nmod, aby sme nezostali len pri trojslovnych vetach, ale trochu ich doplnili
 		- treba premysliet, ktore nmod brat, podla coho ich filtrovat (POS ?), aby sme zas nezostali pri povodnej vete
 		- aspon prvy by nemuselo byt zle
 	DONE - pozriet conj, aby ked su tam nejake &&, tak sme to odchytili
 	
-		67A5 M:5987 T:a
-		
-		
+===============================================================================================================================================================
+	Poznamky zo stretnutia
+===============================================================================================================================================================
+	
 - Inter Text
 - paralel text
 - motivacia
@@ -32,4 +33,10 @@ Poznatky:
 - Sweet
 - Musutelsa
 - OTS
-	
+
+===============================================================================================================================================================
+
+TODO:
+	- pridanie specialnej dependency pri ukladani do db, ktora bude oznacovat koniec vety.
+	- rozlisenie sady pravidiel, ak pre vetu vyhovuju viac sady
+		- zatial len podla poctu a nazvov dependencies a zoberie sa prva.
