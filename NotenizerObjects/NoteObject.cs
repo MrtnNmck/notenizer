@@ -1,4 +1,5 @@
-﻿using System;
+﻿using nsEnums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,7 +12,7 @@ namespace nsNotenizerObjects
         private NotenizerWord _noteWord;
         private String _noteWordValue;
         private NotenizerDependency _noteDependency;
-
+         
         public NoteObject(String noteWordValue, NotenizerWord noteWord, NotenizerDependency noteDependency)
         {
             _noteWordValue = noteWordValue;

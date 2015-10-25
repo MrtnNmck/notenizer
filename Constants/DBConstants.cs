@@ -22,6 +22,7 @@ namespace nsConstants
         public const String NoteDependenciesFieldName = "noteDependencies";
         public const String NoteFieldName = "note";
         public const String CreatedByFieldName = "createdBy";
-        public static String ArticleIdFieldName = "articleId";
+        public const String ArticleIdFieldName = "articleId";
+        public const String ComparisonTypeFieldName = "comparisonType";
     }
 }

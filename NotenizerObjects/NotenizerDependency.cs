@@ -1,4 +1,5 @@
 ﻿using edu.stanford.nlp.trees;
+using nsEnums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,7 @@ namespace nsNotenizerObjects
 		private NotenizerRelation _relation;
         private TypedDependency _originalDependency;
         private int _position;
+        private ComparisonType _comparisonType;
 
         public NotenizerDependency(TypedDependency typedDependency)
         {
@@ -23,12 +25,13 @@ namespace nsNotenizerObjects
             _originalDependency = typedDependency;
         }
 
-        public NotenizerDependency(NotenizerWord governor, NotenizerWord dependent, NotenizerRelation relation, int position)
+        public NotenizerDependency(NotenizerWord governor, NotenizerWord dependent, NotenizerRelation relation, int position, ComparisonType comparisonType)
         {
             _governor = governor;
             _dependent = dependent;
             _relation = relation;
             _position = position;
+            _comparisonType = comparisonType;
         }
 
         public NotenizerWord Dependent
@@ -49,6 +52,12 @@ namespace nsNotenizerObjects
         public TypedDependency OriginalDependency
         {
             get { return _originalDependency; }
+        }
+
+        public ComparisonType ComparisonType
+        {
+            get { return _comparisonType; }
+            set { _comparisonType = value; }
         }
 
         public String Key

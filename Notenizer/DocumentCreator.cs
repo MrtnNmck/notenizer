@@ -1,6 +1,7 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Driver;
 using nsConstants;
+using nsEnums;
 using nsNotenizerObjects;
 using System;
 using System.Collections.Generic;
@@ -45,7 +46,7 @@ namespace nsNotenizer
                     if (noteObjectLoop == null)
                         continue;
 
-                    BsonDocument dependencyDoc = CreateDependencyDocument(noteObjectLoop.NoteDependency, dependencyPosition);
+                    BsonDocument dependencyDoc = CreateDependencyDocument(noteObjectLoop.NoteDependency, dependencyPosition, noteObjectLoop.NoteDependency.ComparisonType);
 
                     AppendDependencyDocument(noteObjectLoop.NoteDependency, dependencyDoc, noteDependenciesArr, dependencies);
 
@@ -75,13 +76,21 @@ namespace nsNotenizer
                 position);
         }
 
-        private static BsonDocument CreateDependencyDocument(BsonDocument governorDoc, BsonDocument dependentDoc, int poition)
+        private static BsonDocument CreateDependencyDocument(NotenizerDependency dependency, int position, ComparisonType comparisonType)
+        {
+            BsonDocument doc = CreateDependencyDocument(dependency, position);
+            doc.Add(DBConstants.ComparisonTypeFieldName, new BsonInt32((int)comparisonType));
+
+            return doc;
+        }
+
+        private static BsonDocument CreateDependencyDocument(BsonDocument governorDoc, BsonDocument dependentDoc, int position)
         {
             return new BsonDocument
                 {
                     { DBConstants.GovernorFieldName, governorDoc },
                     { DBConstants.DependentFieldName, dependentDoc },
-                    { DBConstants.PositionFieldName, new BsonInt32(poition) }
+                    { DBConstants.PositionFieldName, new BsonInt32(position) }
                 };
         }
 

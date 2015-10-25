@@ -331,10 +331,14 @@ namespace nsNotenizer
                 Note note = new Note(sentence);
                 Note noteLoop;
 
-                //String temp = DB.GetAll("notes", DocumentCreator.CreateFilterByDependencies(sentence)).Result;
-
                 List<NotenizerDependency> deps = DocumentParser.ParseNoteDependencies(
                     DB.GetFirst(DBConstants.NotesCollectionName, DocumentCreator.CreateFilterByDependencies(sentence)).Result);
+
+                if (deps != null && deps.Count > 0)
+                {
+                    Note parsedNote = ApplyRules(sentence, deps);
+                    Console.WriteLine("Parsed note: " + parsedNote.OriginalSentence + " ===> " + parsedNote.Value);
+                }
 
                 foreach (NotenizerDependency dependencyLoop in sentence.Dependencies)
                 {
@@ -586,7 +590,7 @@ namespace nsNotenizer
                         note.Add(notePart);
                     }
                 }
-                String _id = DB.InsertToCollection("notes", DocumentCreator.CreateNoteDocument(note, -1)).Result;
+                //String _id = DB.InsertToCollection("notes", DocumentCreator.CreateNoteDocument(note, -1)).Result;
                 sentencesNoted.Add(note);
             }
 
@@ -615,6 +619,45 @@ namespace nsNotenizer
             }
 
             return filteredDependencies;
+        }
+
+        private Note ApplyRules(NotenizerSentence sentence, List<NotenizerDependency> rules)
+        {
+            Note note = new Note(sentence);
+            NotePart notePart = new NotePart(sentence);
+
+            foreach (NotenizerDependency ruleLoop in rules)
+            {
+                NoteObject obj = ApplyRule(sentence, ruleLoop, notePart);
+
+                if (obj != null)
+                    notePart.Add(obj);
+            }
+
+            note.Add(notePart);
+
+            return note;
+        }
+
+        private NoteObject ApplyRule(NotenizerSentence sentence, NotenizerDependency rule, NotePart notePart)
+        {
+            foreach (NotenizerDependency dependencyLoop in sentence.Dependencies)
+            {
+                NotenizerDependency dependency = sentence.GetDependencyByShortName(
+                                    dependencyLoop,
+                                    rule.ComparisonType,
+                                    rule.Relation.ShortName);
+
+                if (dependency != null)
+                {
+                    NoteObject dependencyObj = new NoteObject(dependency.Dependent.Word, dependency.Dependent, dependency);
+                    notePart.Add(dependencyObj);
+
+                    return dependencyObj;
+                }
+            }
+
+            return null;
         }
     }
 }

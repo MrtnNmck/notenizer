@@ -58,7 +58,10 @@ namespace nsNotenizerObjects
                 if (dependencyShortNames.Contains(dependencyLoop.Relation.ShortName))
                 {
                     if (CompareDependencies(mainDependency, dependencyLoop, comparisonType))
+                    {
+                        dependencyLoop.ComparisonType = comparisonType;
                         return dependencyLoop;
+                    }
                 }
             }
 

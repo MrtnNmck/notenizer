@@ -107,5 +107,15 @@ namespace nsExtensions
             else
                 throw new Exception(source.ToString() + " is not an integer.");
         }
+
+        public static T ToEnum<T>(this int value) where T : struct, IConvertible, IComparable, IFormattable
+        {
+            if (Enum.IsDefined(typeof(T), value))
+            {
+                return (T)Enum.Parse(typeof(T), value.ToString());
+            }
+            else
+                throw new Exception(value + " is not a value in enum!");
+        }
     }
 }
