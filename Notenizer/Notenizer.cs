@@ -16,6 +16,7 @@ using nsExtensions;
 using nsNotenizerObjects;
 using nsConstants;
 using nsDB;
+using nsEnums;
 
 namespace nsNotenizer
 {
@@ -352,7 +353,7 @@ namespace nsNotenizer
                         {
                             NotenizerDependency compound = sentence.GetDependencyByShortName(
                                 dependencyLoop,
-                                Comparison.DependantToGovernor,
+                                ComparisonType.DependantToGovernor,
                                 GrammaticalConstants.CompoudModifier);
 
                             if (compound != null)
@@ -363,7 +364,7 @@ namespace nsNotenizer
 
                             NotenizerDependency aux = sentence.GetDependencyByShortName(
                                 dependencyLoop,
-                                Comparison.GovernorToGovernor,
+                                ComparisonType.GovernorToGovernor,
                                 GrammaticalConstants.AuxModifier,
                                 GrammaticalConstants.AuxModifierPassive);
 
@@ -373,7 +374,7 @@ namespace nsNotenizer
                                 notePart.Add(auxObj);
                             }
 
-                            NotenizerDependency cop = sentence.GetDependencyByShortName(dependencyLoop, Comparison.GovernorToGovernor, GrammaticalConstants.Copula);
+                            NotenizerDependency cop = sentence.GetDependencyByShortName(dependencyLoop, ComparisonType.GovernorToGovernor, GrammaticalConstants.Copula);
 
                             if (cop != null)
                             {
@@ -383,7 +384,7 @@ namespace nsNotenizer
 
                             List<NotenizerDependency> conjuctions = sentence.GetDependenciesByShortName(
                                 dependencyLoop,
-                                Comparison.GovernorToGovernor,
+                                ComparisonType.GovernorToGovernor,
                                 GrammaticalConstants.Conjuction);
 
 
@@ -394,7 +395,7 @@ namespace nsNotenizer
 
                                 foreach (NotenizerDependency filteredConjLoop in filteredConjs)
                                 {
-                                    NotenizerDependency cc = sentence.GetDependencyByShortName(dependencyLoop, Comparison.GovernorToGovernor, GrammaticalConstants.CoordinatingConjuction);
+                                    NotenizerDependency cc = sentence.GetDependencyByShortName(dependencyLoop, ComparisonType.GovernorToGovernor, GrammaticalConstants.CoordinatingConjuction);
 
                                     if (cc.Dependent.Word == filteredConjLoop.Relation.Specific
                                         && sentence.DependencyIndex(filteredConjLoop) > sentence.DependencyIndex(cc))
@@ -410,12 +411,12 @@ namespace nsNotenizer
 
                             // <== NMODS ==>
                             List<NotenizerDependency> nmodsList = sentence.GetDependenciesByShortName(
-                                dependencyLoop, Comparison.GovernorToGovernor, GrammaticalConstants.NominalModifier);
+                                dependencyLoop, ComparisonType.GovernorToGovernor, GrammaticalConstants.NominalModifier);
 
                             if (nmodsList != null && nmodsList.Count > 0)
                             {
                                 NotenizerDependency neg = sentence.GetDependencyByShortName(
-                                    nmodsList.First(), Comparison.DependantToGovernor, GrammaticalConstants.NegationModifier);
+                                    nmodsList.First(), ComparisonType.DependantToGovernor, GrammaticalConstants.NegationModifier);
 
                                 if (neg == null)
                                 {
@@ -433,12 +434,12 @@ namespace nsNotenizer
 
                                 // second nmod depending on first one
                                 NotenizerDependency nmodSecond = sentence.GetDependencyByShortName(
-                                    nmodsList.First(), Comparison.DependantToGovernor, GrammaticalConstants.NominalModifier);
+                                    nmodsList.First(), ComparisonType.DependantToGovernor, GrammaticalConstants.NominalModifier);
 
                                 if (nmodSecond != null)
                                 {
                                     neg = sentence.GetDependencyByShortName(
-                                    nmodsList.First(), Comparison.GovernorToGovernor, GrammaticalConstants.NegationModifier);
+                                    nmodsList.First(), ComparisonType.GovernorToGovernor, GrammaticalConstants.NegationModifier);
 
                                     if (neg == null)
                                     {
@@ -458,10 +459,10 @@ namespace nsNotenizer
                             else
                             {
                                 // <== AMODS ==>
-                                NotenizerDependency amod1 = sentence.GetDependencyByShortName(dependencyLoop, Comparison.DependantToGovernor, GrammaticalConstants.AdjectivalModifier);
+                                NotenizerDependency amod1 = sentence.GetDependencyByShortName(dependencyLoop, ComparisonType.DependantToGovernor, GrammaticalConstants.AdjectivalModifier);
 
                                 // <== AMODS ==>
-                                NotenizerDependency amod2 = sentence.GetDependencyByShortName(dependencyLoop, Comparison.GovernorToGovernor, GrammaticalConstants.AdjectivalModifier);
+                                NotenizerDependency amod2 = sentence.GetDependencyByShortName(dependencyLoop, ComparisonType.GovernorToGovernor, GrammaticalConstants.AdjectivalModifier);
 
                                 if (amod1 != null || amod2 != null)
                                 {
@@ -480,10 +481,10 @@ namespace nsNotenizer
                                 else
                                 {
                                     // <== NUMMODS ==>
-                                    NotenizerDependency nummod1 = sentence.GetDependencyByShortName(dependencyLoop, Comparison.DependantToGovernor, GrammaticalConstants.NumericModifier);
+                                    NotenizerDependency nummod1 = sentence.GetDependencyByShortName(dependencyLoop, ComparisonType.DependantToGovernor, GrammaticalConstants.NumericModifier);
 
                                     // <== NUMMODS ==>
-                                    NotenizerDependency nummod2 = sentence.GetDependencyByShortName(dependencyLoop, Comparison.GovernorToGovernor, GrammaticalConstants.NumericModifier);
+                                    NotenizerDependency nummod2 = sentence.GetDependencyByShortName(dependencyLoop, ComparisonType.GovernorToGovernor, GrammaticalConstants.NumericModifier);
 
                                     if (nummod1 != null)
                                     {
@@ -509,14 +510,14 @@ namespace nsNotenizer
                             NoteObject gov = new NoteObject(dependencyLoop.Governor.Word, dependencyLoop.Governor, dependencyLoop);
                             notePart.Add(gov);
 
-                            NotenizerDependency dobj = sentence.GetDependencyByShortName(dependencyLoop, Comparison.GovernorToGovernor, GrammaticalConstants.DirectObject);
+                            NotenizerDependency dobj = sentence.GetDependencyByShortName(dependencyLoop, ComparisonType.GovernorToGovernor, GrammaticalConstants.DirectObject);
 
                             if (dobj != null)
                             {
                                 NoteObject dobjObj = new NoteObject(dobj.Dependent.Word, dobj.Dependent, dobj);
                                 notePart.Add(dobjObj);
 
-                                NotenizerDependency neg = sentence.GetDependencyByShortName(dobj, Comparison.DependantToGovernor, GrammaticalConstants.NegationModifier);
+                                NotenizerDependency neg = sentence.GetDependencyByShortName(dobj, ComparisonType.DependantToGovernor, GrammaticalConstants.NegationModifier);
 
                                 if (neg != null)
                                 {
@@ -527,7 +528,7 @@ namespace nsNotenizer
 
                             NotenizerDependency aux = sentence.GetDependencyByShortName(
                                 dependencyLoop,
-                                Comparison.GovernorToGovernor,
+                                ComparisonType.GovernorToGovernor,
                                 GrammaticalConstants.AuxModifier,
                                 GrammaticalConstants.AuxModifierPassive);
 
@@ -540,12 +541,12 @@ namespace nsNotenizer
                             // <== NMODS ==>
                             List<NotenizerDependency> nmodsList = sentence.GetDependenciesByShortName(
                                 dependencyLoop,
-                                Comparison.GovernorToGovernor,
+                                ComparisonType.GovernorToGovernor,
                                 GrammaticalConstants.NominalModifier);
 
                             if (nmodsList != null && nmodsList.Count > 0)
                             {
-                                NotenizerDependency neg = sentence.GetDependencyByShortName(nmodsList.First(), Comparison.DependantToGovernor, GrammaticalConstants.NegationModifier);
+                                NotenizerDependency neg = sentence.GetDependencyByShortName(nmodsList.First(), ComparisonType.DependantToGovernor, GrammaticalConstants.NegationModifier);
 
                                 if (neg == null)
                                 {
@@ -561,11 +562,11 @@ namespace nsNotenizer
                                 }
 
                                 // second nmod depending on first one
-                                NotenizerDependency nmodSecond = sentence.GetDependencyByShortName(nmodsList.First(), Comparison.DependantToGovernor, GrammaticalConstants.NominalModifier);
+                                NotenizerDependency nmodSecond = sentence.GetDependencyByShortName(nmodsList.First(), ComparisonType.DependantToGovernor, GrammaticalConstants.NominalModifier);
 
                                 if (nmodSecond != null)
                                 {
-                                    neg = sentence.GetDependencyByShortName(nmodsList.First(), Comparison.GovernorToGovernor, GrammaticalConstants.NegationModifier);
+                                    neg = sentence.GetDependencyByShortName(nmodsList.First(), ComparisonType.GovernorToGovernor, GrammaticalConstants.NegationModifier);
 
                                     if (neg == null)
                                     {

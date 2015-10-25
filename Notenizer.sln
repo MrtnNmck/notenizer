@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Constants", "Constants\Cons
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DB", "DB\DB.csproj", "{B91DE5E7-3FD7-4087-85D6-A69EB30BE1CC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Enums", "Enums\Enums.csproj", "{57E4152F-A7B5-4107-9EEB-54BB78BF6DFC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{B91DE5E7-3FD7-4087-85D6-A69EB30BE1CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B91DE5E7-3FD7-4087-85D6-A69EB30BE1CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B91DE5E7-3FD7-4087-85D6-A69EB30BE1CC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{57E4152F-A7B5-4107-9EEB-54BB78BF6DFC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{57E4152F-A7B5-4107-9EEB-54BB78BF6DFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{57E4152F-A7B5-4107-9EEB-54BB78BF6DFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{57E4152F-A7B5-4107-9EEB-54BB78BF6DFC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -336,6 +336,10 @@
       <Project>{b91de5e7-3fd7-4087-85d6-a69eb30be1cc}</Project>
       <Name>DB</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Enums\Enums.csproj">
+      <Project>{57E4152F-A7B5-4107-9EEB-54BB78BF6DFC}</Project>
+      <Name>Enums</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Extensions\Extensions.csproj">
       <Project>{a935e0ec-5e82-46b1-a209-405d11faa30c}</Project>
       <Name>Extensions</Name>

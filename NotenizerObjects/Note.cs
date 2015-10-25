@@ -3,15 +3,10 @@ using System;
 
 using nsExtensions;
 using System.Collections.Generic;
+using nsEnums;
 
 namespace nsNotenizerObjects
 {
-    public enum CreatedBy
-    {
-        User,
-        Notenizer
-    }
-
     public class Note
     {
         private NotenizerSentence _originalSentence;

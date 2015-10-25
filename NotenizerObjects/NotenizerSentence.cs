@@ -6,17 +6,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using nsExtensions;
+using nsEnums;
 
 namespace nsNotenizerObjects
 {
-    public enum Comparison
-    {
-        GovernorToGovernor,
-        GovernorToDependant,
-        DependantToGovernor,
-        DependantToDependant
-    }
-
     public class NotenizerSentence
     {
 		private List<NotenizerDependency> _dependencies;
@@ -58,7 +51,7 @@ namespace nsNotenizerObjects
         /// <param name="dependencyShortName"></param>
         /// <param name="searchResult"></param>
         /// <returns></returns>
-        public NotenizerDependency GetDependencyByShortName(NotenizerDependency mainDependency, Comparison comparisonType, params String[] dependencyShortNames)
+        public NotenizerDependency GetDependencyByShortName(NotenizerDependency mainDependency, ComparisonType comparisonType, params String[] dependencyShortNames)
         {
             foreach (NotenizerDependency dependencyLoop in _dependencies)
             {
@@ -72,7 +65,7 @@ namespace nsNotenizerObjects
             return null;
         }
 
-        public List<NotenizerDependency> GetDependenciesByShortName(NotenizerDependency mainDependency, Comparison comparisonType, params String[] dependencyShortNames)
+        public List<NotenizerDependency> GetDependenciesByShortName(NotenizerDependency mainDependency, ComparisonType comparisonType, params String[] dependencyShortNames)
         {
             List<NotenizerDependency> dependencies = new List<NotenizerDependency>();
 
@@ -88,20 +81,20 @@ namespace nsNotenizerObjects
             return dependencies;
         }
 
-        private bool CompareDependencies(NotenizerDependency mainDependency, NotenizerDependency secondaryDependency, Comparison comparisonType)
+        private bool CompareDependencies(NotenizerDependency mainDependency, NotenizerDependency secondaryDependency, ComparisonType comparisonType)
         {
             switch (comparisonType)
             {
-                case Comparison.DependantToDependant:
+                case ComparisonType.DependantToDependant:
                     return mainDependency.Dependent == secondaryDependency.Dependent;
 
-                case Comparison.GovernorToGovernor:
+                case ComparisonType.GovernorToGovernor:
                     return mainDependency.Governor == secondaryDependency.Governor;
 
-                case Comparison.DependantToGovernor:
+                case ComparisonType.DependantToGovernor:
                     return mainDependency.Dependent == secondaryDependency.Governor;
 
-                case Comparison.GovernorToDependant:
+                case ComparisonType.GovernorToDependant:
                     return mainDependency.Governor == secondaryDependency.Dependent;
             }
 
