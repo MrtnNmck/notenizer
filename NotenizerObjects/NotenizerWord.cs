@@ -116,11 +116,9 @@ namespace nsNotenizerObjects
         {
             return _wordString
                 + "/"
-                + _indexedWord.get(typeof(CoreAnnotations.PartOfSpeechAnnotation)).ToString()
+                + _pos
                 + "/"
-                + _startingPosition
-                + "/"
-                + _endPosition;
+                + _index;
         }
     }
 }
