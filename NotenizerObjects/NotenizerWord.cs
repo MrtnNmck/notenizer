@@ -43,6 +43,12 @@ namespace nsNotenizerObjects
                 _pos = String.Empty;
 		}
 
+        public NotenizerWord(String pos, int index)
+        {
+            _pos = pos;
+            _index = index;
+        }
+
 		public String Word
 		{
 			get { return _wordString; }

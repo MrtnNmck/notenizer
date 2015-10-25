@@ -13,6 +13,7 @@ namespace nsNotenizerObjects
 		private NotenizerWord _governor;
 		private NotenizerRelation _relation;
         private TypedDependency _originalDependency;
+        private int _position;
 
         public NotenizerDependency(TypedDependency typedDependency)
         {
@@ -20,6 +21,14 @@ namespace nsNotenizerObjects
             _governor = new NotenizerWord(typedDependency.gov());
             _relation = new NotenizerRelation(typedDependency.reln());
             _originalDependency = typedDependency;
+        }
+
+        public NotenizerDependency(NotenizerWord governor, NotenizerWord dependent, NotenizerRelation relation, int position)
+        {
+            _governor = governor;
+            _dependent = dependent;
+            _relation = relation;
+            _position = position;
         }
 
         public NotenizerWord Dependent

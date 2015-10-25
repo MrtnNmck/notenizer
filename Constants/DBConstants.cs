@@ -9,6 +9,7 @@ namespace nsConstants
     public class DBConstants
     {
         public const String DatabaseName = "notenizer";
+        public const String NotesCollectionName = "notes";
         public const String POSFieldName = "pos";
         public const String IndexFieldName = "index";
         public const String GovernorFieldName = "governor";

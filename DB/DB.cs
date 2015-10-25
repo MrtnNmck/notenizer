@@ -11,33 +11,28 @@ namespace nsDB
 {
     public static class DB
     {
-        public static async Task<String> GetAll(String collectionName)
+        public static async Task<List<BsonDocument>> GetAll(String collectionName)
         {
-            BsonDocument filter = new BsonDocument();
+            FilterDefinition<BsonDocument> filter = Builders<BsonDocument>.Filter.Empty;
 
            return await GetAll(collectionName, filter);
         }
 
-        public static async Task<String> GetAll(String collectionName, BsonDocument filter)
+        public static async Task<List<BsonDocument>> GetAll(String collectionName, FilterDefinition<BsonDocument> filter)
         {
             IMongoCollection<BsonDocument> collection = GetCollection(collectionName);
-            
+
             IAsyncCursor<BsonDocument> cursor = await collection.FindAsync(filter);
 
-            // iterate over cursor, to get objects http://docs.mongodb.org/getting-started/csharp/query/
+            List<BsonDocument> results = cursor.ToListAsync().Result;
 
-            return "OK.";
+            return results;
         }
 
-        public static async Task<String> GetAll(String collectionName, FilterDefinition<BsonDocument> filter)
+        public static async Task<BsonDocument> GetFirst(String collectionName, FilterDefinition<BsonDocument> filter)
         {
-            IMongoCollection<BsonDocument> collection = GetCollection(collectionName);
-
-            IAsyncCursor<BsonDocument> cursor = await collection.FindAsync(filter);
-
-            // iterate over cursor, to get objects http://docs.mongodb.org/getting-started/csharp/query/
-
-            return "OK.";
+            List<BsonDocument> all = await GetAll(collectionName, filter);
+            return all.FirstOrDefault();
         }
 
         /// <summary>

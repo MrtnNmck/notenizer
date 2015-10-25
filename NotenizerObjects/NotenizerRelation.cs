@@ -21,6 +21,11 @@ namespace nsNotenizerObjects
             _specific = grammaticalRelation.getSpecific();
 		}
 
+        public NotenizerRelation(String shortName)
+        {
+            _shortName = shortName;
+        }
+
         public String LongName
         {
             get { return _longName; }

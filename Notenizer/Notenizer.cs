@@ -92,7 +92,6 @@ namespace nsNotenizer
             //String note = String.Empty;
             String nmods = String.Empty;
             Dictionary<String, String> sentencesNoted = new Dictionary<String, String>();
-            bool findCOP = false;
             List<Object> poses = new List<Object>();
 
             foreach (Annotation sentence in annotation.get(typeof(CoreAnnotations.SentencesAnnotation)) as ArrayList)
@@ -331,7 +330,10 @@ namespace nsNotenizer
                 Note note = new Note(sentence);
                 Note noteLoop;
 
-               String temp = DB.GetAll("notes", DocumentCreator.CreateFilterByDependencies(sentence)).Result;
+                //String temp = DB.GetAll("notes", DocumentCreator.CreateFilterByDependencies(sentence)).Result;
+
+                List<NotenizerDependency> deps = DocumentParser.ParseNoteDependencies(
+                    DB.GetFirst(DBConstants.NotesCollectionName, DocumentCreator.CreateFilterByDependencies(sentence)).Result);
 
                 foreach (NotenizerDependency dependencyLoop in sentence.Dependencies)
                 {
