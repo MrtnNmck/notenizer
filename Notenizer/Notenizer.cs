@@ -338,6 +338,8 @@ namespace nsNotenizer
                 {
                     Note parsedNote = ApplyRules(sentence, deps);
                     Console.WriteLine("Parsed note: " + parsedNote.OriginalSentence + " ===> " + parsedNote.Value);
+
+                    continue;
                 }
 
                 foreach (NotenizerDependency dependencyLoop in sentence.Dependencies)
@@ -498,7 +500,7 @@ namespace nsNotenizer
 
                                     if (nummod2 != null)
                                     {
-                                        NoteObject nummod2Obj = new NoteObject(nummod2.Dependent.Word, nummod1.Dependent, nummod2);
+                                        NoteObject nummod2Obj = new NoteObject(nummod2.Dependent.Word, nummod2.Dependent, nummod2);
                                         notePart.Add(nummod2Obj);
                                     }
                                 }
@@ -628,10 +630,7 @@ namespace nsNotenizer
 
             foreach (NotenizerDependency ruleLoop in rules)
             {
-                NoteObject obj = ApplyRule(sentence, ruleLoop, notePart);
-
-                if (obj != null)
-                    notePart.Add(obj);
+                ApplyRule(sentence, ruleLoop, notePart);
             }
 
             note.Add(notePart);
@@ -639,25 +638,21 @@ namespace nsNotenizer
             return note;
         }
 
-        private NoteObject ApplyRule(NotenizerSentence sentence, NotenizerDependency rule, NotePart notePart)
+        private void ApplyRule(NotenizerSentence sentence, NotenizerDependency rule, NotePart notePart)
         {
-            foreach (NotenizerDependency dependencyLoop in sentence.Dependencies)
+            NotenizerDependency dependency = sentence.FindDependency(rule);
+
+            if (dependency != null)
             {
-                NotenizerDependency dependency = sentence.GetDependencyByShortName(
-                                    dependencyLoop,
-                                    rule.ComparisonType,
-                                    rule.Relation.ShortName);
+                NoteObject dependencyObj = new NoteObject(dependency.Dependent, dependency);
+                notePart.Add(dependencyObj);
 
-                if (dependency != null)
+                if (dependency.Relation.IsNominalSubject())
                 {
-                    NoteObject dependencyObj = new NoteObject(dependency.Dependent.Word, dependency.Dependent, dependency);
-                    notePart.Add(dependencyObj);
-
-                    return dependencyObj;
+                    NoteObject govObj = new NoteObject(dependency.Governor, dependency);
+                    notePart.Add(govObj);
                 }
             }
-
-            return null;
         }
     }
 }

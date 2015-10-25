@@ -13,12 +13,13 @@ namespace nsNotenizerObjects
     public class NotenizerSentence
     {
 		private List<NotenizerDependency> _dependencies;
+        private Dictionary<String, List<NotenizerDependency>> _nameDependencyDic;
 		private Annotation _annotation;
 
 		public NotenizerSentence(Annotation annotation)
 		{
 			_annotation = annotation;
-			_dependencies = GetDepencencies(annotation);
+			_dependencies = GetDepencencies(annotation, ref _nameDependencyDic);
 		}
 
         public List<NotenizerDependency> Dependencies
@@ -26,8 +27,12 @@ namespace nsNotenizerObjects
             get { return _dependencies; }
         }
 
+        public int DistinctDependenciesCount
+        {
+            get { return _nameDependencyDic.Keys.Count; }
+        }
 
-        private List<NotenizerDependency> GetDepencencies(Annotation annotation)
+        private List<NotenizerDependency> GetDepencencies(Annotation annotation, ref Dictionary<String, List<NotenizerDependency>> map)
 		{
 			Tree tree = annotation.get(typeof(TreeCoreAnnotations.TreeAnnotation)) as Tree;
 			TreebankLanguagePack treeBankLangPack = new PennTreebankLanguagePack();
@@ -36,10 +41,18 @@ namespace nsNotenizerObjects
 			java.util.Collection typedDependencies = gramStruct.typedDependenciesCollapsed();
 
             List<NotenizerDependency> dependencies = new List<NotenizerDependency>();
+            map = new Dictionary<String, List<NotenizerDependency>>();
 
             foreach (TypedDependency typedDependencyLoop in (typedDependencies as java.util.ArrayList))
             {
-                dependencies.Add(new NotenizerDependency(typedDependencyLoop));
+                NotenizerDependency dep = new NotenizerDependency(typedDependencyLoop);
+
+                dependencies.Add(dep);
+
+                if (!map.ContainsKey(dep.Relation.ShortName))
+                    map.Add(dep.Relation.ShortName, new List<NotenizerDependency>() { dep });
+                else
+                    map[dep.Relation.ShortName].Add(dep);
             }
 
             return dependencies;
@@ -53,14 +66,17 @@ namespace nsNotenizerObjects
         /// <returns></returns>
         public NotenizerDependency GetDependencyByShortName(NotenizerDependency mainDependency, ComparisonType comparisonType, params String[] dependencyShortNames)
         {
-            foreach (NotenizerDependency dependencyLoop in _dependencies)
+            foreach (String dependencyShortNameLoop in dependencyShortNames)
             {
-                if (dependencyShortNames.Contains(dependencyLoop.Relation.ShortName))
+                if (_nameDependencyDic.ContainsKey(dependencyShortNameLoop))
                 {
-                    if (CompareDependencies(mainDependency, dependencyLoop, comparisonType))
+                    foreach (NotenizerDependency dependencyLoop in _nameDependencyDic[dependencyShortNameLoop])
                     {
-                        dependencyLoop.ComparisonType = comparisonType;
-                        return dependencyLoop;
+                        if (CompareDependencies(mainDependency, dependencyLoop, comparisonType))
+                        {
+                            dependencyLoop.ComparisonType = comparisonType;
+                            return dependencyLoop;
+                        }
                     }
                 }
             }
@@ -72,12 +88,18 @@ namespace nsNotenizerObjects
         {
             List<NotenizerDependency> dependencies = new List<NotenizerDependency>();
 
-            foreach (NotenizerDependency dependencyLoop in _dependencies)
+            foreach (String dependencyShortNameLoop in dependencyShortNames)
             {
-                if (dependencyShortNames.Contains(dependencyLoop.Relation.ShortName))
+                if (_nameDependencyDic.ContainsKey(dependencyShortNameLoop))
                 {
-                    if (CompareDependencies(mainDependency, dependencyLoop, comparisonType))
-                        dependencies.Add(dependencyLoop);
+                    foreach (NotenizerDependency dependencyLoop in _nameDependencyDic[dependencyShortNameLoop])
+                    {
+                        if (CompareDependencies(mainDependency, dependencyLoop, comparisonType))
+                        {
+                            dependencyLoop.ComparisonType = comparisonType;
+                            dependencies.Add(dependencyLoop);
+                        }
+                    }
                 }
             }
 
@@ -102,6 +124,23 @@ namespace nsNotenizerObjects
             }
 
             throw new Exception("Error in CompareDependencies. Unidentified Comparison type.");
+        }
+
+        public NotenizerDependency FindDependency(NotenizerDependency ruleDependency)
+        {
+            if (_nameDependencyDic.ContainsKey(ruleDependency.Relation.ShortName))
+            {
+                foreach (NotenizerDependency dependencyLoop in _nameDependencyDic[ruleDependency.Relation.ShortName])
+                {
+                    if (dependencyLoop.Governor.POS == ruleDependency.Governor.POS
+                        && dependencyLoop.Governor.Index == ruleDependency.Governor.Index
+                        && dependencyLoop.Dependent.POS == ruleDependency.Dependent.POS
+                        && dependencyLoop.Dependent.Index == ruleDependency.Dependent.Index)
+                        return dependencyLoop;
+                }
+            }
+
+            return null;
         }
 
         public List<String> CopyStructure()

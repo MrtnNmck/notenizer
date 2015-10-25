@@ -66,5 +66,10 @@ namespace nsNotenizerObjects
         {
             return _shortName;
         }
+
+        public bool IsNominalSubject()
+        {
+            return IsRelation(GrammaticalConstants.NominalSubject) || IsRelation(GrammaticalConstants.NominalSubjectPassive);
+        }
     }
 }

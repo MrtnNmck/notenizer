@@ -1,4 +1,5 @@
-﻿using nsEnums;
+﻿using nsConstants;
+using nsEnums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,13 @@ namespace nsNotenizerObjects
         private String _noteWordValue;
         private NotenizerDependency _noteDependency;
          
+        public NoteObject(NotenizerWord noteWord, NotenizerDependency noteDependency)
+        {
+            _noteWord = noteWord;
+            _noteDependency = NoteDependency;
+            _noteWordValue = MakeWordConsiderRelation(noteWord, noteDependency.Relation);
+        }
+
         public NoteObject(String noteWordValue, NotenizerWord noteWord, NotenizerDependency noteDependency)
         {
             _noteWordValue = noteWordValue;
@@ -33,6 +41,18 @@ namespace nsNotenizerObjects
         public String NoteWordValue
         {
             get { return _noteWordValue; }
+        }
+
+        private String MakeWordConsiderRelation(NotenizerWord noteWord, NotenizerRelation relation)
+        {
+            String word = String.Empty;
+
+            if (relation.ShortName == GrammaticalConstants.NominalModifier)
+                word = relation.Specific + NotenizerConstants.WordDelimeter + noteWord.Word;
+            else
+                word = noteWord.Word;
+
+            return word;
         }
     }
 }

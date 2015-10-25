@@ -121,13 +121,14 @@ namespace nsNotenizer
 
         public static FilterDefinition<BsonDocument> CreateFilterByDependencies(NotenizerSentence sentence)
         {
-            return CreateFilterByDependencies(sentence.Dependencies);
+            return CreateFilterByDependencies(sentence.Dependencies, sentence.DistinctDependenciesCount);
         }
 
-        public static FilterDefinition<BsonDocument> CreateFilterByDependencies(List<NotenizerDependency> dependencies)
+        public static FilterDefinition<BsonDocument> CreateFilterByDependencies(List<NotenizerDependency> dependencies, int size)
         {
-            return Builders<BsonDocument>.Filter.All(DBConstants.OriginalSentenceDependenciesFieldName + "." + DBConstants.DependencyNameFieldName,
-                dependencies.Select(x=>x.Relation.ShortName));
+            return Builders<BsonDocument>.Filter.Size(DBConstants.OriginalSentenceDependenciesFieldName, size) 
+                    & Builders<BsonDocument>.Filter.All(DBConstants.OriginalSentenceDependenciesFieldName + "." + DBConstants.DependencyNameFieldName,
+                        dependencies.Select(x=>x.Relation.ShortName));
         }
     }
 }
