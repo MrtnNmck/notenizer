@@ -10,7 +10,7 @@ namespace nsNotenizerObjects
     {
         private List<NotenizerDependency> _dependencies;
         private List<int> _sentencesEnds;
-
+        private Double _match;
         public NotenizerRule()
         {
         }
@@ -29,6 +29,12 @@ namespace nsNotenizerObjects
         public List<int> SentencesEnds
         {
             get { return _sentencesEnds; }
+        }
+
+        public Double Match
+        {
+            get { return _match; }
+            set { _match = value; }
         }
     }
 }

@@ -29,7 +29,7 @@
 5. Do 01.11.2015 (nedela)
 -----------------------------
 	- dokoncit parsovanie podla pravidiel z DB
-	- moznost pozmenit vetu
+	- moznost pozmenit vetu (presuvam az ked bude GUI)
 	- zapisovanie nejakeho hit countu sady pravidiel, ktore sa pouzili na parsovanie konkretnej vety
 	  a podla toho vyhodnocovat, ktore pouzit, ak bude pre vetu v DB viacero sad pravidiel
 	- zacat pozerat podobne aplikacie

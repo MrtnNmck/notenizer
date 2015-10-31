@@ -64,5 +64,10 @@ namespace nsNotenizerObjects
         {
             get { return _relation.ShortName + Governor.Word + Governor.Index + Dependent.Word + Dependent.Index; }
         }
+
+        public int Position
+        {
+            get { return _position; }
+        }
 	}
 }

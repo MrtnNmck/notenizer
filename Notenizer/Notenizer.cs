@@ -331,8 +331,11 @@ namespace nsNotenizer
                 Note note = new Note(sentence);
                 Note noteLoop;
 
-                NotenizerRule rule = DocumentParser.ParseNoteDependencies(
-                    DB.GetFirst(DBConstants.NotesCollectionName, DocumentCreator.CreateFilterByDependencies(sentence)).Result);
+                //NotenizerRule rule = DocumentParser.ParseNoteDependencies(
+                //    DB.GetFirst(DBConstants.NotesCollectionName, DocumentCreator.CreateFilterByDependencies(sentence)).Result);
+
+                NotenizerRule rule = DocumentParser.GetHeighestMatch(sentence,
+                    DB.GetAll(DBConstants.NotesCollectionName, DocumentCreator.CreateFilterByDependencies(sentence)).Result);
 
                 if (rule.RuleDependencies != null && rule.RuleDependencies.Count > 0)
                 {

@@ -40,5 +40,6 @@ TODO:
 	DONE - pridanie specialnej dependency pri ukladani do db, ktora bude oznacovat koniec vety. 
 	DONE	- spravene cez ukladanie indexov, na ktorych koncia vety poznamok a podla nich sa potom rozdeli rozparsovana poznamka
 	
-	- rozlisenie sady pravidiel, ak pre vetu vyhovuju viac sady
-		- zatial len podla poctu a nazvov dependencies a zoberie sa prva.
+	DONE - rozlisenie sady pravidiel, ak pre vetu vyhovuju viac sady
+			- zatial len podla poctu a nazvov dependencies a zoberie sa prva.
+			// vypocitavanie % zhody pravidiel

@@ -32,6 +32,11 @@ namespace nsNotenizerObjects
             get { return _nameDependencyDic.Keys.Count; }
         }
 
+        public Dictionary<String, List<NotenizerDependency>> CompressedDependencies
+        {
+            get { return _nameDependencyDic; }
+        }
+
         private List<NotenizerDependency> GetDepencencies(Annotation annotation, ref Dictionary<String, List<NotenizerDependency>> map)
 		{
 			Tree tree = annotation.get(typeof(TreeCoreAnnotations.TreeAnnotation)) as Tree;
