@@ -43,3 +43,7 @@ TODO:
 	DONE - rozlisenie sady pravidiel, ak pre vetu vyhovuju viac sady
 			- zatial len podla poctu a nazvov dependencies a zoberie sa prva.
 			// vypocitavanie % zhody pravidiel
+			
+	- odstranit hodnotu position z pravidla
+		- nepouziva sa
+	- naplnit DB s viacerimi pravidlami
