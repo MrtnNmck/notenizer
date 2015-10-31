@@ -68,11 +68,11 @@ namespace nsNotenizerObjects
                 // TODO: docasna podmienka, lebo nie je doriesene rozoznavanie medzi sadami pravidiel
                 // a vzdy sa zoberie prva, preto nemusi sediet pre niektoru vetu a tym padom by to tu
                 // padlo na ArgumentOutOfRangeException
-                if (indexLoop - lastIndex > _noteParts[0].InitializedNoteObjects.Count)
+                if (indexLoop - lastIndex > _noteParts[0].InitializedNoteParticles.Count)
                     return;
 
                 NotePart notePart = new NotePart(_originalSentence);
-                notePart.Add(_noteParts[0].InitializedNoteObjects.GetRange(lastIndex, indexLoop - lastIndex));
+                notePart.Add(_noteParts[0].InitializedNoteParticles.GetRange(lastIndex, indexLoop - lastIndex));
 
                 lastIndex = indexLoop;
                 parts.Add(notePart);

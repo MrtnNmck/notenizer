@@ -8,20 +8,20 @@ using System.Threading.Tasks;
 
 namespace nsNotenizerObjects
 {
-    public class NoteObject
+    public class NoteParticle
     {
         private NotenizerWord _noteWord;
         private String _noteWordValue;
         private NotenizerDependency _noteDependency;
          
-        public NoteObject(NotenizerWord noteWord, NotenizerDependency noteDependency)
+        public NoteParticle(NotenizerWord noteWord, NotenizerDependency noteDependency)
         {
             _noteWord = noteWord;
             _noteDependency = NoteDependency;
             _noteWordValue = MakeWordConsiderRelation(noteWord, noteDependency.Relation);
         }
 
-        public NoteObject(String noteWordValue, NotenizerWord noteWord, NotenizerDependency noteDependency)
+        public NoteParticle(String noteWordValue, NotenizerWord noteWord, NotenizerDependency noteDependency)
         {
             _noteWordValue = noteWordValue;
             _noteWord = noteWord;

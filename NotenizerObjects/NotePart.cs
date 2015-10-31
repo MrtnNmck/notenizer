@@ -14,7 +14,7 @@ namespace nsNotenizerObjects
         private String _postfixWord;
         private String _mainWord;
 
-        private List<NoteObject> _noteObjects;
+        private List<NoteParticle> _noteParticles;
 
         public NotePart()
         {
@@ -22,12 +22,12 @@ namespace nsNotenizerObjects
             _postfixWord = String.Empty;
             _mainWord = String.Empty;
 
-            _noteObjects = new List<NoteObject>();
+            _noteParticles = new List<NoteParticle>();
         }
 
         public NotePart(NotenizerSentence originalSentence)
         {
-            _noteObjects = new List<NoteObject>();
+            _noteParticles = new List<NoteParticle>();
             InitializeStructure(originalSentence.DependencyWordsInSentenceCount());
         }
         
@@ -36,7 +36,7 @@ namespace nsNotenizerObjects
             get
             {
                 String value = String.Empty;
-                foreach (NoteObject noteObjectLoop in _noteObjects)
+                foreach (NoteParticle noteObjectLoop in _noteParticles)
                 {
                     if (noteObjectLoop != null)
                         value += noteObjectLoop.NoteWordValue + NotenizerConstants.WordDelimeter;
@@ -46,40 +46,40 @@ namespace nsNotenizerObjects
             }
         }
 
-        public List<NoteObject> NoteObjects
+        public List<NoteParticle> NoteParticles
         {
-            get { return _noteObjects; }
+            get { return _noteParticles; }
         }
 
-        public List<NoteObject> InitializedNoteObjects
+        public List<NoteParticle> InitializedNoteParticles
         {
             get
             {
-                return _noteObjects.Where(x => x != null).ToList();
+                return _noteParticles.Where(x => x != null).ToList();
             }
         }
 
         private void InitializeStructure(List<String> structureParts)
         {
             foreach (String structurePartLoop in structureParts)
-                _noteObjects.Add(null);
+                _noteParticles.Add(null);
         }
 
         private void InitializeStructure(int count)
         {
             for (int i = 0; i < count; i++)
-                _noteObjects.Add(null);
+                _noteParticles.Add(null);
         }
 
-        public void Add(List<NoteObject> noteObjects)
+        public void Add(List<NoteParticle> noteObjects)
         {
-            foreach (NoteObject noteObjectLoop in noteObjects)
+            foreach (NoteParticle noteObjectLoop in noteObjects)
                 Add(noteObjectLoop);
         }
 
-        public void Add(NoteObject noteObject)
+        public void Add(NoteParticle noteObject)
         {
-            _noteObjects[noteObject.NoteWord.Index - 1] = noteObject;
+            _noteParticles[noteObject.NoteWord.Index - 1] = noteObject;
         }
     }
 }

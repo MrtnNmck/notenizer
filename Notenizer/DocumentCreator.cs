@@ -45,7 +45,7 @@ namespace nsNotenizer
 
             foreach (NotePart notePartLoop in note.NoteParts)
             {
-                foreach (NoteObject noteObjectLoop in notePartLoop.NoteObjects)
+                foreach (NoteParticle noteObjectLoop in notePartLoop.NoteParticles)
                 {
                     if (noteObjectLoop == null)
                         continue;
