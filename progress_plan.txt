@@ -32,6 +32,9 @@
 	- moznost pozmenit vetu (presuvam az ked bude GUI)
 	- zapisovanie nejakeho hit countu sady pravidiel, ktore sa pouzili na parsovanie konkretnej vety
 	  a podla toho vyhodnocovat, ktore pouzit, ak bude pre vetu v DB viacero sad pravidiel
+		- zmeneny navrh:
+			- nebudu sa zaznamenavat hit count, je to zbytocne, neposkytne to relevantnu informaciu
+			- vypocitava sa zhoda pravidiel s vetou a vyberie sa ta najvacsia a podla nej sa parsuje
 	- zacat pozerat podobne aplikacie
 	
 6. Do 08.11.2015 (nedela)
