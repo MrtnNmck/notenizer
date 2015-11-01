@@ -1,4 +1,4 @@
-04.10.2015 (nedela)
+1. 04.10.2015 (nedela)
 -----------------------------
     - nastudovane dependencies a dependency tree zo stanford manualu(http://nlp.stanford.edu/software/dependencies_manual.pdf)
     - navrhnutie zakladneho principu ako ich pouzit ako mozu pomoct pri extrahovani dolezitej info z vety
@@ -13,7 +13,24 @@
 	+ implementacie viac nez len zakladnej kostry algoritmu
 	+ otestovane na zakladnych textoch troch statov z wikipedia (Slovakia, Hungary, Czech Republic)
 	
-2. Do 18.10.2015 (nedela)
+3. Do 18.10.2015 (nedela)
 -----------------------------
 	- refactoring kodu
 	- parsovanie viet s viacerymi nominal subject (suvetia)
+	
+4. Do 25.10.2015 (nedela)
+-----------------------------
+	- prepojenie s DB (MONGO)
+	- ukladanie pravidiel do DB
+	- citanie pravidiel z DB
+	- parsovanie podla pravidiel
+	
+5. Do 25.10.2015 (nedela)
+-----------------------------
+	- dokoncene parsovanie podla pravidiel z DB
+	- moznost pozmenit vetu (presuvam az ked bude GUI)
+	- zapisovanie nejakeho hit countu sady pravidiel, ktore sa pouzili na parsovanie konkretnej vety
+	  a podla toho vyhodnocovat, ktore pouzit, ak bude pre vetu v DB viacero sad pravidiel
+		- zmeneny navrh:
+			- nebudu sa zaznamenavat hit count, je to zbytocne, neposkytne to relevantnu informaciu
+			- vypocitava sa zhoda pravidiel s vetou a vyberie sa ta najvacsia a podla nej sa parsuje
