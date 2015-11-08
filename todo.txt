@@ -16,6 +16,34 @@ Poznatky:
 		- aspon prvy by nemuselo byt zle
 	DONE - pozriet conj, aby ked su tam nejake &&, tak sme to odchytili
 	
+	
+	InterText:
+		+ plain text, XML
+		+ undo / redo
+		+ numbering
+		+ presuvanie textu
+		+ mergovanie textu
+		+ vyhladavanie
+		+ verzia pre server
+		+ editacia
+		+ html tagy zobrazuje
+		
+		- nezjednoduchsuje text
+		- neberie do uvahy editaciu pri opatovnom pouziti
+		
+	NOVA Text Aligner:
+		+ nacitanie rozdielnych textov do stlpca v pravo a vlavo
+		+ akcie ako merge / move na riadkoch / blokoch
+		+ vyhladavanie textu s zvyraznovanim
+		+ font resize
+		+ export do roznych formatov
+		+ evit textu
+		
+		- uzivatel moze zadat cokolvek
+		- iba usporiadavanie textu
+		- nezohladnuje zmeny pri dalsom zapnuti
+		- funguje lokalne, nema db
+	
 ===============================================================================================================================================================
 	Poznamky zo stretnutia
 ===============================================================================================================================================================
