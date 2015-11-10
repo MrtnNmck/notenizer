@@ -62,7 +62,7 @@ namespace nsNotenizer
 
         private static Double CalculateMatch(NotenizerSentence sentence, List<NotenizerDependency> parsedDependencies, BsonDocument dbEntry)
         {
-            Double compareCount = 6.0;
+            Double compareCount = 8.0;
             Double oneCompareType = 100.0 / compareCount;
             Double oneCompareTypeIter;
             Double counter = 0.0;
@@ -82,7 +82,11 @@ namespace nsNotenizer
                 c += origDepDocLoop[DBConstants.DependenciesFieldName].AsBsonArray.Count;
             }
 
-            oneCompareTypeIter = oneCompareType / (double)(c );
+            // Goes over all dependencies of original sentence
+            // and gets the name of dependency (for example: compound)
+            // and checks, if there is, in sentence that is parsed right now,
+            // the dependency with same POS tag or same index at governor or dependent.
+            oneCompareTypeIter = oneCompareType / (double)(c);
             foreach (BsonDocument origDepDocLoop in dbEntry[DBConstants.OriginalSentenceDependenciesFieldName].AsBsonArray)
             {
                 String depName = origDepDocLoop[DBConstants.DependencyNameFieldName].AsString;
@@ -96,11 +100,19 @@ namespace nsNotenizer
                     {
                         counter += oneCompareTypeIter;
                     }
+                    else
+                    {
+                        throw new Exception();
+                    }
 
                     if (sentence.CompressedDependencies[depName].Where(
                         x => x.Dependent.Index == depLoop[DBConstants.DependentFieldName].AsBsonDocument[DBConstants.IndexFieldName]).FirstOrDefault() != null)
                     {
                         counter += oneCompareTypeIter;
+                    }
+                    else
+                    {
+                        throw new Exception();
                     }
 
                     if (sentence.CompressedDependencies[depName].Where(
@@ -108,11 +120,41 @@ namespace nsNotenizer
                     {
                         counter += oneCompareTypeIter;
                     }
+                    else
+                    {
+                        throw new Exception();
+                    }
 
                     if (sentence.CompressedDependencies[depName].Where(
                         x => x.Governor.Index == depLoop[DBConstants.GovernorFieldName].AsBsonDocument[DBConstants.IndexFieldName]).FirstOrDefault() != null)
                     {
                         counter += oneCompareTypeIter;
+                    }
+                    else
+                    {
+                        throw new Exception();
+                    }
+
+                    if (sentence.CompressedDependencies[depName].Where(
+                        x =>x.Governor.POS == depLoop[DBConstants.GovernorFieldName].AsBsonDocument[DBConstants.POSFieldName] 
+                        && x.Governor.Index == depLoop[DBConstants.GovernorFieldName].AsBsonDocument[DBConstants.IndexFieldName]).FirstOrDefault() != null)
+                    {
+                        counter += oneCompareTypeIter;
+                    }
+                    else
+                    {
+                        throw new Exception();
+                    }
+
+                    if (sentence.CompressedDependencies[depName].Where(
+                        x => x.Dependent.POS == depLoop[DBConstants.DependentFieldName].AsBsonDocument[DBConstants.POSFieldName]
+                        && x.Dependent.Index == depLoop[DBConstants.DependentFieldName].AsBsonDocument[DBConstants.IndexFieldName]).FirstOrDefault() != null)
+                    {
+                        counter += oneCompareTypeIter;
+                    }
+                    else
+                    {
+                        throw new Exception();
                     }
 
                     if (sentence.CompressedDependencies[depName].Where(
@@ -122,6 +164,10 @@ namespace nsNotenizer
                         && x.Governor.Index == depLoop[DBConstants.GovernorFieldName].AsBsonDocument[DBConstants.IndexFieldName]).FirstOrDefault() != null)
                     {
                         counter += oneCompareTypeIter;
+                    }
+                    else
+                    {
+                        throw new Exception();
                     }
                 }
             }

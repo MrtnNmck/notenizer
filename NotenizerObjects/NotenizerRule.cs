@@ -11,6 +11,7 @@ namespace nsNotenizerObjects
         private List<NotenizerDependency> _dependencies;
         private List<int> _sentencesEnds;
         private Double _match;
+
         public NotenizerRule()
         {
         }
