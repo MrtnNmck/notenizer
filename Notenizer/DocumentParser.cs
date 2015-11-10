@@ -11,6 +11,11 @@ namespace nsNotenizer
 {
     public static class DocumentParser
     {
+        /// <summary>
+        /// Makes rule for parsing the sentence from entry from database.
+        /// </summary>
+        /// <param name="dbEntry">Entry from database</param>
+        /// <returns></returns>
         public static NotenizerRule ParseNoteDependencies(BsonDocument dbEntry)
         {
             List<NotenizerDependency> dependencies = new List<NotenizerDependency>();
@@ -44,6 +49,12 @@ namespace nsNotenizer
             return new NotenizerRule(dependencies, sentencesEnds);
         }
 
+        /// <summary>
+        /// Gets rule for parsing with the heighest match with original sentence.
+        /// </summary>
+        /// <param name="sentence"></param>
+        /// <param name="dbEntries"></param>
+        /// <returns></returns>
         public static NotenizerRule GetHeighestMatch(NotenizerSentence sentence, List<BsonDocument> dbEntries)
         {
             NotenizerRule rule = null;
@@ -60,6 +71,13 @@ namespace nsNotenizer
             return rule;
         }
 
+        /// <summary>
+        /// Calculates the match between original sentence (from DB) and sentence that is being parsed.
+        /// </summary>
+        /// <param name="sentence"></param>
+        /// <param name="parsedDependencies"></param>
+        /// <param name="dbEntry"></param>
+        /// <returns></returns>
         private static Double CalculateMatch(NotenizerSentence sentence, List<NotenizerDependency> parsedDependencies, BsonDocument dbEntry)
         {
             Double compareCount = 8.0;
@@ -100,19 +118,11 @@ namespace nsNotenizer
                     {
                         counter += oneCompareTypeIter;
                     }
-                    else
-                    {
-                        throw new Exception();
-                    }
 
                     if (sentence.CompressedDependencies[depName].Where(
                         x => x.Dependent.Index == depLoop[DBConstants.DependentFieldName].AsBsonDocument[DBConstants.IndexFieldName]).FirstOrDefault() != null)
                     {
                         counter += oneCompareTypeIter;
-                    }
-                    else
-                    {
-                        throw new Exception();
                     }
 
                     if (sentence.CompressedDependencies[depName].Where(
@@ -120,19 +130,11 @@ namespace nsNotenizer
                     {
                         counter += oneCompareTypeIter;
                     }
-                    else
-                    {
-                        throw new Exception();
-                    }
 
                     if (sentence.CompressedDependencies[depName].Where(
                         x => x.Governor.Index == depLoop[DBConstants.GovernorFieldName].AsBsonDocument[DBConstants.IndexFieldName]).FirstOrDefault() != null)
                     {
                         counter += oneCompareTypeIter;
-                    }
-                    else
-                    {
-                        throw new Exception();
                     }
 
                     if (sentence.CompressedDependencies[depName].Where(
@@ -141,20 +143,12 @@ namespace nsNotenizer
                     {
                         counter += oneCompareTypeIter;
                     }
-                    else
-                    {
-                        throw new Exception();
-                    }
 
                     if (sentence.CompressedDependencies[depName].Where(
                         x => x.Dependent.POS == depLoop[DBConstants.DependentFieldName].AsBsonDocument[DBConstants.POSFieldName]
                         && x.Dependent.Index == depLoop[DBConstants.DependentFieldName].AsBsonDocument[DBConstants.IndexFieldName]).FirstOrDefault() != null)
                     {
                         counter += oneCompareTypeIter;
-                    }
-                    else
-                    {
-                        throw new Exception();
                     }
 
                     if (sentence.CompressedDependencies[depName].Where(
@@ -164,10 +158,6 @@ namespace nsNotenizer
                         && x.Governor.Index == depLoop[DBConstants.GovernorFieldName].AsBsonDocument[DBConstants.IndexFieldName]).FirstOrDefault() != null)
                     {
                         counter += oneCompareTypeIter;
-                    }
-                    else
-                    {
-                        throw new Exception();
                     }
                 }
             }
