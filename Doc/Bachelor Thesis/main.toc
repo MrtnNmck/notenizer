@@ -1,23 +1,27 @@
 \select@language {slovak}
 \contentsline {section}{\numberline {1}\IeC {\'U}vod}{1}{section.1}
-\contentsline {section}{\numberline {2}Analysis}{3}{section.2}
-\contentsline {subsection}{\numberline {2.1}Subsection}{3}{subsection.2.1}
-\contentsline {subsection}{\numberline {2.2}Enumeration}{4}{subsection.2.2}
-\contentsline {subsection}{\numberline {2.3}Itemization}{4}{subsection.2.3}
-\contentsline {subsection}{\numberline {2.4}Citation}{5}{subsection.2.4}
-\contentsline {subsection}{\numberline {2.5}Labesl \& References}{5}{subsection.2.5}
-\contentsline {subsection}{\numberline {2.6}Examples}{5}{subsection.2.6}
-\contentsline {section}{\numberline {3}Design}{7}{section.3}
-\contentsline {subsection}{\numberline {3.1}Subsection}{7}{subsection.3.1}
-\contentsline {section}{\numberline {4}Results}{8}{section.4}
-\contentsline {subsection}{\numberline {4.1}Subsection}{8}{subsection.4.1}
-\contentsline {section}{\numberline {5}Conslusions}{9}{section.5}
-\contentsline {section}{Literat\'ura}{10}{section.5}
-\contentsline {section}{\numberline {A}Technical documentation}{11}{appendix.A}
-\contentsline {subsection}{\numberline {A.1}Implementation}{11}{subsection.A.1}
-\contentsline {paragraph}{Modul abc}{11}{section*.6}
-\contentsline {paragraph}{Modul def}{11}{section*.7}
-\contentsline {section}{\numberline {B}User documentation}{13}{appendix.B}
-\contentsline {subsection}{\numberline {B.1}Instalation}{13}{subsection.B.1}
-\contentsline {subsection}{\numberline {B.2}Run the application}{13}{subsection.B.2}
-\contentsline {section}{\numberline {C}Electronic medium}{14}{appendix.C}
+\contentsline {section}{\numberline {2}Anal\IeC {\'y}za}{3}{section.2}
+\contentsline {subsection}{\numberline {2.1}Spracovanie prirodzen\IeC {\'e}ho jazyka}{3}{subsection.2.1}
+\contentsline {subsubsection}{\numberline {2.1.1}Zna\IeC {\v c}kovanie slovn\IeC {\'y}ch druhov}{4}{subsubsection.2.1.1}
+\contentsline {subsubsection}{\numberline {2.1.2}Rozpozn\IeC {\'a}vanie n\IeC {\'a}zvoslovn\IeC {\'y}ch ent\IeC {\'\i }t}{4}{subsubsection.2.1.2}
+\contentsline {subsubsection}{\numberline {2.1.3}Rozpoznanie koreferenci\IeC {\'\i }}{5}{subsubsection.2.1.3}
+\contentsline {subsubsection}{\numberline {2.1.4}Rozlo\IeC {\v z}enie vz\IeC {\v t}ahov}{5}{subsubsection.2.1.4}
+\contentsline {subsection}{\numberline {2.2}Enumeration}{6}{subsection.2.2}
+\contentsline {subsection}{\numberline {2.3}Itemization}{6}{subsection.2.3}
+\contentsline {subsection}{\numberline {2.4}Citation}{6}{subsection.2.4}
+\contentsline {subsection}{\numberline {2.5}Labesl \& References}{6}{subsection.2.5}
+\contentsline {subsection}{\numberline {2.6}Examples}{6}{subsection.2.6}
+\contentsline {section}{\numberline {3}Design}{8}{section.3}
+\contentsline {subsection}{\numberline {3.1}Subsection}{8}{subsection.3.1}
+\contentsline {section}{\numberline {4}Results}{9}{section.4}
+\contentsline {subsection}{\numberline {4.1}Subsection}{9}{subsection.4.1}
+\contentsline {section}{\numberline {5}Conslusions}{10}{section.5}
+\contentsline {section}{Literat\'ura}{11}{section.5}
+\contentsline {section}{\numberline {A}Technical documentation}{12}{appendix.A}
+\contentsline {subsection}{\numberline {A.1}Implementation}{12}{subsection.A.1}
+\contentsline {paragraph}{Modul abc}{12}{section*.6}
+\contentsline {paragraph}{Modul def}{12}{section*.7}
+\contentsline {section}{\numberline {B}User documentation}{14}{appendix.B}
+\contentsline {subsection}{\numberline {B.1}Instalation}{14}{subsection.B.1}
+\contentsline {subsection}{\numberline {B.2}Run the application}{14}{subsection.B.2}
+\contentsline {section}{\numberline {C}Electronic medium}{15}{appendix.C}

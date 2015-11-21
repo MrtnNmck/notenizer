@@ -1,25 +1,104 @@
 \newpage
 \ifthenelse {\boolean{bachelor}}
 {
-	\section{Analysis}
-	%\section{Analýza}
+	%\section{Analysis}
+	\section{Analýza} 
 }
 {
-	\chapter{Analysis}
-	%\chapter{Analyza}
+	%\chapter{Analysis}
+	\chapter{Analyza}
 }
-Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. 
+V tejto kapitole priblížím a rozoberiem čo je spracovanie prirodzeného jazyka, kde a ako sa dá využiť. Ďalej zanalyzujem existujúce aplikácie a systému, ktorých základom je spracovanie textu.
 \ifthenelse {\boolean{bachelor}}
 {
-	\subsection{Subsection}
-	%\subsection{Podčasť}
+	%\subsection{Subsection}
+	\subsection{Spracovanie prirodzeného jazyka}
 }
 {
-	\section{Subsection}
-	%\section{Podčasť}
+	%\section{Subsection}
+	\section{Spracovanie prirodzeného jazyka}
 }
-\label{label}
-Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Nam liber tempor cum soluta nobis eleifend option congue nihil imperdiet doming id quod mazim placerat facer possim assum. Typi non habent claritatem insitam; est usus legentis in iis qui facit eorum claritatem. Investigationes demonstraverunt lectores legere me lius quod ii legunt saepius. Claritas est etiam processus dynamicus, qui sequitur mutationem consuetudium lectorum. Mirum est notare quam littera gothica, quam nunc putamus parum claram, anteposuerit litterarum formas humanitatis per seacula quarta decima et quinta decima. Eodem modo typi, qui nunc nobis videntur parum clari, fiant sollemnes in futurum.
+\label{subsec:nlp}
+Spracovanie prirodzeného jazyka (angl. Natural Language Processing - NLP) je oblasť vedného oboru, ktorý sa zaoberá počítačovými technológiami. Hlavným cieľom NLP je dosiahnuť aby počítač dokázal porozumieť ľudskej, či už písanej alebo hovorovej, reči.
+
+Porozumenie ľudskej reči je mnohokrát náročne aj pre samotných ľudí a nie to ešte pre počítače. Na svete je veľké množstvo jazykov, ktoré sa od seba líšia charakteristikami typickými pre konkrétny jazyk. Taktiež každý človek sa líši a preto výslovnosť rovnakého slova viacerými ľuďmi môže byť odlišná. Ďalej máme slangové slová a slová typické len pre určité územie. Pri spracovávaní prirodzeného jazyka treba vziať do úvahy tieto a aj ďalšie premenné. Dosiahnutie tohto cieľa je preto často veľmi náročné.
+
+V súčastnosti najpoužívanejšie algoritmy na NLP využívajú strojové učenie. Dosiahnutie úplného porozumenia a spracovania ľudského prirodzeného jazyka by znamenalo vyriešiť \textit{AI-complete} problém, čo znamená, že obtiažnosť tohto problému je ekvivalentné z obtiažnosti problému vytvorenia počítača inteligentného ako človek, takzvané ,,true AI''.
+
+NLP ma niekoľko hlavných úloh. Podrobnejšie si priblížime tie, ktoré sú relevantné vzhľadom na implementáciu spracovania učebných textov.
+
+Úlohy spracovania prirodzeného textu: [Natural Language Processing (Almost) from Scratch, Ronan Collobert]
+\begin{itemize}
+	\item Značkovanie slovných druhov (angl. Part-of-speech tagging) \ref{subsubsec:postagging}
+	\item Rozdelenie vety na menšie časti (angl. Chunking)
+	\item Rozpoznávanie názvoslovných entít (angl. Named Entity Recognition) \ref{subsubsec:ner}
+	\item Označovanie sémantického postavenie (angl. Semantic Role Labeling)
+	\item Rozpoznanie koreferencií (angl. Coreference resolution) \ref{subsubsec:corefparsing}
+	\item Morfologické segmentovanie (angl. Morphological Segmentation)
+	\item Generovanie prirodzeného jazyka (angl. Natural Language Generation)
+	\item Optické rozoznávanie textu (angl. Optical Character Recognition)
+	\item Rozloženie vzťahov (angl. Dependency parsing) \ref{subsubsec:corefparsing}
+	\item a mnoho ďalších
+\end{itemize}
+
+\ifthenelse {\boolean{bachelor}}
+{
+	%\subsection{Subsection}
+	\subsubsection{Značkovanie slovných druhov}
+}
+{
+	%\section{Subsection}
+	\subsection{Značkovanie slovných druhov}
+}
+\label{subsubsec:postagging}
+Hlavnou úlohou značkovania slovných druhom (angl. Part-of-speech tagging) je každému slovu vo vete priradiť unikátnu značku, ktorá odrážať jeho syntaktickú úlohu vo vete. Sú to, napríklad v slovenskom jazyku podmet, prísudok, príslovkové určenie alebo v anglickom jazyku noun, adverb, verb, atď. Tak isto to môže byť označenie určujúce množné číslo, napríklad signulár alebo plurál.
+
+Problémom pri značkovaní slovných druhov je mnohoznačnosť. Znamená to, že slovo môže mať viacero významov a môže byť viacerými slovnými druhmi. Napríklad v slovenskom jazyku slovo \textit{kry} môže predstavovať sloveso s významom rozkazu \textit{prikry!}, ale taktiež môže predstavovať podstatné meno s významom \textit{kríky}. V anglickom jazyku to je napríklad slovo \textit{book}, ktoré môže predstavovať podstatné meno (angl. noun) \textit{kniha} alebo sloveso (angl. verb) vo význame \textit{rezervovať}.
+
+\ifthenelse {\boolean{bachelor}}
+{
+	%\subsection{Subsection}
+	\subsubsection{Rozpoznávanie názvoslovných entít}
+}
+{
+	%\section{Subsection}
+	\subsection{Rozpoznávanie názvoslovných entít}
+}
+\label{subsubsec:ner}
+Rozpoznávanie názvoslovných entít (angl. Named Entity Recognition) označuje mená a názvy, ktoré sa vyskytujú v texte. Rozdeľuje tieto entity do kategórií, ako sú napríklad \textit{osoby}, \textit{organizácie} alebo \textit{lokácie}.
+
+Ťažkosti pri rozpoznávaní názvoslovných entít spôsobuje kapitalizácia slov, takzvané písanie entít s veľkým začiatočným písmenom. V anglickom jazyku to jednoduché, kedže v angličtine sa entity píšu s veľkým začiatočným písmenom. Príklad je \textit{Slovak University of Technology}. Avšak v iných jazykoch to neplatí a entity sa nemusia písať s veľkým začiatočným písmenom.
+
+\ifthenelse {\boolean{bachelor}}
+{
+	%\subsection{Subsection}
+	\subsubsection{Rozpoznanie koreferencií}
+}
+{
+	%\section{Subsection}
+	\subsection{Rozpoznanie koreferencií}
+}
+\label{subsubsec:corefparsing}
+Nájdenie, identifikácia a rozpoznanie koreferencií v texte je úlohou rozpoznávania koreferencií (angl. Coreference resolution). V texte sa často používajú zámena (angl. pronouns) \textit{to}, \textit{tí}, \textit{on} alebo anglicky \textit{it}, \textit{those}, \textit{he} a mnoho ďalších. Tieto zámena sa odkazujú na iné podstatné mená alebo mená a názvy a je úlohou rozpoznávania koreferencií určiť, na ktoré podstatné meno alebo meno, alebo názov sa konkrétne zámeno odkazuje.
+
+Príklad:
+\textbf{Martin Nemček} napísal túto bakalársku prácu. \textbf{On} študuje na FIIT STU BA.
+
+Tu je vidno, že zámeno \textit{on} sa odkazuje na meno \textit{Martin Nemček}.
+
+\ifthenelse {\boolean{bachelor}}
+{
+	%\subsection{Subsection}
+	\subsubsection{Rozloženie vzťahov}
+}
+{
+	%\section{Subsection}
+	\subsection{Rozloženie vzťahov}
+}
+\label{subsubsec:dependencyparsing}
+Dummy text..
+
+
 \begin{figure}[H]
 \begin{center}\includegraphics[scale=0.48]{figure}\end{center}
 \caption[Name figure]{Name figure}\label{fig:figure}
