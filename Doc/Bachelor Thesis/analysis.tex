@@ -96,13 +96,147 @@ Tu je vidno, že zámeno \textit{on} sa odkazuje na meno \textit{Martin Nemček}
 	\subsection{Rozloženie vzťahov}
 }
 \label{subsubsec:dependencyparsing}
-Dummy text..
-
+Rozloženie na vzťahy nám poskytuje jednoduchý opis gramatických vzťahov slov vo vete. Aplikovaním rozloženia vzťahov na vetu \textit{Bell, based in Los
+Angeles, makes and distributes electronic, computer and building products.
+} vznikne strom vzťahov (angl. dependency tree) (viď. \ref{fig:dependency_tree}).
 
 \begin{figure}[H]
-\begin{center}\includegraphics[scale=0.48]{figure}\end{center}
-\caption[Name figure]{Name figure}\label{fig:figure}
+\begin{center}\includegraphics[scale=0.8]{dependency_tree}\end{center}
+\caption[Strom vzťahov]{Strom vzťahov}\label{fig:dependency_tree}
 \end{figure}
+
+V tomto orientovanom stromovom grafe slová vety predstavujú vrcholy, pričom prechody medzi vrcholmi, hrany, sú reprezentované vzťahmi medzi nimi.
+
+Ďalšia reprezentácia vzťahov zapisuje vzťahy priamo do vety. Na obrázku \ref{fig:dependencies_in_sentence} vidíme, že medzi slovami \textit{She} a \textit{looks} je vzťah \textbf{nsubj} - nominal subject, medzi \textit{looks} a \textit{beautiful} je vzťah \textbf{acomp} - adjevtival complement, a v neposlednom rade medzi slovami \textit{very} a \textit{beautiful} je vzťah \textbf{advmod} - adverb modifier.
+%, ktorý je nominálnou frázou, ktorý je syntaktický subjekt vety. Nadradená časť vo vzťahu nominal subject, tomto prípade \textit{She}, nemusí byť vždy sloveso. Ak je sloveso sponové sloveso, napríklad stať sa, tak koreňom vety je doplnok sponového slovesa, ktoré môže byť prídavné meno alebo podstatné meno.
+
+\begin{figure}[H]
+\begin{center}\includegraphics[scale=0.8]{dependencies_in_sentence}\end{center}
+\caption[Vzťahy vo vete]{Vzťahy vo vete}\label{fig:dependencies_in_sentence}
+\end{figure}
+
+\ifthenelse {\boolean{bachelor}}
+{
+	%\subsection{Subsection}
+	\subsection{Nástroje na spracovanie prirodzeného jazyka}
+}
+{
+	%\section{Subsection}
+	\section{Nástroje na spracovanie prirodzeného jazyka}
+}
+\label{subsec:nlp_nastroje}
+V súčastnosti je vyvinutých alebo sú vo vývoji viacero nástrojov, ktoré sa dajú použiť pri spracovávaní prirodzeného jazyka. Vývoj takýchto nástrojov je podporovaný na známych univerzitách ako sú napríklad Princeton, Stanford alebo Camridge ale samozrejme svoje slovo tu ma aj velikán Google. Pozrieme sa bližšie na niektoré z týchto nástrojov, čo ponúkajú a ako sa dajú využiť.
+
+\ifthenelse {\boolean{bachelor}}
+{
+	%\subsection{Subsection}
+	\subsubsection{WordNet}
+}
+{
+	%\section{Subsection}
+	\subsection{WordNet}
+}
+\label{subsubsec:wordnet}
+WordNet je databáza anglických slov vyvíjaná na Princetonskej univerzite. Databáza obsahuje podstatné mena, prídavné mená, slovesá a príslovky, ktoré sú zatriedené do synonymických sád, synsetov.
+
+Tento nástroj je dostupný vo webovej verzií (viď. Obr. \ref{fig:wordnet_search}), ale ponúka stiahnutie aj jeho databázových súborov, ktoré, po splnení licenčných požiadaviek, sa dajú využívať v projektoch.
+
+Slová do synetov sú zaraďované podľa významu. To znamená, že slová auto a automobil, ktoré sú zameniteľné vo vete, sú zaradené do rovnakého synsetu. WordNet v súčastnosti (r. 2015) obsahuje 117 000 synsetov. Každý z týchto sysnsetov taktiež obsahuje krátku ukážku použitia slova.
+
+Vo WordNet-e sa nachádzajú aj vzťahy medzi slovami v zmysle nadradenosti. Tým sa mysli to, že stolička je nábytok a nábytok je fyzická vec a takto to pokračuje až po najvyššie slovo, od ktorého ,,dedia'' všetky - entita (viď. Obr.  \ref{fig:wordnet_relations}. Okrem vzťahu nadradenosti WordNet obsahuje aj vzťah zloženia. Stolička sa skladá z operadla a nôh. Toto zloženie je typické len konkrétne slovo a neprenáša sa hore stromom nadradenosti,   lebo pre stoličku je typické, že sa skladá z operadla a nôh, ale to už nie je typické pre nábytok.
+Prídavné mená obsahujú aj vzťah antonymity, takže slovo \textit{suchý} bude prepojené so slovom \textit{mokrý} ako so svojím antonymom.
+
+\begin{figure}[H]
+\begin{center}\includegraphics[scale=0.48]{wordnet_search}\end{center}
+\caption[Webové rozhranie]{Webové rozhranie}\label{fig:wordnet_search}
+\end{figure}
+
+\begin{figure}[H]
+\begin{center}\includegraphics[scale=0.48]{wordnet_search_relations}\end{center}
+\caption[Nadradenosť slov]{Nadradenosť slov}\label{fig:wordnet_relations}
+\end{figure}
+
+\ifthenelse {\boolean{bachelor}}
+{
+	%\subsection{Subsection}
+	\subsubsection{StanfordNLP}
+}
+{
+	%\section{Subsection}
+	\subsection{StanfordNLP}
+}
+\label{subsubsec:stanfordnlp}
+Nástroj StanfordNLP je vyvíjaný na Stanfordskej univerzite. Skladá sa z niekoľkých softvérov, ktoré sa zameriavajú na úlohy spracovania prirodzeného jazyka popísané v sekcií \fullref{subsec:nlp}. Sú to softvéry \textit{Stanford Parser}, \textit{Stanford POS Tagger}, \textit{Stanford EnglishTokenizer}, \textit{Stanford Relation Extractor} a mnoho ďalších. \textit{Stanford CoreNLP} zahŕňa viacero z týchto softvérov, a práve tento nástroj budeme používať pri spracovaní učebných textov.
+
+Nástroje StanfordNLP sú implementované v Jave, ale sú dostupné aj v iných programovacích jazykoch ako C\#, PHP alebo Python.
+
+Dostupne je aj online webové demo. Na obrázku \fullref{fig:stanfordnlp_online_demo} vidíme výstupy z nástrojov ponúkaných balíkom StanfordNLP pre jednoduchý vstupný text skladajúci sa z jednej vety ,,Martin Nemček is student at Slovak University of Technologies in Bratislava.''.
+
+\begin{figure}[H]
+\begin{center}\includegraphics[scale=0.48]{stanfordnlp_online}\end{center}
+\caption[StanfordNLP online demo]{StanfordNLP online demo}\label{fig:stanfordnlp_online_demo}
+\end{figure}
+
+\ifthenelse {\boolean{bachelor}}
+{
+	%\subsection{Subsection}
+	\subsubsection{CambridgeAPI}
+}
+{
+	%\section{Subsection}
+	\subsection{CambridgeAPI}
+}
+\label{subsubsec:cambridgeapi}
+CambridgeAPI je vytvorený na Cambridge univerzite. Umožňuje prístup k viacerým rôznym slovníkom. Momentálne tento nástroj ponúka prístup k pätnástim prekladovým slovníkom ako napríklad anglicko-čínsky, anglicko-ruský, anglicko-arabský, anglicko-japonský a ďalšie. Všetky prekladové slovníky majú primárny jazyk angličtinu. Slovenčinu v súčastnosti nepodporuje.
+
+Spomínaný nástroj funguje na princípe dopytovania pomocou HTTP protokolu. Na obdržanie korektnej odpovede je potrebné mať osobný API kľúč. Ten sa dá získať kontaktovaním správcov CambridgeAPI.
+
+\ifthenelse {\boolean{bachelor}}
+{
+	%\subsection{Subsection}
+	\subsubsection{Google Ngram}
+}
+{
+	%\section{Subsection}
+	\subsection{Google Ngram}
+}
+\label{subsubsec:googlengram}
+Google Ngram je postavený na ďalšom softvéry tohto giganta, Google Books. V knihách,  napísané od roku 1500 až do súčastnosti, vyhľadáva výskyty n-gramov. Podporuje len niektoré jazyky, ako angličtina, francúzština, ruština, čínština a ďalšie. Na vyhľadávanie v knihách využíva optické rozoznávanie textu, pričom dokáže spracovať regulárne výrazy, pričom tie môžu byť použité iba ako náhrada celého slova, ale nie uprostred slova. Slovné spojenie ,,* Einstein'' spracuje, pričom ,,Albert Einste*n'' nie.
+
+N-gram je postupnosť \textit{n} za sebou idúcich slov alebo častí textu. \textit{Martin} je n-gram veľkosti jedna, 1-gram alebo unigram. \textit{Martin Nemček} je n-gram veľkosti dva, 2-gram alebo bigram a tak ďalej, pričom \textit{n} môže byť ľubovolné kladné, celé číslo.
+
+Google Ngram Viewer poskytuje vizualizáciu vyhľadaných dát. Je dostupný vo webovom rozhraní. Na obrázku \fullref{fig:googlengram_visualization} vidno vizualizáciu výskytu mien \textit{Albert Einstein,Sherlock Holmes,Frankenstein} v knihách od roku 1800 do roku 2000.
+
+\begin{figure}[H]
+\begin{center}\includegraphics[scale=0.38]{googlengram_visualization}\end{center}
+\caption[Google Ngram Viewer]{Google Ngram Viewer}\label{fig:googlengram_visualization}
+\end{figure}
+
+Tento nástroj okrem iného ponúka aj surové (angl. raw) dáta na stiahnutie.
+
+\ifthenelse {\boolean{bachelor}}
+{
+	%\subsection{Subsection}
+	\subsubsection{AlchemyAPI}
+}
+{
+	%\section{Subsection}
+	\subsection{AlchemyAPI}
+}
+\label{subsubsec:alchemyapi}
+AlchemiAPI dvanásť funkcií, z ktorých sú niektoré zamerané na úlohy spracovania prirodzeného jazyka popísané v sekcií \fullref{subsec:nlp}, ako napríklad extrakcia entít, extrakcia kľúčových slov, extrakcia vzťahov, ale aj iné zaujímave funkcie, napríklad extrakcia autora z textu.
+
+Na používanie tohto nástroja je potrebné sa zaregistrovať pre obdržanie API kľúču. S týmto kľúčom je tisíc dopytov denne zdarma. Dostupnosť v programovacích jazykoch je široká, kedže ponúka knižnicu v deviatich najpoužívanejších programovacích jazykoch.
+
+Pre AlchemyAPI je dostupné aj online webové demo, viď obrázok \fullref{fig:alchemyapi_visualization}, kde je vidno širokú ponuku, ktorú tento nástroj ponúka.
+
+\begin{figure}[H]
+\begin{center}\includegraphics[scale=0.48]{alchemyapi_visualization}\end{center}
+\caption[AlchemyAPI online demo]{AlchemyAPI online demo}\label{fig:alchemyapi_visualization}
+\end{figure}
+
+Dáta sú vo formáte JSON a okrem spracovania prirodzeného jazyka AlchemyAPI ponúka aj nástroje na extrahovanie obsahu z obrázku alebo rozpoznávanie tvári na obrázkoch.
+
 \subsection{Enumeration}
 %\subsection{Číslovaný zoznam}
 \begin{my_enumerate}

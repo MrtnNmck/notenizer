@@ -24,6 +24,9 @@
 \usepackage{lmodern}
 \usepackage{appendix}
 \usepackage{libertine}
+\usepackage{nameref}
+
+\newcommand*{\fullref}[1]{\hyperref[{#1}]{\ref*{#1} \nameref*{#1}}}
 
 % Language
 \ifthenelse {\boolean{english}}
