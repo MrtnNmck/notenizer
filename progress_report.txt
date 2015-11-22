@@ -34,3 +34,13 @@
 		- zmeneny navrh:
 			- nebudu sa zaznamenavat hit count, je to zbytocne, neposkytne to relevantnu informaciu
 			- vypocitava sa zhoda pravidiel s vetou a vyberie sa ta najvacsia a podla nej sa parsuje
+			
+6. Do 22.11.2015 (nedela)
+-----------------------------
+	- pisanie
+		- uvod
+		- cast analyzy
+			- popis NLP
+				- hlavne casti NLP, ktore sa budu vyuzivat aj v projekte
+			- nastroje na NLP
+				- popis hlavnych nastrojov (wordnet, cambridgeapi, alchemyapi, stanfordnlp, googlengram)

@@ -47,3 +47,11 @@
 -----------------------------
 	- takmer hotova analyza (napisana)
 	- implementacia GUI
+	
+8. Do 15.11.2015 (nedela)
+-----------------------------
+	- dokoncit analyzu
+		- opisat podobne nastroje
+		- plan na letny semester
+	- konzultovat analyzu
+	- uprava analyzy
