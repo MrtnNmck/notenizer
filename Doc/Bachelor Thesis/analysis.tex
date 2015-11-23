@@ -1,4 +1,8 @@
 \newpage
+%
+% Začiatok analýzy
+% Úvod do analýzy
+%
 \ifthenelse {\boolean{bachelor}}
 {
 	%\section{Analysis}
@@ -8,7 +12,11 @@
 	%\chapter{Analysis}
 	\chapter{Analyza}
 }
-V tejto kapitole priblížím a rozoberiem čo je spracovanie prirodzeného jazyka, kde a ako sa dá využiť. Ďalej zanalyzujem existujúce aplikácie a systému, ktorých základom je spracovanie textu.
+V tejto kapitole priblížím a rozoberiem čo je spracovanie prirodzeného jazyka, jeho využitie v aplikáciach a systémoch a jeho hlavné úlohy. Ďalej zanalyzujem nástroje, ktoré sa dajú využiť na spracovanie prirodzeného jazyka a tak isto sa pozriem na aplikácie a systémy, ktorých základom je spracovanie textu.
+
+%
+% Spracovanie prirodzeného jazyka
+%
 \ifthenelse {\boolean{bachelor}}
 {
 	%\subsection{Subsection}
@@ -19,15 +27,71 @@ V tejto kapitole priblížím a rozoberiem čo je spracovanie prirodzeného jazy
 	\section{Spracovanie prirodzeného jazyka}
 }
 \label{subsec:nlp}
-Spracovanie prirodzeného jazyka (angl. Natural Language Processing - NLP) je oblasť vedného oboru, ktorý sa zaoberá počítačovými technológiami. Hlavným cieľom NLP je dosiahnuť aby počítač dokázal porozumieť ľudskej, či už písanej alebo hovorovej, reči.
+Spracovanie prirodzeného jazyka (angl. Natural Language Processing - NLP) môže byť definované ako automatické alebo poloautomatické spracovanie ľudského jazyka~\cite{Copestake2004}. Počítače doposiaľ nedokážu plne porozumieť ľudskému jazyku, či už sa jedná o písaný alebo hovorový. Preto hlavným hlavným cieľom NLP je vybudovať výpočtové modely prirodzeného jazyka pre jeho analýzu a generovanie~\cite{Bharati1995}.
 
 Porozumenie ľudskej reči je mnohokrát náročne aj pre samotných ľudí a nie to ešte pre počítače. Na svete je veľké množstvo jazykov, ktoré sa od seba líšia charakteristikami typickými pre konkrétny jazyk. Taktiež každý človek sa líši a preto výslovnosť rovnakého slova viacerými ľuďmi môže byť odlišná. Ďalej máme slangové slová a slová typické len pre určité územie. Pri spracovávaní prirodzeného jazyka treba vziať do úvahy tieto a aj ďalšie premenné. Dosiahnutie tohto cieľa je preto často veľmi náročné.
 
-V súčastnosti najpoužívanejšie algoritmy na NLP využívajú strojové učenie. Dosiahnutie úplného porozumenia a spracovania ľudského prirodzeného jazyka by znamenalo vyriešiť \textit{AI-complete} problém, čo znamená, že obtiažnosť tohto problému je ekvivalentné z obtiažnosti problému vytvorenia počítača inteligentného ako človek, takzvané ,,true AI''.
+V súčastnosti najpoužívanejšie algoritmy na NLP využívajú strojové učenie. Dosiahnutie úplného porozumenia a spracovania ľudského prirodzeného jazyka by znamenalo vyriešiť \textit{AI-complete} problém, čo znamená, že obtiažnosť tohto problému je ekvivalentné s obtiažnosťou problému vytvorenia počítaču inteligentného ako človek, takzvané ,,true AI''.
 
+%
+% Využitie spracovania prirodzeného jazyka
+%
+\ifthenelse {\boolean{bachelor}}
+{
+	%\subsection{Subsection}
+	\subsection{Využitie spracovania prirodzeného jazyka}
+}
+{
+	%\section{Subsection}
+	\subsection{Využitie spracovania prirodzeného jazyka}
+}
+\label{subsec:useofnlp}
+V súčastnosti má NLP niekoľko hlavných hlavných využití v aplikáciach a systémoch. Z hľadiska spracovania učebných textov je pre nás najdôležitejšie využitie z pohľadu \textit{extrakcie informácií}, ktoré je podrobnejšie popísané v sekcii \fullref{subsubsec:information_extraction} Ďalšie využitia NLP sú napríklad~\cite{Preeti}:
+\begin{itemize}
+	\item Strojový preklad (angl. Machine Translation)
+	\item Rozpoznávanie reči (angl. Speech Recognition)
+	\item Sumarizáciu textu (angl. Text Summarization)
+	\item Dialógové systémy (angl. Dialogue Systems)
+	\item Výber informácií (angl. Information Retrieval)
+\end{itemize}
+
+%
+% Extrakcia informácií
+%
+\ifthenelse {\boolean{bachelor}}
+{
+	%\subsection{Subsection}
+	\subsubsection{Extrakcia informácií}
+}
+{
+	%\section{Subsection}
+	\subsubsection{Extrakcia informácií}
+}
+\label{subsubsec:information_extraction}
+Systémy a aplikácie zamerané na extrakciu informácií vyhľadávajú a extrahujú informácie z textov, článkov a dokumentov, pričom reagujú na používateľove informačne potreby. Výstup z takýchto systémov a aplikácií nepozostáva iba zo zoznamu kľúčových slov, ktoré by sa dali pokladať za extrahované informácie, ale naopak sú v tvare preddefinovaných šablón~\cite{Preeti}.
+
+Extrakcia informácií využíva niekoľko z hlavných úloh spracovania prirodzeného textu. Sú to \textit{Značkovanie slovných druhov}, \textit{Rozpoznávanie názvoslovných entít}, a ďalšie~\cite{Preeti}. Tieto a aj ostatné úlohy spracovania prirodzeného jazyka sú podrobnejšie opísané v sekcii \fullref{subsec:tasksofnlp}.
+
+Výber informácií a extrakcia informácií spolu úzko súvisia, ale sú to dve rozdielne využitia NLP. Prvé spomínané využitie slúži na vyhľadávanie relevantných zdrojov informácií v databázach textov, článkov a dokumentov podľa používateľových potrieb. Na vyhľadaných zdrojoch následne prebehne extrakcia informácií. 
+\\
+
+My sa pri spracovaní textov zameriame hlavne na extrakciu informácií, aby sme dokázali z učebného textu extrahovať relevantné informácie pre študenta, a tým získali poznámky.
+
+%
+% Úlohy spracovania prirodzeného jazyka
+%
+\ifthenelse {\boolean{bachelor}}
+{
+	%\subsection{Subsection}
+	\subsection{Úlohy spracovania prirodzeného jazyka}
+}
+{
+	%\section{Subsection}
+	\subsection{Úlohy spracovania prirodzeného jazyka}
+}
+\label{subsec:tasksofnlp}
 NLP ma niekoľko hlavných úloh. Podrobnejšie si priblížime tie, ktoré sú relevantné vzhľadom na implementáciu spracovania učebných textov.
-
-Úlohy spracovania prirodzeného textu: [Natural Language Processing (Almost) from Scratch, Ronan Collobert]
+Úlohy spracovania prirodzeného textu:~\cite{collobert2011} 
 \begin{itemize}
 	\item Značkovanie slovných druhov (angl. Part-of-speech tagging) \ref{subsubsec:postagging}
 	\item Rozdelenie vety na menšie časti (angl. Chunking)
@@ -37,10 +101,13 @@ NLP ma niekoľko hlavných úloh. Podrobnejšie si priblížime tie, ktoré sú 
 	\item Morfologické segmentovanie (angl. Morphological Segmentation)
 	\item Generovanie prirodzeného jazyka (angl. Natural Language Generation)
 	\item Optické rozoznávanie textu (angl. Optical Character Recognition)
-	\item Rozloženie vzťahov (angl. Dependency parsing) \ref{subsubsec:corefparsing}
+	\item Rozloženie vzťahov (angl. Dependency parsing) \ref{subsubsec:dependencyparsing}
 	\item a mnoho ďalších
 \end{itemize}
 
+%
+% Značkovanie slovných druhov
+%
 \ifthenelse {\boolean{bachelor}}
 {
 	%\subsection{Subsection}
@@ -51,10 +118,13 @@ NLP ma niekoľko hlavných úloh. Podrobnejšie si priblížime tie, ktoré sú 
 	\subsection{Značkovanie slovných druhov}
 }
 \label{subsubsec:postagging}
-Hlavnou úlohou značkovania slovných druhom (angl. Part-of-speech tagging) je každému slovu vo vete priradiť unikátnu značku, ktorá odrážať jeho syntaktickú úlohu vo vete. Sú to, napríklad v slovenskom jazyku podmet, prísudok, príslovkové určenie alebo v anglickom jazyku noun, adverb, verb, atď. Tak isto to môže byť označenie určujúce množné číslo, napríklad signulár alebo plurál.
+Hlavnou úlohou značkovania slovných druhom (angl. Part-of-speech tagging) je každému slovu vo vete priradiť unikátnu značku, ktorá odrážať jeho syntaktickú úlohu vo vete~\cite{collobert2011}. Sú to, napríklad v slovenskom jazyku podmet, prísudok, príslovkové určenie alebo v anglickom jazyku noun, adverb, verb, atď. Tak isto to môže byť označenie určujúce množné číslo, napríklad signulár alebo plurál.
 
 Problémom pri značkovaní slovných druhov je mnohoznačnosť. Znamená to, že slovo môže mať viacero významov a môže byť viacerými slovnými druhmi. Napríklad v slovenskom jazyku slovo \textit{kry} môže predstavovať sloveso s významom rozkazu \textit{prikry!}, ale taktiež môže predstavovať podstatné meno s významom \textit{kríky}. V anglickom jazyku to je napríklad slovo \textit{book}, ktoré môže predstavovať podstatné meno (angl. noun) \textit{kniha} alebo sloveso (angl. verb) vo význame \textit{rezervovať}.
 
+%
+% Rozpoznávanie názvoslovných entít
+%
 \ifthenelse {\boolean{bachelor}}
 {
 	%\subsection{Subsection}
@@ -65,10 +135,13 @@ Problémom pri značkovaní slovných druhov je mnohoznačnosť. Znamená to, ž
 	\subsection{Rozpoznávanie názvoslovných entít}
 }
 \label{subsubsec:ner}
-Rozpoznávanie názvoslovných entít (angl. Named Entity Recognition) označuje mená a názvy, ktoré sa vyskytujú v texte. Rozdeľuje tieto entity do kategórií, ako sú napríklad \textit{osoby}, \textit{organizácie} alebo \textit{lokácie}.
+Rozpoznávanie názvoslovných entít (angl. Named Entity Recognition) označuje mená a názvy, ktoré sa vyskytujú v texte. Rozdeľuje tieto entity do kategórií, ako sú napríklad \textit{osoby}, \textit{organizácie} alebo \textit{lokácie}~\cite{collobert2011}.
 
 Ťažkosti pri rozpoznávaní názvoslovných entít spôsobuje kapitalizácia slov, takzvané písanie entít s veľkým začiatočným písmenom. V anglickom jazyku to jednoduché, kedže v angličtine sa entity píšu s veľkým začiatočným písmenom. Príklad je \textit{Slovak University of Technology}. Avšak v iných jazykoch to neplatí a entity sa nemusia písať s veľkým začiatočným písmenom.
 
+%
+% Rozpoznanie koreferencií
+%
 \ifthenelse {\boolean{bachelor}}
 {
 	%\subsection{Subsection}
@@ -79,13 +152,17 @@ Rozpoznávanie názvoslovných entít (angl. Named Entity Recognition) označuje
 	\subsection{Rozpoznanie koreferencií}
 }
 \label{subsubsec:corefparsing}
-Nájdenie, identifikácia a rozpoznanie koreferencií v texte je úlohou rozpoznávania koreferencií (angl. Coreference resolution). V texte sa často používajú zámena (angl. pronouns) \textit{to}, \textit{tí}, \textit{on} alebo anglicky \textit{it}, \textit{those}, \textit{he} a mnoho ďalších. Tieto zámena sa odkazujú na iné podstatné mená alebo mená a názvy a je úlohou rozpoznávania koreferencií určiť, na ktoré podstatné meno alebo meno, alebo názov sa konkrétne zámeno odkazuje.
+Nájdenie, identifikácia a rozpoznanie koreferencií v texte je úlohou rozpoznávania koreferencií (angl. Coreference resolution). V texte sa často používajú zámena (angl. pronouns) \textit{to}, \textit{tí}, \textit{on}, anglicky \textit{it}, \textit{those}, \textit{he} alebo menné frázy (angl. noun phrase). Tieto zámena a menné frázy sa odkazujú na iné podstatné mená alebo mená a názvy a je úlohou rozpoznávania koreferencií identifikovať referenciu na podstatné meno alebo meno, alebo názov, väčšinou entity z reálneho sveta, na ktoré sa odkazujú. Táto úloha spracovania prirodzeného textu sa využíva v aplikáciách (NLP) ako sú extrakcia informácií (viď. ~\fullref{subsubsec:information_extraction}) a odpovedanie na otázky~\cite{Bryl}.
+\\
 
 Príklad:
 \textbf{Martin Nemček} napísal túto bakalársku prácu. \textbf{On} študuje na FIIT STU BA.
 
 Tu je vidno, že zámeno \textit{on} sa odkazuje na meno \textit{Martin Nemček}.
 
+%
+% Rozloženie vzťahov
+%
 \ifthenelse {\boolean{bachelor}}
 {
 	%\subsection{Subsection}
@@ -98,7 +175,7 @@ Tu je vidno, že zámeno \textit{on} sa odkazuje na meno \textit{Martin Nemček}
 \label{subsubsec:dependencyparsing}
 Rozloženie na vzťahy nám poskytuje jednoduchý opis gramatických vzťahov slov vo vete. Aplikovaním rozloženia vzťahov na vetu \textit{Bell, based in Los
 Angeles, makes and distributes electronic, computer and building products.
-} vznikne strom vzťahov (angl. dependency tree) (viď. \ref{fig:dependency_tree}).
+} vznikne strom vzťahov (angl. dependency tree) (viď. obrázok \fullref{fig:dependency_tree})~\cite{StanfordDepManual}.
 
 \begin{figure}[H]
 \begin{center}\includegraphics[scale=0.8]{dependency_tree}\end{center}
@@ -107,7 +184,7 @@ Angeles, makes and distributes electronic, computer and building products.
 
 V tomto orientovanom stromovom grafe slová vety predstavujú vrcholy, pričom prechody medzi vrcholmi, hrany, sú reprezentované vzťahmi medzi nimi.
 
-Ďalšia reprezentácia vzťahov zapisuje vzťahy priamo do vety. Na obrázku \ref{fig:dependencies_in_sentence} vidíme, že medzi slovami \textit{She} a \textit{looks} je vzťah \textbf{nsubj} - nominal subject, medzi \textit{looks} a \textit{beautiful} je vzťah \textbf{acomp} - adjevtival complement, a v neposlednom rade medzi slovami \textit{very} a \textit{beautiful} je vzťah \textbf{advmod} - adverb modifier.
+Ďalšia reprezentácia vzťahov zapisuje vzťahy priamo do vety. Na obrázku \fullref{fig:dependencies_in_sentence} vidíme, že medzi slovami \textit{She} a \textit{looks} je vzťah \textbf{nsubj} - nominal subject, medzi \textit{looks} a \textit{beautiful} je vzťah \textbf{acomp} - adjevtival complement, a v neposlednom rade medzi slovami \textit{very} a \textit{beautiful} je vzťah \textbf{advmod} - adverb modifier~\cite{StanfordDepManual}.
 %, ktorý je nominálnou frázou, ktorý je syntaktický subjekt vety. Nadradená časť vo vzťahu nominal subject, tomto prípade \textit{She}, nemusí byť vždy sloveso. Ak je sloveso sponové sloveso, napríklad stať sa, tak koreňom vety je doplnok sponového slovesa, ktoré môže byť prídavné meno alebo podstatné meno.
 
 \begin{figure}[H]
@@ -115,6 +192,9 @@ V tomto orientovanom stromovom grafe slová vety predstavujú vrcholy, pričom p
 \caption[Vzťahy vo vete]{Vzťahy vo vete}\label{fig:dependencies_in_sentence}
 \end{figure}
 
+%
+% Nástroje na spracovanie prirodzeného jazyka
+%
 \ifthenelse {\boolean{bachelor}}
 {
 	%\subsection{Subsection}
@@ -127,6 +207,9 @@ V tomto orientovanom stromovom grafe slová vety predstavujú vrcholy, pričom p
 \label{subsec:nlp_nastroje}
 V súčastnosti je vyvinutých alebo sú vo vývoji viacero nástrojov, ktoré sa dajú použiť pri spracovávaní prirodzeného jazyka. Vývoj takýchto nástrojov je podporovaný na známych univerzitách ako sú napríklad Princeton, Stanford alebo Camridge ale samozrejme svoje slovo tu ma aj velikán Google. Pozrieme sa bližšie na niektoré z týchto nástrojov, čo ponúkajú a ako sa dajú využiť.
 
+%
+% WordNet
+%
 \ifthenelse {\boolean{bachelor}}
 {
 	%\subsection{Subsection}
@@ -156,6 +239,9 @@ Prídavné mená obsahujú aj vzťah antonymity, takže slovo \textit{suchý} bu
 \caption[Nadradenosť slov]{Nadradenosť slov}\label{fig:wordnet_relations}
 \end{figure}
 
+%
+% StanfordNLP
+%
 \ifthenelse {\boolean{bachelor}}
 {
 	%\subsection{Subsection}
@@ -177,6 +263,9 @@ Dostupne je aj online webové demo. Na obrázku \fullref{fig:stanfordnlp_online_
 \caption[StanfordNLP online demo]{StanfordNLP online demo}\label{fig:stanfordnlp_online_demo}
 \end{figure}
 
+%
+% CambridgeAPI
+%
 \ifthenelse {\boolean{bachelor}}
 {
 	%\subsection{Subsection}
@@ -191,6 +280,9 @@ CambridgeAPI je vytvorený na Cambridge univerzite. Umožňuje prístup k viacer
 
 Spomínaný nástroj funguje na princípe dopytovania pomocou HTTP protokolu. Na obdržanie korektnej odpovede je potrebné mať osobný API kľúč. Ten sa dá získať kontaktovaním správcov CambridgeAPI.
 
+%
+% Google Ngram
+%
 \ifthenelse {\boolean{bachelor}}
 {
 	%\subsection{Subsection}
@@ -214,6 +306,9 @@ Google Ngram Viewer poskytuje vizualizáciu vyhľadaných dát. Je dostupný vo 
 
 Tento nástroj okrem iného ponúka aj surové (angl. raw) dáta na stiahnutie.
 
+%
+% AlchemyAPI
+%
 \ifthenelse {\boolean{bachelor}}
 {
 	%\subsection{Subsection}

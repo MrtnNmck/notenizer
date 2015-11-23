@@ -2,32 +2,35 @@
 \contentsline {section}{\numberline {1}\IeC {\'U}vod}{1}{section.1}
 \contentsline {section}{\numberline {2}Anal\IeC {\'y}za}{3}{section.2}
 \contentsline {subsection}{\numberline {2.1}Spracovanie prirodzen\IeC {\'e}ho jazyka}{3}{subsection.2.1}
-\contentsline {subsubsection}{\numberline {2.1.1}Zna\IeC {\v c}kovanie slovn\IeC {\'y}ch druhov}{4}{subsubsection.2.1.1}
-\contentsline {subsubsection}{\numberline {2.1.2}Rozpozn\IeC {\'a}vanie n\IeC {\'a}zvoslovn\IeC {\'y}ch ent\IeC {\'\i }t}{4}{subsubsection.2.1.2}
-\contentsline {subsubsection}{\numberline {2.1.3}Rozpoznanie koreferenci\IeC {\'\i }}{5}{subsubsection.2.1.3}
-\contentsline {subsubsection}{\numberline {2.1.4}Rozlo\IeC {\v z}enie vz\IeC {\v t}ahov}{5}{subsubsection.2.1.4}
-\contentsline {subsection}{\numberline {2.2}N\IeC {\'a}stroje na spracovanie prirodzen\IeC {\'e}ho jazyka}{6}{subsection.2.2}
-\contentsline {subsubsection}{\numberline {2.2.1}WordNet}{6}{subsubsection.2.2.1}
-\contentsline {subsubsection}{\numberline {2.2.2}StanfordNLP}{8}{subsubsection.2.2.2}
-\contentsline {subsubsection}{\numberline {2.2.3}CambridgeAPI}{9}{subsubsection.2.2.3}
-\contentsline {subsubsection}{\numberline {2.2.4}Google Ngram}{9}{subsubsection.2.2.4}
-\contentsline {subsubsection}{\numberline {2.2.5}AlchemyAPI}{10}{subsubsection.2.2.5}
-\contentsline {subsection}{\numberline {2.3}Enumeration}{11}{subsection.2.3}
-\contentsline {subsection}{\numberline {2.4}Itemization}{12}{subsection.2.4}
-\contentsline {subsection}{\numberline {2.5}Citation}{12}{subsection.2.5}
-\contentsline {subsection}{\numberline {2.6}Labesl \& References}{12}{subsection.2.6}
-\contentsline {subsection}{\numberline {2.7}Examples}{12}{subsection.2.7}
-\contentsline {section}{\numberline {3}Design}{14}{section.3}
-\contentsline {subsection}{\numberline {3.1}Subsection}{14}{subsection.3.1}
-\contentsline {section}{\numberline {4}Results}{15}{section.4}
-\contentsline {subsection}{\numberline {4.1}Subsection}{15}{subsection.4.1}
-\contentsline {section}{\numberline {5}Conslusions}{16}{section.5}
-\contentsline {section}{Literat\'ura}{17}{section.5}
-\contentsline {section}{\numberline {A}Technical documentation}{18}{appendix.A}
-\contentsline {subsection}{\numberline {A.1}Implementation}{18}{subsection.A.1}
-\contentsline {paragraph}{Modul abc}{18}{section*.6}
-\contentsline {paragraph}{Modul def}{18}{section*.7}
-\contentsline {section}{\numberline {B}User documentation}{20}{appendix.B}
-\contentsline {subsection}{\numberline {B.1}Instalation}{20}{subsection.B.1}
-\contentsline {subsection}{\numberline {B.2}Run the application}{20}{subsection.B.2}
-\contentsline {section}{\numberline {C}Electronic medium}{21}{appendix.C}
+\contentsline {subsection}{\numberline {2.2}Vyu\IeC {\v z}itie spracovania prirodzen\IeC {\'e}ho jazyka}{3}{subsection.2.2}
+\contentsline {subsubsection}{\numberline {2.2.1}Extrakcia inform\IeC {\'a}ci\IeC {\'\i }}{4}{subsubsection.2.2.1}
+\contentsline {subsection}{\numberline {2.3}\IeC {\'U}lohy spracovania prirodzen\IeC {\'e}ho jazyka}{4}{subsection.2.3}
+\contentsline {subsubsection}{\numberline {2.3.1}Zna\IeC {\v c}kovanie slovn\IeC {\'y}ch druhov}{5}{subsubsection.2.3.1}
+\contentsline {subsubsection}{\numberline {2.3.2}Rozpozn\IeC {\'a}vanie n\IeC {\'a}zvoslovn\IeC {\'y}ch ent\IeC {\'\i }t}{5}{subsubsection.2.3.2}
+\contentsline {subsubsection}{\numberline {2.3.3}Rozpoznanie koreferenci\IeC {\'\i }}{6}{subsubsection.2.3.3}
+\contentsline {subsubsection}{\numberline {2.3.4}Rozlo\IeC {\v z}enie vz\IeC {\v t}ahov}{6}{subsubsection.2.3.4}
+\contentsline {subsection}{\numberline {2.4}N\IeC {\'a}stroje na spracovanie prirodzen\IeC {\'e}ho jazyka}{7}{subsection.2.4}
+\contentsline {subsubsection}{\numberline {2.4.1}WordNet}{8}{subsubsection.2.4.1}
+\contentsline {subsubsection}{\numberline {2.4.2}StanfordNLP}{10}{subsubsection.2.4.2}
+\contentsline {subsubsection}{\numberline {2.4.3}CambridgeAPI}{10}{subsubsection.2.4.3}
+\contentsline {subsubsection}{\numberline {2.4.4}Google Ngram}{11}{subsubsection.2.4.4}
+\contentsline {subsubsection}{\numberline {2.4.5}AlchemyAPI}{12}{subsubsection.2.4.5}
+\contentsline {subsection}{\numberline {2.5}Enumeration}{13}{subsection.2.5}
+\contentsline {subsection}{\numberline {2.6}Itemization}{13}{subsection.2.6}
+\contentsline {subsection}{\numberline {2.7}Citation}{14}{subsection.2.7}
+\contentsline {subsection}{\numberline {2.8}Labesl \& References}{14}{subsection.2.8}
+\contentsline {subsection}{\numberline {2.9}Examples}{14}{subsection.2.9}
+\contentsline {section}{\numberline {3}Design}{16}{section.3}
+\contentsline {subsection}{\numberline {3.1}Subsection}{16}{subsection.3.1}
+\contentsline {section}{\numberline {4}Results}{17}{section.4}
+\contentsline {subsection}{\numberline {4.1}Subsection}{17}{subsection.4.1}
+\contentsline {section}{\numberline {5}Conslusions}{18}{section.5}
+\contentsline {section}{Literat\'ura}{19}{section.5}
+\contentsline {section}{\numberline {A}Technical documentation}{20}{appendix.A}
+\contentsline {subsection}{\numberline {A.1}Implementation}{20}{subsection.A.1}
+\contentsline {paragraph}{Modul abc}{20}{section*.6}
+\contentsline {paragraph}{Modul def}{20}{section*.7}
+\contentsline {section}{\numberline {B}User documentation}{22}{appendix.B}
+\contentsline {subsection}{\numberline {B.1}Instalation}{22}{subsection.B.1}
+\contentsline {subsection}{\numberline {B.2}Run the application}{22}{subsection.B.2}
+\contentsline {section}{\numberline {C}Electronic medium}{23}{appendix.C}

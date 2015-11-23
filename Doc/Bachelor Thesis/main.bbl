@@ -1,8 +1,33 @@
 \begin{thebibliography}{1}
 
-\bibitem{1}
-Roberto Lerusalimschy, Luiz~Henrique de~Figueiredo, and Waldemar Celes.
-\newblock {\em Lua 5.1 Reference Manual}.
-\newblock Lua.Org, 2006.
+\bibitem{collobert2011}
+Collobert, Ronan and Weston, Jason and Bottou, L\'eon and Karlen, Michael and Kavukcuoglu, Koray and Kuksa, Pavel.
+\newblock {\em Natural Language Processing (Almost) from Scratch}.
+\newblock JMLR.org, 2011.
+
+\bibitem{Copestake2004}
+Ann Copestake
+\newblock {\em 8 Lectures, Natural Language Processing}
+\newblock 2004.
+
+\bibitem{Bharati1995}
+Akshar Bharati, Vineet Chaitanya, and Rajeev Sangal
+\newblock {\em Natural language processing: a Paninian perspective}
+\newblock {MIT Press Cambridge, MA, USA, 1995.}
+
+\bibitem{Preeti}
+Preeti and BrahmaleenKaurSidhu
+\newblock {\em Natural Language Processing}
+\newblock {A Vinitha et al, Int.J.Computer Technology \& Applications,Vol 4 (5),751-758}
+
+\bibitem{Bryl}
+Volha Bryl, Claudio Giuliano, Luciano Serafini, and Kateryna Tymoshenko
+\newblock {\em Supporting natural language processing with background knowledge: coreference resolution case}
+\newblock {Trento, Italy.}
+
+\bibitem{StanfordDepManual}
+Marie-Catherine de Marneffe and Christopher D. Manning
+\newblock {\em Stanford typed dependencies manual}
+\newblock {September 2008}
 
 \end{thebibliography}

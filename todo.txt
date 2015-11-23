@@ -62,6 +62,21 @@ Poznatky:
 - Musutelsa
 - OTS
 
+
+Otazky:
+	- oslovovat sa v mnznom cisle ?
+	- citovanie webstranok (wordnet.com)
+	- rozlozenie podkapitol
+	- spominanie v analyza na zameranie sa v dalsom priebehu implementacie
+	- obrazky
+		- kolko ?
+	- citovanie - docasne plain
+	- NLP / spracovanie prirodzeneho jazyka / oboje naraz spolu zamenitelne
+	- citovanie za koncom vety
+	- priklady s mojim menom
+	- citovanie manualu (dependency manual Stanford CoreNLP)
+	- citovanie obrazkov
+	- citovanie na konci paragrafov / citovanie na konci sekcie
 ===============================================================================================================================================================
 
 TODO:
