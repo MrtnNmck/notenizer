@@ -344,7 +344,9 @@ Dáta sú vo formáte JSON a okrem spracovania prirodzeného jazyka AlchemyAPI p
 	%\chapter{Analysis}
 	\chapter{Smerovanie práce}
 }
+V letnom semestri plánujem dokončiť prototyp. To znamená, spraviť používateľské rozhranie, ktoré bude umožňovať vložiť text na spracovanie, zobrazí poznámky a tak isto umožní používateľovi pre ľubovolnú vetu pozmeniť tvar poznámky poznámky. Tieto zmeny sa uložia do databázy a zohľadnia pri ďalšom použití.
 
+Okrem dokončenia prototypu plánujem napísať všetky potrebné kapitoly a dokončiť tým celú prácu.
 
 %
 % Opis prototypu
@@ -374,6 +376,7 @@ V zimnom semestri som implementoval prototyp aplikácie na spoznámkovanie učeb
 }
 \label{subsection:notenizer}
 \textbf{Notenizer} je prototyp aplikácie na extrahovanie relevantných informácií z učebných textov. Využíva nástroj Stanford CoreNLP, ktorý je implementovaný v Jave, ale cez IKVM je portnutý aj na C\#. Na ukážke \fullref{code:spustenie_stanford_corenlp} je ukázané prepojenie nástroja StanfordCoreNLP s aplikáciou Notenizer. 
+\\
 
 \begin{lstlisting}[ language = csharp, caption={Spustenie StanfordCoreNLP}, label = {code:spustenie_stanford_corenlp}]
 String jarRoot = @"stanford-corenlp-3.5.2-models";
