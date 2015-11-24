@@ -14,20 +14,21 @@
 \BOOKMARK [3][-]{subsubsection.2.4.3}{CambridgeAPI}{subsection.2.4}% 14
 \BOOKMARK [3][-]{subsubsection.2.4.4}{Google Ngram}{subsection.2.4}% 15
 \BOOKMARK [3][-]{subsubsection.2.4.5}{AlchemyAPI}{subsection.2.4}% 16
-\BOOKMARK [2][-]{subsection.2.5}{Enumeration}{section.2}% 17
-\BOOKMARK [2][-]{subsection.2.6}{Itemization}{section.2}% 18
-\BOOKMARK [2][-]{subsection.2.7}{Citation}{section.2}% 19
-\BOOKMARK [2][-]{subsection.2.8}{Labesl \046 References}{section.2}% 20
-\BOOKMARK [2][-]{subsection.2.9}{Examples}{section.2}% 21
-\BOOKMARK [1][-]{section.3}{Design}{}% 22
-\BOOKMARK [2][-]{subsection.3.1}{Subsection}{section.3}% 23
-\BOOKMARK [1][-]{section.4}{Results}{}% 24
-\BOOKMARK [2][-]{subsection.4.1}{Subsection}{section.4}% 25
-\BOOKMARK [1][-]{section.5}{Conslusions}{}% 26
-\BOOKMARK [1][-]{section.5}{Literat\372ra}{}% 27
-\BOOKMARK [1][-]{appendix.A}{Technical documentation}{}% 28
-\BOOKMARK [2][-]{subsection.A.1}{Implementation}{appendix.A}% 29
-\BOOKMARK [1][-]{appendix.B}{User documentation}{}% 30
-\BOOKMARK [2][-]{subsection.B.1}{Instalation}{appendix.B}% 31
-\BOOKMARK [2][-]{subsection.B.2}{Run the application}{appendix.B}% 32
-\BOOKMARK [1][-]{appendix.C}{Electronic medium}{}% 33
+\BOOKMARK [1][-]{section.3}{Smerovanie pr\341ce}{}% 17
+\BOOKMARK [1][-]{section.4}{Opis prototypu}{}% 18
+\BOOKMARK [2][-]{subsection.4.1}{Notenizer}{section.4}% 19
+\BOOKMARK [3][-]{subsubsection.4.1.1}{Pravidl\341}{subsection.4.1}% 20
+\BOOKMARK [3][-]{subsubsection.4.1.2}{Ukladanie a hodnoty pravidiel}{subsection.4.1}% 21
+\BOOKMARK [3][-]{subsubsection.4.1.3}{Vyhladanie pravidla}{subsection.4.1}% 22
+\BOOKMARK [1][-]{section.5}{Design}{}% 23
+\BOOKMARK [2][-]{subsection.5.1}{Subsection}{section.5}% 24
+\BOOKMARK [1][-]{section.6}{Results}{}% 25
+\BOOKMARK [2][-]{subsection.6.1}{Subsection}{section.6}% 26
+\BOOKMARK [1][-]{section.7}{Conslusions}{}% 27
+\BOOKMARK [1][-]{section.7}{Literat\372ra}{}% 28
+\BOOKMARK [1][-]{appendix.A}{Technical documentation}{}% 29
+\BOOKMARK [2][-]{subsection.A.1}{Implementation}{appendix.A}% 30
+\BOOKMARK [1][-]{appendix.B}{User documentation}{}% 31
+\BOOKMARK [2][-]{subsection.B.1}{Instalation}{appendix.B}% 32
+\BOOKMARK [2][-]{subsection.B.2}{Run the application}{appendix.B}% 33
+\BOOKMARK [1][-]{appendix.C}{Electronic medium}{}% 34

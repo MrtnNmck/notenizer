@@ -332,91 +332,161 @@ Pre AlchemyAPI je dostupné aj online webové demo, viď obrázok \fullref{fig:a
 
 Dáta sú vo formáte JSON a okrem spracovania prirodzeného jazyka AlchemyAPI ponúka aj nástroje na extrahovanie obsahu z obrázku alebo rozpoznávanie tvári na obrázkoch.
 
-\subsection{Enumeration}
-%\subsection{Číslovaný zoznam}
-\begin{my_enumerate}
-	\item {goal 1}
-	\begin{my_enumerate}
-		\item {goal 1.a}
-		\item {goal 1.b}
-	\end{my_enumerate}
-	\item {goal 2}
-	\item {goal 3}
-\end{my_enumerate}
-\subsection{Itemization}
-%\subsection{Zoznam}
-\begin{my_itemize}
-	\item {item 1}
-	\begin{my_itemize}
-		\item {item 1.1}
-		\item {item 1.2}
-	\end{my_itemize}
-	\item {item 2}
-	\item {item 3}
-\end{my_itemize}
-\subsection{Citation}
-%\subsection{Citácia}
-Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat~\cite{1}.
+%
+% Smerovanie práce
+%
+\ifthenelse {\boolean{bachelor}}
+{
+	%\section{Analysis}
+	\section{Smerovanie práce} 
+}
+{
+	%\chapter{Analysis}
+	\chapter{Smerovanie práce}
+}
 
-\subsection{Labesl \& References}
-%\subsection{Návestia \& Referencie}
-See Section~\ref{lab:Examples}.
 
-\subsection{Examples}
-%\subsection{Príklady}
-\label{lab:Examples}
+%
+% Opis prototypu
+%
+\ifthenelse {\boolean{bachelor}}
+{
+	%\section{Analysis}
+	\section{Opis prototypu} 
+}
+{
+	%\chapter{Analysis}
+	\chapter{Opis prototypu}
+}
+V zimnom semestri som implementoval prototyp aplikácie na spoznámkovanie učebného textu.
 
-\begin{lstlisting}[ language=html, caption={Example 1}, label={metrics_LOC},
-	keywordstyle=\color{blue}\bfseries,
-	ndkeywordstyle=\color{black}\bfseries,
-	commentstyle=\color{red}\ttfamily,
-	stringstyle=\color{green}\ttfamily,
-	identifierstyle=\color{gray},
-	backgroundcolor=\color{white}, 
-	frame=single, 
-	frameround=ffff,
-	captionpos=b,
-	basicstyle=\scriptsize
-	]
-<table class="metric_index">
-	<tr>
-		<th>Lines of code</th>
-		<th>Value</th>
-	</tr>
-	<% if (filenum and modulenum) then %>
-		<tr>
-			<td class="name">Number of files</td>
-			<td class="value"><%=filenum%></td>
-		</tr>
-		<tr>
-			<td class="name">Number of modules</td>
-			<td class="value"><%=modulenum%></td>
-		</tr>
-		<tr>
-	<% end %>
-	<tr>
-		<td class="name">Lines Total</td>
-		<td class="value"><%=LOC.lines%></td>
-	</tr>
-	<!--
-							skryty zdrojovy kod
-		podobne zobrazenie ostatnych metrik riadkov
-	-->
-</table>
+%
+% Notenizer
+%
+\ifthenelse {\boolean{bachelor}}
+{
+	%\section{Analysis}
+	\subsection{Notenizer} 
+}
+{
+	%\chapter{Analysis}
+	\section{Notenizer}
+}
+\label{subsection:notenizer}
+\textbf{Notenizer} je prototyp aplikácie na extrahovanie relevantných informácií z učebných textov. Využíva nástroj Stanford CoreNLP, ktorý je implementovaný v Jave, ale cez IKVM je portnutý aj na C\#. Na ukážke \fullref{code:spustenie_stanford_corenlp} je ukázané prepojenie nástroja StanfordCoreNLP s aplikáciou Notenizer. 
+
+\begin{lstlisting}[ language = csharp, caption={Spustenie StanfordCoreNLP}, label = {code:spustenie_stanford_corenlp}]
+String jarRoot = @"stanford-corenlp-3.5.2-models";
+
+Properties properties = new Properties();
+// Zvolime, ktore nastroje chceme pouzit.
+// pos = part-of-speech tagger
+// ssplit = sentence split
+// atd.
+properties.setProperty("annotators", "tokenize, ssplit, pos, parse");
+properties.setProperty("sutime.binders", "0");
+properties.setProperty("ner.useSUTime", "false");
+
+// Nastavenie aktualneho priecinku, aby StanfordCoreNLP vedel najst
+// vsetky potrebne subory
+String currentDirectory = Environment.CurrentDirectory;
+Directory.SetCurrentDirectory(jarRoot);
+StanfordCoreNLP pipeline = new StanfordCoreNLP(properties);
+Directory.SetCurrentDirectory(currentDirectory);
+
+// Vytvorenie anotacie z textu
+Annotation annotation = new Annotation(text);
+
+// Spustenie
+pipeline.annotate(annotation);
 \end{lstlisting}
 
-\begin{lstlisting}[language=lua, caption={Názov}, label=metrics.pipe]
-local parser  = require 'leg.parser'
-local rules = require 'metrics.rules'
--- << skryty zdrojovy kod >> --
-local capture_table = {}
-grammar.pipe(LOC_capt.captures, AST_capt.captures)
-grammar.pipe(block_capt.captures, LOC_capt.captures)
--- << viacero rovnakych volani s tabulkami captures inych modulov >> --
-grammar.pipe(capture_table, cyclo_capt.captures)
-local lua = lpeg.P(grammar.apply(parser.rules, rules.rules, capture_table))
-local patt = lua / function(...) 
-	return {...} 
-end
-local result = patt:match(code)[1]
-\end{lstlisting}
+Údaje získane z tohto nástroja, napríklad POS značky, vzťahy medzi slovami, pozície slov a mnoho ďalších, Notenizer ďalej spracováva. Najdôležitejšie vlastnosti, ktoré sa využívajú v najväčšej miere pri spracovávaní sú závislosti (angl. dependency) medzi slovami vo vete.  
+
+Spracovávaný text sa postupne spracováva po vetách. Každá veta sa samostatne ,,rozparsuje'', spoznámkuje. Vety sa parsujú na základe pravidiel. Na začiatku je daná statická sada pravidiel na spracovanie viet a textov. Po tom, ako sa celý text spracuje, tak sa použité pravidlá uložia do databázy aj s informáciami o pôvodnej vete a novo vytvorenej, zjednodušenej vete. Následne pri opätovnom používaní aplikácie, keď sa začne spracovávať text, tak sa vyhľadajú pre každú vetu pravidlá v databáze, vyberú sa tie s najväčšou zhodou a podľa toho sa spracuje daná veta. Statické pravidla na spracovanie vety sa v tomto prípade použijú len v prípade, ak v sa v databáze nenašli žiadne pravidlá na spracovanie vety, ktoré by pre danú vetu vyhovovali, to znamená, že takúto alebo podobnú vetu zatiaľ Notenizer nespracovával.
+
+Na obrázku~\fullref{fig:example_output} je ukázaný ukážkový výstup prototypu pre vstupný text z wikipédie:
+\textit{Czech Republic (Czech: Česká republika) is a country in Central Europe, sometimes also known as Czechia (Czech: Česko). The capital and the biggest city is Prague. The currency is the Czech Crown (koruna česká - CZK). 1€ is about 27 CZK. The president of the Czech Republic is Miloš Zeman. The Czech Republic's population is about 10.5 million. The local language is Czech language. The Czech language is a Slavic language. It is related to languages like Slovak and Polish. In 1993 the Czech Ministry of Foreign Affairs announced that the name Czechia be used for the country outside of formal official documents. This has not caught on in English usage. Czech Republic has no sea; its neighbour countries are Germany, Austria, Slovakia, and Poland.}
+\\
+
+Výstup je v tvare [pôvodná veta] ===>> [poznámka z pôvodnej vety].
+
+\begin{figure}[H]
+\begin{center}\includegraphics[scale=0.7]{example_output}\end{center}
+\caption[Ukážkový výstup prototypu]{Ukážkový výstup prototypu}\label{fig:example_output}
+\end{figure}
+
+%
+% Pravidlá
+%
+\ifthenelse {\boolean{bachelor}}
+{
+	%\subsection{Subsection}
+	\subsubsection{Pravidlá}
+}
+{
+	%\section{Subsection}
+	\subsection{Pravidlá}
+}
+\label{subsubsec:notenizer_pravidla}
+Pri spracovaní pôvodnej vety sa na túto vetu aplikuje \textit{pravidlo na spracovanie}. Toto pravidlo obsahuje okrem iného zoznam závislostí slov vo vete. Podľa týchto závislostí slov vo vete sa spracovávanej vete vyhľadajú slová, ktoré majú byť použité v poznámke. Vyhľadávajú sa podľa okrem iného podľa POS značiek a indexov vo vete.
+
+%
+% Ukladanie a hodnoty pravidiel
+%
+\ifthenelse {\boolean{bachelor}}
+{
+	%\subsection{Subsection}
+	\subsubsection{Ukladanie a hodnoty pravidiel}
+}
+{
+	%\section{Subsection}
+	\subsection{Ukladanie a hodnoty pravidiel}
+}
+\label{subsubsec:notenizer_ukldanie_a_hodnoty_pravidiel}
+Po spracovávaní sa do databázy uložia použité pravidla aj s ostatnými informáciami o pôvodnej a novej vete. Ukladá sa 
+\begin{itemize}
+	\item Hodnota pôvodnej a novej vety
+	\item Zoznam indexov slov za ktorými bola v poznámke ukončená veta (ak pôvodná veta je súvetie, tak z nej môže vzniknúť viacero poznámok)
+	\item Všetky závislostí slov v pôvodnej vete
+	\item Všetky závislosti slov v poznámke
+\end{itemize}
+pričom každá závislosť slov vo vete sa skladá z 
+\begin{itemize}
+	\item Názvu závislosti
+	\item Hodnota governora závislosti
+	\item Hodnota dependenta závislosti
+	\item Pozícia závislosti vo vete
+	\item POS značka a index slova pre governora aj dependenta
+\end{itemize}
+
+%
+% Vyhľadanie pravidla
+%
+\ifthenelse {\boolean{bachelor}}
+{
+	%\subsection{Subsection}
+	\subsubsection{Vyhľadanie pravidla}
+}
+{
+	%\section{Subsection}
+	\subsection{Vyhľadanie pravidla}
+}
+\label{subsubsec:notenizer_vyhladanie_pravidla}
+Pri spracovávaní vety sa v prvok kroku pozrie do databázy a vyhľadá sa pravidlo na spracovanie tejto vety.
+
+Pravidlo sa v databáze vyhľadáva podľa nasledovných podmienok.
+\begin{enumerate}
+	\item Počet závislostí vety
+	\item Názvy závislostí vety
+\end{enumerate}
+Veta v databáze, ktorej pravidlo chceme použiť, musí spĺňať tieto dve pravidlá. Musí mať rovnaký počet závislostí vo vete ako aktuálne spracovávaná veta a taktiež názvy všetkých závislostí musia sedieť.
+
+Avšak pri týchto podmienkach môže nastať situácia, kedy pre aktuálne spracovávanú vetu bude vyhovovať viacero viet z databázy. V tomto prípade určujeme pravidlo vety s najväčšou zhodou a to sa následne aplikuje.
+\\
+
+Zistenie najväčšej zhody ma viacero krokov. Najskôr sa spočítavajú zhody POS značiek governerov a dependentov a indexy slov nezávisle od seba, čiže sa len zisťuje, či spracovávaná veta obsahuje závislosť s nejakou hodnotou indexu, alebo governora, atď.
+V druhom kroku sa spočítavajú zhody POS značiek a zároveň aj indexov slov vo vete. To znamená, že sa zisťuje, či sa v spracovávanej vete nachádza napríklad závislosť, ktorej governor ma hodnotu \textit{car} a zároveň má index hodnotu 3.
+V poslednom, treťom, kroku sa zisťuje, či sa závislosti zhodujú na všetkých hodnotách, čiže governor a jeho hodnota a index a dependent a jeho hodnota a index \textit{súčasne}.
+
+Tieto tri hodnoty sa na záver spočítajú a tým získame percentuálne ohodnotenie zhody viet.

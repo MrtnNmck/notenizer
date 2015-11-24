@@ -5,7 +5,7 @@
 \usepackage[T1]{fontenc}
 \usepackage{latexsym}
 \usepackage{ucs}
-\usepackage[utf8x]{inputenc}
+\usepackage[utf8]{inputenc}
 \usepackage{float}
 \usepackage[usenames]{color}
 \usepackage{newcent}
@@ -25,8 +25,15 @@
 \usepackage{appendix}
 \usepackage{libertine}
 \usepackage{nameref}
+\usepackage{color}
 
 \newcommand*{\fullref}[1]{\hyperref[{#1}]{\ref*{#1} \nameref*{#1}}}
+
+% Definitions for C# code colors
+\definecolor{commentCSharpColor}{rgb}{0.3411764705,0.6509803921,0.2901960784313}
+\definecolor{stringCSharpColor}{rgb}{0.6196078431,0.29411764705,0.1176470588235}
+\definecolor{ndkeywordsCSharpColor}{rgb}{0.1176470588235,0.20784313725,0.5058823529}
+\definecolor{keywordsCSharpColor}{rgb}{0.30588235294,0.78823529411,0.6901960784313}
 
 % Language
 \ifthenelse {\boolean{english}}
@@ -115,6 +122,24 @@
 	commentstyle=\color{red}\ttfamily,
 	stringstyle=\color{green}\ttfamily,
 	identifierstyle=\color{gray},
+	backgroundcolor=\color{white}, 
+	frame=single, 
+	frameround=ffff,
+	captionpos=b,
+	basicstyle=\scriptsize
+}
+
+\lstdefinelanguage{csharp}{
+	keywords={String, Properties, CultureInfo, Thread, Environment, Directory, StanfordCoreNLP, Annotation},
+	ndkeywords={new},
+	keywordstyle=\color{keywordsCSharpColor}\normalfont,
+	ndkeywordstyle=\color{ndkeywordsCSharpColor}\normalfont,
+	commentstyle=\color{commentCSharpColor}\ttfamily,
+	stringstyle=\color{stringCSharpColor}\ttfamily,
+	identifierstyle=\color{gray},
+	sensitive=true,
+	morestring=[b]",
+	morecomment=[l]{//},
 	backgroundcolor=\color{white}, 
 	frame=single, 
 	frameround=ffff,
