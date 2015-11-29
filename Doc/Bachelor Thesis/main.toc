@@ -4,9 +4,9 @@
 \contentsline {subsection}{\numberline {2.1}Spracovanie prirodzen\IeC {\'e}ho jazyka}{3}{subsection.2.1}
 \contentsline {subsection}{\numberline {2.2}Vyu\IeC {\v z}itie spracovania prirodzen\IeC {\'e}ho jazyka}{3}{subsection.2.2}
 \contentsline {subsubsection}{\numberline {2.2.1}Extrakcia inform\IeC {\'a}ci\IeC {\'\i }}{4}{subsubsection.2.2.1}
-\contentsline {subsection}{\numberline {2.3}\IeC {\'U}lohy spracovania prirodzen\IeC {\'e}ho jazyka}{4}{subsection.2.3}
+\contentsline {subsection}{\numberline {2.3}\IeC {\'U}lohy spracovania prirodzen\IeC {\'e}ho jazyka}{5}{subsection.2.3}
 \contentsline {subsubsection}{\numberline {2.3.1}Zna\IeC {\v c}kovanie slovn\IeC {\'y}ch druhov}{5}{subsubsection.2.3.1}
-\contentsline {subsubsection}{\numberline {2.3.2}Rozpozn\IeC {\'a}vanie n\IeC {\'a}zvoslovn\IeC {\'y}ch ent\IeC {\'\i }t}{5}{subsubsection.2.3.2}
+\contentsline {subsubsection}{\numberline {2.3.2}Rozpozn\IeC {\'a}vanie n\IeC {\'a}zvoslovn\IeC {\'y}ch ent\IeC {\'\i }t}{6}{subsubsection.2.3.2}
 \contentsline {subsubsection}{\numberline {2.3.3}Rozpoznanie koreferenci\IeC {\'\i }}{6}{subsubsection.2.3.3}
 \contentsline {subsubsection}{\numberline {2.3.4}Rozlo\IeC {\v z}enie vz\IeC {\v t}ahov}{6}{subsubsection.2.3.4}
 \contentsline {subsection}{\numberline {2.4}N\IeC {\'a}stroje na spracovanie prirodzen\IeC {\'e}ho jazyka}{7}{subsection.2.4}

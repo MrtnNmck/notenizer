@@ -30,14 +30,14 @@ Relačné databázy boli dlhé roky populárnou a finančné nenáročnou voľbo
 
 Relačné databázy sú momentálne používané vo väčšine súčasných aplikácií a pracujú spoľahlivo pri obmedzenom množstve dát~\cite{MongoDBvsMySQL2015}. Problém s relačným modelom relačných databáz nastáva, keď vzniká potreba aplikácie s obrovským množstvom dát. Menovite rozšíriteľnosť (angl. scalability) sa stáva najväčším problémom relačných databáz a toto viedlo k vývoju a vzniku nového modelu, NOSQL (no SQL) databáz~\cite{NoSQLDBvsRealtionDB}.
 
-NOSQL databáza narozdiel do RDBMS modelu (Relation Data Base Management System) a je
+NOSQL databáza narozdiel do RDBMS modelu (Relation Data Base Management System) je
 navrhnutá aby sa bola jednoducho rozšíriteľná so zväčšovaním sa. Väčšina NOSQL databáz odstránila niektoré nepotrebné prvky RDBMS modelov, čím sa stali podstatne ľahšími a efektívnejšími ako ich náprotivok RDBMS systémy. Toto na druhej strane spôsobilo, že NOSQL model negarantuje vlastnosti ACID (Atomicity, Consistency, Isolation, Durability), ale naopak garantuje vlastnosti BASE (Basically Available, Soft state, Eventula Consistency)~\cite{NoSQLDBvsRealtionDB}.
 
 Nerelačné databázy neukladajú údaje v tabuľkách, nemajú fixnú schému a majú jednoduchý dátový model. Tieto vlastnosti im umožňujú jednoducho spracovávať neštrukturované dáta, ako sú dokumenty, e-maily a mnoho ďalších~\cite{MongoDBvsMySQL2015}. Tieto databázy sa delia na viacero druhov a čím ďalej, tým majú viacero využití.
 
-Existuje hneď niekoľko prípadov, kedy je lepšie použiť nerelačnú databázu namiesto relačnej databázy. Keď je potrebné, aby aplikácia dokázala spracovávať rôzne typy a tvary dát a spravovať aplikáciu efektívnejšie pri rozširovaní, je rozhodne výhodnejšie použiť nerelačnú databázu. Niektoré databázy, ako napríklad dokumentová databáza MongoDB uľahčuje vývoj aplikácií, keďže jeho dokumentová štruktúra dát je jednoducho namapovateľná na moderné, objektovo-orientované programovacie jazyky a tým pádom nie je potreba využívať komplexnú objektovo-relačnú mapovaciu vrstvu, ktorá je nutná pri použití relačných databáz na prevod objektov z programovacie jazyka na perzistentné objekty v databáze. Všeobecne je omnoho ľahšie rozšíriť schému / model nerelačnej databázy ako rozširovať schému relačnej databázy~\cite{MongoDBvsMySQLCompared}.
+Existuje hneď niekoľko prípadov, kedy je lepšie použiť nerelačnú databázu namiesto relačnej databázy. Keď je potrebné, aby aplikácia dokázala spracovávať rôzne typy a tvary dát alebo pri potrebe spravovať aplikáciu efektívnejšie pri rozširovaní, je rozhodne výhodnejšie použiť nerelačnú databázu. Niektoré databázy, ako napríklad dokumentová databáza MongoDB uľahčuje vývoj aplikácií, keďže jeho dokumentová štruktúra dát je jednoducho namapovateľná na moderné, objektovo-orientované programovacie jazyky a tým pádom nie je potreba využívať komplexnú objektovo-relačnú mapovaciu vrstvu, ktorá je nutná pri použití relačných databáz na prevod objektov z programovacie jazyka na perzistentné objekty v databáze. Všeobecne je omnoho ľahšie rozšíriť schému / model nerelačnej databázy ako rozširovať schému relačnej databázy~\cite{MongoDBvsMySQLCompared}.
 
-My budeme využívať dokumentovú databázu, konkrétne MongoDB, na ukladanie spracovaných dát. Keďže skoro každý text a veta je odlišná, tak pre každý text a vetu budeme ukladať, odlišné alebo odlišný počet dát, a preto a aj pre ostatné vlastnosti dokumentovej databázy MongoDB podrobnejšie opísané v kapitole ..., bola voľba tejto databázy jednoznačná.
+My budeme využívať dokumentovú databázu, konkrétne MongoDB, na ukladanie spracovaných dát. Keďže skoro každý text a veta je odlišná, tak pre každý text a vetu budeme ukladať, odlišné alebo odlišný počet dát. Kvôli tomu, ale aj pre ostatné vlastnosti dokumentovej databázy MongoDB, podrobnejšie opísané v kapitole~\fullref{subsection:mongodb}, bola voľba tejto databázy jednoznačná.
 
 %
 % Typy nerelačných databáz
@@ -67,7 +67,7 @@ Nerelačné databázy majú niekoľko typov, v nasledujúcich kapitolách si pri
 	\subsection{Kľúč - hodnota databázy}
 }
 \label{subsubsection:key_value_db}
-Nerelačné databázy typu kľúč - hodnota sú v svojej podstate celkom jednoduché, ale zároveň efektívne. Umožňujú používateľovi ukladať dáta ľubovolne, kedže neobsahujú schémy. Uložené dáta sa skladajú z dvoch častí. Prvá časť je kľuč a druhá časť je hodnota~\cite{NoSQLDBvsRealtionDB}, pričom kľúč je samo-generujúci string a hodnota môže byť takmer čokoľvek, od string, JSON cez BLOB až po dokonca aj obrázok~\cite{MongoDBvsMySQL2015}.
+Nerelačné databázy typu kľúč - hodnota sú v svojej podstate celkom jednoduché, ale zároveň efektívne. Umožňujú používateľovi ukladať dáta ľubovolne, kedže neobsahujú schémy. Uložené dáta sa skladajú z dvoch častí. Prvá časť je kľuč a druhá časť je hodnota~\cite{NoSQLDBvsRealtionDB}, pričom kľúč je samo-generujúci string a hodnota môže byť takmer čokoľvek, od string, JSON cez BLOB až po obrázok~\cite{MongoDBvsMySQL2015}.
 
 Kľúč - hodnota databázy sú veľmi podobné hašovacím tabuľkám, kde kľúč je indexom do tabuľky, pomocou ktorého používateľ môže pristúpiť k hodnote daného kľúču. Tento typ databáz uprednostňuje rozšíriteľnosť pred konzistenciou. Ponúka vysokú konkurenčnosť (angl. concurrency), rýchle vyhľadávanie a schopnosť uloženia veľkého množstva dát za cenu spojovacích a agregačných operácií. Taktiež je veľmi náročné vytvoriť ľubovolný pohľad na dáta z dôvodu chýbajúcej schémy~\cite{NoSQLDBvsRealtionDB}.
 
@@ -106,7 +106,7 @@ Primárne využitie týchto databáz je v aplikáciách, ktoré potrebujú uklad
 	\subsection{Stĺpcové databázy}
 }
 \label{subsubsection:column_db}
-Stĺpcové databázy musia mať preddefinovanú schému, v ktorej sú jednotlivé bunky záznamov zoskupené do kolekcie stĺpcov~\cite{MongoDBvsMySQL2015}. Dáta nie su ukladané do tabuliek, ale do masívne distribuovaných architektúr, za hlavným zámerom, aby agregácia dát môže prebehnúť veľmi rýchlo s redukovaním I/O aktivity.
+Stĺpcové databázy musia mať preddefinovanú schému, v ktorej sú jednotlivé bunky záznamov zoskupené do kolekcie stĺpcov~\cite{MongoDBvsMySQL2015}. Dáta nie su ukladané do tabuliek, ale do masívne distribuovaných architektúr, za hlavným zámerom, aby agregácia dát mohla prebehnúť veľmi rýchlo s redukovaním I/O aktivity.
 
 Tento typ databáz taktiež poskytuje veľkú rozšíriteľnosť v ukladaní dát.
 
@@ -125,7 +125,7 @@ Najvhodnejšie je využívať takéto databázy v analytických aplikáciách al
 	\subsection{grafové databázy}
 }
 \label{subsubsection:graph_db}
-Grafové databázy su špeciálny typ databáz, v ktorých sú dáta uložene vo forme grafu. Graf pozostáva z vrcholov a hrán, pričom vrcholy predstavujú objekty a hrany reprezentujú vzťahy medzi nimi. Každý vrchol okrem iného obsahuje aj pointer na priľahlé vrcholy, čo umožňuje prechádzať obrovské množstvo dát v rýchlejšie ako relačné databázy~\cite{NoSQLDBvsRealtionDB}.
+Grafové databázy su špeciálny typ databáz, v ktorých sú dáta uložene vo forme grafu. Graf pozostáva z vrcholov a hrán, pričom vrcholy predstavujú objekty a hrany reprezentujú vzťahy medzi nimi. Každý vrchol okrem iného obsahuje aj ukazovateľ na priľahlé vrcholy, čo umožňuje prechádzať obrovské množstvo dát rýchlejšie ako v relačných databázach~\cite{NoSQLDBvsRealtionDB}.
 
 Údaje sa ukladajú v polo-štruktúrovanej forme, kde je kladený hlavný dôraz na prepojenia medzi dátami. Grafové databázy spĺňajú vlastnosť ACID a sú veľmi vhodné pre biometrické aplikácie alebo aplikácie sociálnych sieti. Hlavným predstaviteľom grafových databáz je \textit{Neo4j}~\cite{NoSQLDBvsRealtionDB}.
 
@@ -142,7 +142,7 @@ Grafové databázy su špeciálny typ databáz, v ktorých sú dáta uložene vo
 	\subsection{Objektovo orientované databázy databázy}
 }
 \label{subsubsection:object_oriented_db}
-Objektovo orientované databázy ukladajú dáta vo forme objektov, rovnako ako sú údaje reprezentované v objektoch v objektovo orientovaných programovacích jazykoch (OOP). Tieto databázy podporujú všetky vymoženosti OOP, ako enkapsulácia, polymorfizmus, ale aj dedenie. Tento typ nerelačných databáz robia moderný vývoj softvéru jednoduchším~\cite{NoSQLDBvsRealtionDB}.
+Objektovo orientované databázy ukladajú dáta vo forme objektov, rovnako ako sú údaje reprezentované v objektoch v objektovo orientovaných programovacích jazykoch (OOP). Tieto databázy podporujú všetky vymoženosti OOP, ako enkapsulácia, polymorfizmus, ale aj dedenie. Objektovo orientované databázy robia moderný vývoj softvéru jednoduchším~\cite{NoSQLDBvsRealtionDB}.
 
 %
 % MongoDB
@@ -157,11 +157,11 @@ Objektovo orientované databázy ukladajú dáta vo forme objektov, rovnako ako 
 	\section{MongoDB}
 }
 \label{subsection:mongodb}
-MongoDB je dokumentová nerelačná databáza vytvorená v C++ spustená v roku 2009~\cite{NoSQLDBvsRealtionDB}. Ukladá dáta v dokumentoch vo formáte BSON (Binary JSON), ktorých štruktúra sa môže meniť. Využíva dynamickú štruktúru schém, preto dokáže vytvárať záznamy bez preddefinovanej štruktúry dát, ale ta štruktúra sa vytvára za behu, pričom môže byť veľmi jednoducho pozmenená pridaním, odstránením, zmenou typu polia dokumentu určujúceho štruktúru. Umožňuje jednoduché ukladanie dát s hierarchickými vzťahmi alebo komplexnejších štruktúr, ako sú napríklad polia, listy alebo vnorené polia~\cite{MongoDBvsMySQLCompared}.
+MongoDB je dokumentová nerelačná databáza vytvorená v C++ spustená v roku 2009~\cite{NoSQLDBvsRealtionDB}. Ukladá dáta v dokumentoch vo formáte BSON (Binary JSON), ktorých štruktúra sa môže meniť. Využíva dynamickú štruktúru schém, preto dokáže vytvárať záznamy bez preddefinovanej štruktúry dát, lebo štruktúra sa vytvára za behu, pričom môže byť veľmi jednoducho pozmenená pridaním, odstránením, zmenou typu polia dokumentu určujúceho štruktúru. Umožňuje jednoduché ukladanie dát s hierarchickými vzťahmi alebo komplexnejších štruktúr, ako sú napríklad polia, listy alebo vnorené polia~\cite{MongoDBvsMySQLCompared}.
 
 Vlastnosti ako chybová tolerancia, perzistencia a konzistencia dát sú súčasťou MongoDB. Oproti klasickým dokumentovým databázam ponúka aj vymoženosti, ako agregácia, ad hoc dopyty, indexovanie, a pod. Taktiež má svoj vlastný plnohodnotný dopytovací jazyk \textit{mongo query language}~\cite{NoSQLDBvsRealtionDB}.
 
-MongoDB poskytuje prvky relačných databáz, ktoré ešte rozširuje o ďalšiu funkcionalitu sú zobrazené v tabuľke~\fullref{table:features_of_mongodb} a rozdiely v názvoch sú zobrazene v tabuľke~\fullref{table:names_of_mongodb}, kde bol ako zástupca relačných databáz vybraná MySQL databáza).
+Prvky poskytované databázou MongoDB sú prvky zahrnuté v relačných databázach rozšírené o ďalšiu funkcionalitu. Porovnanie poskytovaných prvkov je v tabuľke~\fullref{table:features_of_mongodb}. MongoDB má vlastnú konvenciu názvov svojich častí. Tie sa v niektorých prípadoch líšia s názvami relačných databáz. Rozdiely sú zobrazene v tabuľke~\fullref{table:names_of_mongodb}. Za zástupcu relačných databáz bola vybraná MySQL databáza.
 
 \begin{table}[]
 	\centering

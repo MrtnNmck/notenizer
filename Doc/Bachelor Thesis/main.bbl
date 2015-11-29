@@ -1,4 +1,4 @@
-\begin{thebibliography}{1}
+\begin{thebibliography}{10}
 
 \bibitem{Bharati1995}
 Akshar Bharati and Vineet Chaitanya.
@@ -15,6 +15,10 @@ Volha Bryl, Claudio Giuliano, Luciano Serafini, and Katerina Tymoshenko.
 \bibitem{StanfordDepManual}
 Marie catherine De~Marneffe and Christopher~D. Manning.
 \newblock Stanford typed dependencies manual, 2008.
+
+\bibitem{WordNetPage}
+Randee~Tengi Christiane~Fellbaum.
+\newblock What is wordnet?
 
 \bibitem{collobert2011}
 Ronan Collobert, Jason Weston, L\'eon Bottou, Michael Karlen, Koray

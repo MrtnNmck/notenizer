@@ -90,3 +90,5 @@ TODO:
 	- odstranit hodnotu position z pravidla
 		- nepouziva sa
 	- naplnit DB s viacerimi pravidlami
+	- kontrola zaporu
+		-  pri spracovavani textu o cesku sa nevyhodnotil zapor vo vete This has not caught..
