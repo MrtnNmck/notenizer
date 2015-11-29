@@ -1,33 +1,53 @@
 \begin{thebibliography}{1}
 
-\bibitem{collobert2011}
-Collobert, Ronan and Weston, Jason and Bottou, L\'eon and Karlen, Michael and Kavukcuoglu, Koray and Kuksa, Pavel.
-\newblock {\em Natural Language Processing (Almost) from Scratch}.
-\newblock JMLR.org, 2011.
-
-\bibitem{Copestake2004}
-Ann Copestake
-\newblock {\em 8 Lectures, Natural Language Processing}
-\newblock 2004.
-
 \bibitem{Bharati1995}
-Akshar Bharati, Vineet Chaitanya, and Rajeev Sangal
-\newblock {\em Natural language processing: a Paninian perspective}
-\newblock {MIT Press Cambridge, MA, USA, 1995.}
-
-\bibitem{Preeti}
-Preeti and BrahmaleenKaurSidhu
-\newblock {\em Natural Language Processing}
-\newblock {A Vinitha et al, Int.J.Computer Technology \& Applications,Vol 4 (5),751-758}
+Akshar Bharati and Vineet Chaitanya.
+\newblock {\em Natural language processing: A Paninian perspective}.
+\newblock Prentice Hall of India, New Delhi, 2004.
 
 \bibitem{Bryl}
-Volha Bryl, Claudio Giuliano, Luciano Serafini, and Kateryna Tymoshenko
-\newblock {\em Supporting natural language processing with background knowledge: coreference resolution case}
-\newblock {Trento, Italy.}
+Volha Bryl, Claudio Giuliano, Luciano Serafini, and Katerina Tymoshenko.
+\newblock Supporting natural language processing with background knowledge:
+  Coreference resolution case.
+\newblock In {\em 9th International Semantic Web Conference (ISWC2010)},
+  November 2010.
 
 \bibitem{StanfordDepManual}
-Marie-Catherine de Marneffe and Christopher D. Manning
-\newblock {\em Stanford typed dependencies manual}
-\newblock {September 2008}
+Marie catherine De~Marneffe and Christopher~D. Manning.
+\newblock Stanford typed dependencies manual, 2008.
+
+\bibitem{collobert2011}
+Ronan Collobert, Jason Weston, L\'eon Bottou, Michael Karlen, Koray
+  Kavukcuoglu, and Pavel Kuksa.
+\newblock Natural language processing (almost) from scratch.
+\newblock {\em Journal of Machine Learning Research}, 12:2493--2537, 2011.
+
+\bibitem{Copestake2004}
+Ann Copestake.
+\newblock Natural language processing.
+\newblock 2004.
+
+\bibitem{MongoDBvsMySQL2015}
+C.~Gyorodi, R.~Gyorodi, G.~Pecherle, and A.~Olah.
+\newblock A comparative study: Mongodb vs. mysql.
+\newblock In {\em Engineering of Modern Electric Systems (EMES), 2015 13th
+  International Conference on}, pages 1--6, June 2015.
+
+\bibitem{MongoDBvsMySQLCompared}
+Inc MongoDB.
+\newblock Mongodb and mysql compared.
+
+\bibitem{NoSQLDBvsRealtionDB}
+Ameya Nayak, Anil Poriya, and Dikshay Poojary.
+\newblock Article: Type of nosql databases and its comparison with relational
+  databases.
+\newblock {\em International Journal of Applied Information Systems},
+  5(4):16--19, March 2013.
+\newblock Published by Foundation of Computer Science, New York, USA.
+
+\bibitem{Preeti}
+Preeti and BrahmaleenKaurSidhu.
+\newblock Natural language processing.
+\newblock {\em Int.J.Computer Technology \& Applications}, 2013.
 
 \end{thebibliography}
