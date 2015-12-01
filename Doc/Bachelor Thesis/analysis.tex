@@ -95,7 +95,7 @@ Pomenovanie spracovanie prirodzeného jazyka a NLP budem používať zameniteľn
 \label{subsec:tasksofnlp}
 NLP ma niekoľko hlavných úloh. Podrobnejšie si opíšeme tie, ktoré sú relevantné vzhľadom na implementáciu spracovania učebných textov.
 Úlohy spracovania prirodzeného textu:~\cite{collobert2011} 
-\begin{itemize}
+\begin{my_itemize}
 	\item Značkovanie slovných druhov (angl. Part-of-speech tagging) \ref{subsubsec:postagging}
 	\item Rozdelenie vety na menšie časti (angl. Chunking)
 	\item Rozpoznávanie názvoslovných entít (angl. Named Entity Recognition) \ref{subsubsec:ner}
@@ -106,7 +106,7 @@ NLP ma niekoľko hlavných úloh. Podrobnejšie si opíšeme tie, ktoré sú rel
 	\item Optické rozoznávanie textu (angl. Optical Character Recognition)
 	\item Rozloženie vzťahov (angl. Dependency parsing) \ref{subsubsec:dependencyparsing}
 	\item a ďalšie
-\end{itemize}
+\end{my_itemize}
 
 %
 % Značkovanie slovných druhov
@@ -337,6 +337,103 @@ Pre AlchemyAPI je dostupné aj online webové demo, viď obrázok \fullref{fig:a
 \end{figure}
 
 Dáta sú vo formáte JSON a okrem spracovania prirodzeného jazyka AlchemyAPI ponúka aj nástroje na extrahovanie obsahu z obrázku alebo rozpoznávanie tvári na obrázkoch.
+
+%
+% Aplikácie na spracovanie prirodzeného jazyka
+%
+\ifthenelse {\boolean{bachelor}}
+{
+	%\subsection{Subsection}
+	\subsection{Aplikácie na spracovanie prirodzeného jazyka}
+}
+{
+	%\section{Subsection}
+	\section{Aplikácie na spracovanie prirodzeného jazyka}
+}
+Dostupnosť aplikácií na spracovanie prirodzeného jazyka je veľká a široká. Najväčší podiel tvoria aplikácie zamerané na preklad. V tejto kapitole si prestavíme niektorých predstaviteľov tejto kategórie aplikácií.
+
+%
+% InterText
+%
+\ifthenelse {\boolean{bachelor}}
+{
+	%\subsection{Subsection}
+	\subsubsection{InterText}
+}
+{
+	%\section{Subsection}
+	\subsection{InterText}
+}
+InterText\footnote{http://wanthalf.saga.cz/intertext} je editor paralelne zarovnaných textov, využívaný na správu viacerých paralelne zarovnaných verzií textu rôznych jazykov na úrovni viet. Táto aplikácia je dostupná vo verzií pre desktop, ale aj pre server.
+
+Podporuje viacero formátovaní textu, či už čistý (angl. plain) text alebo XML a taktiž zobrazuje aj HTML značky. Riadky obsahujú vety oddelené znakom konca riadku a sú očíslované. Umožňuje funkcie ako presúvanie riadkov textu alebo zoskupenie viacerých do jedného, krok vpred a vzad. V spracovávanom texte sa dá vyhľadávať a je možné tento text aj upraviť podľa vlastných potrieb.
+
+InterText nezohľadňuje používateľove úpravy textu počas používanie a pri následnom spracovávaní textu sa tak neprispôsobí používateľovi. Okrem toho jeho náplň sa nedá pokladať za zjednodušovanie textu. 
+
+Na obrázku~\fullref{fig:intertext_interface} je zobrazená aplikácia InterText s testovacím vstupom, na ktorom je vidno väčšinu, už spomenutej, funkcionality, ako presúvanie a zoskupovanie riadkov, číslovanie, atď.
+
+\begin{figure}[H]
+	\begin{center}\includegraphics[scale=0.33]{intertext_interface}\end{center}
+	\caption[Aplikácia InterText]{Aplikácia InterText}\label{fig:intertext_interface}
+\end{figure}
+
+%
+% NOVA Text Aligner
+%
+\ifthenelse {\boolean{bachelor}}
+{
+	%\subsection{Subsection}
+	\subsubsection{NOVA Text Aligner}
+}
+{
+	%\section{Subsection}
+	\subsection{NOVA Text Aligner}
+}
+NOVA Text Aligner\footnote{http://www.supernova-soft.com/wpsite/products/text-aligner/} je aplikácia na zarovnávanie textu, pričom nevyužíva algoritmy na zarovnávanie textu, ale manuálne používateľovo určovanie zarovnania.
+
+Ako vidno na obrázku~\fullref{fig:nova_text_aligner_interface} hlavná editovacia časť aplikácie je rozdelené do dvoch častí. Umožňuje do ľavej aj pravej časti načítať rôzny text, v ktorom sa dá veľmi jednoducho vyhľadávať, k čomu napomáha zvýraznenie vyhľadaných slov. Načítaný text je možné premiestňovať a zoskupovať, či už podľa riadkov alebo aj v celých blokoch a nechýba možnosť editovať text. Je možné si túto aplikáciu prispôsobiť. Ponúka možnosti ako zmena typ písma a pod. Finálny, spracovaný text sa dá exportovať do viacerých formátov, z ktorých populárne sú formáty elektronických knižiek EPUB a MOBI.
+
+Aplikácia je zameraná hlavne na usporadúvanie textu, nezaznamenáva si používateľove zmeny textu a neprispôsobuje sa podľa toho pri ďalšom použití, funguje iba lokálne. NOVA Text Aligner je dostupná iba v skúšobnej verzií, pre dlhodobé používanie si treba zakúpiť licenciu.
+
+\begin{figure}[H]
+	\begin{center}\includegraphics[scale=0.56]{nova_text_aligner_interface}\end{center}
+	\caption[Aplikácia NOVA Text Aligner]{Aplikácia NOVA Text Aligner\footnotemark}\label{fig:nova_text_aligner_interface}
+\end{figure}
+\footnotetext{http://parallel-text-aligner.en.softonic.com/}
+
+%
+% LF Aligner
+%
+\ifthenelse {\boolean{bachelor}}
+{
+	%\subsection{Subsection}
+	\subsubsection{LF Aligner}
+}
+{
+	%\section{Subsection}
+	\subsection{LF Aligner}
+}
+Aplikácia LF Aligner je zameraná na spracovanie textu rôznych jazykov. Ponúka možnosť použiť až 99 jazykov, čo ale znamená 99 vstupných súborov, každý so zvoleným jazykom. Dokáže spracovať rôzne typy vstupných súborov od čistého textu, PDF súborov, cez URL stránok s textom až po správy Európskeho parlamentu, ktoré automaticky stiahne. Výstup môže byť taktiež viacerých druhov, napríklad cez grafické rozhranie LF Aligner alebo vygenerovanie XLS súboru. Na obrázku~\fullref{fig:lf_aligner_interface} vidno grafické rozhranie tejto aplikácie, ktoré ponúka mnohé vymoženosti. Samozrejme je možné premiestňovať a zoskupovať riadky, doplnenie ďalšieho súboru na spracovávanie, uloženie zmien súboru prepísaním jeho dát a mnohé ďalšie.
+
+\begin{figure}[H]
+	\begin{center}\includegraphics[scale=0.33]{lf_aligner_interface}\end{center}
+	\caption[Aplikácia LF Aligner]{Aplikácia LF Aligner}\label{fig:lf_aligner_interface}
+\end{figure}
+\footnotetext{http://parallel-text-aligner.en.softonic.com/}
+
+%
+% Zhrnutie aplikácií na spracovanie prirodzeného jazyka
+%
+\ifthenelse {\boolean{bachelor}}
+{
+	%\subsection{Subsection}
+	\subsubsection{Zhrnutie}
+}
+{
+	%\section{Subsection}
+	\subsection{Zhrnutie}
+}
+Všetky analyzované aplikácie sú užitočné vo svojom obore, ale ani jedna nespĺňa všetky požiadavky na systém schopný spoznámkovať učebný text v takom rozsahu, ktorý by umožňoval používateľovi prispôsobiť si spracovaný text. Systém musí vedieť prispôsobovať svoje spracovanie textu podľa používateľových úprav a ponúkať mu k tomu vhodné rozhranie. Takisto musí ukladať dáta mimo používateľovho úložného priestoru.
 
 %
 % Smerovanie práce

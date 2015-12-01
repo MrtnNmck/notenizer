@@ -1,0 +1,24 @@
+- preklepy atd. opravim v tlacenej podobe, zbytocne teraz
+- pisat vo forme 'my' , v motivacii je to OK
+- netreba explixitne (napr.: My sa pri spracovani textov.... => Pri spracovani textov sa....)
+- "Pomenovanie spracovanie prirodzeneho jazyka a NLP budem pouz\xA1i\xB4vat\x92zamenitel\x92ne v celej pra\xB4ci, pric\xA1om budu\xB4 odkazovat\x92na tu istu\xB4 vec."
+-> treba konzitentne, ved pozname CTRL+F
+- tabulka 1: opisat tie riadky, co to je "lokalnost dat"?
+- porovnanie konvecie nazvov -> skor "vyrazov" alebo "pojmy"
+- niektore citacie nedokoncene - 4,6,8 (neni kriticke teraz)
+DOPLNIT TOP:
+analyza - podobne programy (aspon 2 s tym ze take nie su)
+relacna vs. nerelacna DB -> ZATIAL dat ako "Moznosti uchovavania textov v DB", do kap. navrh a hned za to tvoj navrh (jednak rozhodnutie a potom sposob ako), aku 'schemu' pouzivam v prototype resp. presne ako sa ukladaju vety (ukazka)
+hlavne: dokumentove, relacne, ostatne (tam dat zvysok)
+opisat blizsie s prikladmi, ako prebieha vytvaranie,odstraneni,pouzitie pravidla
+ak ostane cas: implementovat AND poznamkovac (TREE, vystup vety)
+SLovensko hranici s krajinami madarsko, rusko, rakusko a slovinsko.
+SLovensko hranici s krajinami madarsko, rusko a slovinsko.
+SLovensko hranici s krajinami madarskom na juhu, ruskom na seevere a slovinskom na zapade.
+SLovensko hranici 	s krajinami madarskom na juhu
+s ruskom na seevere
+s					slovinskom na zapade.
+Slovensko hranici s krajinami {madarsko, rusko, }
+Slovensko hranici s krajinou madarsko.
+Slovensko hranici s krajinou rusko.
+Slovensko hranici s krajinou rakusko.

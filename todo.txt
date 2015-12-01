@@ -43,6 +43,21 @@ Poznatky:
 		- iba usporiadavanie textu
 		- nezohladnuje zmeny pri dalsom zapnuti
 		- funguje lokalne, nema db
+		
+	LF Aligner
+		+ vstupne data vela moznosti
+			+ txt
+			+ pdf
+			+ HTML
+			+ URL
+			+ EU legislation by CELEX number
+			+ European parliement reports (download automatically)
+		+ vyber jazykov
+			+ pocet aj typy
+		+ rozdelenie podla riadkov / paragrafov
+		+ viacero vystupov
+			+ graficky editor
+			+ XLS
 	
 ===============================================================================================================================================================
 	Poznamky zo stretnutia
@@ -77,6 +92,31 @@ Otazky:
 	- citovanie manualu (dependency manual Stanford CoreNLP)
 	- citovanie obrazkov
 	- citovanie na konci paragrafov / citovanie na konci sekcie
+	
+	
+	
+- nazvy v tabulkach, anglicke nazvy, zpresnit, lokalnost dat
+- Provnanie konvencie nazvov, zmenit nazov tabulky
+- texty medzi tabulky
+- citacia stranok -> poznamka pod ciarov
+- WordNet-e
+- citacia 6, najst niekde inde definicou NLP
+- analyza premenovat, nova kapitola na porovnanie existujucich apps
+- premenovat relacna vs. nerelacna
+
+	- Navrh
+		- 5.1 uchovavanie textov v databazach
+			5.1.1 - relacne
+			5.1.2 - textove
+			5.1.3 - ostatne
+			5.1.4 - zhrnutie
+		- 5.2 nas navrh uchovavania
+			- kolekciw
+			- ako sa ukladaju dokumentu
+			
+- nadradeny token a podriadeny token (hlavny a vedlajsi) (governor, dependent)
+- priloha
+	- pomenovania dependencies
 ===============================================================================================================================================================
 
 TODO:

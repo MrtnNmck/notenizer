@@ -1,0 +1,99 @@
+Poznatky:
+DONE - noun ma nsubj / nsubjpass bud s dalsim noun alebo verb, toto treba rozlisit a podla toho dalej parsovat
+DONE - ak je nsubj spojene noun, tka treba hladat COP, aby sme zistili sloveeso akym to je prepojene napriklad: Bratislava IS city
+DONE - ak je nsubj prepojene verb, tak treba hladat object toho, napriklad dobj (hlavny), iobj (vedlajsie), napriklad: Clinton defeated Dote.
+- Clinton <-- nsubj --> defetead
+- defeated <-- dobj --> Dote.
+- VBN, VBG, VBD, VBP, VBZ, VB,
+DONE - nemuselo by byt zle, ak je nsubj prepojene s verb, tak zistit jeho auxiliary
+DONE - zaujimave by mohlo byt tahat este k hlavnemu noun aj compound
+- napriklad ked mame Bratislava <-- nsubj --> city, tak k city este dotiahnut city <-- compound --> capital
+DONE - treba pozerat aj neg, aby sme neprekrutili informacie
+DONE - prechadzat nmod, aby sme nezostali len pri trojslovnych vetach, ale trochu ich doplnili
+- treba premysliet, ktore nmod brat, podla coho ich filtrovat (POS ?), aby sme zas nezostali pri povodnej vete
+- aspon prvy by nemuselo byt zle
+DONE - pozriet conj, aby ked su tam nejake &&, tak sme to odchytili
+InterText:
++ plain text, XML
++ undo / redo
++ numbering
++ presuvanie textu
++ mergovanie textu
++ vyhladavanie
++ verzia pre server
++ editacia
++ html tagy zobrazuje
+- nezjednoduchsuje text
+- neberie do uvahy editaciu pri opatovnom pouziti
+NOVA Text Aligner:
++ nacitanie rozdielnych textov do stlpca v pravo a vlavo
++ akcie ako merge / move na riadkoch / blokoch
++ vyhladavanie textu s zvyraznovanim
++ font resize
++ export do roznych formatov
++ evit textu
+- uzivatel moze zadat cokolvek
+- iba usporiadavanie textu
+- nezohladnuje zmeny pri dalsom zapnuti
+- funguje lokalne, nema db
+===============================================================================================================================================================
+Poznamky zo stretnutia
+===============================================================================================================================================================
+- Inter Text
+- paralel text
+- motivacia
+- vlastny opis
+- motivacne kecy
+- analyza
+- podobne programy
+- Diskusia
+- co planjem robit v lete
+- Sweet
+- Musutelsa
+- OTS
+Otazky:
+- oslovovat sa v mnznom cisle ?
+- citovanie webstranok (wordnet.com)
+- rozlozenie podkapitol
+- spominanie v analyza na zameranie sa v dalsom priebehu implementacie
+- obrazky
+- kolko ?
+- citovanie - docasne plain
+- NLP / spracovanie prirodzeneho jazyka / oboje naraz spolu zamenitelne
+- citovanie za koncom vety
+- priklady s mojim menom
+- citovanie manualu (dependency manual Stanford CoreNLP)
+- citovanie obrazkov
+- citovanie na konci paragrafov / citovanie na konci sekcie
+- nazvy v tabulkach, anglicke nazvy, zpresnit, lokalnost dat
+- Provnanie konvencie nazvov, zmenit nazov tabulky
+- texty medzi tabulky
+- citacia stranok -> poznamka pod ciarov
+- WordNet-e
+- citacia 6, najst niekde inde definicou NLP
+- analyza premenovat, nova kapitola na porovnanie existujucich apps
+- premenovat relacna vs. nerelacna
+- Navrh
+- 5.1 uchovavanie textov v databazach
+5.1.1 - relacne
+5.1.2 - textove
+5.1.3 - ostatne
+5.1.4 - zhrnutie
+- 5.2 nas navrh uchovavania
+- kolekciw
+- ako sa ukladaju dokumentu
+- nadradeny token a podriadeny token (hlavny a vedlajsi) (governor, dependent)
+- priloha
+- pomenovania dependencies
+===============================================================================================================================================================
+TODO:
+DONE - pridanie specialnej dependency pri ukladani do db, ktora bude oznacovat koniec vety.
+DONE	- spravene cez ukladanie indexov, na ktorych koncia vety poznamok a podla nich sa potom rozdeli rozparsovana poznamka
+DONE - rozlisenie sady pravidiel, ak pre vetu vyhovuju viac sady
+- zatial len podla poctu a nazvov dependencies a zoberie sa prva.
+// vypocitavanie % zhody pravidiel
+- odstranit hodnotu position z pravidla
+- nepouziva sa
+- naplnit DB s viacerimi pravidlami
+- kontrola zaporu
+- pri spracovavani textu o cesku sa nevyhodnotil zapor vo vete This has not caught..

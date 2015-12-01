@@ -1,1 +1,1 @@
-\contentsline {lstlisting}{\numberline {1}Spustenie StanfordCoreNLP}{14}{lstlisting.1}
+\contentsline {lstlisting}{\numberline {1}Spustenie StanfordCoreNLP}{17}{lstlisting.1}
