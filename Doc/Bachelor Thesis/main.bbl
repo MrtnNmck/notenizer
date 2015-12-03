@@ -37,6 +37,11 @@ C.~Gyorodi, R.~Gyorodi, G.~Pecherle, and A.~Olah.
 \newblock In {\em Engineering of Modern Electric Systems (EMES), 2015 13th
   International Conference on}, pages 1--6, June 2015.
 
+\bibitem{Maier}
+David Maier.
+\newblock {\em The Theory of Relational Databases}.
+\newblock Computer Science Press, 1983.
+
 \bibitem{MongoDBvsMySQLCompared}
 Inc MongoDB.
 \newblock Mongodb and mysql compared.

@@ -47,13 +47,13 @@ V súčastnosti najpoužívanejšie algoritmy na NLP využívajú strojové uče
 }
 \label{subsec:useofnlp}
 V súčastnosti má NLP niekoľko hlavných využití v aplikáciach a systémoch. Z hľadiska spracovania učebných textov je pre nás najdôležitejšie využitie z pohľadu \textit{extrakcie informácií}, ktoré je podrobnejšie popísané v sekcii \fullref{subsubsec:information_extraction}. Ďalšie využitia NLP sú napríklad~\cite{Preeti}:
-\begin{itemize}
-	\item Strojový preklad (angl. Machine Translation)
-	\item Rozpoznávanie reči (angl. Speech Recognition)
-	\item Sumarizáciu textu (angl. Text Summarization)
-	\item Dialógové systémy (angl. Dialogue Systems)
-	\item Výber informácií (angl. Information Retrieval)
-\end{itemize}
+\begin{my_itemize}
+	\myitem Strojový preklad (angl. Machine Translation)
+	\myitem Rozpoznávanie reči (angl. Speech Recognition)
+	\myitem Sumarizáciu textu (angl. Text Summarization)
+	\myitem Dialógové systémy (angl. Dialogue Systems)
+	\myitem Výber informácií (angl. Information Retrieval)
+\end{my_itemize}
 
 %
 % Extrakcia informácií
@@ -96,16 +96,16 @@ Pomenovanie spracovanie prirodzeného jazyka a NLP budem používať zameniteľn
 NLP ma niekoľko hlavných úloh. Podrobnejšie si opíšeme tie, ktoré sú relevantné vzhľadom na implementáciu spracovania učebných textov.
 Úlohy spracovania prirodzeného textu:~\cite{collobert2011} 
 \begin{my_itemize}
-	\item Značkovanie slovných druhov (angl. Part-of-speech tagging) \ref{subsubsec:postagging}
-	\item Rozdelenie vety na menšie časti (angl. Chunking)
-	\item Rozpoznávanie názvoslovných entít (angl. Named Entity Recognition) \ref{subsubsec:ner}
-	\item Označovanie sémantického postavenie (angl. Semantic Role Labeling)
-	\item Rozpoznanie koreferencií (angl. Coreference resolution) \ref{subsubsec:corefparsing}
-	\item Morfologické segmentovanie (angl. Morphological Segmentation)
-	\item Generovanie prirodzeného jazyka (angl. Natural Language Generation)
-	\item Optické rozoznávanie textu (angl. Optical Character Recognition)
-	\item Rozloženie vzťahov (angl. Dependency parsing) \ref{subsubsec:dependencyparsing}
-	\item a ďalšie
+	\myitem Značkovanie slovných druhov (angl. Part-of-speech tagging) \ref{subsubsec:postagging}
+	\myitem Rozdelenie vety na menšie časti (angl. Chunking)
+	\myitem Rozpoznávanie názvoslovných entít (angl. Named Entity Recognition) \ref{subsubsec:ner}
+	\myitem Označovanie sémantického postavenie (angl. Semantic Role Labeling)
+	\myitem Rozpoznanie koreferencií (angl. Coreference resolution) \ref{subsubsec:corefparsing}
+	\myitem Morfologické segmentovanie (angl. Morphological Segmentation)
+	\myitem Generovanie prirodzeného jazyka (angl. Natural Language Generation)
+	\myitem Optické rozoznávanie textu (angl. Optical Character Recognition)
+	\myitem Rozloženie vzťahov (angl. Dependency parsing) \ref{subsubsec:dependencyparsing}
+	\myitem a ďalšie
 \end{my_itemize}
 
 %
@@ -551,20 +551,20 @@ Pri spracovaní pôvodnej vety sa na túto vetu aplikuje \textit{pravidlo na spr
 }
 \label{subsubsec:notenizer_ukldanie_a_hodnoty_pravidiel}
 Po spracovávaní sa do databázy uložia použité pravidla aj s ostatnými informáciami o pôvodnej a novej vete. Ukladá sa 
-\begin{itemize}
-	\item Hodnota pôvodnej a novej vety
-	\item Zoznam indexov slov, za ktorými bola v poznámke ukončená veta (ak pôvodná veta je súvetie, tak z nej môže vzniknúť viacero poznámok)
-	\item Všetky závislostí slov v pôvodnej vete
-	\item Všetky závislosti slov v poznámke
-\end{itemize}
+\begin{my_itemize}
+	\myitem Hodnota pôvodnej a novej vety
+	\myitem Zoznam indexov slov, za ktorými bola v poznámke ukončená veta (ak pôvodná veta je súvetie, tak z nej môže vzniknúť viacero poznámok)
+	\myitem Všetky závislostí slov v pôvodnej vete
+	\myitem Všetky závislosti slov v poznámke
+\end{my_itemize}
 pričom každá závislosť slov vo vete sa skladá z 
-\begin{itemize}
-	\item Názvu závislosti
-	\item Hodnota governora závislosti
-	\item Hodnota dependenta závislosti
-	\item Pozícia závislosti vo vete
-	\item POS značka a index slova pre governora aj dependenta
-\end{itemize}
+\begin{my_itemize}
+	\myitem Názvu závislosti
+	\myitem Hodnota governora závislosti
+	\myitem Hodnota dependenta závislosti
+	\myitem Pozícia závislosti vo vete
+	\myitem POS značka a index slova pre governora aj dependenta
+\end{my_itemize}
 
 %
 % Vyhľadanie pravidla

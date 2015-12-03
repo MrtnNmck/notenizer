@@ -41,7 +41,9 @@ Text je špecifický údajový model s variabilnou štruktúrou. Ak chceme efekt
 	\subsection{Relačné databázy}
 }
 \label{subsubsection:relation_dbs}
-Relačné databázy boli dlhé roky populárnou a finančné nenáročnou voľbou pri tvorbe veľkých podnikateľských aplikácií~\cite{MongoDBvsMySQLCompared}. Relačné databázy sú momentálne používané vo väčšine súčasných aplikácií a pracujú spoľahlivo pri obmedzenom množstve dát~\cite{MongoDBvsMySQL2015}. Problém s relačným modelom relačných databáz nastáva, keď vzniká potreba aplikácie s obrovským množstvom dát. Menovite rozšíriteľnosť (angl. scalability) sa stáva najväčším problémom relačných databáz~\cite{NoSQLDBvsRealtionDB}.
+Relačné databázy boli dlhé roky populárnou a finančné nenáročnou voľbou pri tvorbe veľkých podnikateľských aplikácií~\cite{MongoDBvsMySQLCompared}. Momentálne sú používané vo väčšine súčasných aplikácií a pracujú spoľahlivo pri obmedzenom množstve dát~\cite{MongoDBvsMySQL2015}. Problém s relačným modelom relačných databáz nastáva, keď vzniká potreba aplikácie s obrovským množstvom dát. Menovite rozšíriteľnosť (angl. scalability) sa stáva najväčším problémom relačných databáz~\cite{NoSQLDBvsRealtionDB}.
+
+Tento typ databáz oplýva veľkou úrovňou jednotvárnosti, ukladá dáta v tabuľkách zložených z riadov a stĺpcov. Každý záznam (riadok) v tabuľke predstavuje zjednodušený objekt alebo vzťah z reálneho života. Výhodou relačných databáz je možnosť jednoduchého vytvorenia prispôsobeného pohľadu na dáta~\cite{Maier}.
 
 %
 % Textové databázy
@@ -228,3 +230,176 @@ Nerelačné databázy neukladajú údaje v tabuľkách, nemajú fixnú schému a
 Existuje hneď niekoľko prípadov, kedy je lepšie použiť nerelačnú databázu namiesto relačnej databázy. Keď je potrebné, aby aplikácia dokázala spracovávať rôzne typy a tvary dát alebo pri potrebe spravovať aplikáciu efektívnejšie pri rozširovaní, je rozhodne výhodnejšie použiť nerelačnú databázu. Niektoré databázy, ako napríklad textová databáza MongoDB uľahčuje vývoj aplikácií, keďže jeho dokumentová štruktúra dát je jednoducho namapovateľná na moderné, objektovo-orientované programovacie jazyky a tým pádom nie je potreba využívať komplexnú objektovo-relačnú mapovaciu vrstvu, ktorá je nutná pri použití relačných databáz na prevod objektov z programovacie jazyka na perzistentné objekty v databáze. Všeobecne je omnoho ľahšie rozšíriť schému / model nerelačnej databázy ako rozširovať schému relačnej databázy~\cite{MongoDBvsMySQLCompared}.
 
 My budeme využívať textovú databázu, konkrétne MongoDB, na ukladanie spracovaných dát. Keďže skoro každý text a veta je odlišná, tak pre každý text a vetu budeme ukladať, odlišné alebo odlišný počet dát, takže nebudeme mať fixne danú schému. Kvôli tomu, ale aj pre ostatné vlastnosti dokumentovej databázy MongoDB, podrobnejšie opísané v kapitole~\fullref{subsection:mongodb}, bola voľba tejto databázy jednoznačná.
+
+%
+% Náš návrh uchovávania textov v databázach
+%
+\ifthenelse {\boolean{bachelor}}
+{
+	%\subsection{Subsection}
+	\subsection{Náš návrh uchovávania textov v databázach}
+}
+{
+	%\section{Subsection}
+	\section{Náš návrh uchovávania textov v databázach}
+}
+\label{subsection:our_design_persisting_data}
+Dáta budeme ukladať v dokumentovej databáze MongoDB. Keďže spracovávané dáta sa dajú rozdeliť do troch kategórií, budeme využívať primárne tri databázové kolekcie na ich ukladanie. Sú to:
+
+\begin{my_itemize}
+	\myitem sentences,
+	\myitem rules,
+	\myitem texts.
+\end{my_itemize}
+	
+V nasledujúcich častiach ich opíšeme bližšie aj s názornými ukážkami.
+
+%
+% Kolekcia texts
+%
+\ifthenelse {\boolean{bachelor}}
+{
+	%\subsection{Subsection}
+	\subsubsection{Kolekcia texts}
+}
+{
+	%\section{Subsection}
+	\subsection{Kolekcia texts}
+}
+V kolekcií \textit{texts} sa budú ukladať celé texty, ktoré budú spracovávané. 
+
+Schéma tejto kolekcie bude veľmi jednoduchá, nakoľko bude obsahovať iba jedno pole textového typu slúžiace na uloženie textu v pôvodnom tvare.
+
+%
+% Kolekcia sentences
+%
+\ifthenelse {\boolean{bachelor}}
+{
+	%\subsection{Subsection}
+	\subsubsection{Kolekcia sentences}
+}
+{
+	%\section{Subsection}
+	\subsection{Kolekcia sentences}
+}
+V ďalšej kolekcií \textit{sentences} budeme ukladať spracovávané vety a vytvorené poznámky z týchto viet, pričom vety sa budú odkazovať na texty, z ktorých pochádzajú v kolekcií \textit{texts}. Toto nám umožní jednoducho zistiť, v akom texte sa daná veta nachádzala.
+
+Schéma tejto kolekcie bude taktiež pomerne jednoduchá. Dáta budu uložené v dokumentoch s jednoduchou štruktúrou. Bude obsahovať tri polia. Jedno, textové, určené na uchovanie pôvodného znenia vety, druhé, tiež textové, na uchovanie novo vytvorenej vety po spracovaní vety uloženej v prvom poli a tretie pole, ktoré bude odkazovať na záznam v kolekcií \textit{texts}.
+
+%
+% Kolekcia rules
+%
+\ifthenelse {\boolean{bachelor}}
+{
+	%\subsection{Subsection}
+	\subsubsection{Kolekcia rules}
+}
+{
+	%\section{Subsection}
+	\subsection{Kolekcia rules}
+}
+V poslednej kolekcií pomenovanej \textit{rules} sa budú ukladať pravidla na spracovávanie viet, ktoré sa budú odkazovať na vety v kolekcií \textit{sentences}, ktoré boli podľa daného pravidla spracované. Ukladaním viet a pravidiel na ich spracovanie do separátnych kolekcií zabránime duplikovaniu dát a zrýchlime vyhľadávanie. Referencia do kolekcie \textit{sentences} nám poskytuje možnosť jednoduchého a rýchleho vyhľadanie viet, na ktoré bolo konkrétne pravidlo aplikované a aký bol výstup aplikovania tohto pravidla.
+
+Pravidlo sa skladá hlavne z dvoch častí. Zoznam závislostí pôvodnej vety a zoznam závislostí zjednodušenej vety. Práve závislosti z druhého menovaného zoznamu sa aplikujú na spracovávanú vetu s cieľom zjednodušiť ju. Dáta uložené v tejto kolekcií budú mať zložitejšiu štruktúru. 
+
+Každý záznam bude obsahovať pole celých čísel určujúcich pozície slov, za ktorými je vo vytvorenej zjednodušenej vete ukončenie vety. V prípade jednoduchých viet to bude posledné slovo vety, ale pri súvetiach to môže byť viacero slov na ľubovolných miestach vety. Pre jednoduchú vetu \textit{,,The president of the Czech Republic is Miloš Zeman.''} bude toto ple obsahovať jednú hodnotu 3, keďže zjednodušená veta bude v tvare \textit{,,President is Zeman.''}.
+
+Okrem poľa určujúceho konce viet, bude každý záznam obsahovať dva hlavné zoznamy závislostí. Prvý zoznam bude pozostávať zo závislostí pôvodnej vety a druhý zoznam bude zložený z závislostí zjednodušenej vety. Zoznamy budú mať nasledujúcu štruktúru. Budú obsahovať dokumenty. Tieto dokumenty budú mať názov vlastnosti a ich zoznam, pričom sa budú párovať práve podľa názvu. Tento vnorený zoznam bude obsahovať už konkrétne závislosti. Každá závislosť sa skladá z nadradeného tokenu (angl. governor), podradeného tokenu (angl. dependent) a pozície tejto závislosti medzi všetkými závislosťami vety. Tieto tokeny sú dokumenty skladajúce sa z dvoch polí, jedno textové, obsahujúce skratku POS značky a druhé číselne, obsahujúce pozíciu slova vo vete, ku ktorému sa daný token viaže.
+
+Celý strom štruktúry dát v kolekcií \textit{rules} sa dá vyjadriť diagramom~\fullref{fig:rules_collection_structure}.
+
+\begin{figure}[H]
+	\begin{center}\includegraphics[scale=0.45]{rules_colection_schema}\end{center}
+	\caption[Štruktúra kolekcie rules]{Štruktúra kolekcie rules}\label{fig:rules_collection_structure}
+\end{figure}
+
+Dáta sú v MongoDB databáze uložené v binárnom JSON formáte. Na ukážke~\fullref{code:collection_rules_data_example} je zobrazená časť uložených údajov o pôvodnej vete.
+
+\begin{lstlisting}[language = json, caption={Ukážka dát kolekcie rules}, label = {code:collection_rules_data_example}]
+{  
+	"originalDependencies" : [  
+		{  
+			"dependencyName" : "det",
+			"dependencies" : [  
+				{  
+					"governor" : {  
+						"pos" : "NN",
+						"index" : 2
+					},
+					"dependent" : {  
+						"pos" : "DT",
+						"index":1
+					},
+					"position" : 0
+				},
+				{ ... }
+			]
+		}
+	]
+}
+\end{lstlisting}
+
+%
+% Vyhľadávanie pravidla
+%
+\ifthenelse {\boolean{bachelor}}
+{
+	%\subsection{Subsection}
+	\subsubsection{Vyhľadávanie pravidla}
+}
+{
+	%\section{Subsection}
+	\subsection{Vyhľadávanie pravidla}
+}
+Pred spracovaním vety sa vyhľadá pravidlo v databáze vhodné na jej zjednodušenie. Pri vyhľadávaní sa berie do úvahy viacero podmienok.
+
+Spracovávaná veta, pre ktorú hľadáme pravidlo, musí mať rovnaký počet záznamov v \textit{zozname závislosti pôvodnej vety} a zároveň musia byť napárované práve všetky názvy závislosti v tomto zozname.
+
+Pri použití týchto podmienok vieme rýchlo vyhľadať pravidlo, ktoré súvisí s podobnou vetou. Avšak, môže nastať situácia, kedy je pre spracovávanú vetu vhodných viacero pravidiel. Vtedy sa rozhoduje podľa zhody pôvodných viet, ktoré vybrať. Vyberá sa, a následne aplikuje, to s najväčšou zhodou.
+
+Určovanie najväčšej zhody má viacero krokov. Najskôr sa spočítavajú zhody POS značiek nadradených a podradených tokenov zvlášť a následne, indexy slov prislúchajúcich tokenom taktiž nezávisle od seba. Tým sa zisťuje, či spracovávaná veta obsahuje ľubovolnú závislosť s rovnakou hodnotou POS značky alebo indexu či už nadradeného alebo podradeného tokenu. V druhom kroku sa určuje polovičná zhoda závislosti, teda či spracovávaná veta obsahuje zhody POS značiek a zároveň indexov slov v nadradenom tokene alebo v podradenom tokene. V poslednom, treťom sa zisťuje počet úplných zhôd závislostí, čo znamená zhoda POS značiek a indexov zároveň, v nadradenom a podradenom tokene zároveň. Tieto tri hodnoty sa na záver spočítajú a tým získame percentuálne ohodnotenie zhody viet.
+
+Toto určovanie najväčšej zhody sa uskutoční pre každé vyhovujúce pravidlo a vyberie sa pravidlo s najväčšou zhodou.
+
+Ukážkový proces vyhľadania pravidla a určenie zhody je zobrazený na obrázku~\fullref{fig:rule_lookup}.
+
+\begin{figure}[H]
+	\begin{center}\includegraphics[scale=0.6]{rule_lookup}\end{center}
+	\caption[Vyhľadanie pravidla]{Vyhľadanie pravidla}\label{fig:rule_lookup}
+\end{figure}
+
+%
+% Vytváranie pravidla
+%
+\ifthenelse {\boolean{bachelor}}
+{
+	%\subsection{Subsection}
+	\subsubsection{Vytváranie pravidla}
+}
+{
+	%\section{Subsection}
+	\subsection{Vytváranie pravidla}
+}
+Ak nám proces vyhľadania pravidla nevyhľadal žiadne pravidlo, znamená to, že sme doposiaľ nespracovávali takú istú alebo podobnú vetu. V tomto prípade použijeme náš parser, ktorý operuje nad staticky danou sadou pravidiel. Výstupom parseru bude zjednodušená veta, ktorej pravidlo sa následne uloží do databázy a pri ďalšom spracovávaní takej istej alebo podobnej vety sa toto pravidlo vyhľadá a aplikuje ak bude mať dostatočné veľkú zhodu.
+
+Zo závislostí pôvodnej vety sa vytvorí \textit{zoznam závislostí pôvodnej vety}, zo závislostí zjednodušenej vety sa vytvorí \textit{zoznam závislostí zjednodušenej vety} a zo zjednodušenej vety sa určia aj konce viet. Tieto informácie sa spolu uložia do dokumentu, záznamu, do databázy.
+
+Na obrázku~\fullref{fig:rule_creation} je znázornený proces nevyhľadania pravidla, použitie parsera s následným uložením nového pravidla.
+
+\begin{figure}[H]
+	\begin{center}\includegraphics[scale=0.5]{rule_creation}\end{center}
+	\caption[Vytvorenie pravidla]{Vytvorenie pravidla}\label{fig:rule_creation}
+\end{figure}
+
+%
+% Aplikovanie pravidla
+%
+\ifthenelse {\boolean{bachelor}}
+{
+	%\subsection{Subsection}
+	\subsubsection{Aplikovanie pravidla}
+}
+{
+	%\section{Subsection}
+	\subsection{Aplikovanie pravidla}
+}

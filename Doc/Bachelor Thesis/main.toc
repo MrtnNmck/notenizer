@@ -4,9 +4,9 @@
 \contentsline {subsection}{\numberline {2.1}Spracovanie prirodzen\IeC {\'e}ho jazyka}{3}{subsection.2.1}
 \contentsline {subsection}{\numberline {2.2}Vyu\IeC {\v z}itie spracovania prirodzen\IeC {\'e}ho jazyka}{3}{subsection.2.2}
 \contentsline {subsubsection}{\numberline {2.2.1}Extrakcia inform\IeC {\'a}ci\IeC {\'\i }}{4}{subsubsection.2.2.1}
-\contentsline {subsection}{\numberline {2.3}\IeC {\'U}lohy spracovania prirodzen\IeC {\'e}ho jazyka}{5}{subsection.2.3}
+\contentsline {subsection}{\numberline {2.3}\IeC {\'U}lohy spracovania prirodzen\IeC {\'e}ho jazyka}{4}{subsection.2.3}
 \contentsline {subsubsection}{\numberline {2.3.1}Zna\IeC {\v c}kovanie slovn\IeC {\'y}ch druhov}{5}{subsubsection.2.3.1}
-\contentsline {subsubsection}{\numberline {2.3.2}Rozpozn\IeC {\'a}vanie n\IeC {\'a}zvoslovn\IeC {\'y}ch ent\IeC {\'\i }t}{6}{subsubsection.2.3.2}
+\contentsline {subsubsection}{\numberline {2.3.2}Rozpozn\IeC {\'a}vanie n\IeC {\'a}zvoslovn\IeC {\'y}ch ent\IeC {\'\i }t}{5}{subsubsection.2.3.2}
 \contentsline {subsubsection}{\numberline {2.3.3}Rozpoznanie koreferenci\IeC {\'\i }}{6}{subsubsection.2.3.3}
 \contentsline {subsubsection}{\numberline {2.3.4}Rozlo\IeC {\v z}enie vz\IeC {\v t}ahov}{6}{subsubsection.2.3.4}
 \contentsline {subsection}{\numberline {2.4}N\IeC {\'a}stroje na spracovanie prirodzen\IeC {\'e}ho jazyka}{7}{subsection.2.4}
@@ -37,15 +37,22 @@
 \contentsline {paragraph}{\numberline {5.1.3.3}Grafov\IeC {\'e} datab\IeC {\'a}zy}{24}{paragraph.5.1.3.3}
 \contentsline {paragraph}{\numberline {5.1.3.4}Objektovo orientovan\IeC {\'e} datab\IeC {\'a}zy}{25}{paragraph.5.1.3.4}
 \contentsline {subsubsection}{\numberline {5.1.4}Zhrnutie}{25}{subsubsection.5.1.4}
-\contentsline {section}{\numberline {6}Results}{27}{section.6}
-\contentsline {subsection}{\numberline {6.1}Subsection}{27}{subsection.6.1}
-\contentsline {section}{\numberline {7}Conslusions}{28}{section.7}
-\contentsline {section}{Literat\'ura}{29}{section.7}
-\contentsline {section}{\numberline {A}Technical documentation}{30}{appendix.A}
-\contentsline {subsection}{\numberline {A.1}Implementation}{30}{subsection.A.1}
-\contentsline {paragraph}{\numberline {A.1.0.1}Modul abc}{30}{paragraph.A.1.0.1}
-\contentsline {paragraph}{\numberline {A.1.0.2}Modul def}{30}{paragraph.A.1.0.2}
-\contentsline {section}{\numberline {B}User documentation}{32}{appendix.B}
-\contentsline {subsection}{\numberline {B.1}Instalation}{32}{subsection.B.1}
-\contentsline {subsection}{\numberline {B.2}Run the application}{32}{subsection.B.2}
-\contentsline {section}{\numberline {C}Electronic medium}{33}{appendix.C}
+\contentsline {subsection}{\numberline {5.2}N\IeC {\'a}\IeC {\v s} n\IeC {\'a}vrh uchov\IeC {\'a}vania textov v datab\IeC {\'a}zach}{26}{subsection.5.2}
+\contentsline {subsubsection}{\numberline {5.2.1}Kolekcia texts}{26}{subsubsection.5.2.1}
+\contentsline {subsubsection}{\numberline {5.2.2}Kolekcia sentences}{26}{subsubsection.5.2.2}
+\contentsline {subsubsection}{\numberline {5.2.3}Kolekcia rules}{27}{subsubsection.5.2.3}
+\contentsline {subsubsection}{\numberline {5.2.4}Vyh\IeC {\v l}ad\IeC {\'a}vanie pravidla}{29}{subsubsection.5.2.4}
+\contentsline {subsubsection}{\numberline {5.2.5}Vytv\IeC {\'a}ranie pravidla}{31}{subsubsection.5.2.5}
+\contentsline {subsubsection}{\numberline {5.2.6}Aplikovanie pravidla}{32}{subsubsection.5.2.6}
+\contentsline {section}{\numberline {6}Results}{33}{section.6}
+\contentsline {subsection}{\numberline {6.1}Subsection}{33}{subsection.6.1}
+\contentsline {section}{\numberline {7}Conslusions}{34}{section.7}
+\contentsline {section}{Literat\'ura}{35}{section.7}
+\contentsline {section}{\numberline {A}Technical documentation}{36}{appendix.A}
+\contentsline {subsection}{\numberline {A.1}Implementation}{36}{subsection.A.1}
+\contentsline {paragraph}{\numberline {A.1.0.1}Modul abc}{36}{paragraph.A.1.0.1}
+\contentsline {paragraph}{\numberline {A.1.0.2}Modul def}{36}{paragraph.A.1.0.2}
+\contentsline {section}{\numberline {B}User documentation}{38}{appendix.B}
+\contentsline {subsection}{\numberline {B.1}Instalation}{38}{subsection.B.1}
+\contentsline {subsection}{\numberline {B.2}Run the application}{38}{subsection.B.2}
+\contentsline {section}{\numberline {C}Electronic medium}{39}{appendix.C}
