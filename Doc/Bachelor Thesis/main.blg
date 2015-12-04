@@ -1,9 +1,6 @@
 This is BibTeX, Version 0.99dThe top-level auxiliary file: main.aux
 The style file: plain.bst
 Database file #1: references.bib
-Warning--entry type for "MongoDBvsMySQLCompared" isn't style-file defined
---line 73 of file references.bib
-Warning--entry type for "WordNetPage" isn't style-file defined
---line 80 of file references.bib
-Warning--empty journal in Copestake2004
-(There were 3 warnings)
+Warning--I didn't find a database entry for "MongoDBvsMySQLCompared"
+Warning--empty year in AllenNLP
+(There were 2 warnings)

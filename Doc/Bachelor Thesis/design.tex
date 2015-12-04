@@ -41,7 +41,7 @@ Text je špecifický údajový model s variabilnou štruktúrou. Ak chceme efekt
 	\subsection{Relačné databázy}
 }
 \label{subsubsection:relation_dbs}
-Relačné databázy boli dlhé roky populárnou a finančné nenáročnou voľbou pri tvorbe veľkých podnikateľských aplikácií~\cite{MongoDBvsMySQLCompared}. Momentálne sú používané vo väčšine súčasných aplikácií a pracujú spoľahlivo pri obmedzenom množstve dát~\cite{MongoDBvsMySQL2015}. Problém s relačným modelom relačných databáz nastáva, keď vzniká potreba aplikácie s obrovským množstvom dát. Menovite rozšíriteľnosť (angl. scalability) sa stáva najväčším problémom relačných databáz~\cite{NoSQLDBvsRealtionDB}.
+Relačné databázy boli dlhé roky populárnou a finančné nenáročnou voľbou pri tvorbe veľkých podnikateľských aplikácií. Momentálne sú používané vo väčšine súčasných aplikácií a pracujú spoľahlivo pri obmedzenom množstve dát~\cite{MongoDBvsMySQL2015}. Problém s relačným modelom relačných databáz nastáva, keď vzniká potreba aplikácie s obrovským množstvom dát. Menovite rozšíriteľnosť (angl. scalability) sa stáva najväčším problémom relačných databáz~\cite{NoSQLDBvsRealtionDB}.
 
 Tento typ databáz oplýva veľkou úrovňou jednotvárnosti, ukladá dáta v tabuľkách zložených z riadov a stĺpcov. Každý záznam (riadok) v tabuľke predstavuje zjednodušený objekt alebo vzťah z reálneho života. Výhodou relačných databáz je možnosť jednoduchého vytvorenia prispôsobeného pohľadu na dáta~\cite{Maier}.
 
@@ -58,11 +58,11 @@ Tento typ databáz oplýva veľkou úrovňou jednotvárnosti, ukladá dáta v ta
 	\subsection{Textové databázy}
 }
 \label{subsubsection:text_dbs}
-S rozmachom variácie dát v posledných rokoch sa začali objavovať a vznikať nerelačné databázy, aby pokryli požiadavky na nové aplikácie.~\cite{MongoDBvsMySQLCompared}. Textové databázy sú druhom nerelačných databáz.
+S rozmachom variácie dát v posledných rokoch sa začali objavovať a vznikať nerelačné databázy, aby pokryli požiadavky na nové aplikácie. Textové databázy sú druhom nerelačných databáz.
 
-Textové databázy ukladajú dáta vo forme dokumentov, vďaka čomu ponúkajú vysoký výkon a horizontálnu rozšíriteľnosť~\cite{NoSQLDBvsRealtionDB}. Uložené dokumenty môžu nadobúdať rôzne typy, ako napríklad JSON, BSON, XML a BLOB, ktoré poskytujú veľkú flexibilnosť pre dáta~\cite{MongoDBvsMySQLCompared}. Každý záznam v takejto databáze preto môže mať inú štruktúru, napríklad počet alebo typ polí, čo šetrí úložným priestorom, keďže neobsahuje nepotrebné prázdne polia~\cite{NoSQLDBvsRealtionDB}.
+Textové databázy ukladajú dáta vo forme dokumentov, vďaka čomu ponúkajú vysoký výkon a horizontálnu rozšíriteľnosť~\cite{NoSQLDBvsRealtionDB}. Uložené dokumenty môžu nadobúdať rôzne typy, ako napríklad JSON, BSON, XML a BLOB, ktoré poskytujú veľkú flexibilnosť pre dáta. Každý záznam v takejto databáze preto môže mať inú štruktúru, napríklad počet alebo typ polí, čo šetrí úložným priestorom, keďže neobsahuje nepotrebné prázdne polia~\cite{NoSQLDBvsRealtionDB}.
 
-Dokumenty v databáze sú referencované kľúčom, ktorý môže byť string, cesta, ale dokonca aj dokument~\cite{NoSQLDBvsRealtionDB}. Majú dynamickú schému, čo umožňuje vytvárať záznamy bez toho, aby bolo potrebné predtým definovať štruktúru. Uľahčujú zmenu štruktúry záznamov jednoduchým pridaním, odstránením alebo zmenením typu poľa. Vďaka svojej štruktúre sú dokumenty ľahko namapovateľné na objekty z objektovo-orientovaných programovacích jazykov a odstraňujú tým potrebu pre použitie objektovo-relačnej mapovacej vrstvy~\cite{MongoDBvsMySQLCompared}.
+Dokumenty v databáze sú referencované kľúčom, ktorý môže byť string, cesta, ale dokonca aj dokument~\cite{NoSQLDBvsRealtionDB}. Majú dynamickú schému, čo umožňuje vytvárať záznamy bez toho, aby bolo potrebné predtým definovať štruktúru. Uľahčujú zmenu štruktúry záznamov jednoduchým pridaním, odstránením alebo zmenením typu poľa. Vďaka svojej štruktúre sú dokumenty ľahko namapovateľné na objekty z objektovo-orientovaných programovacích jazykov a odstraňujú tým potrebu pre použitie objektovo-relačnej mapovacej vrstvy.
 \\
 
 Primárne využitie týchto databáz je v aplikáciách, ktoré potrebujú ukladať dáta, ktorých štruktúra je vopred neznáma alebo sa mení. Predstaviteľmi sú napríklad \textit{MongoDB} alebo \textit{CouchDB} databázy.
@@ -80,7 +80,7 @@ Primárne využitie týchto databáz je v aplikáciách, ktoré potrebujú uklad
 	\subsubsection{MongoDB}
 }
 \label{subsection:mongodb}
-MongoDB je dokumentová nerelačná databáza vytvorená v C++ spustená v roku 2009~\cite{NoSQLDBvsRealtionDB}. Ukladá dáta v dokumentoch vo formáte BSON (Binary JSON), ktorých štruktúra sa môže meniť. Využíva dynamickú štruktúru schém, preto dokáže vytvárať záznamy bez preddefinovanej štruktúry dát, lebo štruktúra sa vytvára za behu, pričom môže byť veľmi jednoducho pozmenená pridaním, odstránením, zmenou typu polia dokumentu určujúceho štruktúru. Umožňuje jednoduché ukladanie dát s hierarchickými vzťahmi alebo komplexnejších štruktúr, ako sú napríklad polia, listy alebo vnorené polia~\cite{MongoDBvsMySQLCompared}.
+MongoDB\footnote{www.mongodb.org} je dokumentová nerelačná databáza vytvorená v C++ spustená v roku 2009~\cite{NoSQLDBvsRealtionDB}. Ukladá dáta v dokumentoch vo formáte BSON (Binary JSON), ktorých štruktúra sa môže meniť. Využíva dynamickú štruktúru schém, preto dokáže vytvárať záznamy bez preddefinovanej štruktúry dát, lebo štruktúra sa vytvára za behu, pričom môže byť veľmi jednoducho pozmenená pridaním, odstránením, zmenou typu polia dokumentu určujúceho štruktúru. Umožňuje jednoduché ukladanie dát s hierarchickými vzťahmi alebo komplexnejších štruktúr, ako sú napríklad polia, listy alebo vnorené polia.
 
 Vlastnosti ako chybová tolerancia, perzistencia a konzistencia dát sú súčasťou MongoDB. Oproti klasickým dokumentovým databázam ponúka aj vymoženosti, ako agregácia, ad hoc dopyty, indexovanie, a pod. Taktiež má svoj vlastný plnohodnotný dopytovací jazyk \textit{mongo query language}~\cite{NoSQLDBvsRealtionDB}.
 
@@ -100,16 +100,19 @@ Prvky poskytované databázou MongoDB sú prvky zahrnuté v relačných databáz
 		Aktualizovanie polí & Áno & Áno \\ \hline
 		Ľahké pre programátorov & Nie & Áno \\ \hline
 		Komplexné transakcie & Áno & Nie \\ \hline
-		Kontrola & Áno & Áno \\ \hline
+		Audit & Áno & Áno \\ \hline
 		Auto-sharding & Nie & Áno \\ \hline
 	\end{tabular}
 \end{table}
+
+Bohatý dátový model (angl. Rich Data Model) znamená, že dátový model poskytuje veľa funkcionality. Princípom dynamickej štruktúry (angl. Dynamic Structure) je jednoduchá zmena štruktúru, pričom nemusí byť vôbec zadefinovaná a každý záznam môže mať odlišnú štruktúru. Lokálnosť dát (angl. Data Locality) znamená uchovávanie súvisiacich dát pokope. Aktualizovanie polí umožňuje vykonávať nad poliami operácie, ako sú inkrementácia podľa špecifikovaného množstva, vynásobenie hodnotou, premenovanie, aktualizácia iba ak je hodnota väčšia alebo menšia ako špecifická hodnota a ďalšie. Audit (angl. Auditing) je funkcionalita, ktorá umožňuje administrátorom a používateľom sledovať aktivity systému.
+Auto-sharding pri náraste dát, aby sa zabránilo poklesu priepustnosti operácií čítania a zapisovania, ukladá dáta automaticky na viacero strojov.
 
 MongoDB má vlastnú konvenciu názvov svojich častí. Tie sa v niektorých prípadoch líšia s názvami relačných databáz. Rozdiely sú zobrazene v tabuľke~\fullref{table:names_of_mongodb}. Za zástupcu relačných databáz bola vybraná MySQL databáza. 
 
 \begin{table}[H]
 	\centering
-	\caption{Porovnanie konvencie názvov~\cite{MongoDBvsMySQL2015}}
+	\caption{Porovnanie používaných pojmov~\cite{MongoDBvsMySQL2015}}
 	\label{table:names_of_mongodb}
 	\begin{tabular}{|l|l|}
 		\hline
@@ -225,11 +228,11 @@ Objektovo orientované databázy ukladajú dáta vo forme objektov, rovnako ako 
 NOSQL databáza narozdiel do RDBMS modelu (Relation Data Base Management System) je
 navrhnutá aby sa bola jednoducho rozšíriteľná so zväčšovaním sa. Väčšina NOSQL databáz odstránila niektoré nepotrebné prvky RDBMS modelov, čím sa stali podstatne ľahšími a efektívnejšími ako ich náprotivok RDBMS systémy. Toto na druhej strane spôsobilo, že NOSQL model negarantuje vlastnosti ACID (Atomicity, Consistency, Isolation, Durability), ale naopak garantuje vlastnosti BASE (Basically Available, Soft state, Eventula Consistency)~\cite{NoSQLDBvsRealtionDB}.
 
-Nerelačné databázy neukladajú údaje v tabuľkách, nemajú fixnú schému a majú jednoduchý dátový model. Tieto vlastnosti im umožňujú jednoducho spracovávať neštrukturované dáta, ako sú dokumenty, e-maily a mnoho ďalších~\cite{MongoDBvsMySQL2015}. Tieto databázy majú čím ďalej, tým majú viacero využití.
+Nerelačné databázy neukladajú údaje v tabuľkách a nemajú fixnú schému. Tieto vlastnosti im umožňujú jednoducho spracovávať neštrukturované dáta, ako sú dokumenty, e-maily a mnoho ďalších~\cite{MongoDBvsMySQL2015}. Preto majú čím ďalej, tým majú viacero využití.
 
-Existuje hneď niekoľko prípadov, kedy je lepšie použiť nerelačnú databázu namiesto relačnej databázy. Keď je potrebné, aby aplikácia dokázala spracovávať rôzne typy a tvary dát alebo pri potrebe spravovať aplikáciu efektívnejšie pri rozširovaní, je rozhodne výhodnejšie použiť nerelačnú databázu. Niektoré databázy, ako napríklad textová databáza MongoDB uľahčuje vývoj aplikácií, keďže jeho dokumentová štruktúra dát je jednoducho namapovateľná na moderné, objektovo-orientované programovacie jazyky a tým pádom nie je potreba využívať komplexnú objektovo-relačnú mapovaciu vrstvu, ktorá je nutná pri použití relačných databáz na prevod objektov z programovacie jazyka na perzistentné objekty v databáze. Všeobecne je omnoho ľahšie rozšíriť schému / model nerelačnej databázy ako rozširovať schému relačnej databázy~\cite{MongoDBvsMySQLCompared}.
+Existuje hneď niekoľko prípadov, kedy je lepšie použiť nerelačnú databázu namiesto relačnej databázy. Keď je potrebné, aby aplikácia dokázala spracovávať rôzne typy a tvary dát alebo pri potrebe spravovať aplikáciu efektívnejšie pri rozširovaní, je rozhodne výhodnejšie použiť nerelačnú databázu. Niektoré databázy, ako napríklad textová databáza MongoDB uľahčuje vývoj aplikácií, keďže jeho dokumentová štruktúra dát je jednoducho namapovateľná na moderné, objektovo-orientované programovacie jazyky a tým pádom nie je potreba využívať komplexnú objektovo-relačnú mapovaciu vrstvu, ktorá je nutná pri použití relačných databáz na prevod objektov z programovacie jazyka na perzistentné objekty v databáze. Všeobecne je omnoho ľahšie rozšíriť schému / model nerelačnej databázy ako rozširovať schému relačnej databázy.
 
-My budeme využívať textovú databázu, konkrétne MongoDB, na ukladanie spracovaných dát. Keďže skoro každý text a veta je odlišná, tak pre každý text a vetu budeme ukladať, odlišné alebo odlišný počet dát, takže nebudeme mať fixne danú schému. Kvôli tomu, ale aj pre ostatné vlastnosti dokumentovej databázy MongoDB, podrobnejšie opísané v kapitole~\fullref{subsection:mongodb}, bola voľba tejto databázy jednoznačná.
+Potrebujeme ukladať v databáze texty a informácie o nich. Počet viet, slov, vzťahov je pre každý text odlišný a preto nedokážeme vopred definovať efektívnu schému na ukladanie týchto dát. Textové databázy, so svojou dynamickou a ľahko upraviteľnou štruktúrou, sú na tento účel ideálne, pričom ukladanie textov v tabuľkách by bolo náročne, navyše relačné databázy nemajú default podporované vyhľadávania v štruktúrach ako text. MongoDB (viď.~\fullref{subsection:mongodb}) je vyspelá, textová databáza zahrňajúca všetku funkcionalitu, ktorú potrebujeme navyše rozšírenú o veľa vymožeností.
 
 %
 % Náš návrh uchovávania textov v databázach
@@ -268,7 +271,7 @@ V nasledujúcich častiach ich opíšeme bližšie aj s názornými ukážkami.
 }
 V kolekcií \textit{texts} sa budú ukladať celé texty, ktoré budú spracovávané. 
 
-Schéma tejto kolekcie bude veľmi jednoduchá, nakoľko bude obsahovať iba jedno pole textového typu slúžiace na uloženie textu v pôvodnom tvare.
+štruktúra tejto kolekcie bude veľmi jednoduchá, nakoľko bude obsahovať iba jedno pole textového typu slúžiace na uloženie textu v pôvodnom tvare.
 
 %
 % Kolekcia sentences
@@ -284,7 +287,7 @@ Schéma tejto kolekcie bude veľmi jednoduchá, nakoľko bude obsahovať iba jed
 }
 V ďalšej kolekcií \textit{sentences} budeme ukladať spracovávané vety a vytvorené poznámky z týchto viet, pričom vety sa budú odkazovať na texty, z ktorých pochádzajú v kolekcií \textit{texts}. Toto nám umožní jednoducho zistiť, v akom texte sa daná veta nachádzala.
 
-Schéma tejto kolekcie bude taktiež pomerne jednoduchá. Dáta budu uložené v dokumentoch s jednoduchou štruktúrou. Bude obsahovať tri polia. Jedno, textové, určené na uchovanie pôvodného znenia vety, druhé, tiež textové, na uchovanie novo vytvorenej vety po spracovaní vety uloženej v prvom poli a tretie pole, ktoré bude odkazovať na záznam v kolekcií \textit{texts}.
+štruktúra tejto kolekcie bude taktiež pomerne jednoduchá. Dáta budu uložené v dokumentoch s jednoduchou štruktúrou. Bude obsahovať tri polia. Jedno, textové, určené na uchovanie pôvodného znenia vety, druhé, tiež textové, na uchovanie novo vytvorenej vety po spracovaní vety uloženej v prvom poli a tretie pole, ktoré bude odkazovať na záznam v kolekcií \textit{texts}.
 
 %
 % Kolekcia rules
@@ -328,7 +331,7 @@ Dáta sú v MongoDB databáze uložené v binárnom JSON formáte. Na ukážke~\
 					},
 					"dependent" : {  
 						"pos" : "DT",
-						"index":1
+						"index" : 1
 					},
 					"position" : 0
 				},
@@ -351,6 +354,7 @@ Dáta sú v MongoDB databáze uložené v binárnom JSON formáte. Na ukážke~\
 	%\section{Subsection}
 	\subsection{Vyhľadávanie pravidla}
 }
+\label{subsubsection:rule_lookup}
 Pred spracovaním vety sa vyhľadá pravidlo v databáze vhodné na jej zjednodušenie. Pri vyhľadávaní sa berie do úvahy viacero podmienok.
 
 Spracovávaná veta, pre ktorú hľadáme pravidlo, musí mať rovnaký počet záznamov v \textit{zozname závislosti pôvodnej vety} a zároveň musia byť napárované práve všetky názvy závislosti v tomto zozname.
@@ -380,9 +384,10 @@ Ukážkový proces vyhľadania pravidla a určenie zhody je zobrazený na obráz
 	%\section{Subsection}
 	\subsection{Vytváranie pravidla}
 }
+\label{subsubsection:rule_creation}
 Ak nám proces vyhľadania pravidla nevyhľadal žiadne pravidlo, znamená to, že sme doposiaľ nespracovávali takú istú alebo podobnú vetu. V tomto prípade použijeme náš parser, ktorý operuje nad staticky danou sadou pravidiel. Výstupom parseru bude zjednodušená veta, ktorej pravidlo sa následne uloží do databázy a pri ďalšom spracovávaní takej istej alebo podobnej vety sa toto pravidlo vyhľadá a aplikuje ak bude mať dostatočné veľkú zhodu.
 
-Zo závislostí pôvodnej vety sa vytvorí \textit{zoznam závislostí pôvodnej vety}, zo závislostí zjednodušenej vety sa vytvorí \textit{zoznam závislostí zjednodušenej vety} a zo zjednodušenej vety sa určia aj konce viet. Tieto informácie sa spolu uložia do dokumentu, záznamu, do databázy.
+Zo závislostí pôvodnej vety sa vytvorí \textit{zoznam závislostí pôvodnej vety}, zo závislostí zjednodušenej vety sa vytvorí \textit{zoznam závislostí zjednodušenej vety} a zo zjednodušenej vety sa určia aj konce viet. Tieto informácie sa spolu uložia do dokumentu, záznamu, do databázy ako \textbf{pravidlo}.
 
 Na obrázku~\fullref{fig:rule_creation} je znázornený proces nevyhľadania pravidla, použitie parsera s následným uložením nového pravidla.
 
@@ -403,3 +408,82 @@ Na obrázku~\fullref{fig:rule_creation} je znázornený proces nevyhľadania pra
 	%\section{Subsection}
 	\subsection{Aplikovanie pravidla}
 }
+\label{subsubsection:rule_application}
+Máme spracovávanú vetu a pravidlo na aplikovanie. Z princípu vyhľadávania pravidiel (viď.~\fullref{subsubsection:rule_lookup} pre podrobnosti) vieme, že spracovávaná veta obsahuje závislosti zo zoznamu závislostí pôvodnej vety a tým pádom obsahuje aj závislosti zo zoznamu závislostí zjednodušenej vety. 
+
+Proces aplikovania pravidla prebieha nasledovne. Pre každú závislosť v zozname závislostí zjednodušenej vety, sa vyhľadá táto závislosť v spracovávanej vete. Z nájdenej závislosti sa zoberie slovo prislúchajúce podradenému tokenu a pridá sa do výslednej zjednodušenej vety na miesto svojho indexu. V prípade ak sa jedná o závislosť \textit{nominal subject}, zoberie sa aj slovo prislúchajúce nadradenému tokenu a taktiež sa pridá do výslednej vety. Po prejdení všetkých závislosti zo zoznamu sa urobia posledné úpravy zjednodušenej vety, ako kapitalizácia prvého písmena vety a rozdelenie vety na viacero viet, ak tak definovalo pravidlo.
+
+Funkcia, ktorá bude aplikovať pravidlo na vetu s cieľom získania zjednodušenej vety bude vyzerať ako je naznačené v ukážke~\fullref{code:apply_rule_example}.
+\\
+
+\begin{lstlisting}[language = csharp, caption={Aplikovanie pravidla}, label = {code:apply_rule_example}]
+// Funkcia aplikuje pravidlo na vetu a vrati zjednodusenu vetu
+private Note ApplyRule(NotenizerSentence sentence, NotenizerRule rule)
+{
+	// Vytvorenie objektu zjednodusenej vety
+	Note note = new Note(sentence);
+	// Vytvorenie objektu casti zjednodusenej vety - zjedn. veta sa moze skladat
+	// z viacerych
+	NotePart notePart = new NotePart(sentence);
+
+	foreach (NotenizerDependency dependencyLoop in rule.RuleDependencies)
+	{
+		// Vyhlada zavislost a prida hodnotu prisluchajuceho slova do vyslednej
+		// zjednodusenej vety
+		ApplyRulesDependency(sentence, dependencyLoop, notePart);
+	}
+
+	// Finalne upravy
+	note.Add(notePart);
+	note.SplitToSentences(rule.SentencesEnds);
+
+	return note;
+}
+\end{lstlisting}
+
+Pre vetu ,,The president of the Czech Republic is Miloš Zeman.'' nám nástroj Stanford CoreNLP poskytne závislosti slov vo vete, ktoré sú v textovej podobe výstupu zobrazené v ukážke~\fullref{code:sentence_dependencies}. Závislosti sú v tvare [názov závislosti] ([slovo prislúchajúce nadradenému tokenu] - [index slova vo vete], [slovo prislúchajúce podradenému tokenu] - [index slova vo vete]).
+
+Ak na túto vetu aplikujeme pravidlo, ktoré obsahuje v zozname závislostí zjednodušenej vety dve závislosti:
+\begin{enumerate}
+	\item nsubj
+	\begin{itemize}
+		\item podradený token
+		\begin{itemize}
+			\item POS: NN
+			\item index: 2
+		\end{itemize}
+		\item nadradený token
+		\begin{itemize}
+			\item POS: NNP
+			\item index: 9
+		\end{itemize}
+	\end{itemize}
+	
+	\item cop
+	\begin{itemize}
+		\item podradený token
+		\begin{itemize}
+			\item POS: VBZ
+			\item index: 7
+		\end{itemize}
+		\item nadradený token
+		\begin{itemize}
+			\item POS: NNP
+			\item index: 9
+		\end{itemize}
+	\end{itemize}
+\end{enumerate}
+
+Tak výsledná zjednodušená veta bude ,,President is Zeman.''. \\
+
+\begin{lstlisting}[language = csharp, caption={Závislosti jednoduchej vety}, label = {code:sentence_dependencies}]
+root(ROOT-0, Zeman-9)
+det(president-2, The-1)
+nsubj(Zeman-9, president-2)
+case(Republic-6, of-3)
+det(Republic-6, the-4)
+compund(Republic-6, Czech-5)
+nmod:of(president-2, Republic-6)
+cop(Zeman-9, is-7)
+compund(Zeman-9, Milos-8)
+\end{lstlisting}

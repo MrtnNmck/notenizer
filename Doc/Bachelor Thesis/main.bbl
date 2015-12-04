@@ -1,4 +1,10 @@
-\begin{thebibliography}{10}
+\begin{thebibliography}{1}
+
+\bibitem{AllenNLP}
+James~F. Allen.
+\newblock Natural language processing.
+\newblock In {\em Encyclopedia of Computer Science}, pages 1218--1222. John
+  Wiley and Sons Ltd., Chichester, UK.
 
 \bibitem{Bharati1995}
 Akshar Bharati and Vineet Chaitanya.
@@ -16,20 +22,11 @@ Volha Bryl, Claudio Giuliano, Luciano Serafini, and Katerina Tymoshenko.
 Marie catherine De~Marneffe and Christopher~D. Manning.
 \newblock Stanford typed dependencies manual, 2008.
 
-\bibitem{WordNetPage}
-Randee~Tengi Christiane~Fellbaum.
-\newblock What is wordnet?
-
 \bibitem{collobert2011}
 Ronan Collobert, Jason Weston, L\'eon Bottou, Michael Karlen, Koray
   Kavukcuoglu, and Pavel Kuksa.
 \newblock Natural language processing (almost) from scratch.
 \newblock {\em Journal of Machine Learning Research}, 12:2493--2537, 2011.
-
-\bibitem{Copestake2004}
-Ann Copestake.
-\newblock Natural language processing.
-\newblock 2004.
 
 \bibitem{MongoDBvsMySQL2015}
 C.~Gyorodi, R.~Gyorodi, G.~Pecherle, and A.~Olah.
@@ -41,10 +38,6 @@ C.~Gyorodi, R.~Gyorodi, G.~Pecherle, and A.~Olah.
 David Maier.
 \newblock {\em The Theory of Relational Databases}.
 \newblock Computer Science Press, 1983.
-
-\bibitem{MongoDBvsMySQLCompared}
-Inc MongoDB.
-\newblock Mongodb and mysql compared.
 
 \bibitem{NoSQLDBvsRealtionDB}
 Ameya Nayak, Anil Poriya, and Dikshay Poojary.

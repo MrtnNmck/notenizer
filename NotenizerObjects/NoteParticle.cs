@@ -17,7 +17,7 @@ namespace nsNotenizerObjects
         public NoteParticle(NotenizerWord noteWord, NotenizerDependency noteDependency)
         {
             _noteWord = noteWord;
-            _noteDependency = NoteDependency;
+            _noteDependency = noteDependency;
             _noteWordValue = MakeWordConsiderRelation(noteWord, noteDependency.Relation);
         }
 
