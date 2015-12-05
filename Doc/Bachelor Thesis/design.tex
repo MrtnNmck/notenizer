@@ -255,6 +255,7 @@ Dáta budeme ukladať v dokumentovej databáze MongoDB. Keďže spracovávané d
 	\myitem texts.
 \end{my_itemize}
 	
+Pri návrhu sme vychádzali s princípu čo najjednoduchších kolekcií, ktoré budu obsahovať iba relevantné informácie.
 V nasledujúcich častiach ich opíšeme bližšie aj s názornými ukážkami.
 
 %
@@ -269,9 +270,9 @@ V nasledujúcich častiach ich opíšeme bližšie aj s názornými ukážkami.
 	%\section{Subsection}
 	\subsection{Kolekcia texts}
 }
-V kolekcií \textit{texts} sa budú ukladať celé texty, ktoré budú spracovávané. 
+V kolekcií \textit{texts} sa ukladajú celé texty, ktoré sú spracovávané. 
 
-štruktúra tejto kolekcie bude veľmi jednoduchá, nakoľko bude obsahovať iba jedno pole textového typu slúžiace na uloženie textu v pôvodnom tvare.
+Kolekcia obsahuje iba jedno pole textového typu slúžiace na uloženie textu v pôvodnom tvare.
 
 %
 % Kolekcia sentences
@@ -285,9 +286,9 @@ V kolekcií \textit{texts} sa budú ukladať celé texty, ktoré budú spracová
 	%\section{Subsection}
 	\subsection{Kolekcia sentences}
 }
-V ďalšej kolekcií \textit{sentences} budeme ukladať spracovávané vety a vytvorené poznámky z týchto viet, pričom vety sa budú odkazovať na texty, z ktorých pochádzajú v kolekcií \textit{texts}. Toto nám umožní jednoducho zistiť, v akom texte sa daná veta nachádzala.
+V ďalšej kolekcií \textit{sentences} ukladáme spracovávané vety a vytvorené poznámky z týchto viet, pričom vety sa odkazujú na texty, z ktorých pochádzajú v kolekcií \textit{texts}. Umožní nám to jednoducho zistiť, v akom texte sa daná veta nachádzala.
 
-štruktúra tejto kolekcie bude taktiež pomerne jednoduchá. Dáta budu uložené v dokumentoch s jednoduchou štruktúrou. Bude obsahovať tri polia. Jedno, textové, určené na uchovanie pôvodného znenia vety, druhé, tiež textové, na uchovanie novo vytvorenej vety po spracovaní vety uloženej v prvom poli a tretie pole, ktoré bude odkazovať na záznam v kolekcií \textit{texts}.
+Dáta sú uložené v dokumentoch, ktoré obsahujú tri polia. Jedno, textové, určené na uchovanie pôvodného znenia vety, druhé, tiež textové, na uchovanie novo vytvorenej vety po spracovaní vety uloženej v prvom poli a tretie pole, ktoré bude odkazovať na záznam v kolekcií \textit{texts}.
 
 %
 % Kolekcia rules
@@ -301,18 +302,18 @@ V ďalšej kolekcií \textit{sentences} budeme ukladať spracovávané vety a vy
 	%\section{Subsection}
 	\subsection{Kolekcia rules}
 }
-V poslednej kolekcií pomenovanej \textit{rules} sa budú ukladať pravidla na spracovávanie viet, ktoré sa budú odkazovať na vety v kolekcií \textit{sentences}, ktoré boli podľa daného pravidla spracované. Ukladaním viet a pravidiel na ich spracovanie do separátnych kolekcií zabránime duplikovaniu dát a zrýchlime vyhľadávanie. Referencia do kolekcie \textit{sentences} nám poskytuje možnosť jednoduchého a rýchleho vyhľadanie viet, na ktoré bolo konkrétne pravidlo aplikované a aký bol výstup aplikovania tohto pravidla.
+V poslednej kolekcií pomenovanej \textit{rules} sa ukladajú pravidla na spracovávanie viet, ktoré sa odkazujú na vety v kolekcií \textit{sentences}, ktoré boli podľa daného pravidla spracované. Ukladaním viet a pravidiel na ich spracovanie do separátnych kolekcií zabránime duplikovaniu dát a zrýchlime vyhľadávanie. Referencia do kolekcie \textit{sentences} nám poskytuje možnosť jednoduchého a rýchleho vyhľadanie viet, na ktoré bolo konkrétne pravidlo aplikované a aký bol výstup aplikovania tohto pravidla.
 
-Pravidlo sa skladá hlavne z dvoch častí. Zoznam závislostí pôvodnej vety a zoznam závislostí zjednodušenej vety. Práve závislosti z druhého menovaného zoznamu sa aplikujú na spracovávanú vetu s cieľom zjednodušiť ju. Dáta uložené v tejto kolekcií budú mať zložitejšiu štruktúru. 
+Pravidlo sa skladá hlavne z dvoch častí. Zoznam závislostí pôvodnej vety a zoznam závislostí zjednodušenej vety. Práve závislosti z druhého menovaného zoznamu sa aplikujú na spracovávanú vetu s cieľom zjednodušiť ju.
 
-Každý záznam bude obsahovať pole celých čísel určujúcich pozície slov, za ktorými je vo vytvorenej zjednodušenej vete ukončenie vety. V prípade jednoduchých viet to bude posledné slovo vety, ale pri súvetiach to môže byť viacero slov na ľubovolných miestach vety. Pre jednoduchú vetu \textit{,,The president of the Czech Republic is Miloš Zeman.''} bude toto ple obsahovať jednú hodnotu 3, keďže zjednodušená veta bude v tvare \textit{,,President is Zeman.''}.
+Každý záznam v tejto kolekcií obsahuje pole celých čísel určujúcich pozície slov, za ktorými je vo vytvorenej zjednodušenej vete ukončenie vety. V prípade jednoduchých viet to bude posledné slovo vety, ale pri súvetiach to môže byť viacero slov na ľubovolných miestach vety. Pre jednoduchú vetu \textit{,,The president of the Czech Republic is Miloš Zeman.''} bude toto pole obsahovať jednú hodnotu 3, keďže zjednodušená veta bude v tvare \textit{,,President is Zeman.''}.
 
-Okrem poľa určujúceho konce viet, bude každý záznam obsahovať dva hlavné zoznamy závislostí. Prvý zoznam bude pozostávať zo závislostí pôvodnej vety a druhý zoznam bude zložený z závislostí zjednodušenej vety. Zoznamy budú mať nasledujúcu štruktúru. Budú obsahovať dokumenty. Tieto dokumenty budú mať názov vlastnosti a ich zoznam, pričom sa budú párovať práve podľa názvu. Tento vnorený zoznam bude obsahovať už konkrétne závislosti. Každá závislosť sa skladá z nadradeného tokenu (angl. governor), podradeného tokenu (angl. dependent) a pozície tejto závislosti medzi všetkými závislosťami vety. Tieto tokeny sú dokumenty skladajúce sa z dvoch polí, jedno textové, obsahujúce skratku POS značky a druhé číselne, obsahujúce pozíciu slova vo vete, ku ktorému sa daný token viaže.
+Okrem poľa určujúceho konce viet, bude každý záznam obsahovať dva hlavné zoznamy závislostí. Prvý zoznam bude pozostávať zo závislostí pôvodnej vety a druhý zoznam bude zložený z závislostí zjednodušenej vety. Zoznamy majú nasledujúcu štruktúru. Obsahujú dokumenty. Tieto dokumenty majú názov vlastnosti a ich zoznam, pričom sa párujú práve podľa názvu. Tento vnorený zoznam obsahuje už konkrétne závislosti. Každá závislosť sa skladá z nadradeného tokenu (angl. governor), podradeného tokenu (angl. dependent) a pozície tejto závislosti medzi všetkými závislosťami vety. Tokeny sú dokumenty skladajúce sa z dvoch polí, jedno textové, obsahujúce skratku POS značky a druhé číselne, obsahujúce pozíciu slova vo vete, ku ktorému sa daný token viaže.
 
-Celý strom štruktúry dát v kolekcií \textit{rules} sa dá vyjadriť diagramom~\fullref{fig:rules_collection_structure}.
+Celá štruktúra dát v kolekcií \textit{rules} sa dá vyjadriť diagramom~\fullref{fig:rules_collection_structure}.
 
 \begin{figure}[H]
-	\begin{center}\includegraphics[scale=0.45]{rules_colection_schema}\end{center}
+	\begin{center}\includegraphics[scale=0.45]{rules_collection}\end{center}
 	\caption[Štruktúra kolekcie rules]{Štruktúra kolekcie rules}\label{fig:rules_collection_structure}
 \end{figure}
 
