@@ -12,7 +12,7 @@
 	%\chapter{Analysis}
 	\chapter{Spracovanie prirodzeného jazyka}
 }
-V tejto kapitole priblížím a rozoberiem čo je spracovanie prirodzeného jazyka, jeho využitie v aplikáciach a systémoch a jeho hlavné úlohy. Ďalej zanalyzujem nástroje, ktoré sa dajú využiť na spracovanie prirodzeného jazyka a tak isto sa pozriem na aplikácie a systémy, ktorých základom je spracovanie textu.
+V tejto kapitole priblížime a rozoberieme čo je spracovanie prirodzeného jazyka, jeho využitie v aplikáciach a systémoch a jeho hlavné úlohy. Ďalej zanalyzujeme nástroje, ktoré sa dajú využiť na spracovanie prirodzeného jazyka.
 
 %
 % Spracovanie prirodzeného jazyka
@@ -27,9 +27,9 @@ V tejto kapitole priblížím a rozoberiem čo je spracovanie prirodzeného jazy
 	\section{Spracovanie prirodzeného jazyka}
 }
 \label{subsec:nlp}
-Spracovanie prirodzeného jazyka (angl. Natural Language Processing - NLP) odkazuje na počítačové systémy, ktoré spracovávajú, snažia sa pochopiť alebo generujú jeden alebo viacero ľudských jazykov. Vstupom môže byť text alebo hovorená reč s cieľom prekladu do iného jazyka, pochopenie a reprezentácia obsahu textu, udržanie dialógu s používateľom a iné~\cite{AllenNLP}. Počítače doposiaľ nedokážu plne porozumieť ľudskému jazyku, či už sa jedná o písaný alebo hovorový, a preto hlavným cieľom NLP je vybudovať výpočtové modely prirodzeného jazyka pre jeho analýzu a generovanie~\cite{Bharati1995}.
+Spracovanie prirodzeného jazyka (angl. Natural Language Processing - NLP) odkazuje na počítačové systémy, ktoré spracovávajú, snažia sa pochopiť alebo generujú jeden alebo viacero ľudských jazykov. Vstupom môže byť text alebo hovorená reč s cieľom prekladu do iného jazyka, pochopenie a reprezentácia obsahu textu, udržanie dialógu s používateľom a iné~\cite{AllenNLP}. Počítače doposiaľ nedokážu plne porozumieť ľudskému jazyku, či už sa jedná o písaný alebo hovorený, a preto hlavným cieľom NLP je vybudovať výpočtové modely prirodzeného jazyka pre jeho analýzu a generovanie~\cite{Bharati1995}.
 
-Porozumenie ľudskej reči je mnohokrát náročne aj pre samotných ľudí a nie to ešte pre počítače. Na svete je veľké množstvo jazykov, ktoré sa od seba líšia charakteristikami typickými pre konkrétny jazyk. Navyše, každý človek je odlišný a typický, čo spôsobuje, že výslovnosť rovnakého slova viacerými ľuďmi môže byť odlišná. Ďalej máme slangové slová a slová typické len pre určité územie. Pri spracovávaní prirodzeného jazyka treba vziať do úvahy tieto, a aj ďalšie, premenné. Dosiahnutie tohto cieľa je preto často veľmi náročné.
+Porozumenie ľudskej reči je mnohokrát náročné aj pre samotných ľudí a nie to ešte pre počítače. Na svete je veľké množstvo jazykov, ktoré sa od seba líšia charakteristikami typickými pre konkrétny jazyk. Navyše, každý človek je odlišný a typický, čo spôsobuje, že výslovnosť rovnakého slova viacerými ľuďmi môže byť odlišná. Ďalej máme slangové slová a slová typické len pre určité územie. Pri spracovávaní prirodzeného jazyka treba vziať do úvahy tieto, a aj ďalšie, premenné. Dosiahnutie tohto cieľa je preto často veľmi náročné.
 
 V súčastnosti najpoužívanejšie algoritmy na NLP využívajú strojové učenie. Dosiahnutie úplného porozumenia a spracovania ľudského prirodzeného jazyka by znamenalo vyriešiť \textit{AI-complete} problém, čo znamená, že obtiažnosť tohto problému je ekvivalentná s obtiažnosťou problému vytvorenia počítača inteligentného ako človek, takzvané ,,true AI''.
 
@@ -46,13 +46,13 @@ V súčastnosti najpoužívanejšie algoritmy na NLP využívajú strojové uče
 	\subsection{Využitie spracovania prirodzeného jazyka}
 }
 \label{subsec:useofnlp}
-V súčastnosti má NLP niekoľko hlavných využití v aplikáciach a systémoch. Z hľadiska spracovania učebných textov je pre nás najdôležitejšie využitie z pohľadu \textit{extrakcie informácií}, ktoré je podrobnejšie popísané v sekcii \fullref{subsubsec:information_extraction}. Ďalšie využitia NLP sú napríklad~\cite{Preeti}:
+V súčastnosti má NLP niekoľko hlavných využití v aplikáciách a systémoch. Z hľadiska spracovania učebných textov je pre nás najdôležitejšie využitie z pohľadu \textit{extrakcie informácií}, ktoré je podrobnejšie popísané v sekcii \fullref{subsubsec:information_extraction}. Ďalšie využitia NLP sú napríklad~\cite{Preeti}:
 \begin{my_itemize}
 	\myitem Strojový preklad (angl. Machine Translation)
 	\myitem Rozpoznávanie reči (angl. Speech Recognition)
 	\myitem Sumarizáciu textu (angl. Text Summarization)
 	\myitem Dialógové systémy (angl. Dialogue Systems)
-	\myitem Výber informácií (angl. Information Retrieval)
+	\myitem Vyhľadanie informácií (angl. Information Retrieval)
 \end{my_itemize}
 
 %
@@ -75,7 +75,7 @@ Extrakcia informácií využíva niekoľko z hlavných úloh spracovania prirodz
 Výber informácií a extrakcia informácií spolu úzko súvisia, ale sú to dve rozdielne využitia NLP. Prvé spomínané využitie slúži na vyhľadávanie relevantných zdrojov informácií v databázach textov, článkov a dokumentov podľa používateľových potrieb. Na vyhľadaných zdrojoch následne prebehne extrakcia informácií. 
 \\
 
-My sa pri spracovaní textov zameriame hlavne na extrakciu informácií, aby sme dokázali z učebného textu extrahovať relevantné informácie pre študenta, a tým získali poznámky.
+%My sa pri spracovaní textov zameriame hlavne na extrakciu informácií, aby sme dokázali z učebného textu extrahovať relevantné informácie pre študenta, a tým získali poznámky.
 
 %
 % Úlohy spracovania prirodzeného jazyka
@@ -118,7 +118,7 @@ NLP ma niekoľko hlavných úloh. Podrobnejšie si opíšeme tie, ktoré sú rel
 	\subsection{Značkovanie slovných druhov}
 }
 \label{subsubsec:postagging}
-Hlavnou úlohou značkovania slovných druhou (angl. Part-of-speech tagging) je každému slovu vo vete priradiť unikátnu značku odrážajúcu jeho syntaktickú úlohu vo vete~\cite{collobert2011}. Sú to, napríklad v slovenskom jazyku podmet, prísudok, príslovkové určenie alebo v anglickom jazyku noun, adverb, verb, atď. Okrem toho to môže byť tiež označenie určujúce množné číslo, napríklad signulár alebo plurál.
+Hlavnou úlohou značkovania slovných druhou (angl. Part-of-speech tagging) je každému slovu vo vete priradiť unikátnu značku odrážajúcu jeho syntaktickú úlohu vo vete~\cite{collobert2011}. Sú to, napríklad v slovenskom jazyku podmet, prísudok, príslovkové určenie alebo v anglickom jazyku noun, adverb, verb, atď. Okrem toho to môže byť tiež označenie určujúce množné číslo, napríklad singulár alebo plurál.
 
 Problémom pri značkovaní slovných druhov je mnohoznačnosť. Mnohoznačnosť je vlastnosť slova spôsobujúca, že slovo môže mať viacero významov a môže byť viacerými slovnými druhmi. V slovenskom jazyku napríklad slovo \textit{kry} môže predstavovať sloveso s významom rozkazu \textit{prikry!}, ale taktiež môže predstavovať podstatné meno s významom \textit{kríky}. V anglickom jazyku to je napríklad slovo \textit{book}, ktoré môže predstavovať podstatné meno (angl. noun) \textit{kniha} alebo sloveso (angl. verb) vo význame \textit{rezervovať}.
 
@@ -155,7 +155,7 @@ Príklad je \textit{Slovak University of Technology}. Avšak v iných jazykoch t
 	\subsection{Identifikácia koreferencií}
 }
 \label{subsubsec:corefparsing}
-Nájdenie, identifikácia a rozpoznanie koreferencií v texte je úlohou rozpoznávania koreferencií (angl. Coreference resolution). V texte sa často používajú zámena (angl. pronouns) \textit{to}, \textit{tí}, \textit{on}, anglicky \textit{it}, \textit{those}, \textit{he} alebo menné frázy (angl. noun phrase). Tieto zámena a menné frázy sa odkazujú na iné podstatné mená alebo mená a názvy. Je úlohou rozpoznávania koreferencií identifikovať referenciu na podstatné meno alebo meno, alebo názov, väčšinou entity z reálneho sveta, na ktoré sa odkazujú. Táto úloha spracovania prirodzeného textu sa využíva v aplikáciách NLP ako sú extrakcia informácií (viď. ~\fullref{subsubsec:information_extraction}) a odpovedanie na otázky~\cite{Bryl}.
+Nájdenie, identifikácia a rozpoznanie koreferencií v texte je úlohou rozpoznávania koreferencií (angl. Coreference resolution). V texte sa často používajú zámena (angl. pronouns) \textit{to}, \textit{tí}, \textit{on}, anglicky \textit{it}, \textit{those}, \textit{he} alebo menné frázy (angl. noun phrase). Tieto zámena a menné frázy sa odkazujú na iné podstatné mená alebo mená a názvy. Je úlohou rozpoznávania koreferencií identifikovať referenciu na podstatné meno alebo meno, alebo názov, väčšinou entity z reálneho sveta, na ktoré sa odkazujú. Táto úloha spracovania prirodzeného jazyka sa využíva v aplikáciách NLP ako sú extrakcia informácií (viď. ~\fullref{subsubsec:information_extraction}) a odpovedanie na otázky~\cite{Bryl}.
 \\
 
 Príklad:
@@ -187,12 +187,14 @@ Angeles, makes and distributes electronic, computer and building products.
 
 V tomto orientovanom stromovom grafe jednotlivé slová vety predstavujú vrcholy, pričom prechody medzi vrcholmi, hrany, reprezentujú vzťahy medzi nimi.
 
-Ďalšia reprezentácia vzťahov zapisuje vzťahy priamo do vety. Na obrázku \fullref{fig:dependencies_in_sentence} vidíme, že medzi slovami \textit{She} a \textit{looks} je vzťah \textbf{nsubj} - nominal subject, medzi \textit{looks} a \textit{beautiful} je vzťah \textbf{acomp} - adjevtival complement, a v neposlednom rade medzi slovami \textit{very} a \textit{beautiful} je vzťah \textbf{advmod} - adverb modifier~\cite{StanfordDepManual}.
+Ďalšia reprezentácia závislostí zapisuje vzťahy priamo do vety. Na obrázku \fullref{fig:dependencies_in_sentence} vidíme, že medzi slovami \textit{She} a \textit{looks} je vzťah \textbf{nsubj} - nominal subject, medzi \textit{looks} a \textit{beautiful} je vzťah \textbf{acomp} - adjevtival complement, a v neposlednom rade medzi slovami \textit{very} a \textit{beautiful} je vzťah \textbf{advmod} - adverb modifier~\cite{StanfordDepManual}.
 
 \begin{figure}[H]
 \begin{center}\includegraphics[scale=0.8]{dependencies_in_sentence}\end{center}
 \caption[Vzťahy vo vete]{Vzťahy vo vete}\label{fig:dependencies_in_sentence}
 \end{figure}
+
+Celá závislosť sa skladá primárne z nadradeného tokenu, podradeného tokenu a vzťahu medzi nimi. Na obrázku~\fullref{fig:dependencies_in_sentence} vidno, okrem iných aj závislosť, ktorej nadradený token je slovo \textit{looks}, podradený token je slovo \textit{She} a vzťah je \textit{nsubj}.
 
 %
 % Nástroje na spracovanie prirodzeného jazyka
@@ -207,7 +209,7 @@ V tomto orientovanom stromovom grafe jednotlivé slová vety predstavujú vrchol
 	\section{Nástroje na spracovanie prirodzeného jazyka}
 }
 \label{subsec:nlp_nastroje}
-V súčastnosti je vyvinutých alebo sú vo vývoji viacero nástrojov, ktoré sa dajú použiť pri spracovávaní prirodzeného jazyka. Vývoj takýchto nástrojov je podporovaný na známych univerzitách ako sú napríklad Princeton, Stanford alebo Camridge, ale samozrejme svoje slovo tu má aj velikán Google. Pozrieme sa bližšie na niektoré z týchto nástrojov, čo ponúkajú a ako sa dajú využiť.
+V súčasnosti je vyvinutých alebo sú vo vývoji viacero nástrojov, ktoré sa dajú použiť pri spracovávaní prirodzeného jazyka. Vývoj takýchto nástrojov je podporovaný na známych univerzitách ako sú napríklad Princeton, Stanford alebo Camridge, ale samozrejme svoje slovo tu má aj velikán Google. Pozrieme sa bližšie na niektoré z týchto nástrojov, čo ponúkajú a ako sa dajú využiť.
 
 %
 % WordNet
@@ -224,9 +226,9 @@ V súčastnosti je vyvinutých alebo sú vo vývoji viacero nástrojov, ktoré s
 \label{subsubsec:wordnet}
 WordNet\footnote{www.wordnet.princeton.edu} je databáza anglických slov vyvíjaná na Princetonskej univerzite. Databáza obsahuje podstatné mena, prídavné mená, slovesá a príslovky, ktoré sú zatriedené do synonymických sád, synsetov.
 
-Slová do synetov sú zaraďované podľa významu. To znamená, že slová auto a automobil, ktoré sú pre svoj význam zameniteľné vo vete, sa zaradujú do rovnakého synsetu. WordNet v súčastnosti (r. 2015) obsahuje 117 000 synsetov. Každý z týchto sysnsetov taktiež obsahuje krátku ukážku použitia slova.
+Slová do synetov sú zaraďované podľa významu. To znamená, že slová auto a automobil, ktoré sú pre svoj význam zameniteľné vo vete, sa zaraďujú do rovnakého synsetu. WordNet v súčasnosti (r. 2015) obsahuje 117 000 synsetov. Každý z týchto sysnsetov taktiež obsahuje krátku ukážku použitia slova.
 
-Vo WordNet-e sa nachádzajú aj vzťahy medzi slovami v zmysle nadradenosti. Tým sa myslí, že stolička je nábytok a nábytok je fyzická vec a takto to pokračuje až po najvyššie slovo, od ktorého ,,dedia'' všetky - entita (viď. obrázok \fullref{fig:wordnet_relations}. Okrem vzťahu nadradenosti WordNet obsahuje aj vzťah zloženia. Stolička sa skladá z operadla a nôh. Toto zloženie je typické len konkrétne slovo a neprenáša sa hore stromom nadradenosti,   lebo pre stoličku je typické, že sa skladá z operadla a nôh, ale to už nie je typické pre nábytok.
+Vo WordNet sa nachádzajú aj vzťahy medzi slovami v zmysle nadradenosti. Tým sa myslí, že stolička je nábytok a nábytok je fyzická vec a takto to pokračuje až po najvyššie slovo, od ktorého ,,dedia'' všetky - entita (viď. obrázok \fullref{fig:wordnet_relations}. Okrem vzťahu nadradenosti WordNet obsahuje aj vzťah zloženia. Stolička sa skladá z operadla a nôh. Toto zloženie je typické len pre konkrétne slovo a neprenáša sa hore stromom nadradenosti,   lebo pre stoličku je typické, že sa skladá z operadla a nôh, ale to už nie je typické pre nábytok.
 Prídavné mená obsahujú aj vzťah antonymity, takže slovo \textit{suchý} bude prepojené so slovom \textit{mokrý} ako so svojím antonymom.
 
 Tento nástroj je dostupný vo webovej verzií (viď. obrázok \fullref{fig:wordnet_search}), ale ponúka aj stiahnutie jeho databázových súborov, ktoré sa po splnení licenčných požiadaviek dajú využívať v projektoch.
@@ -258,7 +260,7 @@ Nástroj StanfordNLP\footnote{www.nlp.stanford.edu} je vyvíjaný na Stanfordske
 
 Nástroje StanfordNLP sú implementované v Jave, ale sú dostupné aj v iných programovacích jazykoch ako C\#, PHP alebo Python.
 
-Dostupne je aj online webové demo. Na obrázku \fullref{fig:stanfordnlp_online_demo} vidíme výstupy z nástrojov ponúkaných balíkom StanfordNLP pre jednoduchý vstupný text skladajúci sa z jednej vety ,,Martin Nemček is a student at Slovak University of Technology in Bratislava.''.
+Dostupné je aj online webové demo. Na obrázku \fullref{fig:stanfordnlp_online_demo} vidíme výstupy z nástrojov ponúkaných balíkom StanfordNLP pre jednoduchý vstupný text skladajúci sa z jednej vety ,,Martin Nemček is a student at Slovak University of Technology in Bratislava.''.
 
 \begin{figure}[H]
 \begin{center}\includegraphics[scale=0.48]{stanfordnlp_online}\end{center}
@@ -278,7 +280,7 @@ Dostupne je aj online webové demo. Na obrázku \fullref{fig:stanfordnlp_online_
 	\subsection{CambridgeAPI}
 }
 \label{subsubsec:cambridgeapi}
-CambridgeAPI\footnote{www.dictionary-api.cambridge.org} je vytvorený na Cambridge univerzite. Umožňuje prístup k viacerým rôznym slovníkom. Momentálne tento nástroj ponúka prístup k pätnástim prekladovým slovníkom ako napríklad anglicko-čínsky, anglicko-ruský, anglicko-arabský, anglicko-japonský a ďalšie. Všetky prekladové slovníky majú primárny jazyk angličtinu. Slovenčinu v súčastnosti nepodporuje.
+CambridgeAPI\footnote{www.dictionary-api.cambridge.org} je nástroj vytvorený na Cambridge univerzite. Umožňuje prístup k viacerým rôznym slovníkom. Momentálne tento nástroj ponúka prístup k pätnástim prekladovým slovníkom, ako napríklad anglicko-čínsky, anglicko-ruský, anglicko-arabský, anglicko-japonský a ďalšie. Všetky prekladové slovníky majú primárny jazyk angličtinu. Slovenčinu v súčastnosti nepodporuje.
 
 Spomínaný nástroj funguje na princípe dopytovania pomocou HTTP protokolu. Na obdržanie korektnej odpovede je potrebné mať osobný API kľúč. Ten sa dá získať kontaktovaním správcov CambridgeAPI.
 
@@ -297,12 +299,12 @@ Spomínaný nástroj funguje na princípe dopytovania pomocou HTTP protokolu. Na
 \label{subsubsec:googlengram}
 Google Ngram\footnote{www.books.google.com/ngrams} je postavený na ďalšom softvéry tohto giganta, Google Books. V knihách,  napísaných od roku 1500 až do súčastnosti, vyhľadáva výskyty n-gramov. Podporuje len niektoré jazyky, ako angličtina, francúzština, ruština, čínština. Na vyhľadávanie v knihách využíva optické rozoznávanie textu, pričom dokáže spracovať aj regulárne výrazy, avšak tie môžu byť použité iba ako náhrada celého slova, ale nie uprostred slova. Slovné spojenie ,,* Einstein'' spracuje, pričom ,,Albert Einste*n'' nie.
 
-N-gram je podľa oxfordského slovníka definovaný ako postupnosť \textit{n} za sebou idúcich slov alebo znakov. \textit{Martin} je n-gram veľkosti jedna, 1-gram alebo unigram. \textit{Martin Nemček} je n-gram veľkosti dva, 2-gram alebo bigram a tak ďalej, pričom \textit{n} môže byť ľubovolné kladné, celé číslo.
+N-gram je podľa oxfordského slovníka definovaný ako postupnosť \textit{n} za sebou idúcich slov alebo znakov. \textit{Martin} je n-gram veľkosti jedna, 1-gram alebo unigram. \textit{Martin Nemček} je n-gram veľkosti dva, 2-gram alebo bigram a tak ďalej, pričom \textit{n} môže byť ľubovoľné kladné, celé číslo.
 
 Google Ngram Viewer poskytuje vizualizáciu vyhľadaných dát. Je dostupný vo webovom rozhraní. Na obrázku \fullref{fig:googlengram_visualization} vidno vizualizáciu výskytu mien \textit{Albert Einstein,Sherlock Holmes,Frankenstein} v knihách od roku 1800 do roku 2000.
 
 \begin{figure}[H]
-\begin{center}\includegraphics[scale=0.38]{googlengram_visualization}\end{center}
+\begin{center}\includegraphics[scale=0.35]{googlengram_visualization}\end{center}
 \caption[Google Ngram Viewer]{Google Ngram Viewer}\label{fig:googlengram_visualization}
 \end{figure}
 
@@ -323,13 +325,13 @@ Tento nástroj okrem iného ponúka aj surové (angl. raw) dáta na stiahnutie.
 \label{subsubsec:alchemyapi}
 AlchemiAPI\footnote{www.alchemyapi.com} obsahuje dvanásť funkcií, z ktorých sú niektoré zamerané na úlohy spracovania prirodzeného jazyka popísané v sekcií \fullref{subsec:nlp}, ako napríklad extrakcia entít, extrakcia kľúčových slov, extrakcia vzťahov, ale aj iné zaujímave funkcie, napríklad extrakcia autora z textu.
 
-Na používanie tohto nástroja je potrebné sa zaregistrovať pre obdržanie API kľúču. S týmto kľúčom je tisíc dopytov denne zdarma. Dostupnosť v programovacích jazykoch je široká, kedže ponúka knižnicu v deviatich najpoužívanejších programovacích jazykoch.
+Na používanie tohto nástroja je potrebné sa zaregistrovať pre obdržanie API kľúču. S týmto kľúčom je tisíc dopytov denne zdarma. Dostupnosť v programovacích jazykoch je široká. Ponúka knižnicu v deviatich najpoužívanejších programovacích jazykoch.
 
-Pre AlchemyAPI je dostupné aj online webové demo, viď obrázok \fullref{fig:alchemyapi_visualization}, kde je vidno širokú ponuku, ktorú tento nástroj ponúka.
+Pre AlchemyAPI je dostupné aj online webové demo, viď obrázok \fullref{fig:alchemyapi_visualization}, kde je vidno širokú ponuku, obsiahnutú v tomto nástroji.
 
 \begin{figure}[H]
 \begin{center}\includegraphics[scale=0.48]{alchemyapi_visualization}\end{center}
 \caption[AlchemyAPI online demo]{AlchemyAPI online demo}\label{fig:alchemyapi_visualization}
 \end{figure}
 
-Dáta sú vo formáte JSON a okrem spracovania prirodzeného jazyka AlchemyAPI ponúka aj nástroje na extrahovanie obsahu z obrázku alebo rozpoznávanie tvári na obrázkoch.
+Dáta sú vo formáte JSON a okrem spracovania prirodzeného jazyka AlchemyAPI ponúka aj nástroje na extrahovanie obsahu z obrázku alebo rozpoznávanie tvárí na obrázkoch.
