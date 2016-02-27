@@ -22,6 +22,9 @@ namespace nsNotenizer
 {
     public class Notenizer
     {
+        private bool _redirectOutputToFile = false;
+        private String _redirectOutputToFileFileName = @"./out.txt";
+
 		public Notenizer()
 		{
 
@@ -61,6 +64,15 @@ namespace nsNotenizer
             Annotation annotation = new Annotation(text);
             pipeline.annotate(annotation);
 
+            if (_redirectOutputToFile)
+            {
+                FileStream filestream = new FileStream(_redirectOutputToFileFileName, FileMode.OpenOrCreate, FileAccess.Write);
+                var streamwriter = new StreamWriter(filestream);
+                streamwriter.AutoFlush = true;
+                Console.SetOut(streamwriter);
+                Console.SetError(streamwriter);
+            }
+
             // Result - Pretty Print
             using (ByteArrayOutputStream stream = new ByteArrayOutputStream())
             {
@@ -85,7 +97,10 @@ namespace nsNotenizer
             //}
 
             //Test(annotation);
-            PrintNotes(Parse(annotation));
+
+            List<Note> notes = Parse(annotation);
+            AndParser(annotation);
+            PrintNotes(notes);
         }
 
         /// <summary>
@@ -100,20 +115,14 @@ namespace nsNotenizer
             // ================== REFACTORED PART HERE ======================
             foreach (Annotation sentenceLoop in annotation.get(typeof(CoreAnnotations.SentencesAnnotation)) as ArrayList)
             {
-                NotePart firstPartNotePart = new NotePart();
-                NotePart mainPartNotePart = new NotePart();
-                NotePart lastPartNotePart = new NotePart();
                 NotenizerSentence sentence = new NotenizerSentence(sentenceLoop);
-                Note note = new Note(sentence);
+                //Note note = new Note(sentence);
                 Note noteLoop;
-
-                //NotenizerRule rule = DocumentParser.ParseNoteDependencies(
-                //    DB.GetFirst(DBConstants.NotesCollectionName, DocumentCreator.CreateFilterByDependencies(sentence)).Result);
 
                 NotenizerRule rule = DocumentParser.GetHeighestMatch(sentence,
                     DB.GetAll(DBConstants.NotesCollectionName, DocumentCreator.CreateFilterByDependencies(sentence)).Result);
 
-                if (rule.RuleDependencies != null && rule.RuleDependencies.Count > 0)
+                if (rule != null && rule.RuleDependencies != null && rule.RuleDependencies.Count > 0)
                 {
                     Note parsedNote = ApplyRule(sentence, rule);
                     Console.WriteLine("Parsed note: " + parsedNote.OriginalSentence + " ===> " + parsedNote.Value);
@@ -121,261 +130,267 @@ namespace nsNotenizer
                     continue;
                 }
 
-                foreach (NotenizerDependency dependencyLoop in sentence.Dependencies)
+                
+                //String _id = DB.InsertToCollection("notes", DocumentCreator.CreateNoteDocument(note, -1)).Result;
+                sentencesNoted.Add(StaticParser(sentence));
+            }
+
+            return sentencesNoted;
+        }
+
+        private Note StaticParser(NotenizerSentence sentence)
+        {
+            Note note = new Note(sentence);
+
+            foreach (NotenizerDependency dependencyLoop in sentence.Dependencies)
+            {
+                if (dependencyLoop.Relation.IsRelation(GrammaticalConstants.NominalSubject)
+                    || dependencyLoop.Relation.IsRelation(GrammaticalConstants.NominalSubjectPassive))
                 {
-                    if (dependencyLoop.Relation.IsRelation(GrammaticalConstants.NominalSubject)
-                        || dependencyLoop.Relation.IsRelation(GrammaticalConstants.NominalSubjectPassive))
+                    NotePart notePart = new NotePart(sentence);
+
+                    NoteParticle nsubj = new NoteParticle(dependencyLoop.Dependent.Word, dependencyLoop.Dependent, dependencyLoop);
+                    notePart.Add(nsubj);
+
+                    String pos = dependencyLoop.Governor.POS;
+                    if (POSConstants.NounLikePOS.Contains(pos))
                     {
-                        NotePart notePart = new NotePart(sentence);
+                        NotenizerDependency compound = sentence.GetDependencyByShortName(
+                            dependencyLoop,
+                            ComparisonType.DependantToGovernor,
+                            GrammaticalConstants.CompoudModifier);
 
-                        noteLoop = new Note();
-
-                        NoteParticle nsubj = new NoteParticle(dependencyLoop.Dependent.Word, dependencyLoop.Dependent, dependencyLoop);
-                        notePart.Add(nsubj);
-
-                        String pos = dependencyLoop.Governor.POS;
-                        if (POSConstants.NounLikePOS.Contains(pos))
+                        if (compound != null)
                         {
-                            NotenizerDependency compound = sentence.GetDependencyByShortName(
-                                dependencyLoop,
-                                ComparisonType.DependantToGovernor,
-                                GrammaticalConstants.CompoudModifier);
+                            NoteParticle compoundObj = new NoteParticle(compound.Dependent.Word, compound.Dependent, compound);
+                            notePart.Add(compoundObj);
+                        }
 
-                            if (compound != null)
+                        NotenizerDependency aux = sentence.GetDependencyByShortName(
+                            dependencyLoop,
+                            ComparisonType.GovernorToGovernor,
+                            GrammaticalConstants.AuxModifier,
+                            GrammaticalConstants.AuxModifierPassive);
+
+                        if (aux != null)
+                        {
+                            NoteParticle auxObj = new NoteParticle(aux.Dependent.Word, aux.Dependent, aux);
+                            notePart.Add(auxObj);
+                        }
+
+                        NotenizerDependency cop = sentence.GetDependencyByShortName(dependencyLoop, ComparisonType.GovernorToGovernor, GrammaticalConstants.Copula);
+
+                        if (cop != null)
+                        {
+                            NoteParticle copObj = new NoteParticle(cop.Dependent.Word, cop.Dependent, cop);
+                            notePart.Add(copObj);
+                        }
+
+                        List<NotenizerDependency> conjuctions = sentence.GetDependenciesByShortName(
+                            dependencyLoop,
+                            ComparisonType.GovernorToGovernor,
+                            GrammaticalConstants.Conjuction);
+
+
+                        String specific = String.Empty;
+                        if (conjuctions != null && conjuctions.Count > 0)
+                        {
+                            List<NotenizerDependency> filteredConjs = FilterByPOS(conjuctions, POSConstants.ConjustionPOS);
+
+                            foreach (NotenizerDependency filteredConjLoop in filteredConjs)
                             {
-                                NoteParticle compoundObj = new NoteParticle(compound.Dependent.Word, compound.Dependent, compound);
-                                notePart.Add(compoundObj);
-                            }
+                                NotenizerDependency cc = sentence.GetDependencyByShortName(dependencyLoop, ComparisonType.GovernorToGovernor, GrammaticalConstants.CoordinatingConjuction);
 
-                            NotenizerDependency aux = sentence.GetDependencyByShortName(
-                                dependencyLoop,
-                                ComparisonType.GovernorToGovernor,
-                                GrammaticalConstants.AuxModifier,
-                                GrammaticalConstants.AuxModifierPassive);
-
-                            if (aux != null)
-                            {
-                                NoteParticle auxObj = new NoteParticle(aux.Dependent.Word, aux.Dependent, aux);
-                                notePart.Add(auxObj);
-                            }
-
-                            NotenizerDependency cop = sentence.GetDependencyByShortName(dependencyLoop, ComparisonType.GovernorToGovernor, GrammaticalConstants.Copula);
-
-                            if (cop != null)
-                            {
-                                NoteParticle copObj = new NoteParticle(cop.Dependent.Word, cop.Dependent, cop);
-                                notePart.Add(copObj);
-                            }
-
-                            List<NotenizerDependency> conjuctions = sentence.GetDependenciesByShortName(
-                                dependencyLoop,
-                                ComparisonType.GovernorToGovernor,
-                                GrammaticalConstants.Conjuction);
-
-
-                            String specific = String.Empty;
-                            if (conjuctions != null && conjuctions.Count > 0)
-                            {
-                                List<NotenizerDependency> filteredConjs = FilterByPOS(conjuctions, POSConstants.ConjustionPOS);
-
-                                foreach (NotenizerDependency filteredConjLoop in filteredConjs)
+                                if (cc.Dependent.Word == filteredConjLoop.Relation.Specific
+                                    && sentence.DependencyIndex(filteredConjLoop) > sentence.DependencyIndex(cc))
                                 {
-                                    NotenizerDependency cc = sentence.GetDependencyByShortName(dependencyLoop, ComparisonType.GovernorToGovernor, GrammaticalConstants.CoordinatingConjuction);
+                                    NoteParticle ccObj = new NoteParticle(cc.Dependent.Word, cc.Dependent, cc);
+                                    NoteParticle filteredConjObj = new NoteParticle(filteredConjLoop.Dependent.Word, filteredConjLoop.Dependent, filteredConjLoop);
 
-                                    if (cc.Dependent.Word == filteredConjLoop.Relation.Specific
-                                        && sentence.DependencyIndex(filteredConjLoop) > sentence.DependencyIndex(cc))
-                                    {
-                                        NoteParticle ccObj = new NoteParticle(cc.Dependent.Word, cc.Dependent, cc);
-                                        NoteParticle filteredConjObj = new NoteParticle(filteredConjLoop.Dependent.Word, filteredConjLoop.Dependent, filteredConjLoop);
-
-                                        notePart.Add(ccObj);
-                                        notePart.Add(filteredConjObj);
-                                    }
+                                    notePart.Add(ccObj);
+                                    notePart.Add(filteredConjObj);
                                 }
                             }
+                        }
 
-                            // <== NMODS ==>
-                            List<NotenizerDependency> nmodsList = sentence.GetDependenciesByShortName(
-                                dependencyLoop, ComparisonType.GovernorToGovernor, GrammaticalConstants.NominalModifier);
+                        // <== NMODS ==>
+                        List<NotenizerDependency> nmodsList = sentence.GetDependenciesByShortName(
+                            dependencyLoop, ComparisonType.GovernorToGovernor, GrammaticalConstants.NominalModifier);
 
-                            if (nmodsList != null && nmodsList.Count > 0)
+                        if (nmodsList != null && nmodsList.Count > 0)
+                        {
+                            NotenizerDependency neg = sentence.GetDependencyByShortName(
+                                nmodsList.First(), ComparisonType.DependantToGovernor, GrammaticalConstants.NegationModifier);
+
+                            if (neg == null)
                             {
-                                NotenizerDependency neg = sentence.GetDependencyByShortName(
-                                    nmodsList.First(), ComparisonType.DependantToGovernor, GrammaticalConstants.NegationModifier);
+                                NoteParticle firstObj = new NoteParticle(nmodsList.First().Relation.AdjustedSpecific + NotenizerConstants.WordDelimeter + nmodsList.First().Dependent.Word, nmodsList.First().Dependent, nmodsList.First());
+                                notePart.Add(firstObj);
+                            }
+                            else
+                            {
+                                NoteParticle negObj = new NoteParticle(neg.Dependent.Word, neg.Dependent, neg);
+                                NoteParticle firstObj = new NoteParticle(nmodsList.First().Relation.AdjustedSpecific + NotenizerConstants.WordDelimeter + nmodsList.First().Dependent.Word, nmodsList.First().Dependent, nmodsList.First());
+
+                                notePart.Add(negObj);
+                                notePart.Add(firstObj);
+                            }
+
+                            // second nmod depending on first one
+                            NotenizerDependency nmodSecond = sentence.GetDependencyByShortName(
+                                nmodsList.First(), ComparisonType.DependantToGovernor, GrammaticalConstants.NominalModifier);
+
+                            if (nmodSecond != null)
+                            {
+                                neg = sentence.GetDependencyByShortName(
+                                nmodsList.First(), ComparisonType.GovernorToGovernor, GrammaticalConstants.NegationModifier);
 
                                 if (neg == null)
                                 {
-                                    NoteParticle firstObj = new NoteParticle(nmodsList.First().Relation.AdjustedSpecific + NotenizerConstants.WordDelimeter + nmodsList.First().Dependent.Word, nmodsList.First().Dependent, nmodsList.First());
-                                    notePart.Add(firstObj);
+                                    NoteParticle secondObj = new NoteParticle(nmodSecond.Relation.AdjustedSpecific + NotenizerConstants.WordDelimeter + nmodSecond.Dependent.Word, nmodSecond.Dependent, nmodSecond);
+                                    notePart.Add(secondObj);
                                 }
                                 else
                                 {
                                     NoteParticle negObj = new NoteParticle(neg.Dependent.Word, neg.Dependent, neg);
-                                    NoteParticle firstObj = new NoteParticle(nmodsList.First().Relation.AdjustedSpecific + NotenizerConstants.WordDelimeter + nmodsList.First().Dependent.Word, nmodsList.First().Dependent, nmodsList.First());
+                                    NoteParticle secondObj = new NoteParticle(nmodSecond.Relation.AdjustedSpecific + NotenizerConstants.WordDelimeter + nmodSecond.Dependent.Word, nmodSecond.Dependent, nmodSecond);
 
                                     notePart.Add(negObj);
-                                    notePart.Add(firstObj);
+                                    notePart.Add(secondObj);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            // <== AMODS ==>
+                            NotenizerDependency amod1 = sentence.GetDependencyByShortName(dependencyLoop, ComparisonType.DependantToGovernor, GrammaticalConstants.AdjectivalModifier);
+
+                            // <== AMODS ==>
+                            NotenizerDependency amod2 = sentence.GetDependencyByShortName(dependencyLoop, ComparisonType.GovernorToGovernor, GrammaticalConstants.AdjectivalModifier);
+
+                            if (amod1 != null || amod2 != null)
+                            {
+                                if (amod1 != null)
+                                {
+                                    NoteParticle amod1Obj = new NoteParticle(amod1.Dependent.Word, amod1.Dependent, amod1);
+                                    notePart.Add(amod1Obj);
                                 }
 
-                                // second nmod depending on first one
-                                NotenizerDependency nmodSecond = sentence.GetDependencyByShortName(
-                                    nmodsList.First(), ComparisonType.DependantToGovernor, GrammaticalConstants.NominalModifier);
-
-                                if (nmodSecond != null)
+                                if (amod2 != null)
                                 {
-                                    neg = sentence.GetDependencyByShortName(
-                                    nmodsList.First(), ComparisonType.GovernorToGovernor, GrammaticalConstants.NegationModifier);
-
-                                    if (neg == null)
-                                    {
-                                        NoteParticle secondObj = new NoteParticle(nmodSecond.Relation.AdjustedSpecific + NotenizerConstants.WordDelimeter + nmodSecond.Dependent.Word, nmodSecond.Dependent, nmodSecond);
-                                        notePart.Add(secondObj);
-                                    }
-                                    else
-                                    {
-                                        NoteParticle negObj = new NoteParticle(neg.Dependent.Word, neg.Dependent, neg);
-                                        NoteParticle secondObj = new NoteParticle(nmodSecond.Relation.AdjustedSpecific + NotenizerConstants.WordDelimeter + nmodSecond.Dependent.Word, nmodSecond.Dependent, nmodSecond);
-
-                                        notePart.Add(negObj);
-                                        notePart.Add(secondObj);
-                                    }
+                                    NoteParticle amod2Obj = new NoteParticle(amod2.Dependent.Word, amod2.Dependent, amod2);
+                                    notePart.Add(amod2Obj);
                                 }
                             }
                             else
                             {
-                                // <== AMODS ==>
-                                NotenizerDependency amod1 = sentence.GetDependencyByShortName(dependencyLoop, ComparisonType.DependantToGovernor, GrammaticalConstants.AdjectivalModifier);
+                                // <== NUMMODS ==>
+                                NotenizerDependency nummod1 = sentence.GetDependencyByShortName(dependencyLoop, ComparisonType.DependantToGovernor, GrammaticalConstants.NumericModifier);
 
-                                // <== AMODS ==>
-                                NotenizerDependency amod2 = sentence.GetDependencyByShortName(dependencyLoop, ComparisonType.GovernorToGovernor, GrammaticalConstants.AdjectivalModifier);
+                                // <== NUMMODS ==>
+                                NotenizerDependency nummod2 = sentence.GetDependencyByShortName(dependencyLoop, ComparisonType.GovernorToGovernor, GrammaticalConstants.NumericModifier);
 
-                                if (amod1 != null || amod2 != null)
+                                if (nummod1 != null)
                                 {
-                                    if (amod1 != null)
-                                    {
-                                        NoteParticle amod1Obj = new NoteParticle(amod1.Dependent.Word, amod1.Dependent, amod1);
-                                        notePart.Add(amod1Obj);
-                                    }
-
-                                    if (amod2 != null)
-                                    {
-                                        NoteParticle amod2Obj = new NoteParticle(amod2.Dependent.Word, amod2.Dependent, amod2);
-                                        notePart.Add(amod2Obj);
-                                    }
+                                    NoteParticle nummod1Obj = new NoteParticle(nummod1.Dependent.Word, nummod1.Dependent, nummod1);
+                                    notePart.Add(nummod1Obj);
                                 }
-                                else
+
+                                if (nummod2 != null)
                                 {
-                                    // <== NUMMODS ==>
-                                    NotenizerDependency nummod1 = sentence.GetDependencyByShortName(dependencyLoop, ComparisonType.DependantToGovernor, GrammaticalConstants.NumericModifier);
-
-                                    // <== NUMMODS ==>
-                                    NotenizerDependency nummod2 = sentence.GetDependencyByShortName(dependencyLoop, ComparisonType.GovernorToGovernor, GrammaticalConstants.NumericModifier);
-
-                                    if (nummod1 != null)
-                                    {
-                                        NoteParticle nummod1Obj = new NoteParticle(nummod1.Dependent.Word, nummod1.Dependent, nummod1);
-                                        notePart.Add(nummod1Obj);
-                                    }
-
-                                    if (nummod2 != null)
-                                    {
-                                        NoteParticle nummod2Obj = new NoteParticle(nummod2.Dependent.Word, nummod2.Dependent, nummod2);
-                                        notePart.Add(nummod2Obj);
-                                    }
+                                    NoteParticle nummod2Obj = new NoteParticle(nummod2.Dependent.Word, nummod2.Dependent, nummod2);
+                                    notePart.Add(nummod2Obj);
                                 }
                             }
-
-                            NoteParticle governorObj = new NoteParticle(dependencyLoop.Governor.Word, dependencyLoop.Governor, dependencyLoop);
-                            notePart.Add(governorObj);
                         }
-                        else if (POSConstants.VerbLikePOS.Contains(pos))
+
+                        NoteParticle governorObj = new NoteParticle(dependencyLoop.Governor.Word, dependencyLoop.Governor, dependencyLoop);
+                        notePart.Add(governorObj);
+                    }
+                    else if (POSConstants.VerbLikePOS.Contains(pos))
+                    {
+
+                        NoteParticle gov = new NoteParticle(dependencyLoop.Governor.Word, dependencyLoop.Governor, dependencyLoop);
+                        notePart.Add(gov);
+
+                        NotenizerDependency dobj = sentence.GetDependencyByShortName(dependencyLoop, ComparisonType.GovernorToGovernor, GrammaticalConstants.DirectObject);
+
+                        if (dobj != null)
                         {
-                            noteLoop = new Note();
+                            NoteParticle dobjObj = new NoteParticle(dobj.Dependent.Word, dobj.Dependent, dobj);
+                            notePart.Add(dobjObj);
 
-                            NoteParticle gov = new NoteParticle(dependencyLoop.Governor.Word, dependencyLoop.Governor, dependencyLoop);
-                            notePart.Add(gov);
+                            NotenizerDependency neg = sentence.GetDependencyByShortName(dobj, ComparisonType.DependantToGovernor, GrammaticalConstants.NegationModifier);
 
-                            NotenizerDependency dobj = sentence.GetDependencyByShortName(dependencyLoop, ComparisonType.GovernorToGovernor, GrammaticalConstants.DirectObject);
-
-                            if (dobj != null)
+                            if (neg != null)
                             {
-                                NoteParticle dobjObj = new NoteParticle(dobj.Dependent.Word, dobj.Dependent, dobj);
-                                notePart.Add(dobjObj);
+                                NoteParticle negObj = new NoteParticle(neg.Dependent.Word, neg.Dependent, neg);
+                                notePart.Add(negObj);
+                            }
+                        }
 
-                                NotenizerDependency neg = sentence.GetDependencyByShortName(dobj, ComparisonType.DependantToGovernor, GrammaticalConstants.NegationModifier);
+                        NotenizerDependency aux = sentence.GetDependencyByShortName(
+                            dependencyLoop,
+                            ComparisonType.GovernorToGovernor,
+                            GrammaticalConstants.AuxModifier,
+                            GrammaticalConstants.AuxModifierPassive);
 
-                                if (neg != null)
-                                {
-                                    NoteParticle negObj = new NoteParticle(neg.Dependent.Word, neg.Dependent, neg);
-                                    notePart.Add(negObj);
-                                }
+                        if (aux != null)
+                        {
+                            NoteParticle auxObj = new NoteParticle(aux.Dependent.Word, aux.Dependent, aux);
+                            notePart.Add(auxObj);
+                        }
+
+                        // <== NMODS ==>
+                        List<NotenizerDependency> nmodsList = sentence.GetDependenciesByShortName(
+                            dependencyLoop,
+                            ComparisonType.GovernorToGovernor,
+                            GrammaticalConstants.NominalModifier);
+
+                        if (nmodsList != null && nmodsList.Count > 0)
+                        {
+                            NotenizerDependency neg = sentence.GetDependencyByShortName(nmodsList.First(), ComparisonType.DependantToGovernor, GrammaticalConstants.NegationModifier);
+
+                            if (neg == null)
+                            {
+                                NoteParticle firstObj = new NoteParticle(nmodsList.First().Relation.AdjustedSpecific + NotenizerConstants.WordDelimeter + nmodsList.First().Dependent.Word, nmodsList.First().Dependent, nmodsList.First());
+                                notePart.Add(firstObj);
+                            }
+                            else
+                            {
+                                NoteParticle negObj = new NoteParticle(neg.Dependent.Word, neg.Dependent, neg);
+                                NoteParticle firstObj = new NoteParticle(nmodsList.First().Relation.AdjustedSpecific + NotenizerConstants.WordDelimeter + nmodsList.First().Dependent.Word, nmodsList.First().Dependent, nmodsList.First());
+                                notePart.Add(firstObj);
+                                notePart.Add(negObj);
                             }
 
-                            NotenizerDependency aux = sentence.GetDependencyByShortName(
-                                dependencyLoop,
-                                ComparisonType.GovernorToGovernor,
-                                GrammaticalConstants.AuxModifier,
-                                GrammaticalConstants.AuxModifierPassive);
+                            // second nmod depending on first one
+                            NotenizerDependency nmodSecond = sentence.GetDependencyByShortName(nmodsList.First(), ComparisonType.DependantToGovernor, GrammaticalConstants.NominalModifier);
 
-                            if (aux != null)
+                            if (nmodSecond != null)
                             {
-                                NoteParticle auxObj = new NoteParticle(aux.Dependent.Word, aux.Dependent, aux);
-                                notePart.Add(auxObj);
-                            }
-
-                            // <== NMODS ==>
-                            List<NotenizerDependency> nmodsList = sentence.GetDependenciesByShortName(
-                                dependencyLoop,
-                                ComparisonType.GovernorToGovernor,
-                                GrammaticalConstants.NominalModifier);
-
-                            if (nmodsList != null && nmodsList.Count > 0)
-                            {
-                                NotenizerDependency neg = sentence.GetDependencyByShortName(nmodsList.First(), ComparisonType.DependantToGovernor, GrammaticalConstants.NegationModifier);
+                                neg = sentence.GetDependencyByShortName(nmodsList.First(), ComparisonType.GovernorToGovernor, GrammaticalConstants.NegationModifier);
 
                                 if (neg == null)
                                 {
-                                    NoteParticle firstObj = new NoteParticle(nmodsList.First().Relation.AdjustedSpecific + NotenizerConstants.WordDelimeter + nmodsList.First().Dependent.Word, nmodsList.First().Dependent, nmodsList.First());
-                                    notePart.Add(firstObj);
+                                    NoteParticle secondObj = new NoteParticle(nmodSecond.Relation.AdjustedSpecific + NotenizerConstants.WordDelimeter + nmodSecond.Dependent.Word, nmodSecond.Dependent, nmodSecond);
+                                    notePart.Add(secondObj);
                                 }
                                 else
                                 {
                                     NoteParticle negObj = new NoteParticle(neg.Dependent.Word, neg.Dependent, neg);
-                                    NoteParticle firstObj = new NoteParticle(nmodsList.First().Relation.AdjustedSpecific + NotenizerConstants.WordDelimeter + nmodsList.First().Dependent.Word, nmodsList.First().Dependent, nmodsList.First());
-                                    notePart.Add(firstObj);
+                                    NoteParticle secondObj = new NoteParticle(nmodSecond.Relation.AdjustedSpecific + NotenizerConstants.WordDelimeter + nmodSecond.Dependent.Word, nmodSecond.Dependent, nmodSecond);
+                                    notePart.Add(secondObj);
                                     notePart.Add(negObj);
-                                }
-
-                                // second nmod depending on first one
-                                NotenizerDependency nmodSecond = sentence.GetDependencyByShortName(nmodsList.First(), ComparisonType.DependantToGovernor, GrammaticalConstants.NominalModifier);
-
-                                if (nmodSecond != null)
-                                {
-                                    neg = sentence.GetDependencyByShortName(nmodsList.First(), ComparisonType.GovernorToGovernor, GrammaticalConstants.NegationModifier);
-
-                                    if (neg == null)
-                                    {
-                                        NoteParticle secondObj = new NoteParticle(nmodSecond.Relation.AdjustedSpecific + NotenizerConstants.WordDelimeter + nmodSecond.Dependent.Word, nmodSecond.Dependent, nmodSecond);
-                                        notePart.Add(secondObj);
-                                    }
-                                    else
-                                    {
-                                        NoteParticle negObj = new NoteParticle(neg.Dependent.Word, neg.Dependent, neg);
-                                        NoteParticle secondObj = new NoteParticle(nmodSecond.Relation.AdjustedSpecific + NotenizerConstants.WordDelimeter + nmodSecond.Dependent.Word, nmodSecond.Dependent, nmodSecond);
-                                        notePart.Add(secondObj);
-                                        notePart.Add(negObj);
-                                    }
                                 }
                             }
                         }
-                        note.Add(notePart);
                     }
+                    note.Add(notePart);
                 }
-                //String _id = DB.InsertToCollection("notes", DocumentCreator.CreateNoteDocument(note, -1)).Result;
-                sentencesNoted.Add(note);
             }
 
-            return sentencesNoted;
+            return note;
         }
 
         /// <summary>
@@ -456,6 +471,44 @@ namespace nsNotenizer
                 {
                     NoteParticle govObj = new NoteParticle(dependency.Governor, dependency);
                     notePart.Add(govObj);
+                }
+            }
+        }
+
+        private void AndParser(Annotation annotation)
+        {
+            List<Note> notes = new List<Note>();
+
+            foreach (Annotation sentenceLoop in annotation.get(typeof(CoreAnnotations.SentencesAnnotation)) as ArrayList)
+            {
+                notes.Add(StaticParser(new NotenizerSentence(sentenceLoop)));
+            }
+
+            foreach(Note noteLoop in notes)
+            {
+                if (!noteLoop.OriginalSentence.CompressedDependencies.ContainsKey(GrammaticalConstants.Conjuction)
+                    || noteLoop.OriginalSentence.CompressedDependencies[GrammaticalConstants.Conjuction] == null
+                    || !noteLoop.OriginalSentence.CompressedDependencies[GrammaticalConstants.Conjuction].Any(x => x.Relation.Specific == GrammaticalConstants.AndConjuction))
+                    continue;
+
+                foreach(NotePart notePartLoop in noteLoop.NoteParts)
+                {
+                    foreach(NoteParticle noteParticleLoop in notePartLoop.InitializedNoteParticles)
+                    {
+                        // preachadzat vsetky dependencies v note particle
+                        // ak ani gov ani dep nemamju previazanie na ziadnu dependency so vztahoj conj:and
+                        // tak ju pridaj do NotePart
+                        // ak ma, naklonuj NotePart,
+                        // pridaj ju do povodnej NotePart a zisti dalsie prepojenie ako mnod:in a ukonci tak tento NotePart
+                        // potom pre vsetky prepojenie s dependecy conj:and
+                        // naklonuj NotePart
+                        // zisti prepojenia ako nmod:in
+                        // pridaj do naklonovaje NotePart
+                        //
+                        // nakoniec pridaj vsetky NoteParts do Note a tym vytvor novu poznamku 
+                        // zlozenu z niekolkych viet, ktore budu mat rovnaky zaklad, ale budu
+                        // sa lisit v prepojeniach AND
+                    }
                 }
             }
         }

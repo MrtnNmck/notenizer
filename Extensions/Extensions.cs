@@ -95,6 +95,9 @@ namespace nsExtensions
 
         public static String CapitalizeSentence(this String sentence)
         {
+            if (sentence == String.Empty)
+                return String.Empty;
+
             return sentence.First().ToString().ToUpper() + sentence.Substring(1);
         }
 
