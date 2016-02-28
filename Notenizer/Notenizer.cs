@@ -99,9 +99,9 @@ namespace nsNotenizer
             //Test(annotation);
 
             List<Note> notes = Parse(annotation);
-            //List<Note> andNotes = AndParser(annotation);
+            List<Note> andNotes = AndParser(annotation);
             PrintNotes(notes);
-            //PrintNotes(andNotes);
+            PrintNotes(andNotes);
         }
 
         /// <summary>
@@ -158,7 +158,7 @@ namespace nsNotenizer
                     {
                         NotenizerDependency compound = sentence.GetDependencyByShortName(
                             dependencyLoop,
-                            ComparisonType.DependantToGovernor,
+                            ComparisonType.DependentToGovernor,
                             GrammaticalConstants.CompoudModifier);
 
                         if (compound != null)
@@ -222,7 +222,7 @@ namespace nsNotenizer
                         {
                             NotenizerDependency first = nmodsList.First();
                             NotenizerDependency neg = sentence.GetDependencyByShortName(
-                                first, ComparisonType.DependantToGovernor, GrammaticalConstants.NegationModifier);
+                                first, ComparisonType.DependentToGovernor, GrammaticalConstants.NegationModifier);
 
                             if (neg == null)
                             {
@@ -240,7 +240,7 @@ namespace nsNotenizer
 
                             // second nmod depending on first one
                             NotenizerDependency nmodSecond = sentence.GetDependencyByShortName(
-                                first, ComparisonType.DependantToGovernor, GrammaticalConstants.NominalModifier);
+                                first, ComparisonType.DependentToGovernor, GrammaticalConstants.NominalModifier);
 
                             if (nmodSecond != null)
                             {
@@ -265,7 +265,7 @@ namespace nsNotenizer
                         else
                         {
                             // <== AMODS ==>
-                            NotenizerDependency amod1 = sentence.GetDependencyByShortName(dependencyLoop, ComparisonType.DependantToGovernor, GrammaticalConstants.AdjectivalModifier);
+                            NotenizerDependency amod1 = sentence.GetDependencyByShortName(dependencyLoop, ComparisonType.DependentToGovernor, GrammaticalConstants.AdjectivalModifier);
 
                             // <== AMODS ==>
                             NotenizerDependency amod2 = sentence.GetDependencyByShortName(dependencyLoop, ComparisonType.GovernorToGovernor, GrammaticalConstants.AdjectivalModifier);
@@ -287,7 +287,7 @@ namespace nsNotenizer
                             else
                             {
                                 // <== NUMMODS ==>
-                                NotenizerDependency nummod1 = sentence.GetDependencyByShortName(dependencyLoop, ComparisonType.DependantToGovernor, GrammaticalConstants.NumericModifier);
+                                NotenizerDependency nummod1 = sentence.GetDependencyByShortName(dependencyLoop, ComparisonType.DependentToGovernor, GrammaticalConstants.NumericModifier);
 
                                 // <== NUMMODS ==>
                                 NotenizerDependency nummod2 = sentence.GetDependencyByShortName(dependencyLoop, ComparisonType.GovernorToGovernor, GrammaticalConstants.NumericModifier);
@@ -322,7 +322,7 @@ namespace nsNotenizer
                             NoteParticle dobjObj = new NoteParticle(dobj, TokenType.Dependent);
                             notePart.Add(dobjObj);
 
-                            NotenizerDependency neg = sentence.GetDependencyByShortName(dobj, ComparisonType.DependantToGovernor, GrammaticalConstants.NegationModifier);
+                            NotenizerDependency neg = sentence.GetDependencyByShortName(dobj, ComparisonType.DependentToGovernor, GrammaticalConstants.NegationModifier);
 
                             if (neg != null)
                             {
@@ -352,7 +352,7 @@ namespace nsNotenizer
                         if (nmodsList != null && nmodsList.Count > 0)
                         {
                             NotenizerDependency first = nmodsList.First();
-                            NotenizerDependency neg = sentence.GetDependencyByShortName(first, ComparisonType.DependantToGovernor, GrammaticalConstants.NegationModifier);
+                            NotenizerDependency neg = sentence.GetDependencyByShortName(first, ComparisonType.DependentToGovernor, GrammaticalConstants.NegationModifier);
 
                             if (neg == null)
                             {
@@ -368,7 +368,7 @@ namespace nsNotenizer
                             }
 
                             // second nmod depending on first one
-                            NotenizerDependency nmodSecond = sentence.GetDependencyByShortName(first, ComparisonType.DependantToGovernor, GrammaticalConstants.NominalModifier);
+                            NotenizerDependency nmodSecond = sentence.GetDependencyByShortName(first, ComparisonType.DependentToGovernor, GrammaticalConstants.NominalModifier);
 
                             if (nmodSecond != null)
                             {
@@ -514,8 +514,10 @@ namespace nsNotenizer
                         //List<NotenizerDependency> depToGov = noteLoop.OriginalSentence.GetDependenciesByShortName(noteParticleLoop.NoteDependency, ComparisonType.DependantToGovernor, GrammaticalConstants.Conjuction);
                         //List<NotenizerDependency> govToGov = noteLoop.OriginalSentence.GetDependenciesByShortName(noteParticleLoop.NoteDependency, ComparisonType.GovernorToGovernor, GrammaticalConstants.Conjuction);
                         //List<NotenizerDependency> conjuctions = depToGov.Concat(govToGov).ToList();
-                        List<NotenizerDependency> conjuctions = noteLoop.OriginalSentence.GetDependenciesByShortName(noteParticleLoop.NoteDependency, ComparisonType.GovernorToGovernor, GrammaticalConstants.Conjuction);
-
+                        List<NotenizerDependency> conjuctions = noteLoop.OriginalSentence.GetDependenciesByShortName(noteParticleLoop.NoteDependency, 
+                            NotenizerExtensions.CreateComperisonType(noteParticleLoop.TokenType, TokenType.Governor), 
+                            GrammaticalConstants.Conjuction, GrammaticalConstants.AppositionalModifier);
+                        
                         if (!conjuctions.Any(x => x.Relation.Specific == GrammaticalConstants.AndConjuction))
                         {
                             notePart.Add(noteParticleLoop);
@@ -544,8 +546,19 @@ namespace nsNotenizer
                     {
                         NotePart clonedNotePart;
                         List<NotePart> clonedNoteParts = new List<NotePart>();
+                        List<NotenizerDependency> repetitionPartDependencies = new List<NotenizerDependency>();
+                        List<NotenizerDependency> andConjuctionsAppos = processAndConjuctionsConjuctions.Where(x => x.Relation.Specific == GrammaticalConstants.AndConjuction
+                            || x.Relation.ShortName == GrammaticalConstants.AppositionalModifier).ToList();
 
-                        foreach (NotenizerDependency andConjuctionLoop in processAndConjuctionsConjuctions.Where(x => x.Relation.Specific == GrammaticalConstants.AndConjuction))
+                        repetitionPartDependencies = repetitionPartDependencies.Concat(andConjuctionsAppos).ToList();
+
+                        foreach (NotenizerDependency andApposDependencyLoop in andConjuctionsAppos)
+                        {
+                            repetitionPartDependencies = repetitionPartDependencies.Concat(
+                                noteLoop.OriginalSentence.GetDependenciesByShortName(andApposDependencyLoop, ComparisonType.DependentToGovernor, GrammaticalConstants.AppositionalModifier)).ToList();
+                        }
+
+                        foreach (NotenizerDependency andConjuctionLoop in repetitionPartDependencies)
                         {
                             clonedNotePart = notePart.Clone();
                             clonedNoteParts.Add(clonedNotePart);
@@ -554,7 +567,7 @@ namespace nsNotenizer
                             AddAditionalNoteParticles(noteLoop.OriginalSentence, andConjuctionLoop, clonedNotePart);
                         }
 
-                        notePart.Add(new NoteParticle(processAndConjuctionsStartingParticle.NoteDependency.Dependent, processAndConjuctionsStartingParticle.NoteDependency));
+                        notePart.Add(new NoteParticle(processAndConjuctionsStartingParticle.GetCorrespondingWord(), processAndConjuctionsStartingParticle.NoteDependency));
                         AddAditionalNoteParticles(noteLoop.OriginalSentence, processAndConjuctionsStartingParticle.NoteDependency, notePart);
                         note.Add(notePart);
                         note.Add(clonedNoteParts);
@@ -568,11 +581,11 @@ namespace nsNotenizer
 
         public void AddAditionalNoteParticles(NotenizerSentence sentence, NotenizerDependency dependency, NotePart destinationNotePart)
         {
-            NotenizerDependency compound = sentence.GetDependencyByShortName(dependency, ComparisonType.DependantToGovernor, GrammaticalConstants.CompoudModifier);
+            NotenizerDependency compound = sentence.GetDependencyByShortName(dependency, ComparisonType.DependentToGovernor, GrammaticalConstants.CompoudModifier);
             if (compound != null)
                 destinationNotePart.Add(new NoteParticle(compound.Dependent, compound));
 
-            NotenizerDependency nmod = sentence.GetDependencyByShortName(dependency, ComparisonType.DependantToGovernor, GrammaticalConstants.NominalModifier);
+            NotenizerDependency nmod = sentence.GetDependencyByShortName(dependency, ComparisonType.DependentToGovernor, GrammaticalConstants.NominalModifier);
             if (nmod != null)
                 destinationNotePart.Add(new NoteParticle(nmod.Dependent, nmod));
         }

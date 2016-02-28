@@ -115,13 +115,13 @@ namespace nsNotenizerObjects
         {
             switch (comparisonType)
             {
-                case ComparisonType.DependantToDependant:
+                case ComparisonType.DependentToDependant:
                     return mainDependency.Dependent == secondaryDependency.Dependent;
 
                 case ComparisonType.GovernorToGovernor:
                     return mainDependency.Governor == secondaryDependency.Governor;
 
-                case ComparisonType.DependantToGovernor:
+                case ComparisonType.DependentToGovernor:
                     return mainDependency.Dependent == secondaryDependency.Governor;
 
                 case ComparisonType.GovernorToDependant:

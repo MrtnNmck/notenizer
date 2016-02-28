@@ -69,5 +69,10 @@ namespace nsNotenizerObjects
         {
             get { return _position; }
         }
+
+        public NotenizerWord Get(TokenType tokenType)
+        {
+            return tokenType == TokenType.Dependent ? _dependent : _governor;
+        }
 	}
 }

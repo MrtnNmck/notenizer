@@ -60,6 +60,11 @@ namespace nsNotenizerObjects
             get { return _noteWordValue; }
         }
 
+        public TokenType TokenType
+        {
+            get { return _tokenType; }
+        }
+
         private String MakeWordConsiderRelation(NotenizerWord noteWord, NotenizerRelation relation)
         {
             String word = String.Empty;
@@ -70,6 +75,11 @@ namespace nsNotenizerObjects
                 word = noteWord.Word;
 
             return word;
+        }
+
+        public NotenizerWord GetCorrespondingWord()
+        {
+            return _noteDependency.Get(_tokenType);
         }
     }
 }

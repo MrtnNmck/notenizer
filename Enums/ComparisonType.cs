@@ -4,7 +4,7 @@
     {
         GovernorToGovernor,
         GovernorToDependant,
-        DependantToGovernor,
-        DependantToDependant
+        DependentToGovernor,
+        DependentToDependant
     }
 }
