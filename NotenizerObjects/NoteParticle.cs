@@ -13,7 +13,8 @@ namespace nsNotenizerObjects
         private NotenizerWord _noteWord;
         private String _noteWordValue;
         private NotenizerDependency _noteDependency;
-         
+        private TokenType _tokenType;
+
         public NoteParticle(NotenizerWord noteWord, NotenizerDependency noteDependency)
         {
             _noteWord = noteWord;
@@ -26,6 +27,22 @@ namespace nsNotenizerObjects
             _noteWordValue = noteWordValue;
             _noteWord = noteWord;
             _noteDependency = noteDependency;
+        }
+
+        public NoteParticle(NotenizerDependency dependency, TokenType tokenType)
+        {
+            _tokenType = tokenType;
+            _noteDependency = dependency;
+            _noteWord = _tokenType == TokenType.Dependent ? dependency.Dependent : dependency.Governor;
+            _noteWordValue = MakeWordConsiderRelation(_noteWord, _noteDependency.Relation);
+        }
+
+        public NoteParticle(String noteWordValue, NotenizerDependency dependency, TokenType tokenType)
+        {
+            _tokenType = tokenType;
+            _noteDependency = dependency;
+            _noteWordValue = noteWordValue;
+            _noteWord = tokenType == TokenType.Dependent ? dependency.Dependent : dependency.Governor;
         }
 
         public NotenizerWord NoteWord

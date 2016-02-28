@@ -22,7 +22,7 @@ namespace CLI
 
             //var s = DB.GetAll("notes").Result;
 
-			notenizer.RunCoreNLP(text);
+            notenizer.RunCoreNLP(text);
 			Console.ReadKey();
 		}
 	}
