@@ -99,8 +99,9 @@ namespace nsNotenizer
             //Test(annotation);
 
             List<Note> notes = Parse(annotation);
-            AndParser(annotation);
+            List<Note> andNotes = AndParser(annotation);
             PrintNotes(notes);
+            PrintNotes(andNotes);
         }
 
         /// <summary>
@@ -475,9 +476,13 @@ namespace nsNotenizer
             }
         }
 
-        private void AndParser(Annotation annotation)
+        private List<Note> AndParser(Annotation annotation)
         {
             List<Note> notes = new List<Note>();
+            List<Note> andNotes = new List<Note>();
+
+            NoteParticle processAndConjuctionsStartingParticle = null;
+            List<NotenizerDependency> processAndConjuctionsConjuctions = null;
 
             foreach (Annotation sentenceLoop in annotation.get(typeof(CoreAnnotations.SentencesAnnotation)) as ArrayList)
             {
@@ -491,13 +496,36 @@ namespace nsNotenizer
                     || !noteLoop.OriginalSentence.CompressedDependencies[GrammaticalConstants.Conjuction].Any(x => x.Relation.Specific == GrammaticalConstants.AndConjuction))
                     continue;
 
+                Note note = new Note(noteLoop.OriginalSentence);
+
                 foreach(NotePart notePartLoop in noteLoop.NoteParts)
                 {
+                    NotePart notePart = new NotePart(noteLoop.OriginalSentence);
+                    processAndConjuctionsStartingParticle = null;
+                    processAndConjuctionsConjuctions = null;
+
                     foreach(NoteParticle noteParticleLoop in notePartLoop.InitializedNoteParticles)
                     {
                         // preachadzat vsetky dependencies v note particle
                         // ak ani gov ani dep nemamju previazanie na ziadnu dependency so vztahoj conj:and
                         // tak ju pridaj do NotePart
+                        //List<NotenizerDependency> depToGov = noteLoop.OriginalSentence.GetDependenciesByShortName(noteParticleLoop.NoteDependency, ComparisonType.DependantToGovernor, GrammaticalConstants.Conjuction);
+                        //List<NotenizerDependency> govToGov = noteLoop.OriginalSentence.GetDependenciesByShortName(noteParticleLoop.NoteDependency, ComparisonType.GovernorToGovernor, GrammaticalConstants.Conjuction);
+                        //List<NotenizerDependency> conjuctions = depToGov.Concat(govToGov).ToList();
+                        List<NotenizerDependency> conjuctions = noteLoop.OriginalSentence.GetDependenciesByShortName(noteParticleLoop.NoteDependency, ComparisonType.GovernorToGovernor, GrammaticalConstants.Conjuction);
+
+                        if (!conjuctions.Any(x => x.Relation.Specific == GrammaticalConstants.AndConjuction))
+                        {
+                            notePart.Add(noteParticleLoop);
+                        }
+                        else
+                        {
+                            processAndConjuctionsStartingParticle = noteParticleLoop;
+                            processAndConjuctionsConjuctions = conjuctions;
+
+                            break;
+                        }
+
                         // ak ma, naklonuj NotePart,
                         // pridaj ju do povodnej NotePart a zisti dalsie prepojenie ako mnod:in a ukonci tak tento NotePart
                         // potom pre vsetky prepojenie s dependecy conj:and
@@ -509,8 +537,42 @@ namespace nsNotenizer
                         // zlozenu z niekolkych viet, ktore budu mat rovnaky zaklad, ale budu
                         // sa lisit v prepojeniach AND
                     }
+
+                    if (processAndConjuctionsStartingParticle != null)
+                    {
+                        NotePart clonedNotePart;
+                        List<NotePart> clonedNoteParts = new List<NotePart>();
+
+                        foreach (NotenizerDependency andConjuctionLoop in processAndConjuctionsConjuctions.Where(x => x.Relation.Specific == GrammaticalConstants.AndConjuction))
+                        {
+                            clonedNotePart = notePart.Clone();
+                            clonedNoteParts.Add(clonedNotePart);
+                            clonedNotePart.Add(new NoteParticle(andConjuctionLoop.Dependent, andConjuctionLoop));
+
+                            AddAditionalNoteParticles(noteLoop.OriginalSentence, andConjuctionLoop, clonedNotePart);
+                        }
+
+                        notePart.Add(new NoteParticle(processAndConjuctionsStartingParticle.NoteDependency.Dependent, processAndConjuctionsStartingParticle.NoteDependency));
+                        AddAditionalNoteParticles(noteLoop.OriginalSentence, processAndConjuctionsStartingParticle.NoteDependency, notePart);
+                        note.Add(notePart);
+                        note.Add(clonedNoteParts);
+                        andNotes.Add(note);
+                    }
                 }
             }
+
+            return andNotes;
+        }
+
+        public void AddAditionalNoteParticles(NotenizerSentence sentence, NotenizerDependency dependency, NotePart destinationNotePart)
+        {
+            NotenizerDependency compound = sentence.GetDependencyByShortName(dependency, ComparisonType.DependantToGovernor, GrammaticalConstants.CompoudModifier);
+            if (compound != null)
+                destinationNotePart.Add(new NoteParticle(compound.Dependent, compound));
+
+            NotenizerDependency nmod = sentence.GetDependencyByShortName(dependency, ComparisonType.DependantToGovernor, GrammaticalConstants.NominalModifier);
+            if (nmod != null)
+                destinationNotePart.Add(new NoteParticle(nmod.Dependent, nmod));
         }
     }
 }

@@ -10,24 +10,18 @@ namespace nsNotenizerObjects
 {
     public class NotePart
     {
-        private String _prefixWord;
-        private String _postfixWord;
-        private String _mainWord;
-
         private List<NoteParticle> _noteParticles;
+        private NotenizerSentence _originalSentence;
 
         public NotePart()
         {
-            _prefixWord = String.Empty;
-            _postfixWord = String.Empty;
-            _mainWord = String.Empty;
-
             _noteParticles = new List<NoteParticle>();
         }
 
         public NotePart(NotenizerSentence originalSentence)
         {
             _noteParticles = new List<NoteParticle>();
+            _originalSentence = originalSentence;
             InitializeStructure(originalSentence.DependencyWordsInSentenceCount());
         }
         
@@ -80,6 +74,16 @@ namespace nsNotenizerObjects
         public void Add(NoteParticle noteObject)
         {
             _noteParticles[noteObject.NoteWord.Index - 1] = noteObject;
+        }
+
+        public NotePart Clone()
+        {
+            NotePart clonedNotePart = new NotePart(this._originalSentence);
+
+            foreach (NoteParticle noteParticleLoop in this.InitializedNoteParticles)
+                clonedNotePart.Add(noteParticleLoop);
+
+            return clonedNotePart;
         }
     }
 }

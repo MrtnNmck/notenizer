@@ -48,7 +48,7 @@ namespace nsNotenizerObjects
             String word = String.Empty;
 
             if (relation.ShortName == GrammaticalConstants.NominalModifier)
-                word = relation.Specific + NotenizerConstants.WordDelimeter + noteWord.Word;
+                word = relation.AdjustedSpecific + NotenizerConstants.WordDelimeter + noteWord.Word;
             else
                 word = noteWord.Word;
 
