@@ -24,11 +24,22 @@ namespace nsNotenizer
     {
         private bool _redirectOutputToFile = false;
         private String _redirectOutputToFileFileName = @"./out.txt";
+        List<Note> _notes;
+        List<Note> _andNotes;
 
 		public Notenizer()
 		{
-
 		}
+
+        public List<Note> Notes
+        {
+            get { return _notes; }
+        }
+
+        public List<Note> AndNotes
+        {
+            get { return _andNotes; }
+        }
 
         public void RunCoreNLP(String text = null)
         {
@@ -73,35 +84,22 @@ namespace nsNotenizer
                 Console.SetError(streamwriter);
             }
 
-            // Result - Pretty Print
-            using (ByteArrayOutputStream stream = new ByteArrayOutputStream())
-            {
-                pipeline.prettyPrint(annotation, new PrintWriter(stream));
-                Console.WriteLine(stream.toString());
-                stream.close();
-            }
-
-            Console.WriteLine("======================================================");
-
-            // these are all the sentences in this document
-            // a CoreMap is essentially a Map that uses class objects as keys and has values with custom types
-            //var sentences = annotation.get(typeof(CoreAnnotations.SentencesAnnotation));
-            //if (sentences == null)
+            //// Result - Pretty Print
+            //using (ByteArrayOutputStream stream = new ByteArrayOutputStream())
             //{
-            //	return;
+            //    pipeline.prettyPrint(annotation, new PrintWriter(stream));
+            //    Console.WriteLine(stream.toString());
+            //    stream.close();
             //}
 
-            //foreach (Annotation sentence in sentences as ArrayList)
-            //{
-            //	Console.WriteLine(sentence);
-            //}
+            //Console.WriteLine("======================================================");
 
             //Test(annotation);
 
-            List<Note> notes = Parse(annotation);
-            List<Note> andNotes = AndParser(annotation);
-            PrintNotes(notes);
-            PrintNotes(andNotes);
+            _notes = Parse(annotation);
+            _andNotes = AndParser(annotation);
+            PrintNotes(_notes);
+            //PrintNotes(andNotes);
         }
 
         /// <summary>
@@ -127,6 +125,7 @@ namespace nsNotenizer
                 {
                     Note parsedNote = ApplyRule(sentence, rule);
                     Console.WriteLine("Parsed note: " + parsedNote.OriginalSentence + " ===> " + parsedNote.Value);
+                    sentencesNoted.Add(parsedNote);
 
                     continue;
                 }

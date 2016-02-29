@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using nsNotenizer;
 using nsDB;
+using System.Windows.Forms;
+using nsGUI;
 
 namespace CLI
 {
@@ -22,8 +24,9 @@ namespace CLI
 
             //var s = DB.GetAll("notes").Result;
 
-            notenizer.RunCoreNLP(text);
-			Console.ReadKey();
-		}
+            //notenizer.RunCoreNLP(text);
+            Application.Run(new FormMain());
+            //Console.ReadKey();
+        }
 	}
 }
