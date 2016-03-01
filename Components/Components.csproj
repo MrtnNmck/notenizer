@@ -43,6 +43,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AdvancedProgressBar.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="AdvancedProgressBar.Designer.cs">
+      <DependentUpon>AdvancedProgressBar.cs</DependentUpon>
+    </Compile>
     <Compile Include="NotenizerTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -50,6 +56,16 @@
       <DependentUpon>NotenizerTextBox.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Constants\Constants.csproj">
+      <Project>{ce035769-8676-4ef9-a711-17da8ecd8e17}</Project>
+      <Name>Constants</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Extensions\Extensions.csproj">
+      <Project>{a935e0ec-5e82-46b1-a209-405d11faa30c}</Project>
+      <Name>Extensions</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

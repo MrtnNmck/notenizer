@@ -25,6 +25,7 @@ namespace CLI
             //var s = DB.GetAll("notes").Result;
 
             //notenizer.RunCoreNLP(text);
+            Application.EnableVisualStyles();
             Application.Run(new FormMain());
             //Console.ReadKey();
         }

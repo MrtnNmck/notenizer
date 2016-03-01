@@ -3,13 +3,9 @@ using nsNotenizer;
 using nsNotenizerObjects;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using nsExtensions;
 
 namespace nsGUI
 {
@@ -22,21 +18,45 @@ namespace nsGUI
             _notenizer = new Notenizer();
 
             InitializeComponent();
-            //Test();
             this.CenterToScreen();
         }
 
-        private void Test()
+        private void ShowNotes(List<Note> notes)
         {
-            for (int i = 0; i < 20; i++)
+            foreach (Note noteLoop in notes)
             {
-                this._tableLayoutPanelMain.RowCount += 1;
-                this._tableLayoutPanelMain.RowStyles.Add(new RowStyle(SizeType.Absolute, 50F));
-                this._tableLayoutPanelMain.Controls.Add(new NotenizerTextBox() { Text = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" },
-                    0, this._tableLayoutPanelMain.RowCount - 1);
-                this._tableLayoutPanelMain.Controls.Add(new NotenizerTextBox() { Text = "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb" },
-                    1, this._tableLayoutPanelMain.RowCount - 1);
+                this._tableLayoutPanelMain.PerformSafely(() => this._tableLayoutPanelMain.RowCount += 1);
+                this._tableLayoutPanelMain.PerformSafely(() => this._tableLayoutPanelMain.RowStyles.Add(new RowStyle(SizeType.Absolute, 50F)));
+                this._tableLayoutPanelMain.PerformSafely(() => this._tableLayoutPanelMain.Controls.Add(new NotenizerTextBox() { Text = noteLoop.OriginalSentence.ToString() },
+                    0, this._tableLayoutPanelMain.RowCount - 1));
+                this._tableLayoutPanelMain.PerformSafely(() => this._tableLayoutPanelMain.Controls.Add(new NotenizerTextBox() { Text = noteLoop.Value },
+                    1, this._tableLayoutPanelMain.RowCount - 1));
             }
+        }
+
+        private void Clear()
+        {
+            this._tableLayoutPanelMain.SuspendLayout();
+
+            // do not remove first row
+            while (this._tableLayoutPanelMain.RowCount > 1)
+            {
+                int row = this._tableLayoutPanelMain.RowCount - 1;
+
+                for (int i = 0; i < this._tableLayoutPanelMain.ColumnCount; i++)
+                {
+                    Control control = this._tableLayoutPanelMain.GetControlFromPosition(i, row);
+                    this._tableLayoutPanelMain.Controls.Remove(control);
+                    control.Dispose();
+                }
+
+                this._tableLayoutPanelMain.RowStyles.RemoveAt(row);
+                this._tableLayoutPanelMain.RowCount--;
+            }
+
+            // show new changed
+            this._tableLayoutPanelMain.ResumeLayout(false);
+            this._tableLayoutPanelMain.PerformLayout();
         }
 
         #region Event Handlers
@@ -54,23 +74,21 @@ namespace nsGUI
             if (frmTextInputer.ShowDialog() == DialogResult.OK)
             {
                 string textForProcessing = frmTextInputer.TextForProcessing;
-                this._progressBar.Show();
-                this._progressBar.Style = ProgressBarStyle.Marquee;
+                this._advancedProgressBar.Start();
 
-                this._notenizer.RunCoreNLP(textForProcessing);
-
-                foreach (Note noteLoop in this._notenizer.Notes)
+                Task.Factory.StartNew(() =>
                 {
-                    this._tableLayoutPanelMain.RowCount += 1;
-                    this._tableLayoutPanelMain.RowStyles.Add(new RowStyle(SizeType.Absolute, 50F));
-                    this._tableLayoutPanelMain.Controls.Add(new NotenizerTextBox() { Text = noteLoop.OriginalSentence.ToString() },
-                        0, this._tableLayoutPanelMain.RowCount - 1);
-                    this._tableLayoutPanelMain.Controls.Add(new NotenizerTextBox() { Text = noteLoop.Value },
-                        1, this._tableLayoutPanelMain.RowCount - 1);
-                }
-
-                this._progressBar.Hide();
+                    this._notenizer.RunCoreNLP(textForProcessing);
+                }).ContinueWith(delegate {
+                    ShowNotes(this._notenizer.Notes);
+                    this._advancedProgressBar.StopAndReset();
+                });
             }
+        }
+
+        private void Menu_Clear(Object sender, EventArgs e)
+        {
+            Clear();
         }
 
         #endregion Event Handlers

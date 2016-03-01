@@ -1,4 +1,6 @@
-﻿namespace nsGUI
+﻿using nsComponents;
+
+namespace nsGUI
 {
     partial class FormMain
     {
@@ -39,8 +41,10 @@
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
             this.quitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.clearToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this._panelBottom = new System.Windows.Forms.Panel();
-            this._progressBar = new System.Windows.Forms.ProgressBar();
+            this._advancedProgressBar = new AdvancedProgressBar();
             this._panelHeader.SuspendLayout();
             this._panelMain.SuspendLayout();
             this._tableLayoutPanelMain.SuspendLayout();
@@ -76,7 +80,7 @@
             this._panelMain.Controls.Add(this._tableLayoutPanelMain);
             this._panelMain.Location = new System.Drawing.Point(12, 83);
             this._panelMain.Name = "_panelMain";
-            this._panelMain.Size = new System.Drawing.Size(984, 731);
+            this._panelMain.Size = new System.Drawing.Size(984, 691);
             this._panelMain.TabIndex = 2;
             // 
             // _tableLayoutPanelMain
@@ -95,7 +99,7 @@
             this._tableLayoutPanelMain.Name = "_tableLayoutPanelMain";
             this._tableLayoutPanelMain.RowCount = 1;
             this._tableLayoutPanelMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
-            this._tableLayoutPanelMain.Size = new System.Drawing.Size(978, 725);
+            this._tableLayoutPanelMain.Size = new System.Drawing.Size(978, 685);
             this._tableLayoutPanelMain.TabIndex = 0;
             // 
             // _labelCoolumnCaption1
@@ -105,7 +109,7 @@
             this._labelCoolumnCaption1.Font = new System.Drawing.Font("Segoe UI Emoji", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this._labelCoolumnCaption1.Location = new System.Drawing.Point(4, 1);
             this._labelCoolumnCaption1.Name = "_labelCoolumnCaption1";
-            this._labelCoolumnCaption1.Size = new System.Drawing.Size(481, 723);
+            this._labelCoolumnCaption1.Size = new System.Drawing.Size(478, 688);
             this._labelCoolumnCaption1.TabIndex = 0;
             this._labelCoolumnCaption1.Text = "Original sentences";
             this._labelCoolumnCaption1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -115,9 +119,9 @@
             this._labelColumnCaption2.AutoSize = true;
             this._labelColumnCaption2.Dock = System.Windows.Forms.DockStyle.Fill;
             this._labelColumnCaption2.Font = new System.Drawing.Font("Segoe UI Emoji", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this._labelColumnCaption2.Location = new System.Drawing.Point(492, 1);
+            this._labelColumnCaption2.Location = new System.Drawing.Point(489, 1);
             this._labelColumnCaption2.Name = "_labelColumnCaption2";
-            this._labelColumnCaption2.Size = new System.Drawing.Size(482, 723);
+            this._labelColumnCaption2.Size = new System.Drawing.Size(478, 688);
             this._labelColumnCaption2.TabIndex = 1;
             this._labelColumnCaption2.Text = "Notes";
             this._labelColumnCaption2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -125,7 +129,8 @@
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.fileToolStripMenuItem});
+            this.fileToolStripMenuItem,
+            this.editToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(1008, 24);
@@ -163,27 +168,48 @@
             this.quitToolStripMenuItem.Text = "Quit";
             this.quitToolStripMenuItem.Click += new System.EventHandler(this.Menu_Quit);
             // 
+            // editToolStripMenuItem
+            // 
+            this.editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.clearToolStripMenuItem});
+            this.editToolStripMenuItem.Name = "editToolStripMenuItem";
+            this.editToolStripMenuItem.Size = new System.Drawing.Size(39, 20);
+            this.editToolStripMenuItem.Text = "Edit";
+            // 
+            // clearToolStripMenuItem
+            // 
+            this.clearToolStripMenuItem.Name = "clearToolStripMenuItem";
+            this.clearToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.C)));
+            this.clearToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
+            this.clearToolStripMenuItem.Text = "Clear";
+            this.clearToolStripMenuItem.Click += new System.EventHandler(this.Menu_Clear);
+            // 
             // _panelBottom
             // 
-            this._panelBottom.Controls.Add(this._progressBar);
-            this._panelBottom.Location = new System.Drawing.Point(12, 820);
+            this._panelBottom.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this._panelBottom.Controls.Add(this._advancedProgressBar);
+            this._panelBottom.Location = new System.Drawing.Point(12, 780);
             this._panelBottom.Name = "_panelBottom";
             this._panelBottom.Size = new System.Drawing.Size(984, 29);
             this._panelBottom.TabIndex = 4;
             // 
             // _progressBar
             // 
-            this._progressBar.Location = new System.Drawing.Point(3, 3);
-            this._progressBar.Name = "_progressBar";
-            this._progressBar.Size = new System.Drawing.Size(978, 23);
-            this._progressBar.TabIndex = 0;
-            this._progressBar.Style = System.Windows.Forms.ProgressBarStyle.Marquee;
+            this._advancedProgressBar.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this._advancedProgressBar.Location = new System.Drawing.Point(3, 3);
+            this._advancedProgressBar.Name = "_progressBar";
+            this._advancedProgressBar.Size = new System.Drawing.Size(978, 23);
+            this._advancedProgressBar.Style = System.Windows.Forms.ProgressBarStyle.Marquee;
+            this._advancedProgressBar.TabIndex = 0;
             // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1008, 861);
+            this.ClientSize = new System.Drawing.Size(1008, 821);
             this.Controls.Add(this._panelBottom);
             this.Controls.Add(this._panelMain);
             this.Controls.Add(this._panelHeader);
@@ -217,6 +243,8 @@
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem quitToolStripMenuItem;
         private System.Windows.Forms.Panel _panelBottom;
-        private System.Windows.Forms.ProgressBar _progressBar;
+        private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem clearToolStripMenuItem;
+        private AdvancedProgressBar _advancedProgressBar;
     }
 }

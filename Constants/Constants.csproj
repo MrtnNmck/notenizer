@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ComponentConstants.cs" />
     <Compile Include="DBConstants.cs" />
     <Compile Include="GrammaticalConstants.cs" />
     <Compile Include="NotenizerConstants.cs" />
