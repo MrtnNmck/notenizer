@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using nsExtensions;
+using nsConstants;
 
 namespace nsGUI
 {
@@ -26,11 +27,16 @@ namespace nsGUI
             foreach (Note noteLoop in notes)
             {
                 this._tableLayoutPanelMain.PerformSafely(() => this._tableLayoutPanelMain.RowCount += 1);
-                this._tableLayoutPanelMain.PerformSafely(() => this._tableLayoutPanelMain.RowStyles.Add(new RowStyle(SizeType.Absolute, 50F)));
-                this._tableLayoutPanelMain.PerformSafely(() => this._tableLayoutPanelMain.Controls.Add(new NotenizerTextBox() { Text = noteLoop.OriginalSentence.ToString() },
+
+                this._tableLayoutPanelMain.PerformSafely(() => this._tableLayoutPanelMain.Controls.Add(new AdvancedTextBox(noteLoop.OriginalSentence.ToString()),
                     0, this._tableLayoutPanelMain.RowCount - 1));
-                this._tableLayoutPanelMain.PerformSafely(() => this._tableLayoutPanelMain.Controls.Add(new NotenizerTextBox() { Text = noteLoop.Value },
-                    1, this._tableLayoutPanelMain.RowCount - 1));
+
+                NotenizerAdvancedTextBox nAdvTextBox = new NotenizerAdvancedTextBox(noteLoop);
+                nAdvTextBox.EditButtonClicked += NoteEditButton_Click;
+
+                this._tableLayoutPanelMain.PerformSafely(() => this._tableLayoutPanelMain.Controls.Add(nAdvTextBox, 1,
+                    this._tableLayoutPanelMain.RowCount - 1));
+                this._tableLayoutPanelMain.PerformSafely(() => this._tableLayoutPanelMain.RowStyles.Add(new RowStyle(SizeType.Absolute, ComponentConstants.NotenizerAdvancedTextBoxSize + 15F)));
             }
         }
 
@@ -67,7 +73,7 @@ namespace nsGUI
                 this.Dispose();
         }
 
-        private void Menu_Open(Object sender, EventArgs e)
+        private void Menu_Open(object sender, EventArgs e)
         {
             FormTextInputer frmTextInputer = new FormTextInputer();
 
@@ -86,9 +92,16 @@ namespace nsGUI
             }
         }
 
-        private void Menu_Clear(Object sender, EventArgs e)
+        private void Menu_Clear(object sender, EventArgs e)
         {
             Clear();
+        }
+
+        private void NoteEditButton_Click(object sender, EventArgs e)
+        {
+            Note note = (sender as NotenizerAdvancedTextBox).Note;
+            FormReorderNote frmReorderNote = new FormReorderNote(note);
+            frmReorderNote.ShowDialog();
         }
 
         #endregion Event Handlers

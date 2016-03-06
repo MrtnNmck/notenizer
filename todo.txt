@@ -127,6 +127,15 @@ TODO:
 			- zatial len podla poctu a nazvov dependencies a zoberie sa prva.
 			// vypocitavanie % zhody pravidiel
 			
+    DONE - pridat TokenType do kolekcii
+        - premazanie kolekcie poznamok a spustit parsovanie odznova
+        
+    - premysliet a implementovat, ktore "slova" (dependencies) sa budu pouzivatelovi ponukat v okne FormReorderNote
+        - nemozu sa tam zobrazovat len slova z predchadzajuco spracovanej poznamky, lebo tym padom by si nemohol ziadne nove slovo pridat
+            - beru sa len dependent-y, kedze tak sa beru aj pri aplikovani pravidiel, s vynimkou pri nominal subject sa berie aj governor,
+              to zatial nie je zohladnene, je mozne, ze ani nebude treba?
+        - treba ponukat vsetky slova - dependencies s povodnej vety, vyfiltrovane tak, aby tam neboli duplicitne
+        
 	- odstranit hodnotu position z pravidla
 		- nepouziva sa
 	- naplnit DB s viacerimi pravidlami

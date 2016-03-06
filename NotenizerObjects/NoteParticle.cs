@@ -18,7 +18,7 @@ namespace nsNotenizerObjects
         public NoteParticle(NotenizerWord noteWord, NotenizerDependency noteDependency)
         {
             _noteWord = noteWord;
-            _noteDependency = noteDependency;
+            _noteDependency = noteDependency.Clone();
             _noteWordValue = MakeWordConsiderRelation(noteWord, noteDependency.Relation);
         }
 
@@ -26,13 +26,14 @@ namespace nsNotenizerObjects
         {
             _noteWordValue = noteWordValue;
             _noteWord = noteWord;
-            _noteDependency = noteDependency;
+            _noteDependency = noteDependency.Clone();
         }
 
         public NoteParticle(NotenizerDependency dependency, TokenType tokenType)
         {
             _tokenType = tokenType;
-            _noteDependency = dependency;
+            _noteDependency = dependency.Clone();
+            _noteDependency.TokenType = tokenType;
             _noteWord = _tokenType == TokenType.Dependent ? dependency.Dependent : dependency.Governor;
             _noteWordValue = MakeWordConsiderRelation(_noteWord, _noteDependency.Relation);
         }
@@ -40,7 +41,8 @@ namespace nsNotenizerObjects
         public NoteParticle(String noteWordValue, NotenizerDependency dependency, TokenType tokenType)
         {
             _tokenType = tokenType;
-            _noteDependency = dependency;
+            _noteDependency = dependency.Clone();
+            _noteDependency.TokenType = tokenType;
             _noteWordValue = noteWordValue;
             _noteWord = tokenType == TokenType.Dependent ? dependency.Dependent : dependency.Governor;
         }
@@ -60,10 +62,10 @@ namespace nsNotenizerObjects
             get { return _noteWordValue; }
         }
 
-        public TokenType TokenType
-        {
-            get { return _tokenType; }
-        }
+        //public TokenType TokenType
+        //{
+        //    get { return _tokenType; }
+        //}
 
         private String MakeWordConsiderRelation(NotenizerWord noteWord, NotenizerRelation relation)
         {
@@ -77,9 +79,9 @@ namespace nsNotenizerObjects
             return word;
         }
 
-        public NotenizerWord GetCorrespondingWord()
-        {
-            return _noteDependency.Get(_tokenType);
-        }
+        //public NotenizerWord GetCorrespondingWord()
+        //{
+        //    return _noteDependency.GetWordByTokenType(_tokenType);
+        //}
     }
 }

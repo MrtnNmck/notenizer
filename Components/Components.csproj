@@ -43,17 +43,41 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AdvancedFlowLayoutPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="AdvancedFlowLayoutPanel.Designer.cs">
+      <DependentUpon>AdvancedFlowLayoutPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AdvancedLabel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="AdvancedLabel.Designer.cs">
+      <DependentUpon>AdvancedLabel.cs</DependentUpon>
+    </Compile>
     <Compile Include="AdvancedProgressBar.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="AdvancedProgressBar.Designer.cs">
       <DependentUpon>AdvancedProgressBar.cs</DependentUpon>
     </Compile>
-    <Compile Include="NotenizerTextBox.cs">
+    <Compile Include="AdvancedTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="NotenizerTextBox.Designer.cs">
-      <DependentUpon>NotenizerTextBox.cs</DependentUpon>
+    <Compile Include="AdvancedTextBox.Designer.cs">
+      <DependentUpon>AdvancedTextBox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="NotenizerAdvancedLabel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="NotenizerAdvancedLabel.Designer.cs">
+      <DependentUpon>NotenizerAdvancedLabel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="NotenizerAdvancedTextBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="NotenizerAdvancedTextBox.Designer.cs">
+      <DependentUpon>NotenizerAdvancedTextBox.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -62,9 +86,21 @@
       <Project>{ce035769-8676-4ef9-a711-17da8ecd8e17}</Project>
       <Name>Constants</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Enums\Enums.csproj">
+      <Project>{57e4152f-a7b5-4107-9eeb-54bb78bf6dfc}</Project>
+      <Name>Enums</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Extensions\Extensions.csproj">
       <Project>{a935e0ec-5e82-46b1-a209-405d11faa30c}</Project>
       <Name>Extensions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Interfaces\Interfaces.csproj">
+      <Project>{654fbc57-770b-473a-ae1f-b75122886edd}</Project>
+      <Name>Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NotenizerObjects\NotenizerObjects.csproj">
+      <Project>{6fdbbec7-9acc-44ea-aaf3-86d771ee5f46}</Project>
+      <Name>NotenizerObjects</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

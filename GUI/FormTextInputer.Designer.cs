@@ -35,7 +35,8 @@
             this._buttonConfirm = new System.Windows.Forms.Button();
             this._buttonCancel = new System.Windows.Forms.Button();
             this._panelMain = new System.Windows.Forms.Panel();
-            this._notenizerTextBoxText = new nsComponents.NotenizerTextBox(this.components);
+            this._notenizerTextBoxText = new nsComponents.AdvancedTextBox();
+            this.components.Add(this._notenizerTextBoxText);
             this._panelHeader.SuspendLayout();
             this._panelButtons.SuspendLayout();
             this._panelMain.SuspendLayout();
@@ -87,6 +88,7 @@
             // _buttonCancel
             // 
             this._buttonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this._buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this._buttonCancel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this._buttonCancel.Location = new System.Drawing.Point(381, 4);
             this._buttonCancel.Name = "_buttonCancel";
@@ -111,12 +113,11 @@
             // 
             this._notenizerTextBoxText.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this._notenizerTextBoxText.Dock = System.Windows.Forms.DockStyle.Fill;
-            this._notenizerTextBoxText.Font = new System.Drawing.Font("Consolas", 8.25F);
             this._notenizerTextBoxText.Location = new System.Drawing.Point(0, 0);
-            this._notenizerTextBoxText.Multiline = true;
-            this._notenizerTextBoxText.Name = "_notenizerTextBoxText";
+            this._notenizerTextBoxText.Name = "advancedTextBox1";
             this._notenizerTextBoxText.Size = new System.Drawing.Size(459, 248);
             this._notenizerTextBoxText.TabIndex = 0;
+            this._notenizerTextBoxText.TextBox.ReadOnly = false;
             // 
             // FormTextInputer
             // 
@@ -134,7 +135,6 @@
             this._panelHeader.PerformLayout();
             this._panelButtons.ResumeLayout(false);
             this._panelMain.ResumeLayout(false);
-            this._panelMain.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -147,6 +147,6 @@
         private System.Windows.Forms.Button _buttonConfirm;
         private System.Windows.Forms.Button _buttonCancel;
         private System.Windows.Forms.Panel _panelMain;
-        private nsComponents.NotenizerTextBox _notenizerTextBoxText;
+        private nsComponents.AdvancedTextBox _notenizerTextBoxText;
     }
 }

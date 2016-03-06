@@ -50,7 +50,7 @@ namespace nsNotenizer
                     if (noteObjectLoop == null)
                         continue;
 
-                    BsonDocument dependencyDoc = CreateDependencyDocument(noteObjectLoop.NoteDependency, dependencyPosition, noteObjectLoop.NoteDependency.ComparisonType);
+                    BsonDocument dependencyDoc = CreateDependencyDocument(noteObjectLoop.NoteDependency, dependencyPosition, noteObjectLoop.NoteDependency.ComparisonType, noteObjectLoop.NoteDependency.TokenType);
 
                     AppendDependencyDocument(noteObjectLoop.NoteDependency, dependencyDoc, noteDependenciesArr, dependencies);
 
@@ -81,10 +81,11 @@ namespace nsNotenizer
                 position);
         }
 
-        private static BsonDocument CreateDependencyDocument(NotenizerDependency dependency, int position, ComparisonType comparisonType)
+        private static BsonDocument CreateDependencyDocument(NotenizerDependency dependency, int position, ComparisonType comparisonType, TokenType tokenType)
         {
             BsonDocument doc = CreateDependencyDocument(dependency, position);
             doc.Add(DBConstants.ComparisonTypeFieldName, new BsonInt32((int)comparisonType));
+            doc.Add(DBConstants.TokenTypeFieldName, new BsonInt32((int)tokenType));
 
             return doc;
         }

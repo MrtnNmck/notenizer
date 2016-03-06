@@ -32,11 +32,12 @@ namespace nsNotenizer
                     BsonDocument dependantDoc = dependencyDocLoop[DBConstants.DependentFieldName].AsBsonDocument;
                     int position = dependencyDocLoop[DBConstants.PositionFieldName].AsInt32;
                     ComparisonType comparisonType = dependencyDocLoop[DBConstants.ComparisonTypeFieldName].AsInt32.ToEnum<ComparisonType>();
+                    TokenType tokenType = dependencyDocLoop[DBConstants.TokenTypeFieldName].AsInt32.ToEnum<TokenType>();
 
                     NotenizerWord governor = new NotenizerWord(governorDoc[DBConstants.POSFieldName].AsString, governorDoc[DBConstants.IndexFieldName].AsInt32);
                     NotenizerWord dependent = new NotenizerWord(dependantDoc[DBConstants.POSFieldName].AsString, dependantDoc[DBConstants.IndexFieldName].AsInt32);
 
-                    NotenizerDependency dependency = new NotenizerDependency(governor, dependent, relation, position, comparisonType);
+                    NotenizerDependency dependency = new NotenizerDependency(governor, dependent, relation, position, comparisonType, tokenType);
 
                     dependencies.Add(dependency);
                 }

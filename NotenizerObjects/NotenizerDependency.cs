@@ -8,14 +8,15 @@ using System.Threading.Tasks;
 
 namespace nsNotenizerObjects
 {
-	public class NotenizerDependency
-	{
-		private NotenizerWord _dependent;
-		private NotenizerWord _governor;
-		private NotenizerRelation _relation;
+    public class NotenizerDependency
+    {
+        private NotenizerWord _dependent;
+        private NotenizerWord _governor;
+        private NotenizerRelation _relation;
         private TypedDependency _originalDependency;
         private int _position;
         private ComparisonType _comparisonType;
+        private TokenType _tokenType;
 
         public NotenizerDependency(TypedDependency typedDependency)
         {
@@ -25,13 +26,20 @@ namespace nsNotenizerObjects
             _originalDependency = typedDependency;
         }
 
-        public NotenizerDependency(NotenizerWord governor, NotenizerWord dependent, NotenizerRelation relation, int position, ComparisonType comparisonType)
+        public NotenizerDependency(
+            NotenizerWord governor,
+            NotenizerWord dependent,
+            NotenizerRelation relation,
+            int position,
+            ComparisonType comparisonType,
+            TokenType tokenType)
         {
             _governor = governor;
             _dependent = dependent;
             _relation = relation;
             _position = position;
             _comparisonType = comparisonType;
+            _tokenType = tokenType;
         }
 
         public NotenizerWord Dependent
@@ -68,11 +76,33 @@ namespace nsNotenizerObjects
         public int Position
         {
             get { return _position; }
+            set { this._position = value; }
         }
 
-        public NotenizerWord Get(TokenType tokenType)
+        public TokenType TokenType
+        {
+            get { return _tokenType; }
+            set { this._tokenType = value; }
+        }
+
+        public NotenizerWord CorrespondingWord
+        {
+            get { return GetWordByTokenType(this._tokenType); }
+        }
+
+        public NotenizerWord GetWordByTokenType(TokenType tokenType)
         {
             return tokenType == TokenType.Dependent ? _dependent : _governor;
+        }
+
+        public NotenizerDependency Clone()
+        {
+            NotenizerDependency clonedDep = new NotenizerDependency(this._originalDependency);
+            clonedDep.Position = this._position;
+            clonedDep.TokenType = this._tokenType;
+            clonedDep.ComparisonType = this._comparisonType;
+
+            return clonedDep;
         }
 	}
 }

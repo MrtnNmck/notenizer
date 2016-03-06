@@ -1,6 +1,6 @@
 ﻿namespace nsComponents
 {
-    partial class NotenizerTextBox
+    partial class AdvancedFlowLayoutPanel
     {
         /// <summary>
         /// Required designer variable.

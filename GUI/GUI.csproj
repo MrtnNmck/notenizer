@@ -50,6 +50,12 @@
     <Compile Include="FormMain.Designer.cs">
       <DependentUpon>FormMain.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormReorderNote.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormReorderNote.Designer.cs">
+      <DependentUpon>FormReorderNote.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormTextInputer.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -61,6 +67,9 @@
   <ItemGroup>
     <EmbeddedResource Include="FormMain.resx">
       <DependentUpon>FormMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormReorderNote.resx">
+      <DependentUpon>FormReorderNote.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormTextInputer.resx">
       <DependentUpon>FormTextInputer.cs</DependentUpon>
@@ -74,6 +83,10 @@
     <ProjectReference Include="..\Constants\Constants.csproj">
       <Project>{ce035769-8676-4ef9-a711-17da8ecd8e17}</Project>
       <Name>Constants</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Enums\Enums.csproj">
+      <Project>{57e4152f-a7b5-4107-9eeb-54bb78bf6dfc}</Project>
+      <Name>Enums</Name>
     </ProjectReference>
     <ProjectReference Include="..\Extensions\Extensions.csproj">
       <Project>{a935e0ec-5e82-46b1-a209-405d11faa30c}</Project>

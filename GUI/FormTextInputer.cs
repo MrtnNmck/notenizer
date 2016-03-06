@@ -33,7 +33,7 @@ namespace nsGUI
 
         private void ButtonConfirm_Click(Object sender, EventArgs e)
         {
-            this._textForProcessing = this._notenizerTextBoxText.Text.Trim();
+            this._textForProcessing = this._notenizerTextBoxText.TextBox.Text.Trim();
             this.DialogResult = DialogResult.OK;
         }
 

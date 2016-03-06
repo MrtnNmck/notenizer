@@ -25,5 +25,6 @@ namespace nsConstants
         public const String ArticleIdFieldName = "articleId";
         public const String ComparisonTypeFieldName = "comparisonType";
         public const String SentencesEndsFieldName = "sentencesEnds";
+        public const String TokenTypeFieldName = "tokenType";
     }
 }

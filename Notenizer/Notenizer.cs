@@ -130,9 +130,9 @@ namespace nsNotenizer
                     continue;
                 }
 
-                
-                //String _id = DB.InsertToCollection("notes", DocumentCreator.CreateNoteDocument(note, -1)).Result;
-                sentencesNoted.Add(StaticParser(sentence));
+                Note note = StaticParser(sentence);
+                String _id = DB.InsertToCollection("notes", DocumentCreator.CreateNoteDocument(note, -1)).Result;
+                sentencesNoted.Add(note);
             }
 
             return sentencesNoted;
@@ -466,12 +466,12 @@ namespace nsNotenizer
 
             if (dependency != null)
             {
-                NoteParticle dependencyObj = new NoteParticle(dependency.Dependent, dependency);
+                NoteParticle dependencyObj = new NoteParticle(dependency, TokenType.Dependent);
                 notePart.Add(dependencyObj);
 
                 if (dependency.Relation.IsNominalSubject())
                 {
-                    NoteParticle govObj = new NoteParticle(dependency.Governor, dependency);
+                    NoteParticle govObj = new NoteParticle(dependency, TokenType.Governor);
                     notePart.Add(govObj);
                 }
             }
@@ -514,7 +514,7 @@ namespace nsNotenizer
                         //List<NotenizerDependency> govToGov = noteLoop.OriginalSentence.GetDependenciesByShortName(noteParticleLoop.NoteDependency, ComparisonType.GovernorToGovernor, GrammaticalConstants.Conjuction);
                         //List<NotenizerDependency> conjuctions = depToGov.Concat(govToGov).ToList();
                         List<NotenizerDependency> conjuctions = noteLoop.OriginalSentence.GetDependenciesByShortName(noteParticleLoop.NoteDependency, 
-                            NotenizerExtensions.CreateComperisonType(noteParticleLoop.TokenType, TokenType.Governor), 
+                            NotenizerExtensions.CreateComperisonType(noteParticleLoop.NoteDependency.TokenType, TokenType.Governor), 
                             GrammaticalConstants.Conjuction, GrammaticalConstants.AppositionalModifier);
                         
                         if (!conjuctions.Any(x => x.Relation.Specific == GrammaticalConstants.AndConjuction))
@@ -566,7 +566,7 @@ namespace nsNotenizer
                             AddAditionalNoteParticles(noteLoop.OriginalSentence, andConjuctionLoop, clonedNotePart);
                         }
 
-                        notePart.Add(new NoteParticle(processAndConjuctionsStartingParticle.GetCorrespondingWord(), processAndConjuctionsStartingParticle.NoteDependency));
+                        notePart.Add(new NoteParticle(processAndConjuctionsStartingParticle.NoteDependency.CorrespondingWord, processAndConjuctionsStartingParticle.NoteDependency));
                         AddAditionalNoteParticles(noteLoop.OriginalSentence, processAndConjuctionsStartingParticle.NoteDependency, notePart);
                         note.Add(notePart);
                         note.Add(clonedNoteParts);
