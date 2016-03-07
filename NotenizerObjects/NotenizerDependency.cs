@@ -76,7 +76,7 @@ namespace nsNotenizerObjects
 
         public int Position
         {
-            get { return _position; }
+            get { return _position == NotenizerConstants.UninitializedDependencyPositionValue ? CorrespondingWord.Index - 1 : _position; }
             set { this._position = value; }
         }
 

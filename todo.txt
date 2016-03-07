@@ -140,6 +140,8 @@ TODO:
 		- nepouziva sa
         - pole position sa prerobilo na pouzitie pre poziciu slova dependency v upravenej poznamke
 
+    DONE - po ulozeni zmenenej poznamky sa mi pridal dalsi zaznam do pola sentencesEnds
+        - pravdepodobne sposobene vytvaranim BsonDocumentu
 
 
     - Pridat bodky (konce viet) do upravy poznamky
@@ -148,9 +150,7 @@ TODO:
         - zohladnovat pocet bodiek ako pocet NoteParts upravenej poznamky a podla toho ich ulozit
             - zatial sa berie len ako jedna NotePart cela poznamka
         
-    - po ulozeni zmenenej poznamky sa mi pridal dalsi zaznam do pola sentencesEnds
-        - pravdepodobne sposobene vytvaranim BsonDocumentu
-        - zohladnovanie spravnych pozicii v sentencesEnds ked vytvarame upravenu poznamku
+    - zohladnovanie spravnych pozicii v sentencesEnds ked vytvarame upravenu poznamku
         
         
         

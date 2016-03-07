@@ -97,6 +97,8 @@ namespace nsNotenizerObjects
         public void Replace(List<NotePart> noteParts)
         {
             _note = String.Empty;
+            _noteParts.Clear();
+
             Add(noteParts);
         }
 
