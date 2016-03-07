@@ -21,6 +21,7 @@ namespace nsNotenizer
             List<NotenizerDependency> dependencies = new List<NotenizerDependency>();
 
             CreatedBy createdBy = dbEntry[DBConstants.CreatedByFieldName].AsInt32.ToEnum<CreatedBy>();
+            BsonObjectId _id = dbEntry[DBConstants.IdFieldName].AsObjectId;
 
             // foreach note dependency
             foreach (BsonDocument documentLoop in dbEntry[DBConstants.NoteDependenciesFieldName].AsBsonArray)
@@ -49,7 +50,7 @@ namespace nsNotenizer
             foreach (BsonInt32 endLoop in dbEntry[DBConstants.AdditionalInformationFieldName][DBConstants.SentencesEndsFieldName].AsBsonArray)
                 sentencesEnds.Add((int)endLoop);
 
-            return new NotenizerRule(dependencies, sentencesEnds, createdBy);
+            return new NotenizerRule(_id, dependencies, sentencesEnds, createdBy);
         }
 
         /// <summary>

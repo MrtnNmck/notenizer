@@ -16,6 +16,7 @@ namespace nsNotenizerObjects
         private List<NotenizerDependency> _unusedDependencies;
         private List<NotenizerDependency> _noteDependencies;
         private DateTime _createdAt;
+        private DateTime _updatedAt;
         private NotenizerRule _rule;
 
         public Note(NotenizerSentence originalSentence)
@@ -26,6 +27,7 @@ namespace nsNotenizerObjects
             _unusedDependencies = new List<NotenizerDependency>();
             _noteDependencies = new List<NotenizerDependency>();
             _createdAt = DateTime.Now;
+            _updatedAt = DateTime.Now;
         }
 
         /// <summary>
@@ -58,6 +60,12 @@ namespace nsNotenizerObjects
         {
             set { _createdAt = value; }
             get { return _createdAt; }
+        }
+
+        public DateTime UpdatedAt
+        {
+            set { _updatedAt = value; }
+            get { return _updatedAt; }
         }
 
         /// <summary>

@@ -28,5 +28,7 @@ namespace nsConstants
         public const String TokenTypeFieldName = "tokenType";
         public const String AdditionalInformationFieldName = "additionalInformation";
         public const String CreatedAtFieldName = "createdAt";
+        public const String UpdatedAtFieldName = "updatedAt";
+        public const String IdFieldName = "_id";
     }
 }

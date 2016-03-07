@@ -1,5 +1,6 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Driver;
+using nsConstants;
 using nsNotenizerObjects;
 using System;
 using System.Collections.Generic;
@@ -46,13 +47,46 @@ namespace nsDB
             IMongoCollection<BsonDocument> collection = GetCollection(collectionName);
 
             await collection.InsertOneAsync(document);
-            
+
             return document["_id"].ToString();
         }
 
         private static IMongoCollection<BsonDocument> GetCollection(String collectionName)
         {
             return ConnectionManager.Database.GetCollection<BsonDocument>(collectionName);
+        }
+
+        public static async Task<String> ReplaceInCollection(String collectionName, BsonObjectId id, BsonDocument document)
+        {
+            IMongoCollection<BsonDocument> collection = GetCollection(collectionName);
+
+            FilterDefinition<BsonDocument> filter = Builders<BsonDocument>.Filter.Eq(DBConstants.IdFieldName, id);
+
+            await collection.ReplaceOneAsync(filter, document);
+
+            return id.ToString();
+        }
+
+        public static async void UpdateNoteDependencies(
+            String collectionName, 
+            BsonObjectId id, 
+            String noteDependenciesFieldName, 
+            BsonArray noteDependenciesArray,
+            String sentencesEndFieldName,
+            BsonArray sentencesEndsArray)
+        {
+            IMongoCollection<BsonDocument> collection = GetCollection(collectionName);
+
+            FilterDefinition<BsonDocument> filter = Builders<BsonDocument>.Filter.Eq(DBConstants.IdFieldName, id);
+
+            UpdateDefinition<BsonDocument> update = Builders<BsonDocument>.Update
+                .Set(noteDependenciesFieldName, noteDependenciesArray)
+                .Set(sentencesEndFieldName, sentencesEndsArray)
+                .Set(DBConstants.UpdatedAtFieldName, DateTime.Now);
+
+            await collection.UpdateOneAsync(filter, update);
+
+            //return id;
         }
     }
 }

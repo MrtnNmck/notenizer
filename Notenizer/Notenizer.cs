@@ -116,8 +116,6 @@ namespace nsNotenizer
             foreach (Annotation sentenceLoop in annotation.get(typeof(CoreAnnotations.SentencesAnnotation)) as ArrayList)
             {
                 NotenizerSentence sentence = new NotenizerSentence(sentenceLoop);
-                //Note note = new Note(sentence);
-                Note noteLoop;
 
                 NotenizerRule rule = DocumentParser.GetHeighestMatch(sentence,
                     DB.GetAll(DBConstants.NotesCollectionName, DocumentCreator.CreateFilterByDependencies(sentence)).Result);
@@ -132,7 +130,7 @@ namespace nsNotenizer
                 }
 
                 Note note = StaticParser(sentence);
-                sentencesNoted.Add(note);
+                //sentencesNoted.Add(note);
                 notesToSave.Add(note);
             }
 
@@ -140,7 +138,19 @@ namespace nsNotenizer
             // to avoid processed sentence to affect processing other sentences from article
             foreach (Note sentenceNotedLoop in notesToSave)
             {
-                String _id = DB.InsertToCollection(DBConstants.NotesCollectionName, DocumentCreator.CreateNoteDocument(sentenceNotedLoop, -1)).Result;
+                String id = DB.InsertToCollection(DBConstants.NotesCollectionName, DocumentCreator.CreateNoteDocument(sentenceNotedLoop, -1)).Result;
+
+                NotenizerRule rule = DocumentParser.GetHeighestMatch(sentenceNotedLoop.OriginalSentence,
+                    DB.GetAll(DBConstants.NotesCollectionName, DocumentCreator.CreateFilterByDependencies(sentenceNotedLoop.OriginalSentence)).Result);
+
+                if (rule != null && rule.RuleDependencies != null && rule.RuleDependencies.Count > 0)
+                {
+                    Note parsedNote = ApplyRule(sentenceNotedLoop.OriginalSentence, rule);
+                    Console.WriteLine("Parsed note: " + parsedNote.OriginalSentence + " ===> " + parsedNote.Value);
+                    sentencesNoted.Add(parsedNote);
+
+                    continue;
+                }
             }
 
             return sentencesNoted;

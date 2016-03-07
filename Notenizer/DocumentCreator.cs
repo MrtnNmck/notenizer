@@ -27,6 +27,7 @@ namespace nsNotenizer
             doc.Add(DBConstants.CreatedByFieldName, new BsonInt32((int)note.CreatedBy));
             doc.Add(DBConstants.ArticleIdFieldName, new BsonInt32(articleId));
             doc.Add(DBConstants.CreatedAtFieldName, new BsonDateTime(note.CreatedAt));
+            doc.Add(DBConstants.UpdatedAtFieldName, new BsonDateTime(note.UpdatedAt));
             doc.Add(DBConstants.AdditionalInformationFieldName, additionInformationDoc);
             additionInformationDoc.Add(DBConstants.SentencesEndsFieldName, sentencesEnds);
 
@@ -42,9 +43,17 @@ namespace nsNotenizer
 
             doc.Add(DBConstants.OriginalSentenceDependenciesFieldName, originalDepencenciesArr);
 
-            dependencyPosition = 0;
-            dependencies = new Dictionary<String, BsonArray>();
+            BsonArray noteDependenciesArr = CreateNoteDependenciesArray(note, sentencesEnds);
+
+            doc.Add(DBConstants.NoteDependenciesFieldName, noteDependenciesArr);
+            return doc;
+        }
+
+        public static BsonArray CreateNoteDependenciesArray(Note note, BsonArray sentencesEnds)
+        {
+            int dependencyPosition = 0;
             BsonArray noteDependenciesArr = new BsonArray();
+            Dictionary<String, BsonArray> dependencies = new Dictionary<String, BsonArray>();
 
             foreach (NotePart notePartLoop in note.NoteParts)
             {
@@ -63,8 +72,7 @@ namespace nsNotenizer
                 sentencesEnds.Add(new BsonInt32(dependencyPosition));
             }
 
-            doc.Add(DBConstants.NoteDependenciesFieldName, noteDependenciesArr);
-            return doc;
+            return noteDependenciesArr;
         }
 
         private static BsonDocument CreateWordDocument(NotenizerWord word)
@@ -84,7 +92,7 @@ namespace nsNotenizer
                 dependency.Position);
         }
 
-        private static BsonDocument CreateDependencyDocument(NotenizerDependency dependency, ComparisonType comparisonType, TokenType tokenType)
+        public static BsonDocument CreateDependencyDocument(NotenizerDependency dependency, ComparisonType comparisonType, TokenType tokenType)
         {
             BsonDocument doc = CreateDependencyDocument(dependency);
             doc.Add(DBConstants.ComparisonTypeFieldName, new BsonInt32((int)comparisonType));
@@ -93,7 +101,7 @@ namespace nsNotenizer
             return doc;
         }
 
-        private static BsonDocument CreateDependencyDocument(BsonDocument governorDoc, BsonDocument dependentDoc, int position)
+        public static BsonDocument CreateDependencyDocument(BsonDocument governorDoc, BsonDocument dependentDoc, int position)
         {
             return new BsonDocument
                 {

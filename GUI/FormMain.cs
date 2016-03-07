@@ -8,6 +8,7 @@ using System.Windows.Forms;
 using nsExtensions;
 using nsConstants;
 using nsDB;
+using MongoDB.Bson;
 
 namespace nsGUI
 {
@@ -106,14 +107,28 @@ namespace nsGUI
             if (frmReorderNote.ShowDialog() == DialogResult.OK)
             {
                 note.Replace(frmReorderNote.NoteParts);
-                note.CreatedBy = nsEnums.CreatedBy.User;
-                note.CreatedAt = DateTime.Now;
 
                 this._advancedProgressBar.Start();
 
                 Task.Factory.StartNew(() =>
                 {
-                    String _id = DB.InsertToCollection(DBConstants.NotesCollectionName, DocumentCreator.CreateNoteDocument(note, -1)).Result;
+                    String id;
+
+                    // UPDATE only user-created rules, not Notenizer-created!
+                    if (note.CreatedBy == nsEnums.CreatedBy.User && note.Rule != null && note.Rule.Match == 100d)
+                    {
+                        note.UpdatedAt = DateTime.Now;
+                        id = DB.ReplaceInCollection(DBConstants.NotesCollectionName, note.Rule.ID, DocumentCreator.CreateNoteDocument(note, -1)).Result;
+                    }
+                    else
+                    {
+                        note.CreatedBy = nsEnums.CreatedBy.User;
+                        note.CreatedAt = DateTime.Now;
+                        note.UpdatedAt = note.CreatedAt;
+                        BsonDocument noteDoc = DocumentCreator.CreateNoteDocument(note, -1);
+                        id = DB.InsertToCollection(DBConstants.NotesCollectionName, noteDoc).Result;
+                        note.Rule = DocumentParser.ParseNoteDependencies(noteDoc);
+                    }
                 }).ContinueWith(delegate
                 {
                     (sender as NotenizerAdvancedTextBox).PerformSafely(() => (sender as NotenizerAdvancedTextBox).AdvancedTextBox.TextBox.Text = note.Value);

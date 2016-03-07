@@ -156,6 +156,9 @@ TODO:
     DONE - makewordconsiderrealtion
     
     TOP - nie vzdy vytvarat novy zaznam ale robit aj update
+        - ak bola 100%-na zhoda pravidla so spracovavanou vetou, tak nevytvarat novy zaznam, ale len update
+        - zabaranime tym mnozeniu dat, a hlavne nebudeme mat pre jednu vetu viacero pravidiel s rovankymi zhodami
+            - tym padom by sa vybralo prve v poradi, co nemusi byt ziadany pripad
         
     - AND-Parser
         - do additionalInfomation pridat dalsie pole, ktore bude oznacot miesto, kde doplnit rozprsovane AND spojenie

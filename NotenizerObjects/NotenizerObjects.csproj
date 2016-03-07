@@ -33,6 +33,9 @@
     <Reference Include="IKVM.OpenJDK.Core">
       <HintPath>..\Notenizer\ExternalDll\IKVM.OpenJDK.Core.dll</HintPath>
     </Reference>
+    <Reference Include="MongoDB.Bson">
+      <HintPath>..\Notenizer\ExternalDll\MongoDB.Bson.dll</HintPath>
+    </Reference>
     <Reference Include="stanford-corenlp-3.5.2">
       <HintPath>..\Notenizer\ExternalDll\stanford-corenlp-3.5.2.dll</HintPath>
     </Reference>
