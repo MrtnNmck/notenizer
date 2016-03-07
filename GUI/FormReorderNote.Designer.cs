@@ -43,11 +43,15 @@ namespace nsGUI
             this.label2 = new System.Windows.Forms.Label();
             this._textBoxNote = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.addSentenceTerminatorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this._flowLayoutPanelActive = new AdvancedFlowLayoutPanel(new Font(ComponentConstants.AdvancedTextBoxFontFamilyName, ComponentConstants.AdvancedLabelActiveFontSize));
             this._flowLayoutPanelDeleted = new AdvancedFlowLayoutPanel(new Font(ComponentConstants.AdvancedTextBoxFontFamilyName, ComponentConstants.AdvancedLabelDeletedFontSize));
             this._panelMain.SuspendLayout();
             this._panelBottom.SuspendLayout();
             this.groupBox1.SuspendLayout();
+            this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // _panelMain
@@ -59,7 +63,7 @@ namespace nsGUI
             this._panelMain.Controls.Add(this.label3);
             this._panelMain.Controls.Add(this._flowLayoutPanelDeleted);
             this._panelMain.Controls.Add(this._flowLayoutPanelActive);
-            this._panelMain.Location = new System.Drawing.Point(13, 184);
+            this._panelMain.Location = new System.Drawing.Point(13, 198);
             this._panelMain.Name = "_panelMain";
             this._panelMain.Size = new System.Drawing.Size(556, 418);
             this._panelMain.TabIndex = 1;
@@ -113,7 +117,7 @@ namespace nsGUI
             | System.Windows.Forms.AnchorStyles.Right)));
             this._panelBottom.Controls.Add(this._buttonApply);
             this._panelBottom.Controls.Add(this._buttonCancel);
-            this._panelBottom.Location = new System.Drawing.Point(13, 608);
+            this._panelBottom.Location = new System.Drawing.Point(13, 622);
             this._panelBottom.Name = "_panelBottom";
             this._panelBottom.Size = new System.Drawing.Size(556, 33);
             this._panelBottom.TabIndex = 2;
@@ -193,12 +197,38 @@ namespace nsGUI
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Font = new System.Drawing.Font("Segoe UI Emoji", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox1.Location = new System.Drawing.Point(13, 13);
+            this.groupBox1.Location = new System.Drawing.Point(13, 27);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(556, 165);
             this.groupBox1.TabIndex = 4;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Information";
+            // 
+            // menuStrip1
+            // 
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.editToolStripMenuItem});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(581, 24);
+            this.menuStrip1.TabIndex = 5;
+            this.menuStrip1.Text = "menuStrip1";
+            // 
+            // editToolStripMenuItem
+            // 
+            this.editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.addSentenceTerminatorToolStripMenuItem});
+            this.editToolStripMenuItem.Name = "editToolStripMenuItem";
+            this.editToolStripMenuItem.Size = new System.Drawing.Size(39, 20);
+            this.editToolStripMenuItem.Text = "Edit";
+            // 
+            // addSentenceTerminatorToolStripMenuItem
+            // 
+            this.addSentenceTerminatorToolStripMenuItem.Name = "addSentenceTerminatorToolStripMenuItem";
+            this.addSentenceTerminatorToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.T)));
+            this.addSentenceTerminatorToolStripMenuItem.Size = new System.Drawing.Size(246, 22);
+            this.addSentenceTerminatorToolStripMenuItem.Text = "Add sentence terminator";
+            this.addSentenceTerminatorToolStripMenuItem.Click += new System.EventHandler(this.AddSentenceMenuItem_Click);
             // 
             // FormReorderNote
             // 
@@ -206,11 +236,13 @@ namespace nsGUI
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this._buttonCancel;
-            this.ClientSize = new System.Drawing.Size(581, 653);
+            this.ClientSize = new System.Drawing.Size(581, 667);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this._panelBottom);
             this.Controls.Add(this._panelMain);
+            this.Controls.Add(this.menuStrip1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MainMenuStrip = this.menuStrip1;
             this.Name = "FormReorderNote";
             this.Text = "Edit Note";
             this._panelMain.ResumeLayout(false);
@@ -218,7 +250,10 @@ namespace nsGUI
             this._panelBottom.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -236,5 +271,8 @@ namespace nsGUI
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button _buttonApply;
         private System.Windows.Forms.Button _buttonCancel;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem addSentenceTerminatorToolStripMenuItem;
     }
 }

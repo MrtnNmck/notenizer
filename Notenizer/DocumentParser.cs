@@ -46,7 +46,7 @@ namespace nsNotenizer
             }
 
             List<int> sentencesEnds = new List<int>();
-            foreach (BsonInt32 endLoop in dbEntry[DBConstants.SentencesEndsFieldName].AsBsonArray)
+            foreach (BsonInt32 endLoop in dbEntry[DBConstants.AdditionalInformationFieldName][DBConstants.SentencesEndsFieldName].AsBsonArray)
                 sentencesEnds.Add((int)endLoop);
 
             return new NotenizerRule(dependencies, sentencesEnds, createdBy);

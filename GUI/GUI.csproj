@@ -35,6 +35,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Notenizer\ExternalDll\MongoDB.Bson.dll</HintPath>
     </Reference>
+    <Reference Include="stanford-corenlp-3.5.2, Version=3.5.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Notenizer\ExternalDll\stanford-corenlp-3.5.2.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.DirectoryServices" />
@@ -48,6 +52,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FormAddSentenceTerminator.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormAddSentenceTerminator.Designer.cs">
+      <DependentUpon>FormAddSentenceTerminator.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormMain.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -69,6 +79,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="FormAddSentenceTerminator.resx">
+      <DependentUpon>FormAddSentenceTerminator.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormMain.resx">
       <DependentUpon>FormMain.cs</DependentUpon>
     </EmbeddedResource>

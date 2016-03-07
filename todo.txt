@@ -143,17 +143,20 @@ TODO:
     DONE - po ulozeni zmenenej poznamky sa mi pridal dalsi zaznam do pola sentencesEnds
         - pravdepodobne sposobene vytvaranim BsonDocumentu
 
-
-    - Pridat bodky (konce viet) do upravy poznamky
+    DONE - Pridat bodky (konce viet) do upravy poznamky
         - tym padom moze pouzivatel vytvorit zo suvetia viacero viet, ktore budu sucast poznamky
             - napriklad pri suveti zlozeho z dvoch viet sa mu ponuknu dve "bodky", cize moze vytvorit dve vety
         - zohladnovat pocet bodiek ako pocet NoteParts upravenej poznamky a podla toho ich ulozit
             - zatial sa berie len ako jedna NotePart cela poznamka
         
-    - zohladnovanie spravnych pozicii v sentencesEnds ked vytvarame upravenu poznamku
+    DONE - zohladnovanie spravnych pozicii v sentencesEnds ked vytvarame upravenu poznamku
         
+    - pridat do db kolekcie notes aj pole date, ktoru bude zaznamenavat kedy bol dany zaznam vytvoreny
         
+    - nie vzdy vytvarat novy zaznam ale robit aj update
         
+    - makewordconsiderrealtion
+    
 	- naplnit DB s viacerimi pravidlami
 	- kontrola zaporu
 		-  pri spracovavani textu o cesku sa nevyhodnotil zapor vo vete This has not caught..

@@ -1,4 +1,5 @@
-﻿using nsInterfaces;
+﻿using nsEnums;
+using nsInterfaces;
 using nsNotenizerObjects;
 using System;
 using System.Collections.Generic;
@@ -14,10 +15,19 @@ namespace nsComponents
     public partial class NotenizerAdvancedLabel : AdvancedLabel, INotenizerComponent
     {
         private NotenizerDependency _dependency;
+        private RepresentMode _representMode;
+
+        public NotenizerAdvancedLabel(String text)
+        {
+            InitializeComponent();
+
+            this.Text = text;
+        }
 
         public NotenizerAdvancedLabel(NotenizerDependency dependency) : base()
         {
             this._dependency = dependency;
+            this._representMode = RepresentMode.Dependency;
 
             InitializeComponent();
             Init();
@@ -26,6 +36,7 @@ namespace nsComponents
         public NotenizerAdvancedLabel(NotenizerDependency dependency, Font font) : base(font)
         {
             this._dependency = dependency;
+            this._representMode = RepresentMode.Dependency;
 
             InitializeComponent();
             Init();
@@ -34,6 +45,12 @@ namespace nsComponents
         public NotenizerDependency Dependency
         {
             get { return this._dependency; }
+        }
+
+        public RepresentMode RepresentMode
+        {
+            set { _representMode = value; }
+            get { return _representMode; }
         }
 
         public void Init()

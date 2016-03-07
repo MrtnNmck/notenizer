@@ -98,7 +98,13 @@ namespace nsNotenizerObjects
 
         public NotenizerDependency Clone()
         {
-            NotenizerDependency clonedDep = new NotenizerDependency(this._originalDependency);
+            NotenizerDependency clonedDep;
+
+            if (this._originalDependency == null)
+                clonedDep = new NotenizerDependency(this._governor, this._dependent, this._relation, this._position, this._comparisonType, this._tokenType);
+            else
+                clonedDep = new NotenizerDependency(this._originalDependency);
+
             clonedDep.Position = this._position;
             clonedDep.TokenType = this._tokenType;
             clonedDep.ComparisonType = this._comparisonType;

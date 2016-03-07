@@ -49,6 +49,12 @@ namespace nsNotenizerObjects
             _index = index;
         }
 
+        public NotenizerWord(String value, String POS)
+        {
+            _wordString = value;
+            _pos = POS;
+        }
+
 		public String Word
 		{
 			get { return _wordString; }

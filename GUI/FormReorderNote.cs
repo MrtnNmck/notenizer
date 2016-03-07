@@ -99,16 +99,26 @@ namespace nsGUI
         private void ApplyButton_Click(Object sender, EventArgs e)
         {
             this._noteParts = new List<NotePart>();
+            NotePart notePart = new NotePart(_note.OriginalSentence);
 
-            _noteParts.Add(new NotePart(this._note.OriginalSentence));
+            //_noteParts.Add(notePart);
 
             for (int i = 0; i < this._flowLayoutPanelActive.Controls.Count; i++)
             {
-                NotenizerDependency dep = (this._flowLayoutPanelActive.Controls[i] as NotenizerAdvancedLabel).Dependency;
+                NotenizerAdvancedLabel label = (this._flowLayoutPanelActive.Controls[i] as NotenizerAdvancedLabel);
+
+                if (label.RepresentMode == RepresentMode.SentenceEnd)
+                {
+                    _noteParts.Add(notePart);
+                    notePart = new NotePart(_note.OriginalSentence);
+                    continue;
+                }
+
+                NotenizerDependency dep = label.Dependency;
                 dep.Position = i;
 
                 NoteParticle noteParticle = new NoteParticle(dep);
-                this._noteParts[0].Add(noteParticle);
+                notePart.Add(noteParticle);
             }
 
             this.DialogResult = DialogResult.OK;
@@ -117,6 +127,16 @@ namespace nsGUI
         private void CancelButton_Click(Object sender, EventArgs e)
         {
             this.DialogResult = DialogResult.Cancel;
+        }
+
+        private void AddSentenceMenuItem_Click(Object sender, EventArgs e)
+        {
+            FormAddSentenceTerminator frmAddSentenceTerminator = new FormAddSentenceTerminator();
+
+            if (frmAddSentenceTerminator.ShowDialog() == DialogResult.OK)
+            {
+                this._flowLayoutPanelDeleted.Controls.Add(new NotenizerAdvancedLabel(frmAddSentenceTerminator.SelectedSentenceTerminator) { RepresentMode = RepresentMode.SentenceEnd });
+            }
         }
 
         #endregion Event Handlers

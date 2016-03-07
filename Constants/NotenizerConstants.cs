@@ -12,5 +12,8 @@ namespace nsConstants
         public const String SentenceFinisher = ".";
         public const String SentenceDelimeter = SentenceFinisher + WordDelimeter;
         public const int UninitializedDependencyPositionValue = Int32.MinValue;
+
+        public const String NotenizerDepenendecyPrefix = "nd_";
+        public const String NotenizerSentenceTermanatorDependencyName = NotenizerDepenendecyPrefix + "sentenceTerminator";
     }
 }
