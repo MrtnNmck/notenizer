@@ -1,4 +1,5 @@
 ﻿using edu.stanford.nlp.trees;
+using nsConstants;
 using nsEnums;
 using System;
 using System.Collections.Generic;
@@ -14,7 +15,7 @@ namespace nsNotenizerObjects
         private NotenizerWord _governor;
         private NotenizerRelation _relation;
         private TypedDependency _originalDependency;
-        private int _position;
+        private int _position = NotenizerConstants.UninitializedDependencyPositionValue;
         private ComparisonType _comparisonType;
         private TokenType _tokenType;
 

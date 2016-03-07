@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using nsExtensions;
 using nsConstants;
+using nsDB;
 
 namespace nsGUI
 {
@@ -101,7 +102,23 @@ namespace nsGUI
         {
             Note note = (sender as NotenizerAdvancedTextBox).Note;
             FormReorderNote frmReorderNote = new FormReorderNote(note);
-            frmReorderNote.ShowDialog();
+
+            if (frmReorderNote.ShowDialog() == DialogResult.OK)
+            {
+                note.Replace(frmReorderNote.NoteParts);
+                note.CreatedBy = nsEnums.CreatedBy.User;
+
+                this._advancedProgressBar.Start();
+
+                Task.Factory.StartNew(() =>
+                {
+                    String _id = DB.InsertToCollection(DBConstants.NotesCollectionName, DocumentCreator.CreateNoteDocument(note, -1)).Result;
+                }).ContinueWith(delegate
+                {
+                    (sender as NotenizerAdvancedTextBox).PerformSafely(() => (sender as NotenizerAdvancedTextBox).AdvancedTextBox.TextBox.Text = note.Value);
+                    this._advancedProgressBar.StopAndReset();
+                });
+            }
         }
 
         #endregion Event Handlers

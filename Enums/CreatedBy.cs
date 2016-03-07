@@ -2,7 +2,7 @@
 {
     public enum CreatedBy
     {
-        User,
-        Notenizer
+        Notenizer,
+        User
     }
 }

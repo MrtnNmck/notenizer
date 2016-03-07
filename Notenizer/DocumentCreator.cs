@@ -30,7 +30,7 @@ namespace nsNotenizer
             BsonArray originalDepencenciesArr = new BsonArray();
             foreach (NotenizerDependency dependencyLoop in note.OriginalSentence.Dependencies)
             {
-                BsonDocument dependencyDoc = CreateDependencyDocument(dependencyLoop, dependencyPosition);
+                BsonDocument dependencyDoc = CreateDependencyDocument(dependencyLoop);
 
                 AppendDependencyDocument(dependencyLoop, dependencyDoc, originalDepencenciesArr, dependencies);
 
@@ -50,7 +50,7 @@ namespace nsNotenizer
                     if (noteObjectLoop == null)
                         continue;
 
-                    BsonDocument dependencyDoc = CreateDependencyDocument(noteObjectLoop.NoteDependency, dependencyPosition, noteObjectLoop.NoteDependency.ComparisonType, noteObjectLoop.NoteDependency.TokenType);
+                    BsonDocument dependencyDoc = CreateDependencyDocument(noteObjectLoop.NoteDependency, noteObjectLoop.NoteDependency.ComparisonType, noteObjectLoop.NoteDependency.TokenType);
 
                     AppendDependencyDocument(noteObjectLoop.NoteDependency, dependencyDoc, noteDependenciesArr, dependencies);
 
@@ -73,17 +73,17 @@ namespace nsNotenizer
             };
         }
 
-        private static BsonDocument CreateDependencyDocument(NotenizerDependency dependency, int position)
+        private static BsonDocument CreateDependencyDocument(NotenizerDependency dependency)
         {
             return CreateDependencyDocument(
                 CreateWordDocument(dependency.Governor),
                 CreateWordDocument(dependency.Dependent),
-                position);
+                dependency.Position);
         }
 
-        private static BsonDocument CreateDependencyDocument(NotenizerDependency dependency, int position, ComparisonType comparisonType, TokenType tokenType)
+        private static BsonDocument CreateDependencyDocument(NotenizerDependency dependency, ComparisonType comparisonType, TokenType tokenType)
         {
-            BsonDocument doc = CreateDependencyDocument(dependency, position);
+            BsonDocument doc = CreateDependencyDocument(dependency);
             doc.Add(DBConstants.ComparisonTypeFieldName, new BsonInt32((int)comparisonType));
             doc.Add(DBConstants.TokenTypeFieldName, new BsonInt32((int)tokenType));
 

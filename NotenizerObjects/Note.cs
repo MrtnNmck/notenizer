@@ -12,17 +12,17 @@ namespace nsNotenizerObjects
         private NotenizerSentence _originalSentence;
         private String _note;
         private List<NotePart> _noteParts;
-        private CreatedBy _createdBy;
-
-        public Note()
-        {
-        }
+        private CreatedBy _createdBy = CreatedBy.Notenizer;
+        private List<NotenizerDependency> _unusedDependencies;
+        private List<NotenizerDependency> _noteDependencies;
 
         public Note(NotenizerSentence originalSentence)
         {
             _note = String.Empty;
             _noteParts = new List<NotePart>();
             _originalSentence = originalSentence;
+            _unusedDependencies = new List<NotenizerDependency>();
+            _noteDependencies = new List<NotenizerDependency>();
         }
 
         /// <summary>
@@ -57,6 +57,47 @@ namespace nsNotenizerObjects
         public List<NotePart> NoteParts
         {
             get { return _noteParts; }
+        }
+
+        public List<NotenizerDependency> NoteDependencies
+        {
+            get
+            {
+                List<NotenizerDependency> noteDependencies = new List<NotenizerDependency>();
+
+                foreach (NotePart notePartLoop in this._noteParts)
+                {
+                    foreach (NoteParticle noteParticleLoop in notePartLoop.InitializedNoteParticles)
+                    {
+                        noteDependencies.Add(noteParticleLoop.NoteDependency);
+                    }
+                }
+
+                return noteDependencies;
+            }
+        }
+
+        public List<NotenizerDependency> UnusedDependencies
+        {
+            get
+            {
+                List<NotenizerDependency> unusedDependencies = new List<NotenizerDependency>();
+                List<NotenizerDependency> noteDependencies = this.NoteDependencies;
+
+                foreach (NotenizerDependency originalDependencyLoop in this._originalSentence.Dependencies)
+                {
+                    if (!originalDependencyLoop.Relation.IsRelation(GrammaticalConstants.Root) && !noteDependencies.Exists(x => x.Key == originalDependencyLoop.Key))
+                        unusedDependencies.Add(originalDependencyLoop);
+                }
+
+                return unusedDependencies;
+            }
+        }
+
+        public void Replace(List<NotePart> noteParts)
+        {
+            _note = String.Empty;
+            Add(noteParts);
         }
 
         /// <summary>

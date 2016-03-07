@@ -130,14 +130,30 @@ TODO:
     DONE - pridat TokenType do kolekcii
         - premazanie kolekcie poznamok a spustit parsovanie odznova
         
-    - premysliet a implementovat, ktore "slova" (dependencies) sa budu pouzivatelovi ponukat v okne FormReorderNote
+    DONE - premysliet a implementovat, ktore "slova" (dependencies) sa budu pouzivatelovi ponukat v okne FormReorderNote
         - nemozu sa tam zobrazovat len slova z predchadzajuco spracovanej poznamky, lebo tym padom by si nemohol ziadne nove slovo pridat
             - beru sa len dependent-y, kedze tak sa beru aj pri aplikovani pravidiel, s vynimkou pri nominal subject sa berie aj governor,
               to zatial nie je zohladnene, je mozne, ze ani nebude treba?
         - treba ponukat vsetky slova - dependencies s povodnej vety, vyfiltrovane tak, aby tam neboli duplicitne
         
-	- odstranit hodnotu position z pravidla
+	DONE - odstranit hodnotu position z pravidla
 		- nepouziva sa
+        - pole position sa prerobilo na pouzitie pre poziciu slova dependency v upravenej poznamke
+
+
+
+    - Pridat bodky (konce viet) do upravy poznamky
+        - tym padom moze pouzivatel vytvorit zo suvetia viacero viet, ktore budu sucast poznamky
+            - napriklad pri suveti zlozeho z dvoch viet sa mu ponuknu dve "bodky", cize moze vytvorit dve vety
+        - zohladnovat pocet bodiek ako pocet NoteParts upravenej poznamky a podla toho ich ulozit
+            - zatial sa berie len ako jedna NotePart cela poznamka
+        
+    - po ulozeni zmenenej poznamky sa mi pridal dalsi zaznam do pola sentencesEnds
+        - pravdepodobne sposobene vytvaranim BsonDocumentu
+        - zohladnovanie spravnych pozicii v sentencesEnds ked vytvarame upravenu poznamku
+        
+        
+        
 	- naplnit DB s viacerimi pravidlami
 	- kontrola zaporu
 		-  pri spracovavani textu o cesku sa nevyhodnotil zapor vo vete This has not caught..

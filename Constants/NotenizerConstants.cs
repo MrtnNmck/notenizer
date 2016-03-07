@@ -11,5 +11,6 @@ namespace nsConstants
         public const String WordDelimeter = " ";
         public const String SentenceFinisher = ".";
         public const String SentenceDelimeter = SentenceFinisher + WordDelimeter;
+        public const int UninitializedDependencyPositionValue = Int32.MinValue;
     }
 }

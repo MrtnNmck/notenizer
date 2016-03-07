@@ -110,6 +110,7 @@ namespace nsNotenizer
         public List<Note> Parse(Annotation annotation)
         {
             List<Note> sentencesNoted = new List<Note>();
+            List<Note> notesToSave = new List<Note>();
 
             // ================== REFACTORED PART HERE ======================
             foreach (Annotation sentenceLoop in annotation.get(typeof(CoreAnnotations.SentencesAnnotation)) as ArrayList)
@@ -131,8 +132,15 @@ namespace nsNotenizer
                 }
 
                 Note note = StaticParser(sentence);
-                String _id = DB.InsertToCollection("notes", DocumentCreator.CreateNoteDocument(note, -1)).Result;
                 sentencesNoted.Add(note);
+                notesToSave.Add(note);
+            }
+
+            // inserting into DB AFTER ALL sentences from article were processed
+            // to avoid processed sentence to affect processing other sentences from article
+            foreach (Note sentenceNotedLoop in notesToSave)
+            {
+                String _id = DB.InsertToCollection(DBConstants.NotesCollectionName, DocumentCreator.CreateNoteDocument(sentenceNotedLoop, -1)).Result;
             }
 
             return sentencesNoted;

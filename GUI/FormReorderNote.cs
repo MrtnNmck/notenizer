@@ -16,12 +16,18 @@ namespace nsGUI
 {
     public partial class FormReorderNote : Form
     {
+        private List<NotePart> _noteParts;
+        private Note _note;
+
         public FormReorderNote(Note note)
         {
-            Font deletedFlowLayoutLabelFont = new Font(ComponentConstants.AdvancedLabelFontFamilyName, ComponentConstants.AdvancedLabelDeletedFontSize);
+            this._note = note;
             InitializeComponent();
 
             this.CenterToParent();
+
+            this._textBoxNote.Text = note.Value;
+            this._textBoxOriginalSentence.Text = note.OriginalSentence.ToString();
 
             this._flowLayoutPanelActive.DragEnter += new DragEventHandler(FlowLayoutPanelActive_DragEnter);
             this._flowLayoutPanelActive.DragDrop += new DragEventHandler(FlowLayoutPanelActive_DragDrop);
@@ -39,7 +45,7 @@ namespace nsGUI
                 }
             }
 
-            foreach (NotenizerDependency originalSentenceDependencyLoop in note.OriginalSentence.Dependencies)
+            foreach (NotenizerDependency originalSentenceDependencyLoop in note.UnusedDependencies)
             {
                 NotenizerDependency clonedDependency = originalSentenceDependencyLoop.Clone();
                 clonedDependency.TokenType = TokenType.Dependent;
@@ -47,6 +53,13 @@ namespace nsGUI
                 this._flowLayoutPanelDeleted.Controls.Add(new NotenizerAdvancedLabel(clonedDependency));//, deletedFlowLayoutLabelFont));
             }
         }
+
+        public List<NotePart> NoteParts
+        {
+            get { return this._noteParts; }
+        }
+
+        #region Event Handlers
 
         private void FlowLayoutPanelActive_DragEnter(object sender, DragEventArgs e)
         {
@@ -82,5 +95,30 @@ namespace nsGUI
             destinationPanel.Invalidate();
             sourcePanel.Invalidate();
         }
+
+        private void ApplyButton_Click(Object sender, EventArgs e)
+        {
+            this._noteParts = new List<NotePart>();
+
+            _noteParts.Add(new NotePart(this._note.OriginalSentence));
+
+            for (int i = 0; i < this._flowLayoutPanelActive.Controls.Count; i++)
+            {
+                NotenizerDependency dep = (this._flowLayoutPanelActive.Controls[i] as NotenizerAdvancedLabel).Dependency;
+                dep.Position = i;
+
+                NoteParticle noteParticle = new NoteParticle(dep);
+                this._noteParts[0].Add(noteParticle);
+            }
+
+            this.DialogResult = DialogResult.OK;
+        }
+
+        private void CancelButton_Click(Object sender, EventArgs e)
+        {
+            this.DialogResult = DialogResult.Cancel;
+        }
+
+        #endregion Event Handlers
     }
 }

@@ -20,6 +20,8 @@ namespace nsNotenizer
         {
             List<NotenizerDependency> dependencies = new List<NotenizerDependency>();
 
+            CreatedBy createdBy = dbEntry[DBConstants.CreatedByFieldName].AsInt32.ToEnum<CreatedBy>();
+
             // foreach note dependency
             foreach (BsonDocument documentLoop in dbEntry[DBConstants.NoteDependenciesFieldName].AsBsonArray)
             {
@@ -47,7 +49,7 @@ namespace nsNotenizer
             foreach (BsonInt32 endLoop in dbEntry[DBConstants.SentencesEndsFieldName].AsBsonArray)
                 sentencesEnds.Add((int)endLoop);
 
-            return new NotenizerRule(dependencies, sentencesEnds);
+            return new NotenizerRule(dependencies, sentencesEnds, createdBy);
         }
 
         /// <summary>
@@ -65,7 +67,7 @@ namespace nsNotenizer
 
                 r.Match = CalculateMatch(sentence, r.RuleDependencies, bsonDocLoop);
 
-                if (rule == null || rule.Match < r.Match)
+                if (rule == null || rule.Match < r.Match || (rule.Match == r.Match && rule.CreatedBy == CreatedBy.Notenizer && r.CreatedBy == CreatedBy.User))
                     rule = r;
             }
 
@@ -112,8 +114,6 @@ namespace nsNotenizer
 
                 foreach (BsonDocument depLoop in origDepDocLoop[DBConstants.DependenciesFieldName].AsBsonArray)
                 {
-                    int position = depLoop[DBConstants.PositionFieldName].AsInt32;
-
                     if (sentence.CompressedDependencies[depName].Where(
                         x => x.Dependent.POS == depLoop[DBConstants.DependentFieldName].AsBsonDocument[DBConstants.POSFieldName]).FirstOrDefault() != null)
                     {

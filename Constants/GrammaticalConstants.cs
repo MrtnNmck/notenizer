@@ -29,6 +29,7 @@ namespace nsConstants
         public const String AdjustedAgentRelationSpecific = "by";
         public const String CoordinatingConjuction = "cc";
         public const String AppositionalModifier = "appos";
+        public const String Root = "root";
 
         public const String AndConjuction = "and";
     }
