@@ -115,7 +115,7 @@ namespace nsGUI
                     String id;
 
                     // UPDATE only user-created rules, not Notenizer-created!
-                    if (note.CreatedBy == nsEnums.CreatedBy.User && note.Rule != null && note.Rule.Match == 100d)
+                    if (note.CreatedBy == nsEnums.CreatedBy.User && note.Rule != null /*&& note.Rule.Match == 100d*/)
                     {
                         note.UpdatedAt = DateTime.Now;
                         id = DB.ReplaceInCollection(DBConstants.NotesCollectionName, note.Rule.ID, DocumentCreator.CreateNoteDocument(note, -1)).Result;
