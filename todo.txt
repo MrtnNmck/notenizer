@@ -151,11 +151,19 @@ TODO:
         
     DONE - zohladnovanie spravnych pozicii v sentencesEnds ked vytvarame upravenu poznamku
         
-    - pridat do db kolekcie notes aj pole date, ktoru bude zaznamenavat kedy bol dany zaznam vytvoreny
+    DONE - pridat do db kolekcie notes aj pole date, ktoru bude zaznamenavat kedy bol dany zaznam vytvoreny
         
-    - nie vzdy vytvarat novy zaznam ale robit aj update
+    DONE - makewordconsiderrealtion
+    
+    TOP - nie vzdy vytvarat novy zaznam ale robit aj update
         
-    - makewordconsiderrealtion
+    - AND-Parser
+        - do additionalInfomation pridat dalsie pole, ktore bude oznacot miesto, kde doplnit rozprsovane AND spojenie
+            - napriklad: Neighbours of Slovak Republic are [{AND}].
+                - vysledok: Neighbours of Slovak Republic are Poland. Neighbours of Slovak Republic are Czech Republic. atd..
+        - novy typ reprezentracie pre NotenizerAdvancedLabel
+        - pouzivatel bude moct zadefinovat (popresuvat si), kde bude to miesto [{AND}]
+        - pouzite ten zakladny AND parser? aby mas z coho puzivatel vychadzat?
     
 	- naplnit DB s viacerimi pravidlami
 	- kontrola zaporu

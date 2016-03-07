@@ -27,5 +27,6 @@ namespace nsConstants
         public const String SentencesEndsFieldName = "sentencesEnds";
         public const String TokenTypeFieldName = "tokenType";
         public const String AdditionalInformationFieldName = "additionalInformation";
+        public const String CreatedAtFieldName = "createdAt";
     }
 }

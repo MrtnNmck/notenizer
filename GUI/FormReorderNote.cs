@@ -37,20 +37,27 @@ namespace nsGUI
             this._flowLayoutPanelDeleted.DragDrop += new DragEventHandler(FlowLayoutPanelActive_DragDrop);
             this._flowLayoutPanelDeleted.AllowDrop = true;
 
+            List<NotenizerDependency> noteDependencies = note.NoteDependencies;
+            List<NotenizerAdvancedLabel> activeLabels = new List<NotenizerAdvancedLabel>();
+
+            foreach (NotenizerDependency noteDependency in noteDependencies)
+            {
+                activeLabels.Add(new NotenizerAdvancedLabel(noteDependency));
+            }
+
             foreach (NotePart notePartLoop in note.NoteParts)
             {
-                foreach (NoteParticle noteParticleLoop in notePartLoop.InitializedNoteParticles)
-                {
-                    this._flowLayoutPanelActive.Controls.Add(new NotenizerAdvancedLabel(noteParticleLoop.NoteDependency));
-                }
+                activeLabels.Insert(notePartLoop.InitializedNoteParticles.Count, new NotenizerAdvancedLabel(NotenizerConstants.SentenceTerminator) { RepresentMode = RepresentMode.SentenceEnd });
             }
+
+            this._flowLayoutPanelActive.Controls.AddRange(activeLabels.ToArray<Control>());
 
             foreach (NotenizerDependency originalSentenceDependencyLoop in note.UnusedDependencies)
             {
                 NotenizerDependency clonedDependency = originalSentenceDependencyLoop.Clone();
                 clonedDependency.TokenType = TokenType.Dependent;
 
-                this._flowLayoutPanelDeleted.Controls.Add(new NotenizerAdvancedLabel(clonedDependency));//, deletedFlowLayoutLabelFont));
+                this._flowLayoutPanelDeleted.Controls.Add(new NotenizerAdvancedLabel(clonedDependency));
             }
         }
 
@@ -101,7 +108,7 @@ namespace nsGUI
             this._noteParts = new List<NotePart>();
             NotePart notePart = new NotePart(_note.OriginalSentence);
 
-            //_noteParts.Add(notePart);
+            _noteParts.Add(notePart);
 
             for (int i = 0; i < this._flowLayoutPanelActive.Controls.Count; i++)
             {
@@ -109,8 +116,8 @@ namespace nsGUI
 
                 if (label.RepresentMode == RepresentMode.SentenceEnd)
                 {
-                    _noteParts.Add(notePart);
                     notePart = new NotePart(_note.OriginalSentence);
+                    _noteParts.Add(notePart);
                     continue;
                 }
 
@@ -120,6 +127,9 @@ namespace nsGUI
                 NoteParticle noteParticle = new NoteParticle(dep);
                 notePart.Add(noteParticle);
             }
+
+            if (notePart.InitializedNoteParticles.Count == 0)
+                _noteParts.Remove(notePart);
 
             this.DialogResult = DialogResult.OK;
         }

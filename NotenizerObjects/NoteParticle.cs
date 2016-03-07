@@ -20,14 +20,16 @@ namespace nsNotenizerObjects
             _tokenType = dependency.TokenType;
             _noteDependency = dependency.Clone();
             _noteWord = dependency.CorrespondingWord;
-            _noteWordValue = MakeWordConsiderRelation(_noteWord, _noteDependency.Relation);
+            //_noteWordValue = MakeWordConsiderRelation(_noteWord, _noteDependency.Relation);
+            _noteWordValue = _noteWord.Word;
         }
 
         public NoteParticle(NotenizerWord noteWord, NotenizerDependency noteDependency)
         {
             _noteWord = noteWord;
             _noteDependency = noteDependency.Clone();
-            _noteWordValue = MakeWordConsiderRelation(noteWord, noteDependency.Relation);
+            //_noteWordValue = MakeWordConsiderRelation(noteWord, noteDependency.Relation);
+            _noteWordValue = _noteWord.Word;
         }
 
         public NoteParticle(String noteWordValue, NotenizerWord noteWord, NotenizerDependency noteDependency)
@@ -43,6 +45,7 @@ namespace nsNotenizerObjects
             _noteDependency = dependency.Clone();
             _noteDependency.TokenType = tokenType;
             _noteWord = _tokenType == TokenType.Dependent ? dependency.Dependent : dependency.Governor;
+            //_noteWordValue = MakeWordConsiderRelation(_noteWord, _noteDependency.Relation);
             _noteWordValue = MakeWordConsiderRelation(_noteWord, _noteDependency.Relation);
         }
 

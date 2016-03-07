@@ -9,8 +9,8 @@ namespace nsConstants
     public class NotenizerConstants
     {
         public const String WordDelimeter = " ";
-        public const String SentenceFinisher = ".";
-        public const String SentenceDelimeter = SentenceFinisher + WordDelimeter;
+        public const String SentenceTerminator = ".";
+        public const String SentenceDelimeter = SentenceTerminator + WordDelimeter;
         public const int UninitializedDependencyPositionValue = Int32.MinValue;
 
         public const String NotenizerDepenendecyPrefix = "nd_";

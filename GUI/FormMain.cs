@@ -107,6 +107,7 @@ namespace nsGUI
             {
                 note.Replace(frmReorderNote.NoteParts);
                 note.CreatedBy = nsEnums.CreatedBy.User;
+                note.CreatedAt = DateTime.Now;
 
                 this._advancedProgressBar.Start();
 

@@ -15,6 +15,8 @@ namespace nsNotenizerObjects
         private CreatedBy _createdBy = CreatedBy.Notenizer;
         private List<NotenizerDependency> _unusedDependencies;
         private List<NotenizerDependency> _noteDependencies;
+        private DateTime _createdAt;
+        private NotenizerRule _rule;
 
         public Note(NotenizerSentence originalSentence)
         {
@@ -23,6 +25,7 @@ namespace nsNotenizerObjects
             _originalSentence = originalSentence;
             _unusedDependencies = new List<NotenizerDependency>();
             _noteDependencies = new List<NotenizerDependency>();
+            _createdAt = DateTime.Now;
         }
 
         /// <summary>
@@ -49,6 +52,12 @@ namespace nsNotenizerObjects
         {
             get { return _createdBy; }
             set { _createdBy = value; }
+        }
+
+        public DateTime CreatedAt
+        {
+            set { _createdAt = value; }
+            get { return _createdAt; }
         }
 
         /// <summary>
@@ -92,6 +101,12 @@ namespace nsNotenizerObjects
 
                 return unusedDependencies;
             }
+        }
+
+        public NotenizerRule Rule
+        {
+            get { return _rule; }
+            set { _rule = value; }
         }
 
         public void Replace(List<NotePart> noteParts)

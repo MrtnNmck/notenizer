@@ -26,6 +26,7 @@ namespace nsNotenizer
             doc.Add(DBConstants.NoteFieldName, new BsonString(note.Value));
             doc.Add(DBConstants.CreatedByFieldName, new BsonInt32((int)note.CreatedBy));
             doc.Add(DBConstants.ArticleIdFieldName, new BsonInt32(articleId));
+            doc.Add(DBConstants.CreatedAtFieldName, new BsonDateTime(note.CreatedAt));
             doc.Add(DBConstants.AdditionalInformationFieldName, additionInformationDoc);
             additionInformationDoc.Add(DBConstants.SentencesEndsFieldName, sentencesEnds);
 

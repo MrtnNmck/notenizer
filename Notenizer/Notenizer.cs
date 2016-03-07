@@ -457,6 +457,7 @@ namespace nsNotenizer
             note.Add(notePart);
 
             note.SplitToSentences(rule.SentencesEnds);
+            note.Rule = rule;
 
             return note;
         }
