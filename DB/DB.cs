@@ -56,11 +56,11 @@ namespace nsDB
             return ConnectionManager.Database.GetCollection<BsonDocument>(collectionName);
         }
 
-        public static async Task<String> ReplaceInCollection(String collectionName, BsonObjectId id, BsonDocument document)
+        public static async Task<String> ReplaceInCollection(String collectionName, String id, BsonDocument document)
         {
             IMongoCollection<BsonDocument> collection = GetCollection(collectionName);
 
-            FilterDefinition<BsonDocument> filter = Builders<BsonDocument>.Filter.Eq(DBConstants.IdFieldName, id);
+            FilterDefinition<BsonDocument> filter = Builders<BsonDocument>.Filter.Eq(DBConstants.IdFieldName, ObjectId.Parse(id));
 
             await collection.ReplaceOneAsync(filter, document);
 

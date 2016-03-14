@@ -348,6 +348,10 @@
       <Project>{6fdbbec7-9acc-44ea-aaf3-86d771ee5f46}</Project>
       <Name>NotenizerObjects</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Parsers\Parsers.csproj">
+      <Project>{26543069-4b17-4652-ac7c-01202a8bf751}</Project>
+      <Name>Parsers</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

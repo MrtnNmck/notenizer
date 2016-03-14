@@ -17,6 +17,7 @@ using nsNotenizerObjects;
 using nsConstants;
 using nsDB;
 using nsEnums;
+using nsParsers;
 
 namespace nsNotenizer
 {
@@ -85,21 +86,29 @@ namespace nsNotenizer
             }
 
             //// Result - Pretty Print
-            //using (ByteArrayOutputStream stream = new ByteArrayOutputStream())
-            //{
-            //    pipeline.prettyPrint(annotation, new PrintWriter(stream));
-            //    Console.WriteLine(stream.toString());
-            //    stream.close();
-            //}
+            using (ByteArrayOutputStream stream = new ByteArrayOutputStream())
+            {
+                pipeline.prettyPrint(annotation, new PrintWriter(stream));
+                Console.WriteLine(stream.toString());
+                stream.close();
+            }
 
             //Console.WriteLine("======================================================");
 
             //Test(annotation);
 
             _notes = Parse(annotation);
-            _andNotes = AndParser(annotation);
+            //_andNotes = AndParserFn(annotation);
             PrintNotes(_notes);
             //PrintNotes(andNotes);
+        }
+
+        private NotenizerNoteRule GetRuleForSentence(NotenizerSentence sentence)
+        {
+            NotenizerNoteRule rule = DocumentParser.GetHeighestMatch(sentence,
+                    DB.GetAll(DBConstants.NoteRulesCollectionName, DocumentCreator.CreateFilterByDependencies(sentence)).Result);
+
+            return rule;
         }
 
         /// <summary>
@@ -117,8 +126,7 @@ namespace nsNotenizer
             {
                 NotenizerSentence sentence = new NotenizerSentence(sentenceLoop);
 
-                NotenizerRule rule = DocumentParser.GetHeighestMatch(sentence,
-                    DB.GetAll(DBConstants.NotesCollectionName, DocumentCreator.CreateFilterByDependencies(sentence)).Result);
+                NotenizerNoteRule rule = GetRuleForSentence(sentence);
 
                 if (rule != null && rule.RuleDependencies != null && rule.RuleDependencies.Count > 0)
                 {
@@ -138,10 +146,10 @@ namespace nsNotenizer
             // to avoid processed sentence to affect processing other sentences from article
             foreach (Note sentenceNotedLoop in notesToSave)
             {
-                String id = DB.InsertToCollection(DBConstants.NotesCollectionName, DocumentCreator.CreateNoteDocument(sentenceNotedLoop, -1)).Result;
+                String noteRuleId = DB.InsertToCollection(DBConstants.NoteRulesCollectionName, DocumentCreator.CreateNoteRuleDocument(sentenceNotedLoop)).Result;
+                String id = DB.InsertToCollection(DBConstants.NotesCollectionName, DocumentCreator.CreateNoteDocument(sentenceNotedLoop, String.Empty, noteRuleId, String.Empty)).Result;
 
-                NotenizerRule rule = DocumentParser.GetHeighestMatch(sentenceNotedLoop.OriginalSentence,
-                    DB.GetAll(DBConstants.NotesCollectionName, DocumentCreator.CreateFilterByDependencies(sentenceNotedLoop.OriginalSentence)).Result);
+                NotenizerNoteRule rule = GetRuleForSentence(sentenceNotedLoop.OriginalSentence);
 
                 if (rule != null && rule.RuleDependencies != null && rule.RuleDependencies.Count > 0)
                 {
@@ -454,7 +462,7 @@ namespace nsNotenizer
         /// <param name="sentence">Sentence to apply rule to</param>
         /// <param name="rule">Rule for parsing to apply</param>
         /// <returns></returns>
-        private Note ApplyRule(NotenizerSentence sentence, NotenizerRule rule)
+        private Note ApplyRule(NotenizerSentence sentence, NotenizerNoteRule rule)
         {
             Note note = new Note(sentence);
             NotePart notePart = new NotePart(sentence);
@@ -496,8 +504,10 @@ namespace nsNotenizer
             }
         }
 
-        private List<Note> AndParser(Annotation annotation)
+        private List<Note> AndParserFn(Annotation annotation)
         {
+            AndParser andParser = new AndParser();
+
             List<Note> notes = new List<Note>();
             List<Note> andNotes = new List<Note>();
 
@@ -515,7 +525,7 @@ namespace nsNotenizer
                     || noteLoop.OriginalSentence.CompressedDependencies[GrammaticalConstants.Conjuction] == null
                     || !noteLoop.OriginalSentence.CompressedDependencies[GrammaticalConstants.Conjuction].Any(x => x.Relation.Specific == GrammaticalConstants.AndConjuction))
                     continue;
-
+                andParser.GetAndSets(noteLoop.OriginalSentence);
                 Note note = new Note(noteLoop.OriginalSentence);
 
                 foreach(NotePart notePartLoop in noteLoop.NoteParts)
@@ -606,6 +616,14 @@ namespace nsNotenizer
             NotenizerDependency nmod = sentence.GetDependencyByShortName(dependency, ComparisonType.DependentToGovernor, GrammaticalConstants.NominalModifier);
             if (nmod != null)
                 destinationNotePart.Add(new NoteParticle(nmod.Dependent, nmod));
+        }
+
+        private bool IsAndParsableSentence(NotenizerSentence sentence)
+        {
+            return ((sentence.CompressedDependencies.ContainsKey(GrammaticalConstants.Conjuction)
+                && sentence.CompressedDependencies[GrammaticalConstants.Conjuction] != null
+                && sentence.CompressedDependencies[GrammaticalConstants.Conjuction].Any(x => x.Relation.Specific == GrammaticalConstants.AndConjuction))
+                || sentence.Dependencies.Where(x => x.Dependent.Word.ToLower().Trim() == GrammaticalConstants.AndConjuction || x.Governor.Word.ToLower() == GrammaticalConstants.AndConjuction).Count() > 0);
         }
     }
 }

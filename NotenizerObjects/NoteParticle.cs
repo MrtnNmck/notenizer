@@ -39,14 +39,14 @@ namespace nsNotenizerObjects
             _noteDependency = noteDependency.Clone();
         }
 
-        public NoteParticle(NotenizerDependency dependency, TokenType tokenType)
+        public NoteParticle(NotenizerDependency dependency, TokenType tokenType, bool considerRelationInWordValueMaking = false)
         {
             _tokenType = tokenType;
             _noteDependency = dependency.Clone();
             _noteDependency.TokenType = tokenType;
             _noteWord = _tokenType == TokenType.Dependent ? dependency.Dependent : dependency.Governor;
             //_noteWordValue = MakeWordConsiderRelation(_noteWord, _noteDependency.Relation);
-            _noteWordValue = MakeWordConsiderRelation(_noteWord, _noteDependency.Relation);
+            _noteWordValue = considerRelationInWordValueMaking ? MakeWordConsiderRelation(_noteWord, _noteDependency.Relation) : _noteWord.Word; ;
         }
 
         public NoteParticle(String noteWordValue, NotenizerDependency dependency, TokenType tokenType)

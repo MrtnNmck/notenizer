@@ -16,6 +16,7 @@ namespace nsComponents
     {
         private NotenizerDependency _dependency;
         private RepresentMode _representMode;
+        private bool _isDeletable = true;
 
         public NotenizerAdvancedLabel(String text)
         {
@@ -45,6 +46,19 @@ namespace nsComponents
         public NotenizerDependency Dependency
         {
             get { return this._dependency; }
+        }
+
+        public Boolean IsDeletable
+        {
+            get
+            {
+                return this._isDeletable;
+            }
+
+            set
+            {
+                this._isDeletable = value;
+            }
         }
 
         public RepresentMode RepresentMode

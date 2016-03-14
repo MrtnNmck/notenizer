@@ -9,6 +9,7 @@ namespace nsEnums
     public enum TokenType
     {
         Governor,
-        Dependent
+        Dependent,
+        NotenizerSpecial
     }
 }

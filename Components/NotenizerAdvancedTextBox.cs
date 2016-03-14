@@ -16,11 +16,15 @@ namespace nsComponents
     {
         private AdvancedTextBox _advancedTextBox = null;
         private Button _editButton = null;
+        private Button _andParseButton = null;
+        private FlowLayoutPanel _buttonPanel = null;
         private Note _note = null;
+        private bool _isDeletable = true;
 
         public delegate void ButtonClickHandler(NotenizerAdvancedTextBox sender, EventArgs e);
 
         public event ButtonClickHandler EditButtonClicked;
+        public event ButtonClickHandler AndParseButtonClicked;
 
         public NotenizerAdvancedTextBox()
         {
@@ -51,9 +55,13 @@ namespace nsComponents
             this.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
 
             AddRowWithComponent(this._advancedTextBox, SizeType.Absolute, ComponentConstants.NotenizerAdvancedTextBoxTextBoxRowSize);
-            AddRowWithComponent(this._editButton, SizeType.Absolute, ComponentConstants.NotenizerAdvancedTextBoxButtonsRowSize);
+            AddRowWithComponent(this._buttonPanel, SizeType.Absolute, ComponentConstants.NotenizerAdvancedTextBoxButtonsRowSize);
+            this._buttonPanel.Controls.Add(this._editButton);
+            this._buttonPanel.Controls.Add(this._andParseButton);
 
             InitEditButton();
+            InitAndParseButton();
+
             this.Margin = new Padding(0);
             this.Padding = new Padding(0);
         }
@@ -62,6 +70,12 @@ namespace nsComponents
         {
             if (EditButtonClicked != null)
                 EditButtonClicked(this, e);
+        }
+
+        private void AndParseButton_Click(object sender, EventArgs e)
+        {
+            if (AndParseButtonClicked != null)
+                AndParseButtonClicked(this, e);
         }
 
         public AdvancedTextBox AdvancedTextBox
@@ -79,6 +93,19 @@ namespace nsComponents
             get { return this._note; }
         }
 
+        public Boolean IsDeletable
+        {
+            get
+            {
+                return this._isDeletable;
+            }
+
+            set
+            {
+                this._isDeletable = value;
+            }
+        }
+
         private void AddRowWithComponent(Control control, SizeType sizeType, float size)
         {
             this.RowCount += 1;
@@ -92,10 +119,20 @@ namespace nsComponents
             this._editButton.Click += EditButton_Click;
         }
 
+        private void InitAndParseButton()
+        {
+            this._andParseButton.Text = "And Parse";
+            this._andParseButton.Click += AndParseButton_Click;
+        }
+
         private void InitControls()
         {
             this._advancedTextBox = new AdvancedTextBox();
             this._editButton = new Button();
+            this._andParseButton = new Button();
+
+            this._buttonPanel = new FlowLayoutPanel();
+            this._buttonPanel.Dock = DockStyle.Fill;
         }
     }
 }

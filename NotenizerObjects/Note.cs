@@ -17,7 +17,7 @@ namespace nsNotenizerObjects
         private List<NotenizerDependency> _noteDependencies;
         private DateTime _createdAt;
         private DateTime _updatedAt;
-        private NotenizerRule _rule;
+        private NotenizerNoteRule _rule;
 
         public Note(NotenizerSentence originalSentence)
         {
@@ -111,7 +111,7 @@ namespace nsNotenizerObjects
             }
         }
 
-        public NotenizerRule Rule
+        public NotenizerNoteRule Rule
         {
             get { return _rule; }
             set { _rule = value; }

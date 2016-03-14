@@ -1,5 +1,4 @@
-﻿using MongoDB.Bson;
-using nsEnums;
+﻿using nsEnums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,28 +9,25 @@ namespace nsNotenizerObjects
 {
     public class NotenizerRule
     {
-        private List<NotenizerDependency> _dependencies;
-        private List<int> _sentencesEnds;
-        private Double _match;
-        private CreatedBy _createdBy;
-        private BsonObjectId _objectId;
+        protected List<NotenizerDependency> _dependencies;
+        protected Double _match;
+        protected CreatedBy _createdBy;
+        protected String _objectId;
+        protected DateTime _createdAt;
+        protected DateTime _updatedAt;
 
-        public NotenizerRule(BsonObjectId id, List<NotenizerDependency> dependencies, List<int> sentencesEnds, CreatedBy createdBy)
+        public NotenizerRule(String id, List<NotenizerDependency> dependencies, CreatedBy createdBy)
         {
             _objectId = id;
             _dependencies = dependencies;
-            _sentencesEnds = sentencesEnds;
             _createdBy = createdBy;
+            _createdAt = DateTime.Now;
+            _updatedAt = DateTime.Now;
         }
 
         public List<NotenizerDependency> RuleDependencies
         {
             get { return _dependencies; }
-        }
-
-        public List<int> SentencesEnds
-        {
-            get { return _sentencesEnds; }
         }
 
         public Double Match
@@ -45,10 +41,22 @@ namespace nsNotenizerObjects
             get { return _createdBy; }
         }
 
+        public DateTime CreatedAt
+        {
+            set { _createdAt = value; }
+            get { return _createdAt; }
+        }
+
+        public DateTime UpdatedAt
+        {
+            set { _updatedAt = value; }
+            get { return _updatedAt; }
+        }
+
         /// <summary>
         /// ID of corresponding entry in DB, from which this rule is.
         /// </summary>
-        public BsonObjectId ID
+        public String ID
         {
             get { return _objectId; }
         }

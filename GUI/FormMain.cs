@@ -115,10 +115,16 @@ namespace nsGUI
                     String id;
 
                     // UPDATE only user-created rules, not Notenizer-created!
-                    if (note.CreatedBy == nsEnums.CreatedBy.User && note.Rule != null /*&& note.Rule.Match == 100d*/)
+                    if (note.Rule != null && note.Rule.CreatedBy == nsEnums.CreatedBy.User /*&& note.Rule.Match == 100d*/)
                     {
+                        DateTime temp = note.CreatedAt;
+
+                        note.CreatedAt = note.Rule.CreatedAt;
+                        note.Rule.UpdatedAt = DateTime.Now;
+                        String noteRuleId = DB.ReplaceInCollection(DBConstants.NoteRulesCollectionName, note.Rule.ID, DocumentCreator.CreateNoteRuleDocument(note)).Result;
+
                         note.UpdatedAt = DateTime.Now;
-                        id = DB.ReplaceInCollection(DBConstants.NotesCollectionName, note.Rule.ID, DocumentCreator.CreateNoteDocument(note, -1)).Result;
+                        id = DB.ReplaceInCollection(DBConstants.NotesCollectionName, , DocumentCreator.CreateNoteDocument(note, String.Empty, noteRuleId, String.Empty)).Result;
                     }
                     else
                     {
@@ -127,7 +133,7 @@ namespace nsGUI
                         note.UpdatedAt = note.CreatedAt;
                         BsonDocument noteDoc = DocumentCreator.CreateNoteDocument(note, -1);
                         id = DB.InsertToCollection(DBConstants.NotesCollectionName, noteDoc).Result;
-                        note.Rule = DocumentParser.ParseNoteDependencies(noteDoc);
+                        note.Rule = DocumentParser.ParseNoteRule(noteDoc);
                     }
                 }).ContinueWith(delegate
                 {

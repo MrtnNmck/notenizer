@@ -168,6 +168,11 @@ TODO:
         - pouzivatel bude moct zadefinovat (popresuvat si), kde bude to miesto [{AND}]
         - pouzite ten zakladny AND parser? aby mas z coho puzivatel vychadzat?
     
+    - ukladat clanky
+    	- parovat poznamky s clankom
+
+    - prehodit rule -> note
+    	- teraz objekt note obsahuje Rule, malo byt to byt naopak: Rule bude obsahovat Note
 	- naplnit DB s viacerimi pravidlami
 	- kontrola zaporu
 		-  pri spracovavani textu o cesku sa nevyhodnotil zapor vo vete This has not caught..

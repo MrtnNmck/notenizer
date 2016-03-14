@@ -22,7 +22,7 @@ namespace nsConstants
         public const String NoteDependenciesFieldName = "noteDependencies";
         public const String NoteFieldName = "note";
         public const String CreatedByFieldName = "createdBy";
-        public const String ArticleIdFieldName = "articleId";
+        public const String ArticleIdFieldName = "articleRefId";
         public const String ComparisonTypeFieldName = "comparisonType";
         public const String SentencesEndsFieldName = "sentencesEnds";
         public const String TokenTypeFieldName = "tokenType";
@@ -30,5 +30,10 @@ namespace nsConstants
         public const String CreatedAtFieldName = "createdAt";
         public const String UpdatedAtFieldName = "updatedAt";
         public const String IdFieldName = "_id";
+        public const String AndSetsPositionsFieldName = "setsPosition";
+        public const String NoteRuleRefIdFieldName = "noteRuleRefId";
+        public const String AndParserRuleRefIdFieldName = "andParserRuleRefId";
+        public const String NoteRulesCollectionName = "noteRules";
+        public const String AndParserRulesCollectionName = "andParserRules";
     }
 }

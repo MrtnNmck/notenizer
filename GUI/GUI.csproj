@@ -58,6 +58,12 @@
     <Compile Include="FormAddSentenceTerminator.Designer.cs">
       <DependentUpon>FormAddSentenceTerminator.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormAndParser.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormAndParser.Designer.cs">
+      <DependentUpon>FormAndParser.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormMain.cs">
       <SubType>Form</SubType>
     </Compile>

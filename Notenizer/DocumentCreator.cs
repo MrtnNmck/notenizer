@@ -11,25 +11,44 @@ using System.Threading.Tasks;
 
 namespace nsNotenizer
 {
-    public static  class DocumentCreator
+    public static class DocumentCreator
     {
-        public static BsonDocument CreateNoteDocument(Note note, int articleId)
+        public static BsonDocument CreateNoteDocument(Note note, String articleId, String noteRuleId, String andParseRuleId)
         {
-            int dependencyPosition = 0;
-            Dictionary<String, BsonArray> dependencies = new Dictionary<String, BsonArray>();
-
             BsonDocument doc = new BsonDocument();
-            BsonDocument additionInformationDoc = new BsonDocument();
-            BsonArray sentencesEnds = new BsonArray();
+            BsonValue articleObjectId;
+            BsonValue andParserRuleObjectId;
+
+            if (articleId == String.Empty)
+                articleObjectId = BsonNull.Value;
+            else
+                articleObjectId = ObjectId.Parse(articleId);
+
+            if (andParseRuleId == String.Empty)
+                andParserRuleObjectId = BsonNull.Value;
+            else
+                andParserRuleObjectId = ObjectId.Parse(andParseRuleId);
 
             doc.Add(DBConstants.OriginalSentenceFieldName, new BsonString(note.OriginalSentence.ToString()));
             doc.Add(DBConstants.NoteFieldName, new BsonString(note.Value));
+            doc.Add(DBConstants.ArticleIdFieldName, articleObjectId);
+            doc.Add(DBConstants.NoteRuleRefIdFieldName, ObjectId.Parse(noteRuleId));
+            doc.Add(DBConstants.AndParserRuleRefIdFieldName, andParserRuleObjectId);
+
+            return doc;
+        }
+
+        public static BsonDocument CreateNoteRuleDocument(Note note)
+        {
+            int dependencyPosition = 0;
+            BsonDocument doc = new BsonDocument();
+            BsonArray sentencesEnds = new BsonArray();
+            Dictionary<String, BsonArray> dependencies = new Dictionary<String, BsonArray>();
+
             doc.Add(DBConstants.CreatedByFieldName, new BsonInt32((int)note.CreatedBy));
-            doc.Add(DBConstants.ArticleIdFieldName, new BsonInt32(articleId));
             doc.Add(DBConstants.CreatedAtFieldName, new BsonDateTime(note.CreatedAt));
             doc.Add(DBConstants.UpdatedAtFieldName, new BsonDateTime(note.UpdatedAt));
-            doc.Add(DBConstants.AdditionalInformationFieldName, additionInformationDoc);
-            additionInformationDoc.Add(DBConstants.SentencesEndsFieldName, sentencesEnds);
+            doc.Add(DBConstants.SentencesEndsFieldName, sentencesEnds);
 
             BsonArray originalDepencenciesArr = new BsonArray();
             foreach (NotenizerDependency dependencyLoop in note.OriginalSentence.Dependencies)
@@ -43,19 +62,109 @@ namespace nsNotenizer
 
             doc.Add(DBConstants.OriginalSentenceDependenciesFieldName, originalDepencenciesArr);
 
-            BsonArray noteDependenciesArr = CreateNoteDependenciesArray(note, sentencesEnds);
+            BsonArray noteDependenciesArr = CreateNoteRuleNotDependenciesArray(note, sentencesEnds);
+
+            doc.Add(DBConstants.NoteDependenciesFieldName, noteDependenciesArr);
+
+            return doc;
+        }
+
+        public static BsonDocument CreateAndParserRuleDocument(Note note, List<NotePart> andParserRuleNoteParts, int setsPosition)
+        {
+            int dependencyPosition = 0;
+            BsonDocument doc = new BsonDocument();
+            Dictionary<String, BsonArray> dependencies = new Dictionary<String, BsonArray>();
+
+            doc.Add(DBConstants.CreatedByFieldName, new BsonInt32((int)note.CreatedBy));
+            doc.Add(DBConstants.CreatedAtFieldName, new BsonDateTime(note.CreatedAt));
+            doc.Add(DBConstants.UpdatedAtFieldName, new BsonDateTime(note.UpdatedAt));
+            doc.Add(DBConstants.AndSetsPositionsFieldName, new BsonInt32(setsPosition));
+
+            BsonArray originalDepencenciesArr = new BsonArray();
+            foreach (NotenizerDependency dependencyLoop in note.OriginalSentence.Dependencies)
+            {
+                BsonDocument dependencyDoc = CreateDependencyDocument(dependencyLoop);
+
+                AppendDependencyDocument(dependencyLoop, dependencyDoc, originalDepencenciesArr, dependencies);
+
+                dependencyPosition++;
+            }
+
+            doc.Add(DBConstants.OriginalSentenceDependenciesFieldName, originalDepencenciesArr);
+
+            BsonArray noteDependenciesArr = CreateNoteRuleNotDependenciesArray(andParserRuleNoteParts);
+
+            doc.Add(DBConstants.NoteDependenciesFieldName, noteDependenciesArr);
+
+            return doc;
+        }
+
+        public static BsonDocument CreateNoteDocument(Note note, int articleId, List<int> andSetsPositions)
+        {
+            BsonDocument doc = CreateNoteDocument(note, articleId);
+
+            doc[DBConstants.AdditionalInformationFieldName][DBConstants.AndSetsPositionsFieldName] = new BsonArray(andSetsPositions);
+
+            return doc;
+        }
+
+        public static BsonDocument CreateNoteDocument(Note note, int articleId)
+        {
+            int dependencyPosition = 0;
+            Dictionary<String, BsonArray> dependencies = new Dictionary<String, BsonArray>();
+
+            BsonDocument doc = new BsonDocument();
+            BsonDocument additionInformationDoc = new BsonDocument();
+            BsonArray sentencesEnds = new BsonArray();
+            BsonArray andSetsPositions = new BsonArray();
+
+            doc.Add(DBConstants.OriginalSentenceFieldName, new BsonString(note.OriginalSentence.ToString()));
+            doc.Add(DBConstants.NoteFieldName, new BsonString(note.Value));
+            doc.Add(DBConstants.CreatedByFieldName, new BsonInt32((int)note.CreatedBy));
+            doc.Add(DBConstants.ArticleIdFieldName, new BsonInt32(articleId));
+            doc.Add(DBConstants.CreatedAtFieldName, new BsonDateTime(note.CreatedAt));
+            doc.Add(DBConstants.UpdatedAtFieldName, new BsonDateTime(note.UpdatedAt));
+            doc.Add(DBConstants.AdditionalInformationFieldName, additionInformationDoc);
+            additionInformationDoc.Add(DBConstants.SentencesEndsFieldName, sentencesEnds);
+            additionInformationDoc.Add(DBConstants.AndSetsPositionsFieldName, andSetsPositions);
+
+            BsonArray originalDepencenciesArr = new BsonArray();
+            foreach (NotenizerDependency dependencyLoop in note.OriginalSentence.Dependencies)
+            {
+                BsonDocument dependencyDoc = CreateDependencyDocument(dependencyLoop);
+
+                AppendDependencyDocument(dependencyLoop, dependencyDoc, originalDepencenciesArr, dependencies);
+
+                dependencyPosition++;
+            }
+
+            doc.Add(DBConstants.OriginalSentenceDependenciesFieldName, originalDepencenciesArr);
+
+            BsonArray noteDependenciesArr = CreateNoteRuleNotDependenciesArray(note, sentencesEnds);
 
             doc.Add(DBConstants.NoteDependenciesFieldName, noteDependenciesArr);
             return doc;
         }
 
-        public static BsonArray CreateNoteDependenciesArray(Note note, BsonArray sentencesEnds)
+        public static BsonArray CreateNoteRuleNotDependenciesArray(List<NotePart> noteParts)
+        {
+            BsonArray temp = new BsonArray();
+
+            return CreateNoteRuleNotDependenciesArray(noteParts, temp);
+        }
+
+        public static BsonArray CreateNoteRuleNotDependenciesArray(Note note, BsonArray sentencesEnds)
+        {
+            return CreateNoteRuleNotDependenciesArray(note.NoteParts, sentencesEnds);
+        }
+
+        private static BsonArray CreateNoteRuleNotDependenciesArray(List<NotePart> noteParts, BsonArray sentencesEnds)
         {
             int dependencyPosition = 0;
             BsonArray noteDependenciesArr = new BsonArray();
             Dictionary<String, BsonArray> dependencies = new Dictionary<String, BsonArray>();
 
-            foreach (NotePart notePartLoop in note.NoteParts)
+            foreach (NotePart notePartLoop in noteParts)
             {
                 foreach (NoteParticle noteObjectLoop in notePartLoop.NoteParticles)
                 {
@@ -145,7 +254,7 @@ namespace nsNotenizer
         {
             return Builders<BsonDocument>.Filter.Size(DBConstants.OriginalSentenceDependenciesFieldName, size) 
                     & Builders<BsonDocument>.Filter.All(DBConstants.OriginalSentenceDependenciesFieldName + "." + DBConstants.DependencyNameFieldName,
-                        dependencies.Select(x=>x.Relation.ShortName));
+                        dependencies.Select(x => x.Relation.ShortName));
         }
     }
 }
