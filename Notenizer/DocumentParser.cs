@@ -1,5 +1,6 @@
 ﻿using MongoDB.Bson;
 using nsConstants;
+using nsDB;
 using nsEnums;
 using nsExtensions;
 using nsNotenizerObjects;
@@ -88,8 +89,10 @@ namespace nsNotenizer
             NotenizerNoteRule rule = null;
             foreach (BsonDocument bsonDocLoop in dbEntries)
             {
-                NotenizerNoteRule r = ParseNoteRule(bsonDocLoop);
+                BsonDocument ruleDocument = DB.GetFirst(DBConstants.NoteRulesCollectionName, DocumentCreator.CreateFilterById(bsonDocLoop[DBConstants.NoteRuleRefIdFieldName].AsObjectId.ToString())).Result;
+                NotenizerNoteRule r = ParseNoteRule(ruleDocument);
 
+                r.NoteID = bsonDocLoop[DBConstants.IdFieldName].AsObjectId.ToString();
                 r.Match = CalculateMatch(sentence, r.RuleDependencies, bsonDocLoop);
 
                 if (rule == null || rule.Match < r.Match || (rule.Match == r.Match && rule.CreatedBy == CreatedBy.Notenizer && r.CreatedBy == CreatedBy.User))

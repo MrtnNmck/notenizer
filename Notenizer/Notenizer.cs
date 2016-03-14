@@ -106,7 +106,7 @@ namespace nsNotenizer
         private NotenizerNoteRule GetRuleForSentence(NotenizerSentence sentence)
         {
             NotenizerNoteRule rule = DocumentParser.GetHeighestMatch(sentence,
-                    DB.GetAll(DBConstants.NoteRulesCollectionName, DocumentCreator.CreateFilterByDependencies(sentence)).Result);
+                    DB.GetAll(DBConstants.NotesCollectionName, DocumentCreator.CreateFilterByDependencies(sentence)).Result);
 
             return rule;
         }

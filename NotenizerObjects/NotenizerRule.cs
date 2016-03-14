@@ -12,13 +12,14 @@ namespace nsNotenizerObjects
         protected List<NotenizerDependency> _dependencies;
         protected Double _match;
         protected CreatedBy _createdBy;
-        protected String _objectId;
+        protected String _id;
+        protected String _noteId;
         protected DateTime _createdAt;
         protected DateTime _updatedAt;
 
         public NotenizerRule(String id, List<NotenizerDependency> dependencies, CreatedBy createdBy)
         {
-            _objectId = id;
+            _id = id;
             _dependencies = dependencies;
             _createdBy = createdBy;
             _createdAt = DateTime.Now;
@@ -58,7 +59,13 @@ namespace nsNotenizerObjects
         /// </summary>
         public String ID
         {
-            get { return _objectId; }
+            get { return _id; }
+        }
+
+        public String NoteID
+        {
+            get { return _noteId; }
+            set { _noteId = value; }
         }
     }
 }

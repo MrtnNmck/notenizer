@@ -121,10 +121,11 @@ namespace nsGUI
 
                         note.CreatedAt = note.Rule.CreatedAt;
                         note.Rule.UpdatedAt = DateTime.Now;
-                        String noteRuleId = DB.ReplaceInCollection(DBConstants.NoteRulesCollectionName, note.Rule.ID, DocumentCreator.CreateNoteRuleDocument(note)).Result;
+                        BsonDocument noteRuleDoc = DocumentCreator.CreateNoteRuleDocument(note);
+                        String noteRuleId = DB.ReplaceInCollection(DBConstants.NoteRulesCollectionName, note.Rule.ID, noteRuleDoc).Result;
 
                         note.UpdatedAt = DateTime.Now;
-                        id = DB.ReplaceInCollection(DBConstants.NotesCollectionName, , DocumentCreator.CreateNoteDocument(note, String.Empty, noteRuleId, String.Empty)).Result;
+                        //id = DB.ReplaceInCollection(DBConstants.NotesCollectionName, , DocumentCreator.CreateNoteDocument(note, String.Empty, noteRuleId, String.Empty)).Result;
                     }
                     else
                     {
