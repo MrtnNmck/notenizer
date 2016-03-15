@@ -171,6 +171,10 @@ TODO:
     - ukladat clanky
     	- parovat poznamky s clankom
 
+    - vysetrit chybu, preco sa neponukaju vsetky slova (dependencies) z editovanet poznamky - vety v unused words
+    	- pri editacii poznamky vety z clanku o cestu a ich prezidentovi tam chyba Zeman
+    	- clear DB -> parse clanok o SVK -> parse clanok o CZ
+    	
     - prehodit rule -> note
     	- teraz objekt note obsahuje Rule, malo byt to byt naopak: Rule bude obsahovat Note
 	- naplnit DB s viacerimi pravidlami

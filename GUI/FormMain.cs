@@ -114,6 +114,7 @@ namespace nsGUI
                 {
                     String noteId;
                     String ruleId;
+                    BsonDocument ruleDoc;
 
                     if (notenizerNote.Rule == null)
                         throw new Exception("NotenizerNote.Rule is null!");
@@ -123,11 +124,13 @@ namespace nsGUI
                     {
                         notenizerNote.Rule.CreatedBy = nsEnums.CreatedBy.User;
 
-                        ruleId = DB.InsertToCollection(DBConstants.NoteRulesCollectionName, DocumentCreator.CreateNoteRuleDocument(notenizerNote)).Result;
+                        ruleDoc = DocumentCreator.CreateNoteRuleDocument(notenizerNote.Rule, notenizerNote);
+                        ruleId = DB.InsertToCollection(DBConstants.NoteRulesCollectionName, ruleDoc).Result;
                     }
                     else                                                                // update
                     {
-                        ruleId = DB.ReplaceInCollection(DBConstants.NoteRulesCollectionName, notenizerNote.Rule.ID, DocumentCreator.CreateNoteRuleDocument(notenizerNote.Rule, notenizerNote)).Result;
+                        ruleDoc = DocumentCreator.CreateNoteRuleDocument(notenizerNote.Rule, notenizerNote);
+                        ruleId = DB.ReplaceInCollection(DBConstants.NoteRulesCollectionName, notenizerNote.Rule.ID, ruleDoc).Result;
                     }
 
                     // UPDATE only user-created rules, not Notenizer-created!
@@ -147,7 +150,7 @@ namespace nsGUI
 
                         BsonDocument noteDoc = DocumentCreator.CreateNoteDocument(notenizerNote, String.Empty, ruleId, String.Empty);
                         noteId = DB.InsertToCollection(DBConstants.NotesCollectionName, noteDoc).Result;
-                        notenizerNote.Rule = DocumentParser.ParseNoteRule(noteDoc);
+                        notenizerNote.Rule = DocumentParser.ParseNoteRule(ruleDoc);
                     }
                 }).ContinueWith(delegate
                 {
