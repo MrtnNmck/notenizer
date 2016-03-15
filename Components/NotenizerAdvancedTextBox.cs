@@ -18,7 +18,7 @@ namespace nsComponents
         private Button _editButton = null;
         private Button _andParseButton = null;
         private FlowLayoutPanel _buttonPanel = null;
-        private Note _note = null;
+        private NotenizerNote _note = null;
         private bool _isDeletable = true;
 
         public delegate void ButtonClickHandler(NotenizerAdvancedTextBox sender, EventArgs e);
@@ -38,7 +38,7 @@ namespace nsComponents
             this._advancedTextBox.TextBox.Text = text;
         }
 
-        public NotenizerAdvancedTextBox(Note note)
+        public NotenizerAdvancedTextBox(NotenizerNote note)
         {
             Init();
 
@@ -88,7 +88,7 @@ namespace nsComponents
             get { return this._editButton; }
         }
 
-        public Note Note
+        public NotenizerNote Note
         {
             get { return this._note; }
         }

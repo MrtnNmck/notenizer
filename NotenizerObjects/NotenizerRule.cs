@@ -13,7 +13,7 @@ namespace nsNotenizerObjects
         protected Double _match;
         protected CreatedBy _createdBy;
         protected String _id;
-        protected String _noteId;
+        protected Note _note;
         protected DateTime _createdAt;
         protected DateTime _updatedAt;
 
@@ -40,6 +40,7 @@ namespace nsNotenizerObjects
         public CreatedBy CreatedBy
         {
             get { return _createdBy; }
+            set { _createdBy = value; }
         }
 
         public DateTime CreatedAt
@@ -62,10 +63,10 @@ namespace nsNotenizerObjects
             get { return _id; }
         }
 
-        public String NoteID
+        public Note Note
         {
-            get { return _noteId; }
-            set { _noteId = value; }
+            get { return _note; }
+            set { _note = value; }
         }
     }
 }

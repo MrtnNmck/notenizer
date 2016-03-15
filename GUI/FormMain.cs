@@ -24,9 +24,9 @@ namespace nsGUI
             this.CenterToScreen();
         }
 
-        private void ShowNotes(List<Note> notes)
+        private void ShowNotes(List<NotenizerNote> notes)
         {
-            foreach (Note noteLoop in notes)
+            foreach (NotenizerNote noteLoop in notes)
             {
                 this._tableLayoutPanelMain.PerformSafely(() => this._tableLayoutPanelMain.RowCount += 1);
 
@@ -101,44 +101,57 @@ namespace nsGUI
 
         private void NoteEditButton_Click(object sender, EventArgs e)
         {
-            Note note = (sender as NotenizerAdvancedTextBox).Note;
-            FormReorderNote frmReorderNote = new FormReorderNote(note);
+            NotenizerNote notenizerNote = (sender as NotenizerAdvancedTextBox).Note;
+            FormReorderNote frmReorderNote = new FormReorderNote(notenizerNote);
 
             if (frmReorderNote.ShowDialog() == DialogResult.OK)
             {
-                note.Replace(frmReorderNote.NoteParts);
+                notenizerNote.Replace(frmReorderNote.NoteParts);
 
                 this._advancedProgressBar.Start();
 
                 Task.Factory.StartNew(() =>
                 {
-                    String id;
+                    String noteId;
+                    String ruleId;
+
+                    if (notenizerNote.Rule == null)
+                        throw new Exception("NotenizerNote.Rule is null!");
+
+                    notenizerNote.Rule.UpdatedAt = DateTime.Now;
+                    if (notenizerNote.Rule.CreatedBy == nsEnums.CreatedBy.Notenizer)    // insert
+                    {
+                        notenizerNote.Rule.CreatedBy = nsEnums.CreatedBy.User;
+
+                        ruleId = DB.InsertToCollection(DBConstants.NoteRulesCollectionName, DocumentCreator.CreateNoteRuleDocument(notenizerNote)).Result;
+                    }
+                    else                                                                // update
+                    {
+                        ruleId = DB.ReplaceInCollection(DBConstants.NoteRulesCollectionName, notenizerNote.Rule.ID, DocumentCreator.CreateNoteRuleDocument(notenizerNote.Rule, notenizerNote)).Result;
+                    }
 
                     // UPDATE only user-created rules, not Notenizer-created!
-                    if (note.Rule != null && note.Rule.CreatedBy == nsEnums.CreatedBy.User /*&& note.Rule.Match == 100d*/)
+                    // which value of originalSentence is same as value persisted in DB
+                    // We do not want to update note in DB, if we processed SIMILAR but not THE SAME sentence
+                    if (notenizerNote.Rule.CreatedBy == nsEnums.CreatedBy.User 
+                        && notenizerNote.Rule.Note.OriginalSentence.Trim() == notenizerNote.OriginalSentence.ToString().Trim())
                     {
-                        DateTime temp = note.CreatedAt;
-
-                        note.CreatedAt = note.Rule.CreatedAt;
-                        note.Rule.UpdatedAt = DateTime.Now;
-                        BsonDocument noteRuleDoc = DocumentCreator.CreateNoteRuleDocument(note);
-                        String noteRuleId = DB.ReplaceInCollection(DBConstants.NoteRulesCollectionName, note.Rule.ID, noteRuleDoc).Result;
-
-                        note.UpdatedAt = DateTime.Now;
-                        //id = DB.ReplaceInCollection(DBConstants.NotesCollectionName, , DocumentCreator.CreateNoteDocument(note, String.Empty, noteRuleId, String.Empty)).Result;
+                        notenizerNote.UpdatedAt = DateTime.Now;
+                        noteId = DB.ReplaceInCollection(DBConstants.NotesCollectionName, notenizerNote.Rule.Note.ID, DocumentCreator.CreateNoteDocument(notenizerNote, String.Empty, ruleId, String.Empty)).Result;
                     }
                     else
                     {
-                        note.CreatedBy = nsEnums.CreatedBy.User;
-                        note.CreatedAt = DateTime.Now;
-                        note.UpdatedAt = note.CreatedAt;
-                        BsonDocument noteDoc = DocumentCreator.CreateNoteDocument(note, -1);
-                        id = DB.InsertToCollection(DBConstants.NotesCollectionName, noteDoc).Result;
-                        note.Rule = DocumentParser.ParseNoteRule(noteDoc);
+                        notenizerNote.CreatedBy = nsEnums.CreatedBy.User;
+                        notenizerNote.CreatedAt = DateTime.Now;
+                        notenizerNote.UpdatedAt = notenizerNote.CreatedAt;
+
+                        BsonDocument noteDoc = DocumentCreator.CreateNoteDocument(notenizerNote, String.Empty, ruleId, String.Empty);
+                        noteId = DB.InsertToCollection(DBConstants.NotesCollectionName, noteDoc).Result;
+                        notenizerNote.Rule = DocumentParser.ParseNoteRule(noteDoc);
                     }
                 }).ContinueWith(delegate
                 {
-                    (sender as NotenizerAdvancedTextBox).PerformSafely(() => (sender as NotenizerAdvancedTextBox).AdvancedTextBox.TextBox.Text = note.Value);
+                    (sender as NotenizerAdvancedTextBox).PerformSafely(() => (sender as NotenizerAdvancedTextBox).AdvancedTextBox.TextBox.Text = notenizerNote.Value);
                     this._advancedProgressBar.StopAndReset();
                 });
             }

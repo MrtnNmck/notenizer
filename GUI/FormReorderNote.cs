@@ -17,9 +17,9 @@ namespace nsGUI
     public partial class FormReorderNote : Form
     {
         private List<NotePart> _noteParts;
-        private Note _note;
+        private NotenizerNote _note;
 
-        public FormReorderNote(Note note)
+        public FormReorderNote(NotenizerNote note)
         {
             this._note = note;
             InitializeComponent();

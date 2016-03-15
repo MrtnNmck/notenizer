@@ -25,19 +25,19 @@ namespace nsNotenizer
     {
         private bool _redirectOutputToFile = false;
         private String _redirectOutputToFileFileName = @"./out.txt";
-        List<Note> _notes;
-        List<Note> _andNotes;
+        List<NotenizerNote> _notes;
+        List<NotenizerNote> _andNotes;
 
 		public Notenizer()
 		{
 		}
 
-        public List<Note> Notes
+        public List<NotenizerNote> Notes
         {
             get { return _notes; }
         }
 
-        public List<Note> AndNotes
+        public List<NotenizerNote> AndNotes
         {
             get { return _andNotes; }
         }
@@ -116,10 +116,10 @@ namespace nsNotenizer
         /// </summary>
         /// <param name="annotation"></param>
         /// <returns></returns>
-        public List<Note> Parse(Annotation annotation)
+        public List<NotenizerNote> Parse(Annotation annotation)
         {
-            List<Note> sentencesNoted = new List<Note>();
-            List<Note> notesToSave = new List<Note>();
+            List<NotenizerNote> sentencesNoted = new List<NotenizerNote>();
+            List<NotenizerNote> notesToSave = new List<NotenizerNote>();
 
             // ================== REFACTORED PART HERE ======================
             foreach (Annotation sentenceLoop in annotation.get(typeof(CoreAnnotations.SentencesAnnotation)) as ArrayList)
@@ -130,21 +130,21 @@ namespace nsNotenizer
 
                 if (rule != null && rule.RuleDependencies != null && rule.RuleDependencies.Count > 0)
                 {
-                    Note parsedNote = ApplyRule(sentence, rule);
+                    NotenizerNote parsedNote = ApplyRule(sentence, rule);
                     Console.WriteLine("Parsed note: " + parsedNote.OriginalSentence + " ===> " + parsedNote.Value);
                     sentencesNoted.Add(parsedNote);
 
                     continue;
                 }
 
-                Note note = StaticParser(sentence);
+                NotenizerNote note = StaticParser(sentence);
                 //sentencesNoted.Add(note);
                 notesToSave.Add(note);
             }
 
             // inserting into DB AFTER ALL sentences from article were processed
             // to avoid processed sentence to affect processing other sentences from article
-            foreach (Note sentenceNotedLoop in notesToSave)
+            foreach (NotenizerNote sentenceNotedLoop in notesToSave)
             {
                 String noteRuleId = DB.InsertToCollection(DBConstants.NoteRulesCollectionName, DocumentCreator.CreateNoteRuleDocument(sentenceNotedLoop)).Result;
                 String id = DB.InsertToCollection(DBConstants.NotesCollectionName, DocumentCreator.CreateNoteDocument(sentenceNotedLoop, String.Empty, noteRuleId, String.Empty)).Result;
@@ -153,7 +153,7 @@ namespace nsNotenizer
 
                 if (rule != null && rule.RuleDependencies != null && rule.RuleDependencies.Count > 0)
                 {
-                    Note parsedNote = ApplyRule(sentenceNotedLoop.OriginalSentence, rule);
+                    NotenizerNote parsedNote = ApplyRule(sentenceNotedLoop.OriginalSentence, rule);
                     Console.WriteLine("Parsed note: " + parsedNote.OriginalSentence + " ===> " + parsedNote.Value);
                     sentencesNoted.Add(parsedNote);
 
@@ -164,9 +164,9 @@ namespace nsNotenizer
             return sentencesNoted;
         }
 
-        private Note StaticParser(NotenizerSentence sentence)
+        private NotenizerNote StaticParser(NotenizerSentence sentence)
         {
-            Note note = new Note(sentence);
+            NotenizerNote note = new NotenizerNote(sentence);
 
             foreach (NotenizerDependency dependencyLoop in sentence.Dependencies)
             {
@@ -425,12 +425,12 @@ namespace nsNotenizer
         /// Prints notes to console.
         /// </summary>
         /// <param name="notes"></param>
-        public void PrintNotes(List<Note> notes)
+        public void PrintNotes(List<NotenizerNote> notes)
         {
             Console.WriteLine();
             Console.WriteLine("<======== NOTES ========>");
 
-            foreach (Note noteLoop in notes)
+            foreach (NotenizerNote noteLoop in notes)
             {
                 Console.WriteLine(noteLoop.OriginalSentence + " ---> " + noteLoop.Value);
             }
@@ -462,9 +462,9 @@ namespace nsNotenizer
         /// <param name="sentence">Sentence to apply rule to</param>
         /// <param name="rule">Rule for parsing to apply</param>
         /// <returns></returns>
-        private Note ApplyRule(NotenizerSentence sentence, NotenizerNoteRule rule)
+        private NotenizerNote ApplyRule(NotenizerSentence sentence, NotenizerNoteRule rule)
         {
-            Note note = new Note(sentence);
+            NotenizerNote note = new NotenizerNote(sentence);
             NotePart notePart = new NotePart(sentence);
 
             foreach (NotenizerDependency ruleLoop in rule.RuleDependencies)
@@ -504,12 +504,12 @@ namespace nsNotenizer
             }
         }
 
-        private List<Note> AndParserFn(Annotation annotation)
+        private List<NotenizerNote> AndParserFn(Annotation annotation)
         {
             AndParser andParser = new AndParser();
 
-            List<Note> notes = new List<Note>();
-            List<Note> andNotes = new List<Note>();
+            List<NotenizerNote> notes = new List<NotenizerNote>();
+            List<NotenizerNote> andNotes = new List<NotenizerNote>();
 
             NoteParticle processAndConjuctionsStartingParticle = null;
             List<NotenizerDependency> processAndConjuctionsConjuctions = null;
@@ -519,14 +519,14 @@ namespace nsNotenizer
                 notes.Add(StaticParser(new NotenizerSentence(sentenceLoop)));
             }
 
-            foreach(Note noteLoop in notes)
+            foreach(NotenizerNote noteLoop in notes)
             {
                 if (!noteLoop.OriginalSentence.CompressedDependencies.ContainsKey(GrammaticalConstants.Conjuction)
                     || noteLoop.OriginalSentence.CompressedDependencies[GrammaticalConstants.Conjuction] == null
                     || !noteLoop.OriginalSentence.CompressedDependencies[GrammaticalConstants.Conjuction].Any(x => x.Relation.Specific == GrammaticalConstants.AndConjuction))
                     continue;
                 andParser.GetAndSets(noteLoop.OriginalSentence);
-                Note note = new Note(noteLoop.OriginalSentence);
+                NotenizerNote note = new NotenizerNote(noteLoop.OriginalSentence);
 
                 foreach(NotePart notePartLoop in noteLoop.NoteParts)
                 {

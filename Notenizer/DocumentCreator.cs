@@ -13,7 +13,7 @@ namespace nsNotenizer
 {
     public static class DocumentCreator
     {
-        public static BsonDocument CreateNoteDocument(Note note, String articleId, String noteRuleId, String andParseRuleId)
+        public static BsonDocument CreateNoteDocument(NotenizerNote note, String articleId, String noteRuleId, String andParseRuleId)
         {
             BsonDocument doc = new BsonDocument();
             BsonValue articleObjectId;
@@ -37,6 +37,9 @@ namespace nsNotenizer
             doc.Add(DBConstants.ArticleIdFieldName, articleObjectId);
             doc.Add(DBConstants.NoteRuleRefIdFieldName, ObjectId.Parse(noteRuleId));
             doc.Add(DBConstants.AndParserRuleRefIdFieldName, andParserRuleObjectId);
+            doc.Add(DBConstants.CreatedByFieldName, new BsonInt32((int)note.CreatedBy));
+            doc.Add(DBConstants.CreatedAtFieldName, new BsonDateTime(note.CreatedAt));
+            doc.Add(DBConstants.UpdatedAtFieldName, new BsonDateTime(note.UpdatedAt));
 
             foreach (NotenizerDependency dependencyLoop in note.OriginalSentence.Dependencies)
             {
@@ -48,14 +51,24 @@ namespace nsNotenizer
             return doc;
         }
 
-        public static BsonDocument CreateNoteRuleDocument(Note note)
+        public static BsonDocument CreateNoteRuleDocument(NotenizerNote note)
+        {
+            return CreateNoteRuleDocument(DateTime.Now, DateTime.Now, CreatedBy.Notenizer, note);
+        }
+
+        public static BsonDocument CreateNoteRuleDocument(NotenizerNoteRule rule, NotenizerNote note)
+        {
+            return CreateNoteRuleDocument(rule.CreatedAt, rule.UpdatedAt, rule.CreatedBy, note);
+        }
+
+        public static BsonDocument CreateNoteRuleDocument(DateTime createdAt, DateTime updatedAt, CreatedBy createdBy, NotenizerNote note)
         {
             BsonDocument doc = new BsonDocument();
             BsonArray sentencesEnds = new BsonArray();
 
-            doc.Add(DBConstants.CreatedByFieldName, new BsonInt32((int)note.CreatedBy));
-            doc.Add(DBConstants.CreatedAtFieldName, new BsonDateTime(note.CreatedAt));
-            doc.Add(DBConstants.UpdatedAtFieldName, new BsonDateTime(note.UpdatedAt));
+            doc.Add(DBConstants.CreatedByFieldName, new BsonInt32((int)createdBy));
+            doc.Add(DBConstants.CreatedAtFieldName, new BsonDateTime(createdAt));
+            doc.Add(DBConstants.UpdatedAtFieldName, new BsonDateTime(updatedAt));
             doc.Add(DBConstants.SentencesEndsFieldName, sentencesEnds);
 
             BsonArray noteDependenciesArr = CreateNoteRuleNotDependenciesArray(note, sentencesEnds);
@@ -65,7 +78,7 @@ namespace nsNotenizer
             return doc;
         }
 
-        public static BsonDocument CreateAndParserRuleDocument(Note note, List<NotePart> andParserRuleNoteParts, int setsPosition)
+        public static BsonDocument CreateAndParserRuleDocument(NotenizerNote note, List<NotePart> andParserRuleNoteParts, int setsPosition)
         {
             BsonDocument doc = new BsonDocument();
             Dictionary<String, BsonArray> dependencies = new Dictionary<String, BsonArray>();
@@ -82,7 +95,7 @@ namespace nsNotenizer
             return doc;
         }
 
-        public static BsonDocument CreateNoteDocument(Note note, int articleId, List<int> andSetsPositions)
+        public static BsonDocument CreateNoteDocument(NotenizerNote note, int articleId, List<int> andSetsPositions)
         {
             BsonDocument doc = CreateNoteDocument(note, articleId);
 
@@ -91,7 +104,7 @@ namespace nsNotenizer
             return doc;
         }
 
-        public static BsonDocument CreateNoteDocument(Note note, int articleId)
+        public static BsonDocument CreateNoteDocument(NotenizerNote note, int articleId)
         {
             int dependencyPosition = 0;
             Dictionary<String, BsonArray> dependencies = new Dictionary<String, BsonArray>();
@@ -136,7 +149,7 @@ namespace nsNotenizer
             return CreateNoteRuleNotDependenciesArray(noteParts, temp);
         }
 
-        public static BsonArray CreateNoteRuleNotDependenciesArray(Note note, BsonArray sentencesEnds)
+        public static BsonArray CreateNoteRuleNotDependenciesArray(NotenizerNote note, BsonArray sentencesEnds)
         {
             return CreateNoteRuleNotDependenciesArray(note.NoteParts, sentencesEnds);
         }

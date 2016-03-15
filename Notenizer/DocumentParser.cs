@@ -78,6 +78,25 @@ namespace nsNotenizer
             return dependencies;
         }
 
+        public static Note ParseNote(BsonDocument dbEntry)
+        {
+            String id;
+            String originalSentence;
+            String note;
+            DateTime createdAt;
+            DateTime updatedAt;
+            CreatedBy createdBy;
+
+            id = dbEntry[DBConstants.IdFieldName].AsObjectId.ToString();
+            originalSentence = dbEntry[DBConstants.OriginalSentenceFieldName].AsString;
+            note = dbEntry[DBConstants.NoteFieldName].AsString;
+            createdAt = dbEntry[DBConstants.CreatedAtFieldName].ToUniversalTime();
+            updatedAt = dbEntry[DBConstants.UpdatedAtFieldName].ToUniversalTime();
+            createdBy = dbEntry[DBConstants.CreatedByFieldName].AsInt32.ToEnum<CreatedBy>();
+
+            return new Note(id, originalSentence, note, createdAt, updatedAt, createdBy);
+        }
+
         /// <summary>
         /// Gets rule for parsing with the heighest match with original sentence.
         /// </summary>
@@ -87,12 +106,13 @@ namespace nsNotenizer
         public static NotenizerNoteRule GetHeighestMatch(NotenizerSentence sentence, List<BsonDocument> dbEntries)
         {
             NotenizerNoteRule rule = null;
+
             foreach (BsonDocument bsonDocLoop in dbEntries)
             {
                 BsonDocument ruleDocument = DB.GetFirst(DBConstants.NoteRulesCollectionName, DocumentCreator.CreateFilterById(bsonDocLoop[DBConstants.NoteRuleRefIdFieldName].AsObjectId.ToString())).Result;
                 NotenizerNoteRule r = ParseNoteRule(ruleDocument);
 
-                r.NoteID = bsonDocLoop[DBConstants.IdFieldName].AsObjectId.ToString();
+                r.Note = ParseNote(bsonDocLoop);
                 r.Match = CalculateMatch(sentence, r.RuleDependencies, bsonDocLoop);
 
                 if (rule == null || rule.Match < r.Match || (rule.Match == r.Match && rule.CreatedBy == CreatedBy.Notenizer && r.CreatedBy == CreatedBy.User))

@@ -48,9 +48,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Note.cs" />
     <Compile Include="NotenizerAndParserRule.cs" />
     <Compile Include="NotenizerDependency.cs" />
-    <Compile Include="Note.cs" />
+    <Compile Include="NotenizerNote.cs" />
     <Compile Include="NotenizerNoteRule.cs" />
     <Compile Include="NotenizerRule.cs" />
     <Compile Include="NoteParticle.cs" />
