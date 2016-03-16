@@ -53,15 +53,28 @@ namespace nsNotenizerObjects
                 NotenizerDependency dep = new NotenizerDependency(typedDependencyLoop);
 
                 dependencies.Add(dep);
+                AddToCompressedDependencies(dep, ref map);
 
-                if (!map.ContainsKey(dep.Relation.ShortName))
-                    map.Add(dep.Relation.ShortName, new List<NotenizerDependency>() { dep });
-                else
-                    map[dep.Relation.ShortName].Add(dep);
+                if (dep.Relation.IsNominalSubject())
+                {
+                    NotenizerDependency nsubjComplement = new NotenizerDependency(typedDependencyLoop);
+
+                    nsubjComplement.TokenType = dep.TokenType == TokenType.Dependent ? TokenType.Governor : TokenType.Dependent;
+                    dependencies.Add(nsubjComplement);
+                    AddToCompressedDependencies(nsubjComplement, ref map);
+                }
             }
 
             return dependencies;
 		}
+
+        private void AddToCompressedDependencies(NotenizerDependency dep, ref Dictionary<String, List<NotenizerDependency>> map)
+        {
+            if (!map.ContainsKey(dep.Relation.ShortName))
+                map.Add(dep.Relation.ShortName, new List<NotenizerDependency>() { dep });
+            else
+                map[dep.Relation.ShortName].Add(dep);
+        }
 
         /// <summary>
         /// Gets first or null dependency by short name.

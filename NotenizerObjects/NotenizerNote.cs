@@ -3,6 +3,7 @@ using System;
 using nsExtensions;
 using System.Collections.Generic;
 using nsEnums;
+using System.Linq;
 
 namespace nsNotenizerObjects
 {
@@ -101,6 +102,23 @@ namespace nsNotenizerObjects
                 {
                     if (!originalDependencyLoop.Relation.IsRelation(GrammaticalConstants.Root) && !noteDependencies.Exists(x => x.Key == originalDependencyLoop.Key))
                         unusedDependencies.Add(originalDependencyLoop);
+                }
+
+                // we need to check, if both tokens of NSUBJ / NSUBJPASS were in note dependencies
+                // if not, we need to add the other one to the unused dependencies.
+                IEnumerable<NotenizerDependency> nsubjDependencies = new List<NotenizerDependency>();
+
+                if (_originalSentence.CompressedDependencies.ContainsKey(GrammaticalConstants.NominalSubject))
+                    nsubjDependencies = _originalSentence.CompressedDependencies[GrammaticalConstants.NominalSubject];
+
+                if (_originalSentence.CompressedDependencies.ContainsKey(GrammaticalConstants.NominalSubjectPassive))
+                    nsubjDependencies = nsubjDependencies.Concat(_originalSentence.CompressedDependencies[GrammaticalConstants.NominalSubjectPassive]);
+
+                foreach (NotenizerDependency nsubjDependencyLoop in nsubjDependencies)
+                {
+                    if (!noteDependencies.Exists(x => x.Key == nsubjDependencyLoop.Key && x.TokenType == nsubjDependencyLoop.TokenType)
+                        && !noteDependencies.Exists(x => x.Key == nsubjDependencyLoop.Key && x.TokenType == nsubjDependencyLoop.TokenType))
+                        unusedDependencies.Add(nsubjDependencyLoop);
                 }
 
                 return unusedDependencies;

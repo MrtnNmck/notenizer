@@ -493,14 +493,14 @@ namespace nsNotenizer
 
             if (dependency != null)
             {
-                NoteParticle dependencyObj = new NoteParticle(dependency, TokenType.Dependent);
+                NoteParticle dependencyObj = new NoteParticle(dependency, rule.TokenType);
                 notePart.Add(dependencyObj);
 
-                if (dependency.Relation.IsNominalSubject())
-                {
-                    NoteParticle govObj = new NoteParticle(dependency, TokenType.Governor);
-                    notePart.Add(govObj);
-                }
+                //if (dependency.Relation.IsNominalSubject())
+                //{
+                //    NoteParticle govObj = new NoteParticle(dependency, TokenType.Governor);
+                //    notePart.Add(govObj);
+                //}
             }
         }
 
