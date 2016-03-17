@@ -117,6 +117,9 @@ Otazky:
 - nadradeny token a podriadeny token (hlavny a vedlajsi) (governor, dependent)
 - priloha
 	- pomenovania dependencies
+
+- uvod
+- kurziva v pseudokode
 ===============================================================================================================================================================
 
 TODO:

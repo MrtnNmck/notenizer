@@ -55,7 +55,9 @@ namespace nsGUI
             foreach (NotenizerDependency originalSentenceDependencyLoop in note.UnusedDependencies)
             {
                 NotenizerDependency clonedDependency = originalSentenceDependencyLoop.Clone();
-                clonedDependency.TokenType = TokenType.Dependent;
+
+                if (!clonedDependency.Relation.IsNominalSubject())
+                    clonedDependency.TokenType = TokenType.Dependent;
 
                 this._flowLayoutPanelDeleted.Controls.Add(new NotenizerAdvancedLabel(clonedDependency));
             }

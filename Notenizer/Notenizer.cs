@@ -144,6 +144,12 @@ namespace nsNotenizer
 
             // inserting into DB AFTER ALL sentences from article were processed
             // to avoid processed sentence to affect processing other sentences from article
+            //
+            // TODO:
+            // we need to change this
+            // it's bad to go again to DB just to parse rule from result of it
+            // we have all the information to create note just now
+            // maybe somthing like: note.CreateRule()
             foreach (NotenizerNote sentenceNotedLoop in notesToSave)
             {
                 String noteRuleId = DB.InsertToCollection(DBConstants.NoteRulesCollectionName, DocumentCreator.CreateNoteRuleDocument(sentenceNotedLoop)).Result;
@@ -170,8 +176,11 @@ namespace nsNotenizer
 
             foreach (NotenizerDependency dependencyLoop in sentence.Dependencies)
             {
-                if (dependencyLoop.Relation.IsRelation(GrammaticalConstants.NominalSubject)
-                    || dependencyLoop.Relation.IsRelation(GrammaticalConstants.NominalSubjectPassive))
+                if (dependencyLoop.Relation.IsNominalSubject()
+                    && !((note.CompressedDependencies.ContainsKey(GrammaticalConstants.NominalSubject) 
+                            && note.CompressedDependencies[GrammaticalConstants.NominalSubject].Any(x => x.Key == dependencyLoop.Key))
+                        || (note.CompressedDependencies.ContainsKey(GrammaticalConstants.NominalSubjectPassive) 
+                            && note.CompressedDependencies[GrammaticalConstants.NominalSubjectPassive].Any(x => x.Key == dependencyLoop.Key))))
                 {
                     NotePart notePart = new NotePart(sentence);
 

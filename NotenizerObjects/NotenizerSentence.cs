@@ -13,13 +13,13 @@ namespace nsNotenizerObjects
     public class NotenizerSentence
     {
 		private List<NotenizerDependency> _dependencies;
-        private Dictionary<String, List<NotenizerDependency>> _nameDependencyDic;
+        private CompressedDependencies _compressedDependencies;
 		private Annotation _annotation;
 
 		public NotenizerSentence(Annotation annotation)
 		{
 			_annotation = annotation;
-			_dependencies = GetDepencencies(annotation, ref _nameDependencyDic);
+			_dependencies = GetDepencencies(annotation, ref _compressedDependencies);
 		}
 
         public List<NotenizerDependency> Dependencies
@@ -29,15 +29,15 @@ namespace nsNotenizerObjects
 
         public int DistinctDependenciesCount
         {
-            get { return _nameDependencyDic.Keys.Count; }
+            get { return _compressedDependencies.Keys.Count; }
         }
 
-        public Dictionary<String, List<NotenizerDependency>> CompressedDependencies
+        public CompressedDependencies CompressedDependencies
         {
-            get { return _nameDependencyDic; }
+            get { return _compressedDependencies; }
         }
 
-        private List<NotenizerDependency> GetDepencencies(Annotation annotation, ref Dictionary<String, List<NotenizerDependency>> map)
+        private List<NotenizerDependency> GetDepencencies(Annotation annotation, ref CompressedDependencies compressedDependencies)
 		{
 			Tree tree = annotation.get(typeof(TreeCoreAnnotations.TreeAnnotation)) as Tree;
 			TreebankLanguagePack treeBankLangPack = new PennTreebankLanguagePack();
@@ -46,14 +46,14 @@ namespace nsNotenizerObjects
 			java.util.Collection typedDependencies = gramStruct.typedDependenciesCollapsed();
 
             List<NotenizerDependency> dependencies = new List<NotenizerDependency>();
-            map = new Dictionary<String, List<NotenizerDependency>>();
+            compressedDependencies = new CompressedDependencies();
 
             foreach (TypedDependency typedDependencyLoop in (typedDependencies as java.util.ArrayList))
             {
                 NotenizerDependency dep = new NotenizerDependency(typedDependencyLoop);
 
                 dependencies.Add(dep);
-                AddToCompressedDependencies(dep, ref map);
+                compressedDependencies.Add(dep);
 
                 if (dep.Relation.IsNominalSubject())
                 {
@@ -61,7 +61,7 @@ namespace nsNotenizerObjects
 
                     nsubjComplement.TokenType = dep.TokenType == TokenType.Dependent ? TokenType.Governor : TokenType.Dependent;
                     dependencies.Add(nsubjComplement);
-                    AddToCompressedDependencies(nsubjComplement, ref map);
+                    compressedDependencies.Add(nsubjComplement);
                 }
             }
 
@@ -86,9 +86,9 @@ namespace nsNotenizerObjects
         {
             foreach (String dependencyShortNameLoop in dependencyShortNames)
             {
-                if (_nameDependencyDic.ContainsKey(dependencyShortNameLoop))
+                if (_compressedDependencies.ContainsKey(dependencyShortNameLoop))
                 {
-                    foreach (NotenizerDependency dependencyLoop in _nameDependencyDic[dependencyShortNameLoop])
+                    foreach (NotenizerDependency dependencyLoop in _compressedDependencies[dependencyShortNameLoop])
                     {
                         if (CompareDependencies(mainDependency, dependencyLoop, comparisonType))
                         {
@@ -108,9 +108,9 @@ namespace nsNotenizerObjects
 
             foreach (String dependencyShortNameLoop in dependencyShortNames)
             {
-                if (_nameDependencyDic.ContainsKey(dependencyShortNameLoop))
+                if (_compressedDependencies.ContainsKey(dependencyShortNameLoop))
                 {
-                    foreach (NotenizerDependency dependencyLoop in _nameDependencyDic[dependencyShortNameLoop])
+                    foreach (NotenizerDependency dependencyLoop in _compressedDependencies[dependencyShortNameLoop])
                     {
                         if (CompareDependencies(mainDependency, dependencyLoop, comparisonType))
                         {
@@ -146,9 +146,9 @@ namespace nsNotenizerObjects
 
         public NotenizerDependency FindDependency(NotenizerDependency ruleDependency)
         {
-            if (_nameDependencyDic.ContainsKey(ruleDependency.Relation.ShortName))
+            if (_compressedDependencies.ContainsKey(ruleDependency.Relation.ShortName))
             {
-                foreach (NotenizerDependency dependencyLoop in _nameDependencyDic[ruleDependency.Relation.ShortName])
+                foreach (NotenizerDependency dependencyLoop in _compressedDependencies[ruleDependency.Relation.ShortName])
                 {
                     if (dependencyLoop.Governor.POS == ruleDependency.Governor.POS
                         && dependencyLoop.Governor.Index == ruleDependency.Governor.Index

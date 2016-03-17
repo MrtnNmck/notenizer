@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CompressedDependencies.cs" />
     <Compile Include="Note.cs" />
     <Compile Include="NotenizerAndParserRule.cs" />
     <Compile Include="NotenizerDependency.cs" />

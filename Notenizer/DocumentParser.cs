@@ -211,7 +211,7 @@ namespace nsNotenizer
                 }
             }
 
-            return counter;
+            return Math.Round(counter);
         }
     }
 }

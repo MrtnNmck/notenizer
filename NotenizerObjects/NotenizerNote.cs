@@ -16,6 +16,7 @@ namespace nsNotenizerObjects
         private DateTime _createdAt;
         private DateTime _updatedAt;
         private NotenizerNoteRule _rule;
+        private CompressedDependencies _compressedDependencies;
 
         public NotenizerNote(NotenizerSentence originalSentence)
         {
@@ -24,6 +25,7 @@ namespace nsNotenizerObjects
             _originalSentence = originalSentence;
             _createdAt = DateTime.Now;
             _updatedAt = DateTime.Now;
+            _compressedDependencies = new CompressedDependencies();
         }
 
         /// <summary>
@@ -117,7 +119,7 @@ namespace nsNotenizerObjects
                 foreach (NotenizerDependency nsubjDependencyLoop in nsubjDependencies)
                 {
                     if (!noteDependencies.Exists(x => x.Key == nsubjDependencyLoop.Key && x.TokenType == nsubjDependencyLoop.TokenType)
-                        && !noteDependencies.Exists(x => x.Key == nsubjDependencyLoop.Key && x.TokenType == nsubjDependencyLoop.TokenType))
+                        && !unusedDependencies.Exists(x => x.Key == nsubjDependencyLoop.Key && x.TokenType == nsubjDependencyLoop.TokenType))
                         unusedDependencies.Add(nsubjDependencyLoop);
                 }
 
@@ -129,6 +131,11 @@ namespace nsNotenizerObjects
         {
             get { return _rule; }
             set { _rule = value; }
+        }
+
+        public CompressedDependencies CompressedDependencies
+        {
+            get { return _compressedDependencies; }
         }
 
         public void Replace(List<NotePart> noteParts)
@@ -157,6 +164,9 @@ namespace nsNotenizerObjects
         {
             _note += notePart.Value.Trim().CapitalizeSentence() + NotenizerConstants.SentenceDelimeter;
             _noteParts.Add(notePart);
+
+            foreach (NoteParticle notePartNoteParticleLoop in notePart.InitializedNoteParticles)
+                _compressedDependencies.Add(notePartNoteParticleLoop.NoteDependency);
         }
 
         /// <summary>
