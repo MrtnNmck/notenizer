@@ -40,9 +40,10 @@ namespace nsComponents
 
         public NotenizerAdvancedTextBox(NotenizerNote note)
         {
+            this._note = note;
+
             Init();
 
-            this._note = note;
             this._advancedTextBox.TextBox.Text = note.Value;
         }
 
@@ -61,6 +62,7 @@ namespace nsComponents
 
             InitEditButton();
             InitAndParseButton();
+            SetTooltip();
 
             this.Margin = new Padding(0);
             this.Padding = new Padding(0);
@@ -133,6 +135,15 @@ namespace nsComponents
 
             this._buttonPanel = new FlowLayoutPanel();
             this._buttonPanel.Dock = DockStyle.Fill;
+        }
+
+        private void SetTooltip()
+        {
+            ToolTip tooltip = new ToolTip();
+            tooltip.IsBalloon = true;
+            tooltip.InitialDelay = 0;
+            tooltip.ShowAlways = true;
+            tooltip.SetToolTip(this._advancedTextBox.TextBox, "Match: " + _note.Rule.Match + "%");
         }
     }
 }

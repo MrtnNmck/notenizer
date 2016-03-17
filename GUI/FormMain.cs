@@ -18,6 +18,17 @@ namespace nsGUI
 
         public FormMain()
         {
+            Init();
+        }
+
+        public FormMain(String text)
+        {
+            Init();
+            ProcessText(text);
+        }
+
+        private void Init()
+        {
             _notenizer = new Notenizer();
 
             InitializeComponent();
@@ -67,9 +78,22 @@ namespace nsGUI
             this._tableLayoutPanelMain.PerformLayout();
         }
 
+        private void ProcessText(String text)
+        {
+            this._advancedProgressBar.Start();
+
+            Task.Factory.StartNew(() =>
+            {
+                this._notenizer.RunCoreNLP(text);
+            }).ContinueWith(delegate {
+                ShowNotes(this._notenizer.Notes);
+                this._advancedProgressBar.StopAndReset();
+            });
+        }
+
         #region Event Handlers
 
-        private void Menu_Quit(object sendet, EventArgs e)
+        private void Menu_Quit(object sender, EventArgs e)
         {
             if (MessageBox.Show("Do you really want to quit?", "Quit confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 this.Dispose();
@@ -82,15 +106,8 @@ namespace nsGUI
             if (frmTextInputer.ShowDialog() == DialogResult.OK)
             {
                 string textForProcessing = frmTextInputer.TextForProcessing;
-                this._advancedProgressBar.Start();
 
-                Task.Factory.StartNew(() =>
-                {
-                    this._notenizer.RunCoreNLP(textForProcessing);
-                }).ContinueWith(delegate {
-                    ShowNotes(this._notenizer.Notes);
-                    this._advancedProgressBar.StopAndReset();
-                });
+                ProcessText(textForProcessing);
             }
         }
 
@@ -115,21 +132,20 @@ namespace nsGUI
                     String noteId;
                     String ruleId;
                     BsonDocument ruleDoc;
+                    ruleDoc = DocumentCreator.CreateNoteRuleDocument(notenizerNote.Rule, notenizerNote);
 
                     if (notenizerNote.Rule == null)
                         throw new Exception("NotenizerNote.Rule is null!");
 
                     notenizerNote.Rule.UpdatedAt = DateTime.Now;
-                    if (notenizerNote.Rule.CreatedBy == nsEnums.CreatedBy.Notenizer)    // insert
+                    if (notenizerNote.Rule.CreatedBy == nsEnums.CreatedBy.Notenizer || notenizerNote.Rule.Match < 100.0)    // insert
                     {
                         notenizerNote.Rule.CreatedBy = nsEnums.CreatedBy.User;
-
-                        ruleDoc = DocumentCreator.CreateNoteRuleDocument(notenizerNote.Rule, notenizerNote);
+   
                         ruleId = DB.InsertToCollection(DBConstants.NoteRulesCollectionName, ruleDoc).Result;
                     }
                     else                                                                // update
                     {
-                        ruleDoc = DocumentCreator.CreateNoteRuleDocument(notenizerNote.Rule, notenizerNote);
                         ruleId = DB.ReplaceInCollection(DBConstants.NoteRulesCollectionName, notenizerNote.Rule.ID, ruleDoc).Result;
                     }
 

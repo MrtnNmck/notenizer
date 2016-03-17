@@ -120,6 +120,7 @@ Otazky:
 
 - uvod
 - kurziva v pseudokode
+
 ===============================================================================================================================================================
 
 TODO:
@@ -162,6 +163,10 @@ TODO:
         - ak bola 100%-na zhoda pravidla so spracovavanou vetou, tak nevytvarat novy zaznam, ale len update
         - zabaranime tym mnozeniu dat, a hlavne nebudeme mat pre jednu vetu viacero pravidiel s rovankymi zhodami
             - tym padom by sa vybralo prve v poradi, co nemusi byt ziadany pripad
+
+    DONE - vysetrit chybu, preco sa neponukaju vsetky slova (dependencies) z editovanet poznamky - vety v unused words
+    	- pri editacii poznamky vety z clanku o cestu a ich prezidentovi tam chyba Zeman
+    	- clear DB -> parse clanok o SVK -> parse clanok o CZ
         
     - AND-Parser
         - do additionalInfomation pridat dalsie pole, ktore bude oznacot miesto, kde doplnit rozprsovane AND spojenie
@@ -174,9 +179,9 @@ TODO:
     - ukladat clanky
     	- parovat poznamky s clankom
 
-    - vysetrit chybu, preco sa neponukaju vsetky slova (dependencies) z editovanet poznamky - vety v unused words
-    	- pri editacii poznamky vety z clanku o cestu a ich prezidentovi tam chyba Zeman
-    	- clear DB -> parse clanok o SVK -> parse clanok o CZ
+    - zmena (update) pravidla len pri 100% zhode?
+    	- ak to budem updejtovat aj pri inej zhode, tak vlastne menim poznamky aj pre ine vety, v ktorych mohla byt co i len nizka zhoda, ale najvyssia spomedzi dostupnych 
+    	  a tym padom si mozem rozhasit ostatne poznamky
     	
     - prehodit rule -> note
     	- teraz objekt note obsahuje Rule, malo byt to byt naopak: Rule bude obsahovat Note

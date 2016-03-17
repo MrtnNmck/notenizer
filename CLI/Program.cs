@@ -8,13 +8,14 @@ using nsDB;
 using System.Windows.Forms;
 using nsGUI;
 
-namespace CLI
+namespace nsCLI
 {
 	class Program
 	{
         [STAThread]
         static void Main(string[] args)
 		{
+            Options options = new Options();
 			Notenizer notenizer = new Notenizer();
             //String text = @"Slovakia (Slovak: Slovensko) (Official name The Slovak Republic, Slovenská republika) is a country with no access to the ocean in Central Europe. It is bordered by Austria in the southwest, Hungary in the south, Ukraine in the east, Poland in the north and Czech Republic in the northwest. Its capital city is Bratislava. Other main cities are Košice, Banská Bystrica, Žilina, Trenčín, Nitra, Prešov, and Trnava. Slovakia is a member of the European Union.";
             //String text = "Hungary is a country in Central Europe. Its capital city is Budapest. Hungary is slightly bigger than its western neighbour Austria and has about 10 million inhabitants. Other countries that border Hungary are Slovakia, Ukraine, Romania, Serbia, Croatia and Slovenia. Hungary's official language is the Hungarian language. It has been a member of the European Union (EU) since 2004. In Hungarian the country is called Magyarország (Hungary) or Magyar Köztársaság (Hungarian Republic). This is named after the Magyar tribes who came to Hungary in the late 9th century.";
@@ -23,13 +24,24 @@ namespace CLI
             //String text = "Regan has died.";
             //String text = "She looks very beautiful.";
 
-            //var s = DB.GetAll("notes").Result;
-
-            //notenizer.RunCoreNLP(text);
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new FormMain());
-            //Console.ReadKey();
+
+            if (CommandLine.Parser.Default.ParseArguments(args, options))
+            {
+                if (options.GUI)
+                {
+                    if (options.Text == String.Empty)
+                        Application.Run(new FormMain());
+                    else
+                        Application.Run(new FormMain(options.Text));
+                }
+                else if (!options.GUI)
+                {
+                    if (options.Text != String.Empty)
+                        notenizer.RunCoreNLP(options.Text);
+                }
+            }
         }
 	}
 }

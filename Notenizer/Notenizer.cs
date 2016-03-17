@@ -27,6 +27,7 @@ namespace nsNotenizer
         private String _redirectOutputToFileFileName = @"./out.txt";
         List<NotenizerNote> _notes;
         List<NotenizerNote> _andNotes;
+        StanfordCoreNLP _pipeline;
 
 		public Notenizer()
 		{
@@ -42,39 +43,51 @@ namespace nsNotenizer
             get { return _andNotes; }
         }
 
-        public void RunCoreNLP(String text = null)
+        /// <summary>
+        /// Singleton.
+        /// </summary>
+        private StanfordCoreNLP Pipeline
         {
-            String jarRoot = @"stanford-corenlp-3.5.2-models";
+            get
+            {
+                if (_pipeline == null)
+                {
+                    String jarRoot = @"stanford-corenlp-3.5.2-models";
 
-            // Text for processing
-            if (text == null)
-                text = "Kosgi Santosh sent an email to Stanford University. He didn't get a reply.";
+                    // Annotation pipeline configuration
+                    Properties properties = new Properties();
+                    properties.setProperty("annotators", "tokenize, ssplit, pos, parse");
+                    properties.setProperty("sutime.binders", "0");
+                    properties.setProperty("ner.useSUTime", "false");
 
-            // Annotation pipeline configuration
-            Properties properties = new Properties();
-            //props.setProperty("annotators", "tokenize, ssplit, pos, lemma, ner, parse, dcoref");
-            // Zvolíme, ktoré nástroje chceme použiť.
-            // pos = part-of-speech tagger
-            // ssplit = sentence split
-            // atd.
-            properties.setProperty("annotators", "tokenize, ssplit, pos, parse");
-            properties.setProperty("sutime.binders", "0");
-            properties.setProperty("ner.useSUTime", "false");
+                    // bugfix for time exception
+                    CultureInfo cultureInfo = new CultureInfo("en-US");
+                    Thread.CurrentThread.CurrentCulture = cultureInfo;
+                    Thread.CurrentThread.CurrentUICulture = cultureInfo;
 
-            // bugfix for time exception
-            CultureInfo cultureInfo = new CultureInfo("en-US");
-            Thread.CurrentThread.CurrentCulture = cultureInfo;
-            Thread.CurrentThread.CurrentUICulture = cultureInfo;
+                    // We should change current directory, so StanfordCoreNLP could find all the model files automatically
+                    String currentDirectory = Environment.CurrentDirectory;
+                    Directory.SetCurrentDirectory(jarRoot);
+                    _pipeline = new StanfordCoreNLP(properties);
+                    Directory.SetCurrentDirectory(currentDirectory);
+                }
 
-            // We should change current directory, so StanfordCoreNLP could find all the model files automatically
-            String currentDirectory = Environment.CurrentDirectory;
-            Directory.SetCurrentDirectory(jarRoot);
-            StanfordCoreNLP pipeline = new StanfordCoreNLP(properties);
-            Directory.SetCurrentDirectory(currentDirectory);
+                return _pipeline;
+            }
+        }
 
-            // Annotation
+        public void InitCoreNLP()
+        {
+            
+        }
+
+        public void RunCoreNLP(String text)
+        {
+            // needs to be before Annotation(text)
+            // otherwise it throws error
+            StanfordCoreNLP pipeLine = Pipeline;
             Annotation annotation = new Annotation(text);
-            pipeline.annotate(annotation);
+            pipeLine.annotate(annotation);
 
             if (_redirectOutputToFile)
             {
@@ -85,17 +98,13 @@ namespace nsNotenizer
                 Console.SetError(streamwriter);
             }
 
-            //// Result - Pretty Print
+            // Result - Pretty Print
             using (ByteArrayOutputStream stream = new ByteArrayOutputStream())
             {
-                pipeline.prettyPrint(annotation, new PrintWriter(stream));
+                pipeLine.prettyPrint(annotation, new PrintWriter(stream));
                 Console.WriteLine(stream.toString());
                 stream.close();
             }
-
-            //Console.WriteLine("======================================================");
-
-            //Test(annotation);
 
             _notes = Parse(annotation);
             //_andNotes = AndParserFn(annotation);
