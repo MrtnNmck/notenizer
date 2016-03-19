@@ -1,4 +1,6 @@
-﻿using nsEnums;
+﻿using nsConstants;
+using nsEnums;
+using nsExtensions;
 using nsInterfaces;
 using nsNotenizerObjects;
 using System;
@@ -70,6 +72,14 @@ namespace nsComponents
         public void Init()
         {
             this.Text = this._dependency.CorrespondingWord.Word;
+
+            if (_dependency.CorrespondingWord.NamedEntity.Type != NamedEntityType.Other)
+            {
+                this.BorderWidth = 2;
+                this.BorderColor = ComponentConstants.NamedEntityColors[_dependency.CorrespondingWord.NamedEntity.Type];
+                this.SetToolTip("Entity: " + _dependency.CorrespondingWord.NamedEntity.Type.ToString());
+            }
+
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using nsConstants;
+using nsExtensions;
 using nsInterfaces;
 using nsNotenizerObjects;
 using System;
@@ -62,7 +63,7 @@ namespace nsComponents
 
             InitEditButton();
             InitAndParseButton();
-            SetTooltip();
+            this.AdvancedTextBox.TextBox.SetToolTip("Match: " + _note.Rule.Match + "%");
 
             this.Margin = new Padding(0);
             this.Padding = new Padding(0);
@@ -78,6 +79,14 @@ namespace nsComponents
         {
             if (AndParseButtonClicked != null)
                 AndParseButtonClicked(this, e);
+        }
+
+        protected override void OnMouseWheel(MouseEventArgs e)
+        {
+            base.OnMouseWheel(e);
+
+            if (Parent is IMousable)
+                (Parent as IMousable).DoMouseWheel(e);
         }
 
         public AdvancedTextBox AdvancedTextBox
@@ -135,15 +144,6 @@ namespace nsComponents
 
             this._buttonPanel = new FlowLayoutPanel();
             this._buttonPanel.Dock = DockStyle.Fill;
-        }
-
-        private void SetTooltip()
-        {
-            ToolTip tooltip = new ToolTip();
-            tooltip.IsBalloon = true;
-            tooltip.InitialDelay = 0;
-            tooltip.ShowAlways = true;
-            tooltip.SetToolTip(this._advancedTextBox.TextBox, "Match: " + _note.Rule.Match + "%");
         }
     }
 }

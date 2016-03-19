@@ -1,4 +1,5 @@
 ﻿using nsConstants;
+using nsInterfaces;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -27,13 +28,6 @@ namespace nsComponents
             this._richTextBox.Text = text;
         }
 
-        public AdvancedTextBox(IContainer container)
-        {
-            container.Add(this);
-
-            InitializeComponent();
-        }
-
         private void Init()
         {
             this._richTextBox = new RichTextBox();
@@ -54,6 +48,14 @@ namespace nsComponents
         public RichTextBox TextBox
         {
             get { return this._richTextBox; }
+        }
+
+        protected override void OnMouseWheel(MouseEventArgs e)
+        {
+            base.OnMouseWheel(e);
+
+            if (Parent is IMousable)
+                (Parent as IMousable).DoMouseWheel(e);
         }
     }
 }

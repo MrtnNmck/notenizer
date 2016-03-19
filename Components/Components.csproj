@@ -55,11 +55,23 @@
     <Compile Include="AdvancedLabel.Designer.cs">
       <DependentUpon>AdvancedLabel.cs</DependentUpon>
     </Compile>
+    <Compile Include="AdvancedPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="AdvancedPanel.Designer.cs">
+      <DependentUpon>AdvancedPanel.cs</DependentUpon>
+    </Compile>
     <Compile Include="AdvancedProgressBar.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="AdvancedProgressBar.Designer.cs">
       <DependentUpon>AdvancedProgressBar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AdvancedTableLayoutPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="AdvancedTableLayoutPanel.Designer.cs">
+      <DependentUpon>AdvancedTableLayoutPanel.cs</DependentUpon>
     </Compile>
     <Compile Include="AdvancedTextBox.cs">
       <SubType>Component</SubType>

@@ -121,6 +121,12 @@ Otazky:
 - uvod
 - kurziva v pseudokode
 
+- pseudocode:
+	- kurrzivou len premenne
+	- funkcie normalnea
+- nadpisy druhej urovne zrusit
+- dorobenie entit (bakalarky
+
 ===============================================================================================================================================================
 
 TODO:

@@ -17,6 +17,8 @@ namespace nsComponents
     public partial class AdvancedLabel : Label
     {
         private Point _offset;
+        private Color? _borderColor = null;
+        private int _borderWidth = 1;
 
         public AdvancedLabel()
         {
@@ -35,7 +37,6 @@ namespace nsComponents
         private void Init()
         {
             this.Cursor = Cursors.Hand;
-            //this.GiveFeedback += AdvancedLabel_GiveFeedback;
 
             this.Font = new Font(ComponentConstants.AdvancedLabelFontFamilyName, ComponentConstants.AdvancedLabelActiveFontSize);
             this.BorderStyle = BorderStyle.FixedSingle;
@@ -71,12 +72,32 @@ namespace nsComponents
             }
         }
 
+        protected override void OnPaint(PaintEventArgs e)
+        {
+            base.OnPaint(e);
+
+            if (_borderColor.HasValue)
+                e.Graphics.DrawRectangle(new Pen(_borderColor.Value, _borderWidth), new Rectangle(0, 0, this.Width - _borderWidth, this.Height - _borderWidth));
+        }
+
         private void AdvancedLabel_GiveFeedback(Object sender, GiveFeedbackEventArgs e)
         {
             // Sets the custom cursor based upon the effect.
             e.UseDefaultCursors = false;
             if ((e.Effect & DragDropEffects.Move) == DragDropEffects.Move)
                 Cursor.Current = Cursors.Hand;
+        }
+
+        public Color? BorderColor
+        {
+            get { return _borderColor; }
+            set { _borderColor = value; }
+        }
+
+        public int BorderWidth
+        {
+            get { return _borderWidth; }
+            set { _borderWidth = value; }
         }
     }
 }

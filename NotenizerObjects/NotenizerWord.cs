@@ -15,9 +15,9 @@ namespace nsNotenizerObjects
 		private int _startingPosition;
 		private int _endPosition;
 		private String _lemma;
-		private String _ner;
         private String _pos;
         private int _index;
+        private NamedEntity _namedEntity;
 
 		public NotenizerWord(IndexedWord indexedWord)
 		{
@@ -26,7 +26,7 @@ namespace nsNotenizerObjects
 			_startingPosition = indexedWord.beginPosition();
 			_endPosition = indexedWord.endPosition();
 			_lemma = indexedWord.lemma();
-			_ner = indexedWord.ner();
+			_namedEntity = new NamedEntity(indexedWord.ner());
 
             Object temp = indexedWord.get(typeof(CoreAnnotations.EndIndexAnnotation));
 
@@ -75,9 +75,9 @@ namespace nsNotenizerObjects
 			get { return _lemma; }
 		}
 
-		public String NER
+		public NamedEntity NamedEntity
 		{
-			get { return _ner; }
+			get { return _namedEntity; }
 		}
 
         public String POS

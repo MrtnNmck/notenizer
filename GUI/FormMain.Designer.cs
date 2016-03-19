@@ -33,7 +33,7 @@ namespace nsGUI
             this._labelCaption = new System.Windows.Forms.Label();
             this._panelHeader = new System.Windows.Forms.Panel();
             this._panelMain = new System.Windows.Forms.Panel();
-            this._tableLayoutPanelMain = new System.Windows.Forms.TableLayoutPanel();
+            this._tableLayoutPanelMain = new AdvancedTableLayoutPanel();
             this._labelCoolumnCaption1 = new System.Windows.Forms.Label();
             this._labelColumnCaption2 = new System.Windows.Forms.Label();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
@@ -234,7 +234,7 @@ namespace nsGUI
         private System.Windows.Forms.Label _labelCaption;
         private System.Windows.Forms.Panel _panelHeader;
         private System.Windows.Forms.Panel _panelMain;
-        private System.Windows.Forms.TableLayoutPanel _tableLayoutPanelMain;
+        private AdvancedTableLayoutPanel _tableLayoutPanelMain;
         private System.Windows.Forms.Label _labelCoolumnCaption1;
         private System.Windows.Forms.Label _labelColumnCaption2;
         private System.Windows.Forms.MenuStrip menuStrip1;

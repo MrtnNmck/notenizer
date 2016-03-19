@@ -56,7 +56,7 @@ namespace nsNotenizer
 
                     // Annotation pipeline configuration
                     Properties properties = new Properties();
-                    properties.setProperty("annotators", "tokenize, ssplit, pos, parse");
+                    properties.setProperty("annotators", "tokenize, ssplit, pos, lemma, ner, parse");
                     properties.setProperty("sutime.binders", "0");
                     properties.setProperty("ner.useSUTime", "false");
 

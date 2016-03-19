@@ -8,6 +8,7 @@ using java.io;
 using edu.stanford.nlp.trees;
 using edu.stanford.nlp.ling;
 using nsConstants;
+using System.Windows.Forms;
 
 namespace nsExtensions
 {
@@ -119,6 +120,15 @@ namespace nsExtensions
             }
             else
                 throw new Exception(value + " is not a value in enum!");
+        }
+
+        public static void SetToolTip(this Control c, String toolTipText)
+        {
+            ToolTip tooltip = new ToolTip();
+            tooltip.IsBalloon = true;
+            tooltip.InitialDelay = 0;
+            tooltip.ShowAlways = true;
+            tooltip.SetToolTip(c, toolTipText);
         }
     }
 }
