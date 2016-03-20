@@ -1,0 +1,44 @@
+\documentclass{iitsrc}
+\usepackage[utf8]{inputenc}
+
+% Please do not remove the following command:
+\editpages{1}{8}
+
+\title{Guidelines for Authors of Extended Abstracts\\Published in Proceedings of IIT.SRC 2016}
+\titlerunning{Guidelines for Authors of Papers Published in Proceedings of IIT.SRC 2016}
+\author{Ján}{Novák}
+\author{Martin}{Kováč}
+\supervision{\bc~/~\ms~/~\phd}
+            {\info~/~\compeng~/~\softeng~/~\infosys~/~\appinf}
+            {Professor~/~Assoc.~Professor~/~Dr.~Xxxx Yyyyy}
+            {\iai~/~\iise~/~\icsn, \fiit}
+% Within the `affiliation' parameter you can use the `\fiit' macro to
+% generate the full name of our faculty.
+\mail{novak@fiit.stuba.sk}
+\field{To Be Added by Editor}
+
+\begin{document}
+
+\section*{Extended Abstract}
+
+This is a simple example of an ``extended abstract''. These documents should not exceed two pages. Please, do not use the
+\begin{verbatim}
+    \begin{abstract}
+    ...
+    \end{abstract}
+\end{verbatim}
+environment. Instead, put your whole text in a single unnumbered section introduced with the following command:
+\begin{verbatim}
+    \section*{Extended Abstract}
+\end{verbatim}
+Inside this single section you can use usual \LaTeX{} commands.
+
+\nocite{lamport:latex}
+
+\acknowledgement{Here you should mention the names of grants
+                 which funded the work on this article. As defined
+                 by the particular grant.}
+
+\bibliography{common}
+\bibliographystyle{iitsrc}
+\end{document}

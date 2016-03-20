@@ -118,14 +118,10 @@ Otazky:
 - priloha
 	- pomenovania dependencies
 
-- uvod
-- kurziva v pseudokode
-
 - pseudocode:
 	- kurrzivou len premenne
 	- funkcie normalnea
 - nadpisy druhej urovne zrusit
-- dorobenie entit (bakalarky
 
 ===============================================================================================================================================================
 
@@ -173,6 +169,11 @@ TODO:
     DONE - vysetrit chybu, preco sa neponukaju vsetky slova (dependencies) z editovanet poznamky - vety v unused words
     	- pri editacii poznamky vety z clanku o cestu a ich prezidentovi tam chyba Zeman
     	- clear DB -> parse clanok o SVK -> parse clanok o CZ
+    
+    DONE - zmena (update) pravidla len pri 100% zhode?
+    	- ak to budem updejtovat aj pri inej zhode, tak vlastne menim poznamky aj pre ine vety, v ktorych mohla byt co i len nizka zhoda, ale najvyssia spomedzi dostupnych 
+    	  a tym padom si mozem rozhasit ostatne poznamky
+
         
     - AND-Parser
         - do additionalInfomation pridat dalsie pole, ktore bude oznacot miesto, kde doplnit rozprsovane AND spojenie
@@ -181,16 +182,22 @@ TODO:
         - novy typ reprezentracie pre NotenizerAdvancedLabel
         - pouzivatel bude moct zadefinovat (popresuvat si), kde bude to miesto [{AND}]
         - pouzite ten zakladny AND parser? aby mas z coho puzivatel vychadzat?
-    
+        
     - ukladat clanky
     	- parovat poznamky s clankom
-
-    - zmena (update) pravidla len pri 100% zhode?
-    	- ak to budem updejtovat aj pri inej zhode, tak vlastne menim poznamky aj pre ine vety, v ktorych mohla byt co i len nizka zhoda, ale najvyssia spomedzi dostupnych 
-    	  a tym padom si mozem rozhasit ostatne poznamky
     	
-    - prehodit rule -> note
-    	- teraz objekt note obsahuje Rule, malo byt to byt naopak: Rule bude obsahovat Note
+   	- zmenit vyhodnocovanie zhody
+   		- rozbit ho na dve
+   		- 1. zhoda struktur vety
+   			- obsah rovnakych dependencies aj s presnymi tokenmi
+   		- 2. zhoda obsahova
+   			- dependencies a tokeny na rovnakych miestach
+   		- vyberat pravidlo primarne podla zhody struktur a ak vyhovuje viacero pravidiel, tak potom z tych vybrat podla obsahovej zhody
+   		- update pravidla po novom pri 100% zhode struktury, nie pri 100% celkovej zhode
+   		- v opacno mpripade vytvorit nove
+   		- update poznamky po novom pri 100% obsahojev strukture (cize spracovavane identicku vetu)
+   		- v opacnom pripade vytvorit novu a naviazat na pravidlo
+
 	- naplnit DB s viacerimi pravidlami
 	- kontrola zaporu
 		-  pri spracovavani textu o cesku sa nevyhodnotil zapor vo vete This has not caught..

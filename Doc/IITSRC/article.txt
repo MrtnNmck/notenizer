@@ -1,0 +1,43 @@
+1. Introduction
+---------------------------
+
+Nowadays, we are overloaded with huge amount of data and information. Many of those are duplicates or with slight modification. While searching for a relevant information, we have to get through all of that irrelevant data. Lot of information is in form of texts on internet or in book. The problem is to select useful subset of information from text or text corpuses while not spending too much time on it.
+Major group of people who are searching for and trying to select the most relevant data on everyday basis are students. They need them for school projects or assignments or simply to learn. If students spend too much time finding relevant information in texts, they tend to loose motivation or feel depressed and they surely could use that time more efficiently. We focus on area of education and try to create system to help students with creating notes from texts.
+Educational texts are often written in unstructured form and natural language. Computers have significant problems with understanding information in natural language. The main reason for it is a fact, that every language is distinct and has specific characteristics. There are some ways how to process texts and extract information from it. In this article we propose a way to create a system to extract notes which are important for educational purpose, so it should create personalized notes from text.
+The note is created from sentence of the text by extracting relevant information from it. By processing every sentence of text, system is able to create notes. For extracting information from sentence we use syntactic analysis of its content and data about relations and dependencies between words in sentence.
+The final result of our proposed way for creating notes from text is an interactive system capable of basic preprocessing and creating notes. By interacting with user, system is able to create more user-specific notes, because user will be able to change created notes from system and it will learn new rules for processing from those changes. In the next run system also take into account the new rules.
+
+2. Related work (?)
+
+3. Data
+---------------------------
+
+We hold data in document database MongoDB. The processed data can be split into three main collections: texts, sentences and rules.
+Text collection holds whole texts which were processed. Sentences collection holds sentences of texts from text collection. For each sentence in this collections there also is a note which was created by processing the sentence. Last collection names Rules holds rules for creating notes from sentences of texts.
+
+3.1 Rule
+---------------------------
+Rule consists mainly from two parts - list of dependencies of original sentence (originalDependecies) and list of dependencies of note (noteDependecies). Dependencies from the second list are applied on sentence to create note from it. Apart from the two main parts, rule also contains array of integers which determines the positions of last words in note. In case of plain sentence it contains only one entry, but in case of composition sentences it can contain multiple entries which are mapped to arbitrary word in sentence. In plain sentence "The president of the Czech Republic is Miloš Zeman." the array contains one entry with value of 3, because the note from this sentence is "President is Zeman.". For composition sentence "Czech Republic has no sea; its neighbour countries are Germany, Austria, Slovakia and Poland." the array contains two values, because this sentence consists of two sentences.
+Each entry in originalDependecies list and noteDependecies list contains a name of dependency and list of dependencies with the same dependency name. Every dependency in this list has governor token, dependent token and position between all sentence's dependencies. Token consists of Part-Of-Speech tag and index of word in sentences which is token connected to. [obrazok celej struktury pre lepsie pochopenie]
+
+3.2 Rule look up
+---------------------------
+Before processing sentence an applicable rule for processing is looked up in database. Several conditions are taken into account while looking up the rule. The processed sentence has to has the exact same amount of entries in list of dependencies of original sentence while also having mapped exactly all names of dependencies in this list.
+We can easily find rule with these conditions. However, situation where more than one rule is found can occur. In this case we have to calculate the match of processed sentence and the original sentence in the rule. After that the rule with the heighest match is applied.
+Calculating the match has several steps. First of all the matches of POS tags of governor and dependent tokens are calculated separately and indices of governor and dependent tokens also separately. By this we determine if processed sentence contains arbitrary dependency with same value of POS tag or index. In the second step we determine half-match of dependency, that means if processed sentence contains match of POS tag and index at the same time in governor or dependent token. In the last step of calculating match the number of absolute match of dependencies is calculated. It means the match of POS tag and index in governor and dependent at the same time. These three values from three steps are added together and final result is percentage value of the match of sentences.
+
+In situation when we are processing sentence "The local language is Czech language." and in database we've got among others also rules for sentences "The local language is Czech language." and "The local language is a Slavic language." more than one rule is applicable for processed sentence. Both sentences have exactly 5 entries in list of dependencies of original sentence and that entries consist exactly from relations {det, amod, nsubj, cop, root}, so rule look up finds those two rules. After calculating match, we determine that the first sentence has 99.99% match with processed sentence while the second sentence is at 63.57% match. The rule with first sentence as original sentence will be applied in this situation.
+
+3.3 Rule creation
+---------------------------
+If rule loop up doesn't find any applicable rule it means that the system haven't processed sentence like it yet. In this case the static parser is used to which operates over static pack of rules. Note and new rule are created. From dependencies of original sentence the list of dependencies of original sentence is created and from note dependencies the list of dependencies of note is created and sentence ends are determinated.
+
+4. Evaluation
+---------------------------
+...
+
+4.1 Rule application
+---------------------------
+...
+
+5. Conclusion

@@ -1,0 +1,10 @@
+\begin{thebibliography}{1}
+\setlength{\itemsep}{-0.1cm}
+
+\bibitem{lamport:latex}
+Lamport, L.:
+\newblock {\em {A Document Preparation System \LaTeX, User's Guide and
+  Reference Manual}\/}.
+\newblock Addison Wesley, 1986.
+
+\end{thebibliography}

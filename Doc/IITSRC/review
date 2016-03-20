@@ -1,0 +1,105 @@
+*************************************
+** do 21.marca 2016 23:59 - PONDELOK 
+** zapracovanie pripomienok
+** kontrola formatu sablony - rozsah 3 strany
+** finalna verzia na tlac - mailom na michal.kompan@stuba.sk (predmet 
+IIT.SRC cislo_prispevku_z_easychair) -subor Word alebo archiv suborov v 
+LaTeXu, kde bude zabalene aj pdf pre kontrolu
+** aktualizacia nazvu a abstraktu v EasyChair
+*************************************
+
+Vazeny autor prispevku na studentsku vedecku konferenciu IIT.SRC 2016,
+
+dakujeme za zaslanie vasho prispevku na studentsku vedecku konferenciu 
+IIT.SRC.
+Programovy vybor konferencie vyhodnotil prispevky a zaradil Vas prispevok na 
+prezentaciu v zborniku v kategorii Inovativna aplikacia. Rozsah je 3 strany 
+a predpoklada prezentaciu formou dema na konferencii.
+V pripade, ze vas prispevok bol dlhsi, prosim zamerajte sa na 
+najdolezitejsie inovative casti vasho riesenia a pochvalte sa nimi v danom 
+rozsahu 3 stran.
+
+Informujte aj svojho veduceho, urcite vam pomoze s finalizaciou vasho 
+prispevku do zbornika.
+Poslite mu tento mail aj s posudkom.
+
+No to, aby bol prispevok zaradeny v zborniku je nevyhnutne 
+- zaslat camera ready verziu prispevku a prezentacia na konferencii
+  
+- upravit text prispevku podla pripomienok v posudku v ramci moznosti to co 
+je mozne upravit teraz
+
+- naformatovat prispevok v zmysle sablony
+ 
+- zaslat upraveny prispevok, ktory nesmie presahovat 3 strany a bude 
+naformatovany podla sablony (subor Word alebo archiv suborov v LaTeXu, kde 
+bude zabalene aj pdf pre kontrolu) mailom na michal.kompan@stuba.sk (predmet 
+IIT.SRC cislo_prispevku_z_easychair)
+  
+- spolu s upravenym prispevkom treba aktualizovat nazov (v pripade, ze sa 
+zmenil) a tiez aj kratky abstrakt, ktory sa nachadza v systeme EasyChair. 
+Pouzivajte pri menach diakritiku a nezabudnite uviest v abstrakte vasho 
+supervisora.
+
+  ********************************
+  najneskor 21.marca 2016 23:59 - PONDELOK (v pripade ze tak neurobite 
+prispevok nebude akceptovany)
+  *********************************
+  
+Pri kontrole prispevku nezabudnite, ze
+- musi dodrzat sablonu, pouzivajte styly, ktore su definovane v sablone a 
+nie ine
+- nesmie presiahnut max. pocet stran
+- literatura musi byt naformatovana jednotne podla sablony
+- obrazky vkladajte pokial je to mozne vektorove a raster ci ine vyfarbene 
+plochy pouzivajte len v pripade, ze to je nevyhnutne
+
+Ako kontrolny zoznam odporucam pouzit sumarizaciu najcastejsich chyb:
+http://www2.fiit.stuba.sk/iit-src/check-list.txt
+
+Informaciu ohladom prezentacie na konferencii dostanete potom ako budu v 
+systeme prispevky na tlac.
+
+Gratulujeme este raz a prajeme pri finalizacii prispevku, jeho prezentacii a 
+v dalsej praci na projektoch vela uspechov.
+
+S pozdravom
+MK
+
+
+----------------------- REVIEW 1 ---------------------
+PAPER: 80
+TITLE: Interactive system for creation of notes
+AUTHORS: Martin Nemček
+
+
+----------- REVIEW -----------
+pripomienky k obsahu:
+- nie je jasne podla akeho kluca sa urcuje, ktore slova su irrelevant a ktore relevnat (co je velmi dolezite, bez tejto informacie straca cely clanok na hodnote)
+- tiez nie je jasne, preco ste sa porovnali len s jednym riesenim, ked su aj ine, napriklad 
+   https://chrome.google.com/webstore/detail/sentisumsmart-summarizer/oheahjohddbcaeonmgjjodaabbennnic?hl=en-GB
+   http://classifier4j.sourceforge.net/
+   alebo inymi vedeckymi pracami?
+- prve vysledky vyzeraju zaujimavo, drzim palce v dalsej praci
+
+
+formalne pripomienky:
+- clanok sa dobre cital, je pisany zrozumitelne
+OK - nadpis clanku (ako v nadpise, tak v zahlavi stran) ma mat velse pismena S, C a N: "Interactive System for Creation of Notes"
+OK - miesto "System will then learn niew rules..." treba "The system will then..."
+OK - v paticke na prvej strane, kde je uvedeny veduci, treba vynechat Ing.
+OK - namiesto "from input. [4]" treba "from input [4]." alebo ak by sa dalo, tak tu [4] umiestnit niekde skor vo vete/odstavci
+OK - "Abstractive Summarization" sa oznacuje v clanku nekonzistentne, raz je s malym s a raz s velkym S
+OK - "... Figure 1 there are relations between pair of words" bude lepsie ako "... Figure 1 there are relations between words in pairs"
+OK - nie je jasne, preco adjectival component a adverb modifier su boldom. pokial viem, sabolna clanku tento format nepodporuje a navyse nikde dalej v clanku sa to specialne nevyuziva, kludne by som to nechala normalnym nezvyraznenym textom.
+OK - Figure 1 je zle citatelna, prosim zvacsit
+- kapitola 3.3 je napisana dobre, ale pre bezneho cloveka je to prilis vela abstraktnych informacii naraz, ktore sa tazko daju pochopit na jedno precitanie. napomaha tomu pseudokod a este viac by tomu pomohol jeden konkretny priklad, na ktorom by to bolo cele vysvetlene.
+OK - v odbornych a vedeckych clankoch sa nepouzivaju skratene vyrazy typu haven't, ale vzdy sa pisu v plnej forme: have not
+- algoritmus 1 je nekonzistnentne naformatovany, niektore veci, ktore maju byt italikou (kurzivou) nou nie su a ine naopak su, opravit.
+OK - vo vete chybaju cleny, ma to byt "After processing all dependencies the last minor changes are done such as capitalization of the first letter of the note, splitting note into more sentences if rule defined so."
+OK - vo first experiments sa opat spomina extractive summarization, ale nikde v clanku nie je vysvetlene (ani len odvolavkou), ze ako to vlastne funguje (v com je rozdiel). Ak je to vysvetlene v [2], tak tam treba pridat tuto referenciu.
+- Figure 2, 3, 4 a 5 su zle ocislovane a oznacene. Obrazky sa nemozu ukladat vedla seba, len pod seba. V pripade, ze je potrebne uviest 4 obrazky v mriezke 2x2 oznacia sa spolu ako Figure 2 a pod jednotlive obrazky sa napisu pismenka (a), (b), (c), (d). Potom popis obrazku bude nasledovny: Figure 2: Number of sentences in output (a), number of words in output (b), number of sentences not processed (c) and number of irrelevant words eliminated (c). Ak by navyse tieto grafy neboli v absolutnych cislach, ale v relativnych (teda v percentach), mohol by to byt vyobrazene vsetko spolu v jednom grafe, ktory by mal 8 stlpcov (teda 4 dvojstlpce).
+- uvedene 4 grafy su prilis male a popisky na osiach tym padom necitatelne
+- Figure 5 ma v nazve preklep, ma to byt irrelevant (dve r, nie iba 1)
+- referencie nie su uplne, referencia [1] vyzera ako seminarna praca (takze sa uvadzaju len v poznamke pod ciarou), resp. treba najst podobny ale overeny zdroj (t.j. z casopisu alebo z konferencie), referencii [2] chyba vydavatel a strany, referencii [4] a [5] chyba vydavatel
+	- vydavatel je pri vsetkych spomenutych, avsak nezobrazuje sa vo vygenerovanej bibliografii
