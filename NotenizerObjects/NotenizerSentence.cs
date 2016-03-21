@@ -12,7 +12,7 @@ namespace nsNotenizerObjects
 {
     public class NotenizerSentence
     {
-		private List<NotenizerDependency> _dependencies;
+		private NotenizerDependencies _dependencies;
         private CompressedDependencies _compressedDependencies;
 		private Annotation _annotation;
 
@@ -22,7 +22,7 @@ namespace nsNotenizerObjects
 			_dependencies = GetDepencencies(annotation, ref _compressedDependencies);
 		}
 
-        public List<NotenizerDependency> Dependencies
+        public NotenizerDependencies Dependencies
         {
             get { return _dependencies; }
         }
@@ -37,7 +37,7 @@ namespace nsNotenizerObjects
             get { return _compressedDependencies; }
         }
 
-        private List<NotenizerDependency> GetDepencencies(Annotation annotation, ref CompressedDependencies compressedDependencies)
+        private NotenizerDependencies GetDepencencies(Annotation annotation, ref CompressedDependencies compressedDependencies)
 		{
 			Tree tree = annotation.get(typeof(TreeCoreAnnotations.TreeAnnotation)) as Tree;
 			TreebankLanguagePack treeBankLangPack = new PennTreebankLanguagePack();
@@ -45,7 +45,7 @@ namespace nsNotenizerObjects
 			GrammaticalStructure gramStruct = gramStructFact.newGrammaticalStructure(tree);
 			java.util.Collection typedDependencies = gramStruct.typedDependenciesCollapsed();
 
-            List<NotenizerDependency> dependencies = new List<NotenizerDependency>();
+            NotenizerDependencies dependencies = new NotenizerDependencies();
             compressedDependencies = new CompressedDependencies();
 
             foreach (TypedDependency typedDependencyLoop in (typedDependencies as java.util.ArrayList))

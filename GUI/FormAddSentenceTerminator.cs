@@ -18,6 +18,8 @@ namespace nsGUI
         public FormAddSentenceTerminator()
         {
             InitializeComponent();
+            this.Icon = Properties.Resources.AppIcon;
+
             DataTable dt = new DataTable();
             dt.Columns.Add(new DataColumn(_memeberName));
 

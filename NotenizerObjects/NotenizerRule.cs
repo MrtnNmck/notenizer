@@ -9,7 +9,7 @@ namespace nsNotenizerObjects
 {
     public class NotenizerRule
     {
-        protected List<NotenizerDependency> _dependencies;
+        protected NotenizerDependencies _dependencies;
         protected Double _match;
         protected CreatedBy _createdBy;
         protected String _id;
@@ -17,7 +17,7 @@ namespace nsNotenizerObjects
         protected DateTime _createdAt;
         protected DateTime _updatedAt;
 
-        public NotenizerRule(String id, List<NotenizerDependency> dependencies, CreatedBy createdBy)
+        public NotenizerRule(String id, NotenizerDependencies dependencies, CreatedBy createdBy)
         {
             _id = id;
             _dependencies = dependencies;
@@ -26,9 +26,10 @@ namespace nsNotenizerObjects
             _updatedAt = DateTime.Now;
         }
 
-        public List<NotenizerDependency> RuleDependencies
+        public NotenizerDependencies RuleDependencies
         {
             get { return _dependencies; }
+            set { _dependencies = value; }
         }
 
         public Double Match
@@ -61,6 +62,7 @@ namespace nsNotenizerObjects
         public String ID
         {
             get { return _id; }
+            set { _id = value; }
         }
 
         public Note Note

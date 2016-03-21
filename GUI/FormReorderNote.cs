@@ -21,6 +21,8 @@ namespace nsGUI
 
         public FormReorderNote(NotenizerNote note)
         {
+            this.Icon = Properties.Resources.AppIcon;
+
             this._note = note;
             InitializeComponent();
 
@@ -28,14 +30,6 @@ namespace nsGUI
 
             this._textBoxNote.Text = note.Value;
             this._textBoxOriginalSentence.Text = note.OriginalSentence.ToString();
-
-            this._flowLayoutPanelActive.DragEnter += new DragEventHandler(FlowLayoutPanelActive_DragEnter);
-            this._flowLayoutPanelActive.DragDrop += new DragEventHandler(FlowLayoutPanelActive_DragDrop);
-            this._flowLayoutPanelActive.AllowDrop = true;
-
-            this._flowLayoutPanelDeleted.DragEnter += new DragEventHandler(FlowLayoutPanelActive_DragEnter);
-            this._flowLayoutPanelDeleted.DragDrop += new DragEventHandler(FlowLayoutPanelActive_DragDrop);
-            this._flowLayoutPanelDeleted.AllowDrop = true;
 
             List<NotenizerDependency> noteDependencies = note.NoteDependencies;
             List<NotenizerAdvancedLabel> activeLabels = new List<NotenizerAdvancedLabel>();
@@ -69,41 +63,6 @@ namespace nsGUI
         }
 
         #region Event Handlers
-
-        private void FlowLayoutPanelActive_DragEnter(object sender, DragEventArgs e)
-        {
-            e.Effect = DragDropEffects.All;
-        }
-
-        private void FlowLayoutPanelActive_DragDrop(object sender, DragEventArgs e)
-        {
-            NotenizerAdvancedLabel data = (NotenizerAdvancedLabel)e.Data.GetData(typeof(NotenizerAdvancedLabel));
-            FlowLayoutPanel destinationPanel = (FlowLayoutPanel)sender;
-            FlowLayoutPanel sourcePanel = (FlowLayoutPanel)data.Parent;
-
-            Point p = destinationPanel.PointToClient(new Point(e.X, e.Y));
-            var item = destinationPanel.GetChildAtPoint(p);
-
-            int index = -1;
-            if (item == null)
-            {
-                for (int i = 0; i < destinationPanel.Controls.Count; i++)
-                {
-                    if (i + 1 < destinationPanel.Controls.Count)
-                        if (destinationPanel.Controls[i].Bounds.Right < p.X && destinationPanel.Controls[i + 1].Bounds.Left > p.X)
-                            index = i + 1;
-                }
-            }
-            else
-                index = destinationPanel.Controls.GetChildIndex(item, false);
-
-            if (!destinationPanel.Controls.Contains(data))
-                destinationPanel.Controls.Add(data);
-
-            destinationPanel.Controls.SetChildIndex(data, index);
-            destinationPanel.Invalidate();
-            sourcePanel.Invalidate();
-        }
 
         private void ApplyButton_Click(Object sender, EventArgs e)
         {

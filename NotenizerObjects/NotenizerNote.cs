@@ -16,6 +16,7 @@ namespace nsNotenizerObjects
         private DateTime _createdAt;
         private DateTime _updatedAt;
         private NotenizerNoteRule _rule;
+        private NotenizerAndParserRule _andParserRule;
         private CompressedDependencies _compressedDependencies;
 
         public NotenizerNote(NotenizerSentence originalSentence)
@@ -42,7 +43,7 @@ namespace nsNotenizerObjects
         /// </summary>
         public String Value
         {
-            get { return _note; }
+            get { return _note.Trim(); }
         }
 
         /// <summary>
@@ -75,11 +76,11 @@ namespace nsNotenizerObjects
             get { return _noteParts; }
         }
 
-        public List<NotenizerDependency> NoteDependencies
+        public NotenizerDependencies NoteDependencies
         {
             get
             {
-                List<NotenizerDependency> noteDependencies = new List<NotenizerDependency>();
+                NotenizerDependencies noteDependencies = new NotenizerDependencies();
 
                 foreach (NotePart notePartLoop in this._noteParts)
                 {
@@ -93,37 +94,11 @@ namespace nsNotenizerObjects
             }
         }
 
-        public List<NotenizerDependency> UnusedDependencies
+        public NotenizerDependencies UnusedDependencies
         {
             get
             {
-                List<NotenizerDependency> unusedDependencies = new List<NotenizerDependency>();
-                List<NotenizerDependency> noteDependencies = this.NoteDependencies;
-
-                foreach (NotenizerDependency originalDependencyLoop in this._originalSentence.Dependencies)
-                {
-                    if (!originalDependencyLoop.Relation.IsRelation(GrammaticalConstants.Root) && !noteDependencies.Exists(x => x.Key == originalDependencyLoop.Key))
-                        unusedDependencies.Add(originalDependencyLoop);
-                }
-
-                // we need to check, if both tokens of NSUBJ / NSUBJPASS were in note dependencies
-                // if not, we need to add the other one to the unused dependencies.
-                IEnumerable<NotenizerDependency> nsubjDependencies = new List<NotenizerDependency>();
-
-                if (_originalSentence.CompressedDependencies.ContainsKey(GrammaticalConstants.NominalSubject))
-                    nsubjDependencies = _originalSentence.CompressedDependencies[GrammaticalConstants.NominalSubject];
-
-                if (_originalSentence.CompressedDependencies.ContainsKey(GrammaticalConstants.NominalSubjectPassive))
-                    nsubjDependencies = nsubjDependencies.Concat(_originalSentence.CompressedDependencies[GrammaticalConstants.NominalSubjectPassive]);
-
-                foreach (NotenizerDependency nsubjDependencyLoop in nsubjDependencies)
-                {
-                    if (!noteDependencies.Exists(x => x.Key == nsubjDependencyLoop.Key && x.TokenType == nsubjDependencyLoop.TokenType)
-                        && !unusedDependencies.Exists(x => x.Key == nsubjDependencyLoop.Key && x.TokenType == nsubjDependencyLoop.TokenType))
-                        unusedDependencies.Add(nsubjDependencyLoop);
-                }
-
-                return unusedDependencies;
+                return this.NoteDependencies.Complement(_originalSentence.Dependencies, _originalSentence.CompressedDependencies);
             }
         }
 
@@ -131,6 +106,12 @@ namespace nsNotenizerObjects
         {
             get { return _rule; }
             set { _rule = value; }
+        }
+
+        public NotenizerAndParserRule AndParserRule
+        {
+            get { return _andParserRule; }
+            set { _andParserRule = value; }
         }
 
         public CompressedDependencies CompressedDependencies
@@ -162,7 +143,7 @@ namespace nsNotenizerObjects
         /// <param name="notePart"></param>
         public void Add(NotePart notePart)
         {
-            _note += notePart.Value.Trim().CapitalizeSentence() + NotenizerConstants.SentenceDelimeter;
+            _note += notePart.AdjustedValue + NotenizerConstants.WordDelimeter;
             _noteParts.Add(notePart);
 
             foreach (NoteParticle notePartNoteParticleLoop in notePart.InitializedNoteParticles)
@@ -196,6 +177,18 @@ namespace nsNotenizerObjects
             _note = String.Empty;
             _noteParts = new List<NotePart>();
 
+            Add(parts);
+        }
+
+        public void SplitToSentences(int sentenceEnd)
+        {
+            List<NotePart> parts = new List<NotePart>();
+
+            NotePart notePart = new NotePart(_originalSentence);
+            notePart.Add(_noteParts[0].InitializedNoteParticles.GetRange(0, sentenceEnd));
+            parts.Add(notePart);
+            _note = String.Empty;
+            _noteParts = new List<NotePart>();
             Add(parts);
         }
     }

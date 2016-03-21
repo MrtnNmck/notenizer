@@ -19,7 +19,7 @@ namespace nsNotenizer
         /// <returns></returns>
         public static NotenizerNoteRule ParseNoteRule(BsonDocument dbEntry)
         {
-            List<NotenizerDependency> dependencies;
+            NotenizerDependencies dependencies;
 
             CreatedBy createdBy = dbEntry[DBConstants.CreatedByFieldName].AsInt32.ToEnum<CreatedBy>();
             String _id = dbEntry[DBConstants.IdFieldName].AsObjectId.ToString();
@@ -35,7 +35,8 @@ namespace nsNotenizer
 
         public static NotenizerAndParserRule ParseAndParserRule(BsonDocument dbEntry)
         {
-            List<NotenizerDependency> dependencies;
+            NotenizerDependencies dependencies;
+            int sentenceEnd;
             CreatedBy createdBy;
             int setsPosition;
             String id;
@@ -44,13 +45,14 @@ namespace nsNotenizer
             id = dbEntry[DBConstants.IdFieldName].AsObjectId.ToString();
             dependencies = ParseDependencies(dbEntry, DBConstants.NoteDependenciesFieldName);
             setsPosition = dbEntry[DBConstants.AndSetsPositionsFieldName].AsInt32;
+            sentenceEnd = dbEntry[DBConstants.SentenceEndFieldname].AsInt32;
 
-            return new NotenizerAndParserRule(id, dependencies, createdBy, setsPosition);
+            return new NotenizerAndParserRule(id, dependencies, createdBy, setsPosition, sentenceEnd);
         }
 
-        private static List<NotenizerDependency> ParseDependencies(BsonDocument dbEntry, String noteFieldName)
+        private static NotenizerDependencies ParseDependencies(BsonDocument dbEntry, String noteFieldName)
         {
-            List<NotenizerDependency> dependencies = new List<NotenizerDependency>();
+            NotenizerDependencies dependencies = new NotenizerDependencies();
 
             // foreach note dependency
             foreach (BsonDocument documentLoop in dbEntry[noteFieldName].AsBsonArray)
@@ -86,6 +88,7 @@ namespace nsNotenizer
             DateTime createdAt;
             DateTime updatedAt;
             CreatedBy createdBy;
+            String andParserRuleRefId;
 
             id = dbEntry[DBConstants.IdFieldName].AsObjectId.ToString();
             originalSentence = dbEntry[DBConstants.OriginalSentenceFieldName].AsString;
@@ -93,8 +96,9 @@ namespace nsNotenizer
             createdAt = dbEntry[DBConstants.CreatedAtFieldName].ToUniversalTime();
             updatedAt = dbEntry[DBConstants.UpdatedAtFieldName].ToUniversalTime();
             createdBy = dbEntry[DBConstants.CreatedByFieldName].AsInt32.ToEnum<CreatedBy>();
+            andParserRuleRefId = dbEntry[DBConstants.AndParserRuleRefIdFieldName].ToString();
 
-            return new Note(id, originalSentence, note, createdAt, updatedAt, createdBy);
+            return new Note(id, originalSentence, note, createdAt, updatedAt, createdBy, andParserRuleRefId);
         }
 
         /// <summary>

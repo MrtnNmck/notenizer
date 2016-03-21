@@ -117,6 +117,12 @@ namespace nsComponents
             }
         }
 
+        public Boolean IsAndParserButtonVisible
+        {
+            get { return this._andParseButton.Visible; }
+            set { _andParseButton.Visible = value; }
+        }
+
         private void AddRowWithComponent(Control control, SizeType sizeType, float size)
         {
             this.RowCount += 1;

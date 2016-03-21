@@ -9,12 +9,16 @@ using nsExtensions;
 using nsConstants;
 using nsDB;
 using MongoDB.Bson;
+using nsParsers;
+using nsEnums;
+using System.Drawing;
 
 namespace nsGUI
 {
     public partial class FormMain : Form
     {
         private Notenizer _notenizer;
+        private AndParser _andParser;
 
         public FormMain()
         {
@@ -29,10 +33,15 @@ namespace nsGUI
 
         private void Init()
         {
+            this.Icon = Properties.Resources.AppIcon;
+
             _notenizer = new Notenizer();
+            _andParser = new AndParser();
 
             InitializeComponent();
             this.CenterToScreen();
+
+            this.menuStrip1.BackColor = Color.FromArgb(255, 106, 77);
         }
 
         private void ShowNotes(List<NotenizerNote> notes)
@@ -46,10 +55,13 @@ namespace nsGUI
 
                 NotenizerAdvancedTextBox nAdvTextBox = new NotenizerAdvancedTextBox(noteLoop);
                 nAdvTextBox.EditButtonClicked += NoteEditButton_Click;
+                nAdvTextBox.AndParseButtonClicked += AndParserButton_Click;
 
                 this._tableLayoutPanelMain.PerformSafely(() => this._tableLayoutPanelMain.Controls.Add(nAdvTextBox, 1,
                     this._tableLayoutPanelMain.RowCount - 1));
                 this._tableLayoutPanelMain.PerformSafely(() => this._tableLayoutPanelMain.RowStyles.Add(new RowStyle(SizeType.Absolute, ComponentConstants.NotenizerAdvancedTextBoxSize + 15F)));
+
+                nAdvTextBox.PerformSafely(() => nAdvTextBox.IsAndParserButtonVisible = _andParser.IsParsableSentence(noteLoop.OriginalSentence));
             }
         }
 
@@ -171,6 +183,81 @@ namespace nsGUI
                 }).ContinueWith(delegate
                 {
                     (sender as NotenizerAdvancedTextBox).PerformSafely(() => (sender as NotenizerAdvancedTextBox).AdvancedTextBox.TextBox.Text = notenizerNote.Value);
+                    this._advancedProgressBar.StopAndReset();
+                });
+            }
+        }
+
+        private void AndParserButton_Click(object sender, EventArgs e)
+        {
+            NotenizerNote notenizerNote = (sender as NotenizerAdvancedTextBox).Note;
+            NotenizerNote parsedAndNote;
+            NotePart sourceNotePart;
+            int andSetPosition;
+
+            if (notenizerNote.AndParserRule != null)
+            {
+                parsedAndNote = _notenizer.ApplyRule(notenizerNote.OriginalSentence, notenizerNote.AndParserRule);
+                sourceNotePart = parsedAndNote.NoteParts[0];
+                andSetPosition = notenizerNote.AndParserRule.SetsPosition;
+            }
+            else
+            {
+                parsedAndNote = new NotenizerNote(notenizerNote.OriginalSentence);
+                sourceNotePart = new NotePart(notenizerNote.OriginalSentence);
+                andSetPosition = 0;
+            }
+
+            List<NotePart> noteParts = new List<NotePart>();
+            List<NoteParticle> andSets = _andParser.GetAndSets(notenizerNote.OriginalSentence);
+
+            foreach (NoteParticle andSetLoop in andSets)
+            {
+                NotePart notePart = sourceNotePart.Clone();
+
+                if (notenizerNote.AndParserRule == null || andSetPosition == 0)
+                    notePart.NoteParticles.Insert(andSetPosition, andSetLoop);
+                else
+                    notePart.NoteParticles.Insert(notePart.InitializedNoteParticles[andSetPosition - 1].NoteDependency.Position + 1, andSetLoop);
+
+                noteParts.Add(notePart);
+            }
+
+            FormAndParser frmAndParser = new FormAndParser(parsedAndNote, noteParts, andSetPosition);
+            if (frmAndParser.ShowDialog() == DialogResult.OK)
+            {
+                this._advancedProgressBar.Start();
+
+                Task.Factory.StartNew(() =>
+                {
+                    String ruleId;
+                    NotenizerDependencies dependencies = new NotenizerDependencies();
+
+                    foreach (NoteParticle noteParticleLoop in frmAndParser.ActiveNotePart.InitializedNoteParticles)
+                        dependencies.Add(noteParticleLoop.NoteDependency);
+
+                    if (notenizerNote.AndParserRule == null)
+                        notenizerNote.AndParserRule = new NotenizerAndParserRule(dependencies, CreatedBy.User, frmAndParser.AndSetsPosition, dependencies.Count);
+                    else
+                    {
+                        notenizerNote.AndParserRule.RuleDependencies = dependencies;
+                        notenizerNote.AndParserRule.SetsPosition = frmAndParser.AndSetsPosition;
+                        notenizerNote.AndParserRule.SentenceEnd = dependencies.Count;
+                    }
+                    BsonDocument andParserRuleDoc = DocumentCreator.CreateAndParserRuleDocument(notenizerNote.AndParserRule);
+
+                    if (notenizerNote.AndParserRule.ID == String.Empty)
+                    {
+                        ruleId = DB.InsertToCollection(DBConstants.AndParserRulesCollectionName, andParserRuleDoc).Result;
+                        notenizerNote.AndParserRule.ID = ruleId;
+                        // update v note kolekcii
+                        String temp = DB.Update(DBConstants.NotesCollectionName, notenizerNote.Rule.Note.ID, DBConstants.AndParserRuleRefIdFieldName, ObjectId.Parse(ruleId)).Result;
+                    }
+                    else
+                        ruleId = DB.ReplaceInCollection(DBConstants.AndParserRulesCollectionName, notenizerNote.AndParserRule.ID, andParserRuleDoc).Result;
+
+                }).ContinueWith(delegate
+                {
                     this._advancedProgressBar.StopAndReset();
                 });
             }

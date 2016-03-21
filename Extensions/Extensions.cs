@@ -102,6 +102,14 @@ namespace nsExtensions
             return sentence.First().ToString().ToUpper() + sentence.Substring(1);
         }
 
+        public static String TerminateSentence(this String sentence, String terminator)
+        {
+            if (sentence.EndsWith(terminator))
+                return sentence;
+
+            return sentence + terminator;
+        }
+
         public static int ToInt(this Object source)
         {
             int i;

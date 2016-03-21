@@ -16,6 +16,12 @@ Poznatky:
 		- aspon prvy by nemuselo byt zle
 	DONE - pozriet conj, aby ked su tam nejake &&, tak sme to odchytili
 	
+
+	- pos vs deps
+		- zmena struktury => rovnake pravidlo
+		- lubovolna permutacia struktury
+		- pocet potrebnych pravidiel
+
 	
 	InterText:
 		+ plain text, XML
@@ -182,7 +188,7 @@ TODO:
         - novy typ reprezentracie pre NotenizerAdvancedLabel
         - pouzivatel bude moct zadefinovat (popresuvat si), kde bude to miesto [{AND}]
         - pouzite ten zakladny AND parser? aby mas z coho puzivatel vychadzat?
-        
+
     - ukladat clanky
     	- parovat poznamky s clankom
     	

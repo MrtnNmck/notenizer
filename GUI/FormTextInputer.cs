@@ -17,6 +17,8 @@ namespace nsGUI
         public FormTextInputer()
         {
             InitializeComponent();
+            this.Icon = Properties.Resources.AppIcon;
+
             this.CenterToParent();
         }
 

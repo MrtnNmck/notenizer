@@ -22,15 +22,19 @@ namespace nsParsers
 
         public override Boolean IsParsableSentence(NotenizerSentence sentence)
         {
-            return ((sentence.CompressedDependencies.ContainsKey(GrammaticalConstants.Conjuction)
+            return (sentence.CompressedDependencies.ContainsKey(GrammaticalConstants.Conjuction)
                 && sentence.CompressedDependencies[GrammaticalConstants.Conjuction] != null
-                && sentence.CompressedDependencies[GrammaticalConstants.Conjuction].Any(x => x.Relation.Specific == GrammaticalConstants.AndConjuction))
-                || sentence.Dependencies.Where(x => x.Dependent.Word.ToLower().Trim() == GrammaticalConstants.AndConjuction || x.Governor.Word.ToLower() == GrammaticalConstants.AndConjuction).Count() > 0);
+                && sentence.CompressedDependencies[GrammaticalConstants.Conjuction].Exists(x => x.Relation.Specific == GrammaticalConstants.AndConjuction || x.Relation.ShortName == GrammaticalConstants.AppositionalModifier));
         }
 
         public List<NoteParticle> GetAndSets(NotenizerSentence sentence)
         {
-            if (!IsParsableSentence(sentence))
+            return GetAndSets(sentence, true);
+        }
+
+        public List<NoteParticle> GetAndSets(NotenizerSentence sentence, bool checkParsability)
+        {
+            if (checkParsability && !IsParsableSentence(sentence))
                 return null;
 
             List<NoteParticle> andSets;

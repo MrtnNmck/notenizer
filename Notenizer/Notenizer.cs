@@ -26,7 +26,6 @@ namespace nsNotenizer
         private bool _redirectOutputToFile = false;
         private String _redirectOutputToFileFileName = @"./out.txt";
         List<NotenizerNote> _notes;
-        List<NotenizerNote> _andNotes;
         StanfordCoreNLP _pipeline;
 
 		public Notenizer()
@@ -36,11 +35,6 @@ namespace nsNotenizer
         public List<NotenizerNote> Notes
         {
             get { return _notes; }
-        }
-
-        public List<NotenizerNote> AndNotes
-        {
-            get { return _andNotes; }
         }
 
         /// <summary>
@@ -56,7 +50,7 @@ namespace nsNotenizer
 
                     // Annotation pipeline configuration
                     Properties properties = new Properties();
-                    properties.setProperty("annotators", "tokenize, ssplit, pos, lemma, ner, parse");
+                    properties.setProperty("annotators", "tokenize, ssplit, pos, parse");
                     properties.setProperty("sutime.binders", "0");
                     properties.setProperty("ner.useSUTime", "false");
 
@@ -140,6 +134,10 @@ namespace nsNotenizer
                 if (rule != null && rule.RuleDependencies != null && rule.RuleDependencies.Count > 0)
                 {
                     NotenizerNote parsedNote = ApplyRule(sentence, rule);
+
+                    if (rule.Note.AndParserRuleRefId != DBConstants.BsonNullValue)
+                        parsedNote.AndParserRule =  DocumentParser.ParseAndParserRule(DB.GetFirst(DBConstants.AndParserRulesCollectionName, DocumentCreator.CreateFilterById(rule.Note.AndParserRuleRefId)).Result);
+
                     Console.WriteLine("Parsed note: " + parsedNote.OriginalSentence + " ===> " + parsedNote.Value);
                     sentencesNoted.Add(parsedNote);
 
@@ -169,6 +167,10 @@ namespace nsNotenizer
                 if (rule != null && rule.RuleDependencies != null && rule.RuleDependencies.Count > 0)
                 {
                     NotenizerNote parsedNote = ApplyRule(sentenceNotedLoop.OriginalSentence, rule);
+
+                    if (rule.Note.AndParserRuleRefId != DBConstants.BsonNullValue)
+                        parsedNote.AndParserRule = DocumentParser.ParseAndParserRule(DB.GetFirst(DBConstants.AndParserRulesCollectionName, DocumentCreator.CreateFilterById(rule.Note.AndParserRuleRefId)).Result);
+
                     Console.WriteLine("Parsed note: " + parsedNote.OriginalSentence + " ===> " + parsedNote.Value);
                     sentencesNoted.Add(parsedNote);
 
@@ -480,7 +482,7 @@ namespace nsNotenizer
         /// <param name="sentence">Sentence to apply rule to</param>
         /// <param name="rule">Rule for parsing to apply</param>
         /// <returns></returns>
-        private NotenizerNote ApplyRule(NotenizerSentence sentence, NotenizerNoteRule rule)
+        public NotenizerNote ApplyRule(NotenizerSentence sentence, NotenizerRule rule)
         {
             NotenizerNote note = new NotenizerNote(sentence);
             NotePart notePart = new NotePart(sentence);
@@ -492,10 +494,24 @@ namespace nsNotenizer
 
             note.Add(notePart);
 
-            note.SplitToSentences(rule.SentencesEnds);
-            note.Rule = rule;
+            if (rule is NotenizerNoteRule)
+                ApplyRule(note, rule as NotenizerNoteRule);
+            else if (rule is NotenizerAndParserRule)
+                ApplyRule(note, rule as NotenizerAndParserRule);
 
             return note;
+        }
+
+        private void ApplyRule(NotenizerNote note, NotenizerNoteRule noteRule)
+        {
+            note.SplitToSentences(noteRule.SentencesEnds);
+            note.Rule = noteRule;
+        }
+
+        private void ApplyRule(NotenizerNote note, NotenizerAndParserRule andParserRyle)
+        {
+            note.SplitToSentences(andParserRyle.SentenceEnd);
+            note.AndParserRule = andParserRyle;
         }
 
         /// <summary>

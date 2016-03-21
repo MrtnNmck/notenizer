@@ -12,7 +12,7 @@ namespace nsNotenizerObjects
     {
         private List<int> _sentencesEnds;
 
-        public NotenizerNoteRule(String id, List<NotenizerDependency> dependencies, List<int> sentencesEnds, CreatedBy createdBy)
+        public NotenizerNoteRule(String id, NotenizerDependencies dependencies, List<int> sentencesEnds, CreatedBy createdBy)
             : base(id, dependencies, createdBy)
         {
             _sentencesEnds = sentencesEnds;

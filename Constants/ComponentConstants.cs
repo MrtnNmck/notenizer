@@ -19,6 +19,7 @@ namespace nsConstants
         public const float AdvancedLabelDeletedFontSize = 10F;
         public const String AdvancedLabelFontFamilyName = "Consolas";
         public const String AdvancedTextBoxFontFamilyName = "Consolas";
+        public const String AndSetPositionConstant = "[{AND}]";
 
         public static readonly Dictionary<NamedEntityType, Color> NamedEntityColors = new Dictionary<NamedEntityType, Color>()
         {

@@ -9,6 +9,7 @@ namespace nsEnums
     public enum RepresentMode
     {
         Dependency,
-        SentenceEnd
+        SentenceEnd,
+        AndSet
     }
 }

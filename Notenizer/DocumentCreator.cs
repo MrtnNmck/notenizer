@@ -78,17 +78,23 @@ namespace nsNotenizer
             return doc;
         }
 
-        public static BsonDocument CreateAndParserRuleDocument(NotenizerNote note, List<NotePart> andParserRuleNoteParts, int setsPosition)
+        public static BsonDocument CreateAndParserRuleDocument(NotenizerAndParserRule rule)
         {
             BsonDocument doc = new BsonDocument();
+            BsonArray noteDependenciesArr = new BsonArray();
             Dictionary<String, BsonArray> dependencies = new Dictionary<String, BsonArray>();
 
-            doc.Add(DBConstants.CreatedByFieldName, new BsonInt32((int)note.CreatedBy));
-            doc.Add(DBConstants.CreatedAtFieldName, new BsonDateTime(note.CreatedAt));
-            doc.Add(DBConstants.UpdatedAtFieldName, new BsonDateTime(note.UpdatedAt));
-            doc.Add(DBConstants.AndSetsPositionsFieldName, new BsonInt32(setsPosition));
+            doc.Add(DBConstants.CreatedByFieldName, new BsonInt32((int)rule.CreatedBy));
+            doc.Add(DBConstants.CreatedAtFieldName, new BsonDateTime(rule.CreatedAt));
+            doc.Add(DBConstants.UpdatedAtFieldName, new BsonDateTime(rule.UpdatedAt));
+            doc.Add(DBConstants.AndSetsPositionsFieldName, new BsonInt32(rule.SetsPosition));
+            doc.Add(DBConstants.SentenceEndFieldname, new BsonInt32(rule.SentenceEnd));
 
-            BsonArray noteDependenciesArr = CreateNoteRuleNotDependenciesArray(andParserRuleNoteParts);
+            rule.RuleDependencies.ForEach(delegate (NotenizerDependency dep)
+            {
+                BsonDocument dependencyDoc = CreateDependencyDocument(dep, dep.ComparisonType, dep.TokenType);
+                AppendDependencyDocument(dep, dependencyDoc, noteDependenciesArr, dependencies);
+            });
 
             doc.Add(DBConstants.NoteDependenciesFieldName, noteDependenciesArr);
 

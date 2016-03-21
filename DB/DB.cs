@@ -67,6 +67,19 @@ namespace nsDB
             return id.ToString();
         }
 
+        public static async Task<String> Update(String collectionName, String id, String fieldName, BsonValue fieldValue)
+        {
+            IMongoCollection<BsonDocument> collection = GetCollection(collectionName);
+            FilterDefinition<BsonDocument> filter = Builders<BsonDocument>.Filter.Eq(DBConstants.IdFieldName, ObjectId.Parse(id));
+            UpdateDefinition<BsonDocument> update = Builders<BsonDocument>.Update
+                .Set(fieldName, fieldValue)
+                .Set(DBConstants.UpdatedAtFieldName, new BsonDateTime(DateTime.Now));
+
+            UpdateResult result = await collection.UpdateOneAsync(filter, update);
+
+            return result.UpsertedId.ToString();
+        }
+
         public static async void UpdateNoteDependencies(
             String collectionName, 
             BsonObjectId id, 

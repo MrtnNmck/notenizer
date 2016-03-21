@@ -52,6 +52,7 @@
     <Compile Include="NamedEntity.cs" />
     <Compile Include="Note.cs" />
     <Compile Include="NotenizerAndParserRule.cs" />
+    <Compile Include="NotenizerDependencies.cs" />
     <Compile Include="NotenizerDependency.cs" />
     <Compile Include="NotenizerNote.cs" />
     <Compile Include="NotenizerNoteRule.cs" />

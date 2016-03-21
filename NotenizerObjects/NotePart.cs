@@ -40,6 +40,11 @@ namespace nsNotenizerObjects
             }
         }
 
+        public String AdjustedValue
+        {
+            get { return Value.Trim().CapitalizeSentence().TerminateSentence(NotenizerConstants.SentenceTerminator); }
+        }
+
         public List<NoteParticle> NoteParticles
         {
             get { return _noteParticles; }

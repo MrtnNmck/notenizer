@@ -15,6 +15,7 @@ namespace nsNotenizerObjects
         private DateTime _createdAt;
         private DateTime _updatedAt;
         private CreatedBy _createdBy;
+        private String _andParserRuleRefId;
 
         public Note(
             String id,
@@ -22,7 +23,8 @@ namespace nsNotenizerObjects
             String persistedNote,
             DateTime persistedCreatedAt,
             DateTime persistedUpdatedAt,
-            CreatedBy persistedCreatedBy)
+            CreatedBy persistedCreatedBy,
+            String andParserRuleRefId)
         {
             _id = id;
             _note = persistedNote;
@@ -30,6 +32,7 @@ namespace nsNotenizerObjects
             _createdAt = persistedCreatedAt;
             _updatedAt = persistedUpdatedAt;
             _createdBy = persistedCreatedBy;
+            _andParserRuleRefId = andParserRuleRefId;
         }
 
         public String ID
@@ -60,6 +63,11 @@ namespace nsNotenizerObjects
         public CreatedBy CreatedBy
         {
             get { return _createdBy; }
+        }
+
+        public String AndParserRuleRefId
+        {
+            get { return _andParserRuleRefId; }
         }
     }
 }
