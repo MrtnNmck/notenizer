@@ -25,6 +25,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Interfaces", "Interfaces\In
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Parsers", "Parsers\Parsers.csproj", "{26543069-4B17-4652-AC7C-01202A8BF751}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Exceptions", "Exceptions\Exceptions.csproj", "{B5F177D2-8C6C-40CB-A0C1-5F6FED5CDB29}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Comparsions", "Comparisons\Comparsions.csproj", "{572A94E4-FA4F-4F48-AA8A-BCFE070B1B18}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -75,6 +79,14 @@ Global
 		{26543069-4B17-4652-AC7C-01202A8BF751}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{26543069-4B17-4652-AC7C-01202A8BF751}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{26543069-4B17-4652-AC7C-01202A8BF751}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B5F177D2-8C6C-40CB-A0C1-5F6FED5CDB29}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B5F177D2-8C6C-40CB-A0C1-5F6FED5CDB29}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B5F177D2-8C6C-40CB-A0C1-5F6FED5CDB29}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B5F177D2-8C6C-40CB-A0C1-5F6FED5CDB29}.Release|Any CPU.Build.0 = Release|Any CPU
+		{572A94E4-FA4F-4F48-AA8A-BCFE070B1B18}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{572A94E4-FA4F-4F48-AA8A-BCFE070B1B18}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{572A94E4-FA4F-4F48-AA8A-BCFE070B1B18}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{572A94E4-FA4F-4F48-AA8A-BCFE070B1B18}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

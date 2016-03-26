@@ -131,6 +131,10 @@
       <Project>{57e4152f-a7b5-4107-9eeb-54bb78bf6dfc}</Project>
       <Name>Enums</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Exceptions\Exceptions.csproj">
+      <Project>{b5f177d2-8c6c-40cb-a0c1-5f6fed5cdb29}</Project>
+      <Name>Exceptions</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Extensions\Extensions.csproj">
       <Project>{a935e0ec-5e82-46b1-a209-405d11faa30c}</Project>
       <Name>Extensions</Name>

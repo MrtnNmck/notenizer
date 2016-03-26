@@ -12,6 +12,7 @@ using MongoDB.Bson;
 using nsParsers;
 using nsEnums;
 using System.Drawing;
+using nsExceptions;
 
 namespace nsGUI
 {
@@ -100,7 +101,7 @@ namespace nsGUI
             }).ContinueWith(delegate {
                 ShowNotes(this._notenizer.Notes);
                 this._advancedProgressBar.StopAndReset();
-            });
+            }).ContinueWith(TaskExceptionHandler.Handle, TaskContinuationOptions.OnlyOnFaulted);
         }
 
         #region Event Handlers

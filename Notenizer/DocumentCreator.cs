@@ -190,8 +190,10 @@ namespace nsNotenizer
         {
             return new BsonDocument
             {
-                { DBConstants.POSFieldName, word.POS },
-                { DBConstants.IndexFieldName, word.Index }
+                { DBConstants.POSFieldName, word.POS.Tag },
+                { DBConstants.IndexFieldName, word.Index },
+                { DBConstants.NERFieldName, word.NamedEntity.Value },
+                { DBConstants.LemmaFieldName, word.Lemma }
             };
         }
 

@@ -18,6 +18,7 @@ using nsConstants;
 using nsDB;
 using nsEnums;
 using nsParsers;
+using nsComparsions;
 
 namespace nsNotenizer
 {
@@ -27,9 +28,11 @@ namespace nsNotenizer
         private String _redirectOutputToFileFileName = @"./out.txt";
         List<NotenizerNote> _notes;
         StanfordCoreNLP _pipeline;
+        private ComparsionsManager _comparsionManager;
 
 		public Notenizer()
 		{
+            _comparsionManager = new ComparsionsManager();
 		}
 
         public List<NotenizerNote> Notes
@@ -50,7 +53,7 @@ namespace nsNotenizer
 
                     // Annotation pipeline configuration
                     Properties properties = new Properties();
-                    properties.setProperty("annotators", "tokenize, ssplit, pos, parse");
+                    properties.setProperty("annotators", "tokenize, ssplit, pos, lemma, ner, parse");
                     properties.setProperty("sutime.binders", "0");
                     properties.setProperty("ner.useSUTime", "false");
 
@@ -198,7 +201,7 @@ namespace nsNotenizer
                     NoteParticle nsubj = new NoteParticle(dependencyLoop, TokenType.Dependent);
                     notePart.Add(nsubj);
 
-                    String pos = dependencyLoop.Governor.POS;
+                    String pos = dependencyLoop.Governor.POS.Tag;
                     if (POSConstants.NounLikePOS.Contains(pos))
                     {
                         NotenizerDependency compound = sentence.GetDependencyByShortName(
@@ -468,7 +471,7 @@ namespace nsNotenizer
 
             foreach (NotenizerDependency dependencyLoop in dependencies)
             {
-                if (poses.Contains(dependencyLoop.Dependent.POS))
+                if (poses.Contains(dependencyLoop.Dependent.POS.Tag))
                     filteredDependencies.Add(dependencyLoop);
             }
 
@@ -523,7 +526,21 @@ namespace nsNotenizer
         /// <param name="notePart">Part of note</param>
         private void ApplyRule(NotenizerSentence sentence, NotenizerDependency rule, NotePart notePart)
         {
-            NotenizerDependency dependency = sentence.FindDependency(rule);
+            NotenizerDependency dependency = null;// = sentence.FindDependency(rule);
+            double match = 0.0;
+            double currentMatch = 0.0;
+
+            foreach (NotenizerDependency dependencyLoop in sentence.FindDependencies(rule))
+            {
+                if (dependencyLoop == null)
+                    continue;
+
+                if ((currentMatch = _comparsionManager.Compare(rule, dependencyLoop, sentence.Dependencies.Count)) > match)
+                {
+                    match = currentMatch;
+                    dependency = dependencyLoop;
+                }
+            }
 
             if (dependency != null)
             {

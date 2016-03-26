@@ -37,5 +37,7 @@ namespace nsConstants
         public const String AndParserRulesCollectionName = "andParserRules";
         public const String BsonNullValue = "BsonNull";
         public const String SentenceEndFieldname = "sentenceEnd";
+        public const String LemmaFieldName = "lemma";
+        public const String NERFieldName = "ner";
     }
 }

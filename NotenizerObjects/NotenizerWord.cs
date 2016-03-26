@@ -15,7 +15,7 @@ namespace nsNotenizerObjects
 		private int _startingPosition;
 		private int _endPosition;
 		private String _lemma;
-        private String _pos;
+        private PartOfSpeech _pos;
         private int _index;
         private NamedEntity _namedEntity;
 
@@ -25,7 +25,6 @@ namespace nsNotenizerObjects
 			_wordString = indexedWord.word();
 			_startingPosition = indexedWord.beginPosition();
 			_endPosition = indexedWord.endPosition();
-			_lemma = indexedWord.lemma();
 			_namedEntity = new NamedEntity(indexedWord.ner());
 
             Object temp = indexedWord.get(typeof(CoreAnnotations.EndIndexAnnotation));
@@ -38,21 +37,30 @@ namespace nsNotenizerObjects
             temp = indexedWord.get(typeof(CoreAnnotations.PartOfSpeechAnnotation));
 
             if (temp != null)
-                _pos = temp.ToString();
+                _pos = new PartOfSpeech(temp.ToString());
             else
-                _pos = String.Empty;
-		}
+                _pos = new PartOfSpeech(String.Empty);
 
-        public NotenizerWord(String pos, int index)
+            temp = indexedWord.lemma();
+
+            if (temp != null)
+                _lemma = temp.ToString();
+            else
+                _lemma = String.Empty;
+        }
+
+        public NotenizerWord(String pos, int index, String lemma, String ner)
         {
-            _pos = pos;
+            _pos = new PartOfSpeech(pos);
             _index = index;
+            _lemma = lemma;
+            _namedEntity = new NamedEntity(ner);
         }
 
         public NotenizerWord(String value, String POS)
         {
             _wordString = value;
-            _pos = POS;
+            _pos = new PartOfSpeech(POS);
         }
 
 		public String Word
@@ -80,7 +88,7 @@ namespace nsNotenizerObjects
 			get { return _namedEntity; }
 		}
 
-        public String POS
+        public PartOfSpeech POS
         {
             get { return _pos; }
         }

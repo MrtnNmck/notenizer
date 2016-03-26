@@ -14,7 +14,7 @@ namespace nsNotenizerObjects
 
         public NamedEntity(String namedEntity)
         {
-            _value = namedEntity;
+            _value = namedEntity == null ? String.Empty : namedEntity;
             _neType = Parse(namedEntity);
         }
 

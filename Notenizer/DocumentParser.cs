@@ -68,8 +68,17 @@ namespace nsNotenizer
                     ComparisonType comparisonType = dependencyDocLoop[DBConstants.ComparisonTypeFieldName].AsInt32.ToEnum<ComparisonType>();
                     TokenType tokenType = dependencyDocLoop[DBConstants.TokenTypeFieldName].AsInt32.ToEnum<TokenType>();
 
-                    NotenizerWord governor = new NotenizerWord(governorDoc[DBConstants.POSFieldName].AsString, governorDoc[DBConstants.IndexFieldName].AsInt32);
-                    NotenizerWord dependent = new NotenizerWord(dependantDoc[DBConstants.POSFieldName].AsString, dependantDoc[DBConstants.IndexFieldName].AsInt32);
+                    NotenizerWord governor = new NotenizerWord(
+                        governorDoc[DBConstants.POSFieldName].AsString, 
+                        governorDoc[DBConstants.IndexFieldName].AsInt32,
+                        governorDoc[DBConstants.LemmaFieldName].AsString,
+                        governorDoc[DBConstants.NERFieldName].AsString);
+
+                    NotenizerWord dependent = new NotenizerWord(
+                        dependantDoc[DBConstants.POSFieldName].AsString, 
+                        dependantDoc[DBConstants.IndexFieldName].AsInt32,
+                        dependantDoc[DBConstants.LemmaFieldName].AsString,
+                        dependantDoc[DBConstants.NERFieldName].AsString);
 
                     NotenizerDependency dependency = new NotenizerDependency(governor, dependent, relation, position, comparisonType, tokenType);
 
@@ -167,7 +176,7 @@ namespace nsNotenizer
                 foreach (BsonDocument depLoop in origDepDocLoop[DBConstants.DependenciesFieldName].AsBsonArray)
                 {
                     if (sentence.CompressedDependencies[depName].Where(
-                        x => x.Dependent.POS == depLoop[DBConstants.DependentFieldName].AsBsonDocument[DBConstants.POSFieldName]).FirstOrDefault() != null)
+                        x => x.Dependent.POS.Tag == depLoop[DBConstants.DependentFieldName].AsBsonDocument[DBConstants.POSFieldName]).FirstOrDefault() != null)
                     {
                         counter += oneCompareTypeIter;
                     }
@@ -179,7 +188,7 @@ namespace nsNotenizer
                     }
 
                     if (sentence.CompressedDependencies[depName].Where(
-                        x => x.Governor.POS == depLoop[DBConstants.GovernorFieldName].AsBsonDocument[DBConstants.POSFieldName]).FirstOrDefault() != null)
+                        x => x.Governor.POS.Tag == depLoop[DBConstants.GovernorFieldName].AsBsonDocument[DBConstants.POSFieldName]).FirstOrDefault() != null)
                     {
                         counter += oneCompareTypeIter;
                     }
@@ -191,23 +200,23 @@ namespace nsNotenizer
                     }
 
                     if (sentence.CompressedDependencies[depName].Where(
-                        x =>x.Governor.POS == depLoop[DBConstants.GovernorFieldName].AsBsonDocument[DBConstants.POSFieldName] 
+                        x =>x.Governor.POS.Tag == depLoop[DBConstants.GovernorFieldName].AsBsonDocument[DBConstants.POSFieldName] 
                         && x.Governor.Index == depLoop[DBConstants.GovernorFieldName].AsBsonDocument[DBConstants.IndexFieldName]).FirstOrDefault() != null)
                     {
                         counter += oneCompareTypeIter;
                     }
 
                     if (sentence.CompressedDependencies[depName].Where(
-                        x => x.Dependent.POS == depLoop[DBConstants.DependentFieldName].AsBsonDocument[DBConstants.POSFieldName]
+                        x => x.Dependent.POS.Tag == depLoop[DBConstants.DependentFieldName].AsBsonDocument[DBConstants.POSFieldName]
                         && x.Dependent.Index == depLoop[DBConstants.DependentFieldName].AsBsonDocument[DBConstants.IndexFieldName]).FirstOrDefault() != null)
                     {
                         counter += oneCompareTypeIter;
                     }
 
                     if (sentence.CompressedDependencies[depName].Where(
-                        x => x.Dependent.POS == depLoop[DBConstants.DependentFieldName].AsBsonDocument[DBConstants.POSFieldName]
+                        x => x.Dependent.POS.Tag == depLoop[DBConstants.DependentFieldName].AsBsonDocument[DBConstants.POSFieldName]
                         && x.Dependent.Index == depLoop[DBConstants.DependentFieldName].AsBsonDocument[DBConstants.IndexFieldName]
-                        && x.Governor.POS == depLoop[DBConstants.GovernorFieldName].AsBsonDocument[DBConstants.POSFieldName]
+                        && x.Governor.POS.Tag == depLoop[DBConstants.GovernorFieldName].AsBsonDocument[DBConstants.POSFieldName]
                         && x.Governor.Index == depLoop[DBConstants.GovernorFieldName].AsBsonDocument[DBConstants.IndexFieldName]).FirstOrDefault() != null)
                     {
                         counter += oneCompareTypeIter;

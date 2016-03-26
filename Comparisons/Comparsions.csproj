@@ -1,16 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{6FDBBEC7-9ACC-44EA-AAF3-86D771EE5F46}</ProjectGuid>
+    <ProjectGuid>{572A94E4-FA4F-4F48-AA8A-BCFE070B1B18}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>nsNotenizerObjects</RootNamespace>
-    <AssemblyName>NotenizerObjects</AssemblyName>
+    <RootNamespace>nsComparsions</RootNamespace>
+    <AssemblyName>Comparsions</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -30,56 +31,30 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="IKVM.OpenJDK.Core">
-      <HintPath>..\Notenizer\ExternalDll\IKVM.OpenJDK.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="MongoDB.Bson">
-      <HintPath>..\Notenizer\ExternalDll\MongoDB.Bson.dll</HintPath>
-    </Reference>
-    <Reference Include="stanford-corenlp-3.5.2">
-      <HintPath>..\Notenizer\ExternalDll\stanford-corenlp-3.5.2.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CompressedDependencies.cs" />
-    <Compile Include="NamedEntity.cs" />
-    <Compile Include="Note.cs" />
-    <Compile Include="NotenizerAndParserRule.cs" />
-    <Compile Include="NotenizerDependencies.cs" />
-    <Compile Include="NotenizerDependency.cs" />
-    <Compile Include="NotenizerNote.cs" />
-    <Compile Include="NotenizerNoteRule.cs" />
-    <Compile Include="NotenizerRule.cs" />
-    <Compile Include="NoteParticle.cs" />
-    <Compile Include="NotePart.cs" />
-    <Compile Include="NotenizerRelation.cs" />
-    <Compile Include="NotenizerSentence.cs" />
-    <Compile Include="PartOfSpeech.cs" />
+    <Compile Include="Comparison.cs" />
+    <Compile Include="Comparsions.cs" />
+    <Compile Include="ComparsionsManager.cs" />
+    <Compile Include="Functions\Dependencies\ComparsionFunctions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="NotenizerWord.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Constants\Constants.csproj">
       <Project>{ce035769-8676-4ef9-a711-17da8ecd8e17}</Project>
       <Name>Constants</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Enums\Enums.csproj">
-      <Project>{57e4152f-a7b5-4107-9eeb-54bb78bf6dfc}</Project>
-      <Name>Enums</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Extensions\Extensions.csproj">
-      <Project>{a935e0ec-5e82-46b1-a209-405d11faa30c}</Project>
-      <Name>Extensions</Name>
+    <ProjectReference Include="..\NotenizerObjects\NotenizerObjects.csproj">
+      <Project>{6fdbbec7-9acc-44ea-aaf3-86d771ee5f46}</Project>
+      <Name>NotenizerObjects</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

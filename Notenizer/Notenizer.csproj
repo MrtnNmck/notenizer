@@ -328,6 +328,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Comparisons\Comparsions.csproj">
+      <Project>{572a94e4-fa4f-4f48-aa8a-bcfe070b1b18}</Project>
+      <Name>Comparsions</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Constants\Constants.csproj">
       <Project>{ce035769-8676-4ef9-a711-17da8ecd8e17}</Project>
       <Name>Constants</Name>

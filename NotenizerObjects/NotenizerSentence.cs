@@ -150,15 +150,32 @@ namespace nsNotenizerObjects
             {
                 foreach (NotenizerDependency dependencyLoop in _compressedDependencies[ruleDependency.Relation.ShortName])
                 {
-                    if (dependencyLoop.Governor.POS == ruleDependency.Governor.POS
-                        && dependencyLoop.Governor.Index == ruleDependency.Governor.Index
-                        && dependencyLoop.Dependent.POS == ruleDependency.Dependent.POS
-                        && dependencyLoop.Dependent.Index == ruleDependency.Dependent.Index)
+                    //if (dependencyLoop.Governor.POS.Tag == ruleDependency.Governor.POS.Tag
+                    //    && dependencyLoop.Governor.Index == ruleDependency.Governor.Index
+                    //    && dependencyLoop.Dependent.POS.Tag == ruleDependency.Dependent.POS.Tag
+                    //    && dependencyLoop.Dependent.Index == ruleDependency.Dependent.Index)
+                    if (dependencyLoop.Governor.POS.Type == ruleDependency.Governor.POS.Type
+                        && dependencyLoop.Dependent.POS.Type == ruleDependency.Dependent.POS.Type)
                         return dependencyLoop;
                 }
             }
 
             return null;
+        }
+
+        public IEnumerable<NotenizerDependency> FindDependencies(NotenizerDependency ruleDependency)
+        {
+            if (_compressedDependencies.ContainsKey(ruleDependency.Relation.ShortName))
+            {
+                foreach (NotenizerDependency dependencyLoop in _compressedDependencies[ruleDependency.Relation.ShortName])
+                {
+                    if (dependencyLoop.Governor.POS.Type == ruleDependency.Governor.POS.Type
+                        && dependencyLoop.Dependent.POS.Type == ruleDependency.Dependent.POS.Type)
+                        yield return dependencyLoop;
+                }
+            }
+
+            //yield return null;
         }
 
         public List<String> CopyStructure()
