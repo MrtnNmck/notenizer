@@ -145,28 +145,29 @@ namespace nsGUI
                     String noteId;
                     String ruleId = null;
                     BsonDocument ruleDoc;
-                    ruleDoc = DocumentCreator.CreateNoteRuleDocument(notenizerNote.Rule, notenizerNote);
 
                     if (notenizerNote.Rule == null)
                         throw new Exception("NotenizerNote.Rule is null!");
 
                     notenizerNote.Rule.UpdatedAt = DateTime.Now;
-                    //if (notenizerNote.Rule.CreatedBy == nsEnums.CreatedBy.Notenizer || notenizerNote.Rule.Match < 100.0)    // insert
-                    //{
-                    //    notenizerNote.Rule.CreatedBy = nsEnums.CreatedBy.User;
-   
-                    //    ruleId = DB.InsertToCollection(DBConstants.NoteRulesCollectionName, ruleDoc).Result;
-                    //}
-                    //else                                                                // update
-                    //{
-                    //    ruleId = DB.ReplaceInCollection(DBConstants.NoteRulesCollectionName, notenizerNote.Rule.ID, ruleDoc).Result;
-                    //}
+                    if (notenizerNote.Rule.CreatedBy == nsEnums.CreatedBy.Notenizer || notenizerNote.Rule.Match.Structure < 100.0)    // insert
+                    {
+                        notenizerNote.Rule.CreatedBy = nsEnums.CreatedBy.User;
+
+                        ruleDoc = DocumentCreator.CreateNoteRuleDocument(notenizerNote.Rule, notenizerNote);
+                        ruleId = DB.InsertToCollection(DBConstants.NoteRulesCollectionName, ruleDoc).Result;
+                    }
+                    else                                                                // update
+                    {
+                        ruleDoc = DocumentCreator.CreateNoteRuleDocument(notenizerNote.Rule, notenizerNote);
+                        ruleId = DB.ReplaceInCollection(DBConstants.NoteRulesCollectionName, notenizerNote.Rule.ID, ruleDoc).Result;
+                    }
 
                     // UPDATE only user-created rules, not Notenizer-created!
                     // which value of originalSentence is same as value persisted in DB
                     // We do not want to update note in DB, if we processed SIMILAR but not THE SAME sentence
-                    if (notenizerNote.Rule.CreatedBy == nsEnums.CreatedBy.User 
-                        && notenizerNote.Rule.Note.OriginalSentence.Trim() == notenizerNote.OriginalSentence.ToString().Trim())
+                    if (notenizerNote.Rule.CreatedBy == nsEnums.CreatedBy.User
+                        && notenizerNote.Rule.Match.Content == 100)
                     {
                         notenizerNote.UpdatedAt = DateTime.Now;
                         noteId = DB.ReplaceInCollection(DBConstants.NotesCollectionName, notenizerNote.Rule.Note.ID, DocumentCreator.CreateNoteDocument(notenizerNote, String.Empty, ruleId, String.Empty)).Result;

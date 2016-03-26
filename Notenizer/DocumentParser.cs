@@ -128,8 +128,15 @@ namespace nsNotenizer
                 r.Note = ParseNote(bsonDocLoop);
                 r.Match = CalculateMatch(sentence, r.RuleDependencies, bsonDocLoop);
 
-                //if (rule == null || rule.Match < r.Match || (rule.Match == r.Match && rule.CreatedBy == CreatedBy.Notenizer && r.CreatedBy == CreatedBy.User))
-                //    rule = r;
+                if (rule == null
+                    || rule.Match.Structure < r.Match.Structure
+                    || (rule.Match.Structure == r.Match.Structure
+                        && (rule.Match.Content < r.Match.Content
+                            || (rule.CreatedBy == CreatedBy.Notenizer
+                                && r.CreatedBy == CreatedBy.User))))
+                {
+                    rule = r;
+                }
             }
 
             return rule;
@@ -152,7 +159,7 @@ namespace nsNotenizer
             Double oneContentComapareTypeIterRating;
             Double structureCounter = 0.0;
             Double contentCounter = 0.0;
-            Dictionary<String, Dictionary<Tuple<String, String>, int>> structureDic = new Dictionary<string, Dictionary<Tuple<string, string>, int>>();
+            Dictionary<String, Dictionary<Tuple<PartOfSpeechType, PartOfSpeechType>, int>> structureDic = new Dictionary<string, Dictionary<Tuple<PartOfSpeechType, PartOfSpeechType>, int>>();
 
             int c = 0;
 
@@ -183,11 +190,11 @@ namespace nsNotenizer
                 {
                     /* ================= Structure match ================= */
                     if (!structureDic.ContainsKey(depName))
-                        structureDic.Add(depName, new Dictionary<Tuple<string, string>, int>());
+                        structureDic.Add(depName, new Dictionary<Tuple<PartOfSpeechType, PartOfSpeechType>, int>());
 
-                    Tuple<String, String> govPOSdepPOSKey = new Tuple<string, string>(
-                        depLoop[DBConstants.GovernorFieldName].AsBsonDocument[DBConstants.POSFieldName].AsString,
-                        depLoop[DBConstants.DependentFieldName].AsBsonDocument[DBConstants.POSFieldName].AsString);
+                    Tuple<PartOfSpeechType, PartOfSpeechType> govPOSdepPOSKey = new Tuple<PartOfSpeechType, PartOfSpeechType>(
+                        PartOfSpeech.GetTypeFromTag(depLoop[DBConstants.GovernorFieldName].AsBsonDocument[DBConstants.POSFieldName].AsString),
+                        PartOfSpeech.GetTypeFromTag(depLoop[DBConstants.DependentFieldName].AsBsonDocument[DBConstants.POSFieldName].AsString));
 
                     if (!structureDic[depName].ContainsKey(govPOSdepPOSKey))
                         structureDic[depName].Add(govPOSdepPOSKey, 0);
@@ -195,20 +202,20 @@ namespace nsNotenizer
                     structureDic[depName][govPOSdepPOSKey]++;
 
                     if (sentence.CompressedDependencies[depName].Where(
-                        x => x.Dependent.POS.Tag == depLoop[DBConstants.DependentFieldName].AsBsonDocument[DBConstants.POSFieldName]).FirstOrDefault() != null)
+                        x => x.Dependent.POS.Type == PartOfSpeech.GetTypeFromTag(depLoop[DBConstants.DependentFieldName].AsBsonDocument[DBConstants.POSFieldName].AsString)).FirstOrDefault() != null)
                     {
                         structureCounter += oneStructureCompareTypeIterRating;
                     }
 
                     if (sentence.CompressedDependencies[depName].Where(
-                        x => x.Governor.POS.Tag == depLoop[DBConstants.GovernorFieldName].AsBsonDocument[DBConstants.POSFieldName]).FirstOrDefault() != null)
+                        x => x.Governor.POS.Type == PartOfSpeech.GetTypeFromTag(depLoop[DBConstants.GovernorFieldName].AsBsonDocument[DBConstants.POSFieldName].AsString)).FirstOrDefault() != null)
                     {
                         structureCounter += oneStructureCompareTypeIterRating;
                     }
 
                     if (sentence.CompressedDependencies[depName].Where(
-                        x => x.Dependent.POS.Tag == depLoop[DBConstants.DependentFieldName].AsBsonDocument[DBConstants.POSFieldName]
-                        && x.Governor.POS.Tag == depLoop[DBConstants.GovernorFieldName].AsBsonDocument[DBConstants.POSFieldName]).FirstOrDefault() != null)
+                        x => x.Dependent.POS.Type == PartOfSpeech.GetTypeFromTag(depLoop[DBConstants.DependentFieldName].AsBsonDocument[DBConstants.POSFieldName].AsString)
+                        && x.Governor.POS.Type == PartOfSpeech.GetTypeFromTag(depLoop[DBConstants.GovernorFieldName].AsBsonDocument[DBConstants.POSFieldName].AsString)).FirstOrDefault() != null)
                     {
                         structureCounter += oneStructureCompareTypeIterRating;
                     }
@@ -302,15 +309,15 @@ namespace nsNotenizer
 
             int z = 0;
             int y = 0;
-            foreach (KeyValuePair<String, Dictionary<Tuple<String, String>, int>> structDicKVPLoop in structureDic)
+            foreach (KeyValuePair<String, Dictionary<Tuple<PartOfSpeechType, PartOfSpeechType>, int>> structDicKVPLoop in structureDic)
             {
                 z += structDicKVPLoop.Value.Keys.Count;
 
-                foreach (KeyValuePair<Tuple<String, String>, int> govPOSdepGOVCountKVPLoop in structDicKVPLoop.Value)
+                foreach (KeyValuePair<Tuple<PartOfSpeechType, PartOfSpeechType>, int> govPOSdepGOVCountKVPLoop in structDicKVPLoop.Value)
                 {
                     if (sentence.CompressedDependencies[structDicKVPLoop.Key].Where(
-                        x => x.Governor.POS.Tag == govPOSdepGOVCountKVPLoop.Key.Item1
-                        && x.Dependent.POS.Tag == govPOSdepGOVCountKVPLoop.Key.Item2).Count() == govPOSdepGOVCountKVPLoop.Value)
+                        x => x.Governor.POS.Type == govPOSdepGOVCountKVPLoop.Key.Item1
+                        && x.Dependent.POS.Type == govPOSdepGOVCountKVPLoop.Key.Item2).Count() == govPOSdepGOVCountKVPLoop.Value)
                     {
                         y++;
                     }

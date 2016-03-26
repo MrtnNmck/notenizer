@@ -15,10 +15,10 @@ namespace nsNotenizerObjects
         public PartOfSpeech(String tag)
         {
             _tag = tag;
-            _posType = GetPOSTypeFromPOSTag(tag);
+            _posType = GetTypeFromTag(tag);
         }
 
-        private PartOfSpeechType GetPOSTypeFromPOSTag(String posTag)
+        public static PartOfSpeechType GetTypeFromTag(String posTag)
         {
             switch (posTag)
             {
