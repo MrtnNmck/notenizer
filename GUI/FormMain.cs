@@ -143,7 +143,7 @@ namespace nsGUI
                 Task.Factory.StartNew(() =>
                 {
                     String noteId;
-                    String ruleId;
+                    String ruleId = null;
                     BsonDocument ruleDoc;
                     ruleDoc = DocumentCreator.CreateNoteRuleDocument(notenizerNote.Rule, notenizerNote);
 
@@ -151,16 +151,16 @@ namespace nsGUI
                         throw new Exception("NotenizerNote.Rule is null!");
 
                     notenizerNote.Rule.UpdatedAt = DateTime.Now;
-                    if (notenizerNote.Rule.CreatedBy == nsEnums.CreatedBy.Notenizer || notenizerNote.Rule.Match < 100.0)    // insert
-                    {
-                        notenizerNote.Rule.CreatedBy = nsEnums.CreatedBy.User;
+                    //if (notenizerNote.Rule.CreatedBy == nsEnums.CreatedBy.Notenizer || notenizerNote.Rule.Match < 100.0)    // insert
+                    //{
+                    //    notenizerNote.Rule.CreatedBy = nsEnums.CreatedBy.User;
    
-                        ruleId = DB.InsertToCollection(DBConstants.NoteRulesCollectionName, ruleDoc).Result;
-                    }
-                    else                                                                // update
-                    {
-                        ruleId = DB.ReplaceInCollection(DBConstants.NoteRulesCollectionName, notenizerNote.Rule.ID, ruleDoc).Result;
-                    }
+                    //    ruleId = DB.InsertToCollection(DBConstants.NoteRulesCollectionName, ruleDoc).Result;
+                    //}
+                    //else                                                                // update
+                    //{
+                    //    ruleId = DB.ReplaceInCollection(DBConstants.NoteRulesCollectionName, notenizerNote.Rule.ID, ruleDoc).Result;
+                    //}
 
                     // UPDATE only user-created rules, not Notenizer-created!
                     // which value of originalSentence is same as value persisted in DB

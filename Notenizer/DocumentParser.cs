@@ -128,8 +128,8 @@ namespace nsNotenizer
                 r.Note = ParseNote(bsonDocLoop);
                 r.Match = CalculateMatch(sentence, r.RuleDependencies, bsonDocLoop);
 
-                if (rule == null || rule.Match < r.Match || (rule.Match == r.Match && rule.CreatedBy == CreatedBy.Notenizer && r.CreatedBy == CreatedBy.User))
-                    rule = r;
+                //if (rule == null || rule.Match < r.Match || (rule.Match == r.Match && rule.CreatedBy == CreatedBy.Notenizer && r.CreatedBy == CreatedBy.User))
+                //    rule = r;
             }
 
             return rule;
@@ -142,23 +142,28 @@ namespace nsNotenizer
         /// <param name="parsedDependencies"></param>
         /// <param name="dbEntry"></param>
         /// <returns></returns>
-        private static Double CalculateMatch(NotenizerSentence sentence, List<NotenizerDependency> parsedDependencies, BsonDocument dbEntry)
+        private static Match CalculateMatch(NotenizerSentence sentence, List<NotenizerDependency> parsedDependencies, BsonDocument dbEntry)
         {
-            Double compareCount = 8.0;
-            Double oneCompareType = 100.0 / compareCount;
-            Double oneCompareTypeIter;
-            Double counter = 0.0;
+            Double structureCompareCount = 5.0;
+            Double contentCompareCount = 12.0;
+            Double oneStructeCompareRating = NotenizerConstants.MaximumMatchPercentageValue / structureCompareCount;
+            Double oneContentCompareRating = NotenizerConstants.MaximumMatchPercentageValue / contentCompareCount;
+            Double oneStructureCompareTypeIterRating;
+            Double oneContentComapareTypeIterRating;
+            Double structureCounter = 0.0;
+            Double contentCounter = 0.0;
+            Dictionary<String, Dictionary<Tuple<String, String>, int>> structureDic = new Dictionary<string, Dictionary<Tuple<string, string>, int>>();
 
             int c = 0;
 
-            oneCompareTypeIter = oneCompareType / Double.Parse(dbEntry[DBConstants.OriginalSentenceDependenciesFieldName].AsBsonArray.Count.ToString());
+            oneStructureCompareTypeIterRating = oneStructeCompareRating / Double.Parse(dbEntry[DBConstants.OriginalSentenceDependenciesFieldName].AsBsonArray.Count.ToString());
             foreach (BsonDocument origDepDocLoop in dbEntry[DBConstants.OriginalSentenceDependenciesFieldName].AsBsonArray)
             {
                 String depName = origDepDocLoop[DBConstants.DependencyNameFieldName].AsString;
 
                 if (sentence.CompressedDependencies[depName].Count == origDepDocLoop[DBConstants.DependenciesFieldName].AsBsonArray.Count)
                 {
-                    counter += oneCompareTypeIter;
+                    structureCounter += oneStructureCompareTypeIterRating;
                 }
 
                 c += origDepDocLoop[DBConstants.DependenciesFieldName].AsBsonArray.Count;
@@ -168,49 +173,73 @@ namespace nsNotenizer
             // and gets the name of dependency (for example: compound)
             // and checks, if there is, in sentence that is parsed right now,
             // the dependency with same POS tag or same index at governor or dependent.
-            oneCompareTypeIter = oneCompareType / (double)(c);
+            oneStructureCompareTypeIterRating = oneStructeCompareRating / (double)(c);
+            oneContentComapareTypeIterRating = oneContentCompareRating / (double)(c);
             foreach (BsonDocument origDepDocLoop in dbEntry[DBConstants.OriginalSentenceDependenciesFieldName].AsBsonArray)
             {
                 String depName = origDepDocLoop[DBConstants.DependencyNameFieldName].AsString;
 
                 foreach (BsonDocument depLoop in origDepDocLoop[DBConstants.DependenciesFieldName].AsBsonArray)
                 {
+                    /* ================= Structure match ================= */
+                    if (!structureDic.ContainsKey(depName))
+                        structureDic.Add(depName, new Dictionary<Tuple<string, string>, int>());
+
+                    Tuple<String, String> govPOSdepPOSKey = new Tuple<string, string>(
+                        depLoop[DBConstants.GovernorFieldName].AsBsonDocument[DBConstants.POSFieldName].AsString,
+                        depLoop[DBConstants.DependentFieldName].AsBsonDocument[DBConstants.POSFieldName].AsString);
+
+                    if (!structureDic[depName].ContainsKey(govPOSdepPOSKey))
+                        structureDic[depName].Add(govPOSdepPOSKey, 0);
+
+                    structureDic[depName][govPOSdepPOSKey]++;
+
                     if (sentence.CompressedDependencies[depName].Where(
                         x => x.Dependent.POS.Tag == depLoop[DBConstants.DependentFieldName].AsBsonDocument[DBConstants.POSFieldName]).FirstOrDefault() != null)
                     {
-                        counter += oneCompareTypeIter;
-                    }
-
-                    if (sentence.CompressedDependencies[depName].Where(
-                        x => x.Dependent.Index == depLoop[DBConstants.DependentFieldName].AsBsonDocument[DBConstants.IndexFieldName]).FirstOrDefault() != null)
-                    {
-                        counter += oneCompareTypeIter;
+                        structureCounter += oneStructureCompareTypeIterRating;
                     }
 
                     if (sentence.CompressedDependencies[depName].Where(
                         x => x.Governor.POS.Tag == depLoop[DBConstants.GovernorFieldName].AsBsonDocument[DBConstants.POSFieldName]).FirstOrDefault() != null)
                     {
-                        counter += oneCompareTypeIter;
+                        structureCounter += oneStructureCompareTypeIterRating;
+                    }
+
+                    if (sentence.CompressedDependencies[depName].Where(
+                        x => x.Dependent.POS.Tag == depLoop[DBConstants.DependentFieldName].AsBsonDocument[DBConstants.POSFieldName]
+                        && x.Governor.POS.Tag == depLoop[DBConstants.GovernorFieldName].AsBsonDocument[DBConstants.POSFieldName]).FirstOrDefault() != null)
+                    {
+                        structureCounter += oneStructureCompareTypeIterRating;
+                    }
+
+
+                    /* ================= Content match ================= */
+
+                    if (sentence.CompressedDependencies[depName].Where(
+                        x => x.Dependent.Index == depLoop[DBConstants.DependentFieldName].AsBsonDocument[DBConstants.IndexFieldName]).FirstOrDefault() != null)
+                    {
+                        contentCounter += oneContentComapareTypeIterRating;
                     }
 
                     if (sentence.CompressedDependencies[depName].Where(
                         x => x.Governor.Index == depLoop[DBConstants.GovernorFieldName].AsBsonDocument[DBConstants.IndexFieldName]).FirstOrDefault() != null)
                     {
-                        counter += oneCompareTypeIter;
+                        contentCounter += oneContentComapareTypeIterRating;
                     }
 
                     if (sentence.CompressedDependencies[depName].Where(
                         x =>x.Governor.POS.Tag == depLoop[DBConstants.GovernorFieldName].AsBsonDocument[DBConstants.POSFieldName] 
                         && x.Governor.Index == depLoop[DBConstants.GovernorFieldName].AsBsonDocument[DBConstants.IndexFieldName]).FirstOrDefault() != null)
                     {
-                        counter += oneCompareTypeIter;
+                        contentCounter += oneContentComapareTypeIterRating;
                     }
 
                     if (sentence.CompressedDependencies[depName].Where(
                         x => x.Dependent.POS.Tag == depLoop[DBConstants.DependentFieldName].AsBsonDocument[DBConstants.POSFieldName]
                         && x.Dependent.Index == depLoop[DBConstants.DependentFieldName].AsBsonDocument[DBConstants.IndexFieldName]).FirstOrDefault() != null)
                     {
-                        counter += oneCompareTypeIter;
+                        contentCounter += oneContentComapareTypeIterRating;
                     }
 
                     if (sentence.CompressedDependencies[depName].Where(
@@ -219,12 +248,78 @@ namespace nsNotenizer
                         && x.Governor.POS.Tag == depLoop[DBConstants.GovernorFieldName].AsBsonDocument[DBConstants.POSFieldName]
                         && x.Governor.Index == depLoop[DBConstants.GovernorFieldName].AsBsonDocument[DBConstants.IndexFieldName]).FirstOrDefault() != null)
                     {
-                        counter += oneCompareTypeIter;
+                        contentCounter += oneContentComapareTypeIterRating;
+                    }
+
+                    if (sentence.CompressedDependencies[depName].Where(
+                        x => x.Dependent.NamedEntity.Value == depLoop[DBConstants.DependentFieldName].AsBsonDocument[DBConstants.NERFieldName]).FirstOrDefault() != null)
+                    {
+                        contentCounter += oneContentComapareTypeIterRating;
+                    }
+
+                    if (sentence.CompressedDependencies[depName].Where(
+                        x => x.Dependent.Lemma == depLoop[DBConstants.DependentFieldName].AsBsonDocument[DBConstants.LemmaFieldName]).FirstOrDefault() != null)
+                    {
+                        contentCounter += oneContentComapareTypeIterRating;
+                    }
+
+                    if (sentence.CompressedDependencies[depName].Where(
+                        x => x.Governor.NamedEntity.Value == depLoop[DBConstants.GovernorFieldName].AsBsonDocument[DBConstants.NERFieldName]).FirstOrDefault() != null)
+                    {
+                        contentCounter += oneContentComapareTypeIterRating;
+                    }
+
+                    if (sentence.CompressedDependencies[depName].Where(
+                        x => x.Governor.Lemma == depLoop[DBConstants.GovernorFieldName].AsBsonDocument[DBConstants.LemmaFieldName]).FirstOrDefault() != null)
+                    {
+                        contentCounter += oneContentComapareTypeIterRating;
+                    }
+
+                    if (sentence.CompressedDependencies[depName].Where(
+                        x => x.Dependent.NamedEntity.Value == depLoop[DBConstants.DependentFieldName].AsBsonDocument[DBConstants.NERFieldName]
+                        && x.Dependent.Lemma == depLoop[DBConstants.DependentFieldName].AsBsonDocument[DBConstants.LemmaFieldName]).FirstOrDefault() != null)
+                    {
+                        contentCounter += oneContentComapareTypeIterRating;
+                    }
+
+                    if (sentence.CompressedDependencies[depName].Where(
+                        x => x.Governor.NamedEntity.Value == depLoop[DBConstants.GovernorFieldName].AsBsonDocument[DBConstants.NERFieldName]
+                        && x.Governor.Lemma == depLoop[DBConstants.GovernorFieldName].AsBsonDocument[DBConstants.LemmaFieldName]).FirstOrDefault() != null)
+                    {
+                        contentCounter += oneContentComapareTypeIterRating;
+                    }
+
+                    if (sentence.CompressedDependencies[depName].Where(
+                        x => x.Dependent.NamedEntity.Value == depLoop[DBConstants.DependentFieldName].AsBsonDocument[DBConstants.NERFieldName]
+                        && x.Dependent.Lemma == depLoop[DBConstants.DependentFieldName].AsBsonDocument[DBConstants.LemmaFieldName]
+                        && x.Governor.NamedEntity.Value == depLoop[DBConstants.GovernorFieldName].AsBsonDocument[DBConstants.NERFieldName]
+                        && x.Governor.Lemma == depLoop[DBConstants.GovernorFieldName].AsBsonDocument[DBConstants.LemmaFieldName]).FirstOrDefault() != null)
+                    {
+                        contentCounter += oneContentComapareTypeIterRating;
                     }
                 }
             }
 
-            return Math.Round(counter);
+            int z = 0;
+            int y = 0;
+            foreach (KeyValuePair<String, Dictionary<Tuple<String, String>, int>> structDicKVPLoop in structureDic)
+            {
+                z += structDicKVPLoop.Value.Keys.Count;
+
+                foreach (KeyValuePair<Tuple<String, String>, int> govPOSdepGOVCountKVPLoop in structDicKVPLoop.Value)
+                {
+                    if (sentence.CompressedDependencies[structDicKVPLoop.Key].Where(
+                        x => x.Governor.POS.Tag == govPOSdepGOVCountKVPLoop.Key.Item1
+                        && x.Dependent.POS.Tag == govPOSdepGOVCountKVPLoop.Key.Item2).Count() == govPOSdepGOVCountKVPLoop.Value)
+                    {
+                        y++;
+                    }
+                }
+            }
+
+            structureCounter += oneStructeCompareRating / z * y;
+
+            return new Match(structureCounter, contentCounter);
         }
     }
 }

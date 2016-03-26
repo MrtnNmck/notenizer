@@ -49,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CompressedDependencies.cs" />
+    <Compile Include="Match.cs" />
     <Compile Include="NamedEntity.cs" />
     <Compile Include="Note.cs" />
     <Compile Include="NotenizerAndParserRule.cs" />

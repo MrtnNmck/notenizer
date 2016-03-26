@@ -10,7 +10,7 @@ namespace nsNotenizerObjects
     public class NotenizerRule
     {
         protected NotenizerDependencies _dependencies;
-        protected Double _match;
+        protected Match _match;
         protected CreatedBy _createdBy;
         protected String _id;
         protected Note _note;
@@ -32,7 +32,7 @@ namespace nsNotenizerObjects
             set { _dependencies = value; }
         }
 
-        public Double Match
+        public Match Match
         {
             get { return _match; }
             set { _match = value; }
