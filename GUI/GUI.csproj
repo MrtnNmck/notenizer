@@ -74,11 +74,11 @@
     <Compile Include="FormMain.Designer.cs">
       <DependentUpon>FormMain.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormReorderNote.cs">
+    <Compile Include="FormEditNote.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormReorderNote.Designer.cs">
-      <DependentUpon>FormReorderNote.cs</DependentUpon>
+    <Compile Include="FormEditNote.Designer.cs">
+      <DependentUpon>FormEditNote.cs</DependentUpon>
     </Compile>
     <Compile Include="FormTextInputer.cs">
       <SubType>Form</SubType>
@@ -103,8 +103,8 @@
     <EmbeddedResource Include="FormMain.resx">
       <DependentUpon>FormMain.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormReorderNote.resx">
-      <DependentUpon>FormReorderNote.cs</DependentUpon>
+    <EmbeddedResource Include="FormEditNote.resx">
+      <DependentUpon>FormEditNote.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormTextInputer.resx">
       <DependentUpon>FormTextInputer.cs</DependentUpon>

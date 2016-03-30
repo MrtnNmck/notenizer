@@ -132,7 +132,48 @@ namespace nsGUI
         private void NoteEditButton_Click(object sender, EventArgs e)
         {
             NotenizerNote notenizerNote = (sender as NotenizerAdvancedTextBox).Note;
-            FormReorderNote frmReorderNote = new FormReorderNote(notenizerNote);
+
+            NotenizerNote parsedAndNote;
+            NotePart sourceNotePart;
+            int andSetPosition;
+            FormEditNote frmReorderNote;
+
+            if (notenizerNote.AndParserRule != null)
+            {
+                parsedAndNote = _notenizer.ApplyRule(notenizerNote.OriginalSentence, notenizerNote.AndParserRule);
+                sourceNotePart = parsedAndNote.NoteParts[0];
+                andSetPosition = notenizerNote.AndParserRule.SetsPosition;
+            }
+            else
+            {
+                parsedAndNote = new NotenizerNote(notenizerNote.OriginalSentence);
+                sourceNotePart = new NotePart(notenizerNote.OriginalSentence);
+                andSetPosition = 0;
+            }
+
+            if (_andParser.IsParsableSentence(notenizerNote.OriginalSentence))
+            {
+                List<NotePart> noteParts = new List<NotePart>();
+                List<NoteParticle> andSets = _andParser.GetAndSets(notenizerNote.OriginalSentence);
+
+                foreach (NoteParticle andSetLoop in andSets)
+                {
+                    NotePart notePart = sourceNotePart.Clone();
+
+                    if (notenizerNote.AndParserRule == null || andSetPosition == 0)
+                        notePart.NoteParticles.Insert(andSetPosition, andSetLoop);
+                    else
+                        notePart.NoteParticles.Insert(notePart.InitializedNoteParticles[andSetPosition - 1].NoteDependency.Position + 1, andSetLoop);
+
+                    noteParts.Add(notePart);
+                }
+
+                frmReorderNote = new FormEditNote(notenizerNote, parsedAndNote, noteParts, andSetPosition);
+            }
+            else
+            {
+                frmReorderNote = new FormEditNote(notenizerNote);
+            }
 
             if (frmReorderNote.ShowDialog() == DialogResult.OK)
             {
@@ -144,6 +185,7 @@ namespace nsGUI
                 {
                     String noteId;
                     String ruleId = null;
+                    String andParserRuleId = String.Empty;
                     BsonDocument ruleDoc;
 
                     if (notenizerNote.Rule == null)
@@ -163,6 +205,30 @@ namespace nsGUI
                         ruleId = DB.ReplaceInCollection(DBConstants.NoteRulesCollectionName, notenizerNote.Rule.ID, ruleDoc).Result;
                     }
 
+                    if (frmReorderNote.AndParserEnabled)
+                    {
+                        NotenizerDependencies andParserDependencies = new NotenizerDependencies();
+
+                        foreach (NoteParticle noteParticleLoop in frmReorderNote.AndParserNotePart.InitializedNoteParticles)
+                            andParserDependencies.Add(noteParticleLoop.NoteDependency);
+
+                        if (notenizerNote.AndParserRule == null)
+                            notenizerNote.AndParserRule = new NotenizerAndParserRule(andParserDependencies, CreatedBy.User, frmReorderNote.AndSetPosition, andParserDependencies.Count);
+                        else
+                        {
+                            notenizerNote.AndParserRule.RuleDependencies = andParserDependencies;
+                            notenizerNote.AndParserRule.SetsPosition = frmReorderNote.AndSetPosition;
+                            notenizerNote.AndParserRule.SentenceEnd = andParserDependencies.Count;
+                        }
+
+                        BsonDocument andParserRuleDoc = DocumentCreator.CreateAndParserRuleDocument(notenizerNote.AndParserRule);
+
+                        if (notenizerNote.AndParserRule.ID == String.Empty)
+                            andParserRuleId = DB.InsertToCollection(DBConstants.AndParserRulesCollectionName, andParserRuleDoc).Result;
+                        else
+                            andParserRuleId = DB.ReplaceInCollection(DBConstants.AndParserRulesCollectionName, notenizerNote.AndParserRule.ID, andParserRuleDoc).Result;
+                    }
+
                     // UPDATE only user-created rules, not Notenizer-created!
                     // which value of originalSentence is same as value persisted in DB
                     // We do not want to update note in DB, if we processed SIMILAR but not THE SAME sentence
@@ -170,7 +236,7 @@ namespace nsGUI
                         && notenizerNote.Rule.Match.Content == 100)
                     {
                         notenizerNote.UpdatedAt = DateTime.Now;
-                        noteId = DB.ReplaceInCollection(DBConstants.NotesCollectionName, notenizerNote.Rule.Note.ID, DocumentCreator.CreateNoteDocument(notenizerNote, String.Empty, ruleId, String.Empty)).Result;
+                        noteId = DB.ReplaceInCollection(DBConstants.NotesCollectionName, notenizerNote.Rule.Note.ID, DocumentCreator.CreateNoteDocument(notenizerNote, String.Empty, ruleId, andParserRuleId)).Result;
                     }
                     else
                     {
@@ -178,10 +244,11 @@ namespace nsGUI
                         notenizerNote.CreatedAt = DateTime.Now;
                         notenizerNote.UpdatedAt = notenizerNote.CreatedAt;
 
-                        BsonDocument noteDoc = DocumentCreator.CreateNoteDocument(notenizerNote, String.Empty, ruleId, String.Empty);
+                        BsonDocument noteDoc = DocumentCreator.CreateNoteDocument(notenizerNote, String.Empty, ruleId, andParserRuleId);
                         noteId = DB.InsertToCollection(DBConstants.NotesCollectionName, noteDoc).Result;
                         notenizerNote.Rule = DocumentParser.ParseNoteRule(ruleDoc);
                     }
+
                 }).ContinueWith(delegate
                 {
                     (sender as NotenizerAdvancedTextBox).PerformSafely(() => (sender as NotenizerAdvancedTextBox).AdvancedTextBox.TextBox.Text = notenizerNote.Value);

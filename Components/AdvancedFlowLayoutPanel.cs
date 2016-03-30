@@ -13,6 +13,7 @@ namespace nsComponents
     public partial class AdvancedFlowLayoutPanel : FlowLayoutPanel
     {
         private Font _controlsFont;
+        private bool _isDirty;
 
         public AdvancedFlowLayoutPanel(Font font)
         {
@@ -20,6 +21,7 @@ namespace nsComponents
             Init();
 
             this._controlsFont = font;
+            this._isDirty = false;
         }
 
         private void Init()
@@ -70,6 +72,13 @@ namespace nsComponents
             destinationPanel.Controls.SetChildIndex(data, index);
             destinationPanel.Invalidate();
             sourcePanel.Invalidate();
+
+            this._isDirty = true;
+        }
+
+        public bool IsDirty
+        {
+            get { return this._isDirty; }
         }
     }
 }
