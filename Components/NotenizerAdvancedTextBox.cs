@@ -119,7 +119,10 @@ namespace nsComponents
             this._buttonPanel.Controls.Add(this._editButton);
 
             InitEditButton();
-            this.AdvancedTextBox.TextBox.SetToolTip("Match: " + _note.Rule.Match + "%");
+            this.AdvancedTextBox.TextBox.SetToolTip(
+                "Structure match: " + this._note.Rule.Match.Structure + "%." 
+                + Environment.NewLine
+                + "  Content match: " + this._note.Rule.Match.Content + "%.");
 
             this.Margin = new Padding(0);
             this.Padding = new Padding(0);
