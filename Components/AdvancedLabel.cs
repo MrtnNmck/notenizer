@@ -16,9 +16,15 @@ namespace nsComponents
 {
     public partial class AdvancedLabel : Label
     {
+        #region Variables
+
         private Point _offset;
         private Color? _borderColor = null;
         private int _borderWidth = 1;
+
+        #endregion Variables
+
+        #region Constructors
 
         public AdvancedLabel()
         {
@@ -34,16 +40,25 @@ namespace nsComponents
             this.Font = font;
         }
 
-        private void Init()
+        #endregion Constuctors
+
+        #region Properties
+
+        public Color? BorderColor
         {
-            this.Cursor = Cursors.Hand;
-
-            this.Font = new Font(ComponentConstants.AdvancedLabelFontFamilyName, ComponentConstants.AdvancedLabelActiveFontSize);
-            this.BorderStyle = BorderStyle.FixedSingle;
-
-            this.TextAlign = ContentAlignment.MiddleCenter;
-            this.AutoSize = true;
+            get { return _borderColor; }
+            set { _borderColor = value; }
         }
+
+        public int BorderWidth
+        {
+            get { return _borderWidth; }
+            set { _borderWidth = value; }
+        }
+
+        #endregion Properties
+
+        #region Event Handlers
 
         protected override void OnMouseMove(MouseEventArgs e)
         {
@@ -51,8 +66,9 @@ namespace nsComponents
             {
                 int dx = e.X - _offset.X;
                 int dy = e.Y - _offset.Y;
-                Location = new Point(Left + dx, Top + dy);
+                Location = new Point(this.Left + dx, this.Top + dy);
             }
+
             base.OnMouseMove(e);
         }
 
@@ -77,27 +93,29 @@ namespace nsComponents
             base.OnPaint(e);
 
             if (_borderColor.HasValue)
-                e.Graphics.DrawRectangle(new Pen(_borderColor.Value, _borderWidth), new Rectangle(0, 0, this.Width - _borderWidth, this.Height - _borderWidth));
+            {
+                using (Pen pen = new Pen(this._borderColor.Value, this._borderWidth))
+                {
+                    e.Graphics.DrawRectangle(pen, new Rectangle(0, 0, this.Width - _borderWidth, this.Height - _borderWidth));
+                }
+            }
         }
 
-        private void AdvancedLabel_GiveFeedback(Object sender, GiveFeedbackEventArgs e)
+        #endregion Event Hanlders
+
+        #region Methods
+
+        private void Init()
         {
-            // Sets the custom cursor based upon the effect.
-            e.UseDefaultCursors = false;
-            if ((e.Effect & DragDropEffects.Move) == DragDropEffects.Move)
-                Cursor.Current = Cursors.Hand;
+            this.Cursor = Cursors.Hand;
+
+            this.Font = new Font(ComponentConstants.AdvancedLabelFontFamilyName, ComponentConstants.AdvancedLabelActiveFontSize);
+            this.BorderStyle = BorderStyle.FixedSingle;
+
+            this.TextAlign = ContentAlignment.MiddleCenter;
+            this.AutoSize = true;
         }
 
-        public Color? BorderColor
-        {
-            get { return _borderColor; }
-            set { _borderColor = value; }
-        }
-
-        public int BorderWidth
-        {
-            get { return _borderWidth; }
-            set { _borderWidth = value; }
-        }
+        #endregion Methods
     }
 }

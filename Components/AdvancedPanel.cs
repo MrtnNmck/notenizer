@@ -12,8 +12,14 @@ namespace nsComponents
 {
     public partial class AdvancedPanel : Panel
     {
+        #region Variables
+
         private int _borderWidth;
         private Color _borderColor;
+
+        #endregion Variables
+
+        #region Constructors
 
         public AdvancedPanel()
         {
@@ -22,6 +28,10 @@ namespace nsComponents
             _borderWidth = 1;
             _borderColor = Color.Black;
         }
+
+        #endregion Constuctors
+
+        #region Properties
 
         public int BorderWidth
         {
@@ -35,6 +45,10 @@ namespace nsComponents
             set { _borderColor = value; }
         }
 
+        #endregion Properties
+
+        #region Event Handlers
+
         private void On_Paint(object sender, PaintEventArgs e)
         {
             if (this.BorderStyle == BorderStyle.FixedSingle)
@@ -43,9 +57,15 @@ namespace nsComponents
 
                 using (Pen pen = new Pen(_borderColor, halfThickness))
                 {
-                    e.Graphics.DrawRectangle(pen, new Rectangle(halfThickness, halfThickness, this.ClientSize.Width - _borderWidth, this.ClientSize.Height - _borderWidth));
+                    e.Graphics.DrawRectangle(pen, new Rectangle(halfThickness, halfThickness, this.ClientSize.Width - this._borderWidth, this.ClientSize.Height - this._borderWidth));
                 }
             }
         }
+
+        #endregion Event Hanlders
+
+        #region Methods
+
+        #endregion Methods
     }
 }

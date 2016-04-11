@@ -13,6 +13,12 @@ namespace nsComponents
 {
     public partial class AdvancedProgressBar : ProgressBar
     {
+        #region Variables
+
+        #endregion Variables
+
+        #region Constructors
+
         public AdvancedProgressBar() : base()
         {
             InitializeComponent();
@@ -25,6 +31,18 @@ namespace nsComponents
 
             InitializeComponent();
         }
+
+        #endregion Constuctors
+
+        #region Properties
+
+        #endregion Properties
+
+        #region Event Handlers
+
+        #endregion Event Hanlders
+
+        #region Methods
 
         public void Start()
         {
@@ -46,5 +64,7 @@ namespace nsComponents
             this.Stop();
             this.Reset();
         }
+
+        #endregion Methods
     }
 }

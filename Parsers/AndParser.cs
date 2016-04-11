@@ -17,9 +17,13 @@ namespace nsParsers
 
         public override void Parse(NotenizerSentence sentence)
         {
-            
         }
 
+        /// <summary>
+        /// Checks if sentence is parsable by And-Parser
+        /// </summary>
+        /// <param name="sentence">Sentence to check</param>
+        /// <returns></returns>
         public override Boolean IsParsableSentence(NotenizerSentence sentence)
         {
             return (sentence.CompressedDependencies.ContainsKey(GrammaticalConstants.Conjuction)
@@ -27,11 +31,23 @@ namespace nsParsers
                 && sentence.CompressedDependencies[GrammaticalConstants.Conjuction].Exists(x => x.Relation.Specific == GrammaticalConstants.AndConjuction || x.Relation.ShortName == GrammaticalConstants.AppositionalModifier));
         }
 
+        /// <summary>
+        /// Extracts set of cunjuction AND.
+        /// </summary>
+        /// <param name="sentence">Sentence to extract set from</param>
+        /// <returns></returns>
         public List<NoteParticle> GetAndSets(NotenizerSentence sentence)
         {
             return GetAndSets(sentence, true);
         }
 
+        /// <summary>
+        /// Extracts set of cunjuction AND.
+        /// Checks for parseability.
+        /// </summary>
+        /// <param name="sentence">Sentence to extract set from</param>
+        /// <param name="checkParsability"></param>
+        /// <returns></returns>
         public List<NoteParticle> GetAndSets(NotenizerSentence sentence, bool checkParsability)
         {
             if (checkParsability && !IsParsableSentence(sentence))
@@ -71,11 +87,24 @@ namespace nsParsers
             return andSets;
         }
 
+        /// <summary>
+        /// Adds additional note particles into destination note part.
+        /// </summary>
+        /// <param name="sentence">Source sentence</param>
+        /// <param name="dependency">Dependency to extract</param>
+        /// <param name="destinationNotePart">Destination note part to add note particles to</param>
         private void AddAditionalNoteParticles(NotenizerSentence sentence, NotenizerDependency dependency, NotePart destinationNotePart)
         {
             AddAditionalNoteParticles(sentence, dependency, destinationNotePart, ComparisonType.DependentToGovernor);
         }
 
+        /// <summary>
+        /// Adds additional note particles into destination note part.
+        /// </summary>
+        /// <param name="sentence">Source sentence</param>
+        /// <param name="dependency">Dependency to extract</param>
+        /// <param name="destinationNotePart">Destination note part to add note particles to</param>
+        /// <param name="comparisonType">Type of comparison to use in extraction of dependency</param>
         private void AddAditionalNoteParticles(NotenizerSentence sentence, NotenizerDependency dependency, NotePart destinationNotePart, ComparisonType comparisonType)
         {
             NotenizerDependency compound = sentence.GetDependencyByShortName(dependency, comparisonType, GrammaticalConstants.CompoudModifier);
@@ -87,6 +116,12 @@ namespace nsParsers
                 destinationNotePart.Add(new NoteParticle(nmod, TokenType.Dependent, true));
         }
 
+        /// <summary>
+        /// Creates set of conjuction and.
+        /// </summary>
+        /// <param name="sentence"></param>
+        /// <param name="setDependency"></param>
+        /// <returns></returns>
         private NoteParticle CreateAndSet(NotenizerSentence sentence, NotenizerDependency setDependency)
         {
             return CreateAndSet(sentence, setDependency, ComparisonType.DependentToGovernor, TokenType.Dependent);

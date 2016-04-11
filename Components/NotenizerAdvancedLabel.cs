@@ -16,9 +16,15 @@ namespace nsComponents
 {
     public partial class NotenizerAdvancedLabel : AdvancedLabel, INotenizerComponent
     {
+        #region Variables
+
         private NotenizerDependency _dependency;
         private RepresentMode _representMode;
         private bool _isDeletable = true;
+
+        #endregion Variables
+
+        #region Constructors
 
         public NotenizerAdvancedLabel(String text)
         {
@@ -45,6 +51,10 @@ namespace nsComponents
             Init();
         }
 
+        #endregion Constuctors
+
+        #region Properties
+
         public NotenizerDependency Dependency
         {
             get { return this._dependency; }
@@ -69,6 +79,14 @@ namespace nsComponents
             get { return _representMode; }
         }
 
+        #endregion Properties
+
+        #region Event Handlers
+
+        #endregion Event Hanlders
+
+        #region Methods
+
         public void Init()
         {
             this.Text = this._dependency.CorrespondingWord.Word;
@@ -79,7 +97,8 @@ namespace nsComponents
                 this.BorderColor = ComponentConstants.NamedEntityColors[_dependency.CorrespondingWord.NamedEntity.Type];
                 this.SetToolTip("Entity: " + _dependency.CorrespondingWord.NamedEntity.Type.ToString());
             }
-
         }
+
+        #endregion Methods
     }
 }

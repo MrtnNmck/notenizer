@@ -12,8 +12,14 @@ namespace nsGUI
 {
     public partial class FormAddSentenceTerminator : Form
     {
-        private const String _memeberName = "sentenceTerminator";
+        #region Variables
+
+        private const String _memberName = "sentenceTerminator";
         private String _selectedSentenceTerminator;
+
+        #endregion Variables
+
+        #region Constructors
 
         public FormAddSentenceTerminator()
         {
@@ -21,29 +27,37 @@ namespace nsGUI
             this.Icon = Properties.Resources.AppIcon;
 
             DataTable dt = new DataTable();
-            dt.Columns.Add(new DataColumn(_memeberName));
+            dt.Columns.Add(new DataColumn(_memberName));
 
             DataRow newRow = dt.NewRow();
-            newRow[_memeberName] = ".";
+            newRow[_memberName] = ".";
             dt.Rows.Add(newRow);
 
             newRow = dt.NewRow();
-            newRow[_memeberName] = "!";
+            newRow[_memberName] = "!";
             dt.Rows.Add(newRow);
 
             newRow = dt.NewRow();
-            newRow[_memeberName] = "?";
+            newRow[_memberName] = "?";
             dt.Rows.Add(newRow);
 
             this._comboBoxSentenceTerminator.DataSource = dt;
-            this._comboBoxSentenceTerminator.DisplayMember = _memeberName;
-            this._comboBoxSentenceTerminator.ValueMember = _memeberName;
+            this._comboBoxSentenceTerminator.DisplayMember = _memberName;
+            this._comboBoxSentenceTerminator.ValueMember = _memberName;
         }
+
+        #endregion Constuctors
+
+        #region Properties
 
         public String SelectedSentenceTerminator
         {
             get { return _selectedSentenceTerminator; }
         }
+
+        #endregion Properties
+
+        #region Event Handlers
 
         private void AcceptButton_Click(Object sender, EventArgs e)
         {
@@ -56,5 +70,11 @@ namespace nsGUI
         {
             this.DialogResult = DialogResult.Cancel;
         }
+
+        #endregion Event Hanlders
+
+        #region Methods
+
+        #endregion Methods
     }
 }

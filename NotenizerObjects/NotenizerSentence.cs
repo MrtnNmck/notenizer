@@ -174,8 +174,6 @@ namespace nsNotenizerObjects
                         yield return dependencyLoop;
                 }
             }
-
-            //yield return null;
         }
 
         public List<String> CopyStructure()

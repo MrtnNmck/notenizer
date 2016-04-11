@@ -192,6 +192,9 @@ TODO:
     - ukladat clanky
     	- parovat poznamky s clankom
     	
+
+    - po premiestneni labelu pri uprave poznamky sa strati tooltip
+    
    	- zmenit vyhodnocovanie zhody
    		- rozbit ho na dve
    		- 1. zhoda struktur vety

@@ -12,7 +12,13 @@ namespace nsGUI
 {
     public partial class FormTextInputer : Form
     {
+        #region Variables
+
         private String _textForProcessing;
+
+        #endregion Variables
+
+        #region Constructors
 
         public FormTextInputer()
         {
@@ -21,6 +27,8 @@ namespace nsGUI
 
             this.CenterToParent();
         }
+
+        #endregion Constuctors
 
         #region Properties
 
@@ -44,6 +52,10 @@ namespace nsGUI
             this.DialogResult = DialogResult.Cancel;
         }
 
-        #endregion Event Handlers
+        #endregion Event Hanlders
+
+        #region Methods
+
+        #endregion Methods
     }
 }

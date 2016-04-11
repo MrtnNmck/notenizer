@@ -1,0 +1,118 @@
+Obsah:
+    - Pocas tejto prezentacie poviem nieco
+    - konkretnejsie k teme a co robime a co chceme dosiahnut
+    - o systeme, ktory sme navrhli a implementovali
+    - nieco o zavislostiach na ktorych je postavene spracovavanie textu a tvorba poznakom
+    - poviem preco sme sa priklonili prave k zavislostiam a ake to ma vyhody
+    - And-Parser je rozsirenie nasho systemu, o ktorom tiez budem rozpravat a ukazem vam aj ukazku priamo zo systemu
+    - ku zaveru sa pozrieme na prve experimenty a porovania, ktore sa nam podarilo spravit
+    
+Uvod:
+    - V dnesnej dobe sme obklopeny velmi velkym mnozstvom dat, ci uz na internete, v knihach alebo v inych zdrojov
+    - pocitace este nedokazu dokonale spracovavat a pochopit prirodzeny jazyk, takze to pretrvava problemom
+    - studenti su jedna z majoritnych skupin, ktora s velkym mnozstvom dat prichadza do styku denno denne
+      a to ci uz pri vyucbe v skole alebo pri samostatnom uceni doma
+    - problemom nastava, ked potrebuju studenti z tohto mnozstva dat tu podmnozinu, ktora obsahuje
+      dolezite informacie
+    - zameriavame sa prave na odburanie tohto problemu a to sposobom, ktory umozni studentovi vytvorit / vygenerovat
+      personalizovane poznamky zo zdrojoveho textu
+      
+System:
+    - system funguje sposobom, ze obdrzi na vstupe zdrojovy text, spracuje kazdu jeho vetu zvlast, a z kazdej
+      takejto vety vytvori zvlast poznamku
+    - pri tvorbe poznamok vyuzivame hlavne zavislosti a ich vztahy medzi slovami, sytakticku analyzu a slovne druhy
+    - system je postaveny nad nastrojom StanfordNLP, co je nastroj na spracovavanie prirodzeneho jazyka vyvyjany na
+      stanfordskej univerzite.
+        - tento nastroj nam poskytuje niekolko dolezitych informacii o slovach a vetach ako su: zavislsti, nazvoslone
+          entity, znacky slovnych druhov a dalsie, ako napríklad rozdelenie textu na vety
+    - zakladom systemu je interaktivita s pouzivatelom. Tym sa mysli spristupnenie pouzivatelovi moznost upravit si 
+      vytvorene poznamky v takom rozsahu, ze system sa prisposoby tymto zmenam. O chvilu k tomu poviem viac.
+    - And-Parser, ako som uz spominal pri obsahu, je rozsirenie systemu, ktore umoznuje vytvarat mnohonasobne poznamky
+      z viet, ktore obsahuju mnoziny slov spojene spojkou a
+      
+StanfordNLP:
+    - ako som uz vravel, system je postaveny nad nastrojom StanfordNLP. Tento nastroj obsahuje viacero softverov, ktorych
+      vystupy su zobrazene na obrazku. Dolezite z pohladu nasho sytemu su napriklad Part-of-Speech tagy, Dependencies, co
+      su spominane zavislosti a Named Entity Recognition - nazvoslovne entity
+    - napriklad medzi Martin a Nemcek je vztah compound - zlozenie
+    
+Zavislost:
+    - zavislost sa sklada primarne z dvoch casti - tokeny a vztah medzi nimi
+    - tokeny - 2 - nadradeny a podradeny
+        - Index - pozicia slova vo vete
+        - pozicia - vzhladom na pismena vo vete
+    - vztah - specifikum, napriklad conj_and
+    
+Vyuzitie zavislosti pri tvorbe poznamok:
+    - pomocou zavislosti vieme extrahovat informacie / slova z vety
+    - taktiez vieme identifikovat na zaklade zavislosti danu informaciu / slovo
+    - takto zoskupene informacie o slovach a vetach sa skladaju do kopy aby vytvorili takzvane pravidlo na spracovanie, ktore
+      urcuje, ako sa ma dana veta spracovat a vytvorit z nej poznamka
+     
+Pravidlo:
+    - pravidlo ma nasledujucu strukturu
+    - dopln. informacie - cesaova znacka vytvorenie, upravy a id pouzivatela, ktory vytvoril dane pravidlo
+    - !pravidlo moze obsahovat v zozname koncov viet viacero zanamov, ak spracovavame napriklad suvetie a chceme z kazdej
+      jednoduchej vety toho suvetia vytvorit poznamku!
+
+Vyhladanie pravidla:
+    - na vytvorenie poznamky z vety sa musi na tu vetu aplikovat pravidlo. Vhodne pravidlo sa najskor musi vyhladat.
+    - Pri vyhldavani sa porovavaju vety. Zdrojova veta, ktoru chceme spracovat s vetami, ku ktorym prisluchaju pravidla.
+    - Musia byt splnene prave dve podmienky...
+    - Avsak pri tychto podmienkach moze nastat, ze je vchodnych viacero pravidiel -> musime urcite percentualnu zhodu viet
+
+Urcenie zhody viet
+    - Pri urc. zhody viet sa prechadzaju vsetky zavislosti a vykonavaju sa hlavne tri kroky.
+    - Kazdy krok ma svoje ohodnotenie, pricom ak je splneny, tak sa jeho hodnota pripocita do vyslednej hodnoty zhody. Zhoda not GT 100%
+    - jednoducha zhoda: lub. zavislost s DT alebo s NN s index 1 alebo 3
+    - polovicna zhoda: lub. zavislost s DT a 1 alebo s NN a 3
+    - uplna zhoda: nadradeny s NN a 3, podradeny s DT a 1
+    
+Aplikovanie pravidla:
+    - podla toho ako sa hladalo pravidlo vieme, ze veta obsahuje..., prechadzaju sa vsetky zavislosti pravidla, vyhlada sa v 
+      zdrojovej vete. Pri vyhladavani sa neporovnavaju priamo POS tagy, ale ich "predchodcovia", cize NNP (Proper Noun, Singular)
+      "dedi" od NN (Noun, Singular or Mass). Vyuzitie: Chceme pravidlo aplikovat v zavislosti od vseobecnejsieho POS tagu a nie toho
+      najkonkretnejsieho. Pre nas je dolezite, ze to je napriklad podstatne meno a informacie, ci je napriklad v minulom case alebo
+      v pritomnom pre nas nie je klucova. Moze vyhovovat viacero zavislosti.
+
+Urcenie zhody zavislosti:
+    - ak mame rovnaku strukturu vety, ine usporiadenia slov a zavislosti, mozu byt nadradene POS tagy
+    - podobne ako pri urcovani zhody viet, kazdy krok ohodnotenie.
+    - pre nadradeny aj podradeny token sa urcuje zhoda pri...
+    
+Vytvorenie pravidla:
+    - ak sme doposial nespracovavali takuto vetu, alebo jej podobnu..
+    - aplikuju sa staticke pravidla systemu, t.j. nie vytvorene pouzivatelom
+    - vytvori sa zaznam o vete, ktory obsahuje...
+    - vytvori sa zaznam o pravidle, ktory obsahuje...
+    - tieto dva zaznamy sa prepoja -> vytvorime nove pravidlo na spracovanie takejto alebo podobnej vety
+    
+Preco zavislosti:
+    - pravidlo na spracovanie je viac menej nezavisle od obsahovej casti vety - Milos Zeman -> Barack Obama.
+    - Ak je zhoda srtuktur, [obrazok], rovanke zavislosti, poprehadzovane, vieme aplikovat rovanke pravidlo
+    - Keby sme to spracovavali napriklad len na zaklade POS tagov, tak pri takejto zmene by sme potrebovali dalsie
+      pravidlo, v tomto pripade nam staci jedno -> mensi pocet potrebnych pravidiel -> pravidlo sa stava efektivnejsim
+      kedze dokaze spracovat viacero viet
+
+And-Parser:
+    - Pracuje na zaklade mnozin spojky a, [priklad]
+    - na zvysnu cast vety je aplikovane klasicke pravidlo na jej zjednodusenie, ta sa nasledne namnozi a pospaja s prvakmi mnoziny
+
+Identifikacia mnoziny:
+    - Zaujimaju nas hlavne dve zavisloti so vztahmi...
+    - robia sa dve iteracie, cize ked najdem zavislost napr. conj, tak sa pozriem, este ona nema dalsie prepojenia na conj alebo appos
+    
+Pravidlo pre And-Parser:
+    - sklada sa zo zoznamu dat o poznamke...
+    - navyse oproti klasickemu pravidlu ma poziciu mnoziny, ktora sa identifikovala
+    
+Aplikacia pravidla pre And-Parser:
+    - Idetifikuje sa mnozina, tym ziskame mnozinu a zvysok vety, aplikujeme pravidlo na spracovanie, aby sme zjednodusili
+      zvysok vety...
+      
+Prve experimenty:
+    - zdrojom ucebnych textov pri experimentovani bola wikipedia. Vybrali sme tri texty. Na porovnanie nasho systemu sme pouzili aplikaciu 
+      Autosummarizer. Experimentovali sme nad 3 clankami, ktore mali dokopy 27 viet, 294 slov. Na vyhodnotenie sme pouzili 4 porovnania vystupov
+    - Autosummarizer vyberal najpodstatnejsie vety z textov. Mal mensi pocet viet a slov na vystupe. Nas system spracoval vsetky vstupne vety,
+      pricom autosummarizer "odignoroval" 21 z nich. Tak isto priemerny pocet eliminovanych irelevantnych slov vo vetach na vystupe sme mali lepsi.
+    - Irelevantnost slov urcite pravidlo, podla ktoreho sa dana veta spracovava.

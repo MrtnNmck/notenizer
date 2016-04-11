@@ -1,0 +1,23 @@
+\begin{thebibliography}{1}
+\setlength{\itemsep}{-0.1cm}
+
+\bibitem{Das07asurvey}
+Das, D., Martins, A.F.T.:
+\newblock A Survey on Automatic Text Summarization, 2007.
+
+\bibitem{StanfordDepManual}
+{Marie-catherine De Marneffe and Christopher D. Manning}:
+\newblock Stanford typed dependencies manual, 2008.
+
+\bibitem{NenkovaMcKeownAutomaticSummarization}
+Nenkova, A., McKeown, K.:
+\newblock Automatic Summarization.
+\newblock {\em Foundations and Trends® in Information Retrieval\/}, 2011, vol.
+  5, no. 2–3, pp. 103--233.
+
+\bibitem{Radev2002}
+Radev, D.R., Hovy, E., McKeown, K.:
+\newblock Introduction to the special issue on summarization.
+\newblock {\em Comput. Linguist.\/}, 2002, vol. 28, pp. 399--408.
+
+\end{thebibliography}

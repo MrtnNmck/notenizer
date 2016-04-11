@@ -15,9 +15,10 @@ namespace nsComponents
 {
     public partial class NotenizerAdvancedTextBox : TableLayoutPanel, INotenizerComponent
     {
+        #region Variables
+
         private AdvancedTextBox _advancedTextBox = null;
         private Button _editButton = null;
-        private Button _andParseButton = null;
         private FlowLayoutPanel _buttonPanel = null;
         private NotenizerNote _note = null;
         private bool _isDeletable = true;
@@ -25,7 +26,10 @@ namespace nsComponents
         public delegate void ButtonClickHandler(NotenizerAdvancedTextBox sender, EventArgs e);
 
         public event ButtonClickHandler EditButtonClicked;
-        public event ButtonClickHandler AndParseButtonClicked;
+
+        #endregion Variables
+
+        #region Constructors
 
         public NotenizerAdvancedTextBox()
         {
@@ -48,46 +52,9 @@ namespace nsComponents
             this._advancedTextBox.TextBox.Text = note.Value;
         }
 
-        public void Init()
-        {
-            InitializeComponent();
-            InitControls();
+        #endregion Constuctors
 
-            this.Dock = DockStyle.Fill;
-            this.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
-
-            AddRowWithComponent(this._advancedTextBox, SizeType.Absolute, ComponentConstants.NotenizerAdvancedTextBoxTextBoxRowSize);
-            AddRowWithComponent(this._buttonPanel, SizeType.Absolute, ComponentConstants.NotenizerAdvancedTextBoxButtonsRowSize);
-            this._buttonPanel.Controls.Add(this._editButton);
-            this._buttonPanel.Controls.Add(this._andParseButton);
-
-            InitEditButton();
-            InitAndParseButton();
-            this.AdvancedTextBox.TextBox.SetToolTip("Match: " + _note.Rule.Match + "%");
-
-            this.Margin = new Padding(0);
-            this.Padding = new Padding(0);
-        }
-
-        private void EditButton_Click(object sender, EventArgs e)
-        {
-            if (EditButtonClicked != null)
-                EditButtonClicked(this, e);
-        }
-
-        private void AndParseButton_Click(object sender, EventArgs e)
-        {
-            if (AndParseButtonClicked != null)
-                AndParseButtonClicked(this, e);
-        }
-
-        protected override void OnMouseWheel(MouseEventArgs e)
-        {
-            base.OnMouseWheel(e);
-
-            if (Parent is IMousable)
-                (Parent as IMousable).DoMouseWheel(e);
-        }
+        #region Properties
 
         public AdvancedTextBox AdvancedTextBox
         {
@@ -117,10 +84,45 @@ namespace nsComponents
             }
         }
 
-        public Boolean IsAndParserButtonVisible
+        #endregion Properties
+
+        #region Event Handlers
+
+        private void EditButton_Click(object sender, EventArgs e)
         {
-            get { return this._andParseButton.Visible; }
-            set { _andParseButton.Visible = value; }
+            if (EditButtonClicked != null)
+                EditButtonClicked(this, e);
+        }
+
+        protected override void OnMouseWheel(MouseEventArgs e)
+        {
+            base.OnMouseWheel(e);
+
+            if (Parent is IMousable)
+                (Parent as IMousable).DoMouseWheel(e);
+        }
+
+        #endregion Event Hanlders
+
+        #region Methods
+
+        public void Init()
+        {
+            InitializeComponent();
+            InitControls();
+
+            this.Dock = DockStyle.Fill;
+            this.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+
+            AddRowWithComponent(this._advancedTextBox, SizeType.Absolute, ComponentConstants.NotenizerAdvancedTextBoxTextBoxRowSize);
+            AddRowWithComponent(this._buttonPanel, SizeType.Absolute, ComponentConstants.NotenizerAdvancedTextBoxButtonsRowSize);
+            this._buttonPanel.Controls.Add(this._editButton);
+
+            InitEditButton();
+            this.AdvancedTextBox.TextBox.SetToolTip("Match: " + _note.Rule.Match + "%");
+
+            this.Margin = new Padding(0);
+            this.Padding = new Padding(0);
         }
 
         private void AddRowWithComponent(Control control, SizeType sizeType, float size)
@@ -136,20 +138,15 @@ namespace nsComponents
             this._editButton.Click += EditButton_Click;
         }
 
-        private void InitAndParseButton()
-        {
-            this._andParseButton.Text = "And Parse";
-            this._andParseButton.Click += AndParseButton_Click;
-        }
-
         private void InitControls()
         {
             this._advancedTextBox = new AdvancedTextBox();
             this._editButton = new Button();
-            this._andParseButton = new Button();
 
             this._buttonPanel = new FlowLayoutPanel();
             this._buttonPanel.Dock = DockStyle.Fill;
         }
+
+        #endregion Methods
     }
 }

@@ -12,8 +12,14 @@ namespace nsComponents
 {
     public partial class AdvancedFlowLayoutPanel : FlowLayoutPanel
     {
+        #region Variables
+
         private Font _controlsFont;
         private bool _isDirty;
+
+        #endregion Variables
+
+        #region Constuctors
 
         public AdvancedFlowLayoutPanel(Font font)
         {
@@ -24,16 +30,22 @@ namespace nsComponents
             this._isDirty = false;
         }
 
-        private void Init()
+        #endregion Constuctors
+
+        #region Properties
+
+        public bool IsDirty
         {
-            DragEnter += new DragEventHandler(AdvancedFlowLayoutPanelActive_DragEnter);
-            DragDrop += new DragEventHandler(AdvancedFlowLayoutPanelActive_DragDrop);
-            AllowDrop = true;
+            get { return this._isDirty; }
         }
+
+        #endregion Properties
+
+        #region Event Handlers
 
         protected override void OnControlAdded(ControlEventArgs e)
         {
-            e.Control.Font = this._controlsFont;
+            this.SetFont(e.Control, this._controlsFont);
 
             base.OnControlAdded(e);
         }
@@ -47,11 +59,32 @@ namespace nsComponents
         private void AdvancedFlowLayoutPanelActive_DragDrop(object sender, DragEventArgs e)
         {
             NotenizerAdvancedLabel data = (NotenizerAdvancedLabel)e.Data.GetData(typeof(NotenizerAdvancedLabel));
-            FlowLayoutPanel destinationPanel = (FlowLayoutPanel)sender;
-            FlowLayoutPanel sourcePanel = (FlowLayoutPanel)data.Parent;
-
+            AdvancedFlowLayoutPanel destinationPanel = (AdvancedFlowLayoutPanel)sender;
+            AdvancedFlowLayoutPanel sourcePanel = (AdvancedFlowLayoutPanel)data.Parent;
             Point p = destinationPanel.PointToClient(new Point(e.X, e.Y));
-            var item = destinationPanel.GetChildAtPoint(p);
+
+            this.DoDragDrop(data, sourcePanel, destinationPanel, p);
+        }
+
+        #endregion Event Hanlders
+
+        #region Methods
+
+        private void Init()
+        {
+            DragEnter += new DragEventHandler(AdvancedFlowLayoutPanelActive_DragEnter);
+            DragDrop += new DragEventHandler(AdvancedFlowLayoutPanelActive_DragDrop);
+            AllowDrop = true;
+        }
+
+        private void SetFont(Control control, Font font)
+        {
+            control.Font = font;
+        }
+
+        private void DoDragDrop(NotenizerAdvancedLabel data, AdvancedFlowLayoutPanel sourcePanel, AdvancedFlowLayoutPanel destinationPanel, Point destPanelPointToClient)
+        {
+            var item = destinationPanel.GetChildAtPoint(destPanelPointToClient);
 
             int index = -1;
             if (item == null)
@@ -59,7 +92,7 @@ namespace nsComponents
                 for (int i = 0; i < destinationPanel.Controls.Count; i++)
                 {
                     if (i + 1 < destinationPanel.Controls.Count)
-                        if (destinationPanel.Controls[i].Bounds.Right < p.X && destinationPanel.Controls[i + 1].Bounds.Left > p.X)
+                        if (destinationPanel.Controls[i].Bounds.Right < destPanelPointToClient.X && destinationPanel.Controls[i + 1].Bounds.Left > destPanelPointToClient.X)
                             index = i + 1;
                 }
             }
@@ -76,9 +109,6 @@ namespace nsComponents
             this._isDirty = true;
         }
 
-        public bool IsDirty
-        {
-            get { return this._isDirty; }
-        }
+        #endregion Methods
     }
 }

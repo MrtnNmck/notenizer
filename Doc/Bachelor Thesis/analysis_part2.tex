@@ -34,7 +34,7 @@ InterText\footnote{http://wanthalf.saga.cz/intertext} je editor paralelne zarovn
 
 Podporuje viacero formátovaní textu, či už čistý (angl. plain) text alebo XML a taktiž zobrazuje aj HTML značky. Riadky obsahujú vety oddelené znakom konca riadku a sú očíslované. Umožňuje funkcie ako presúvanie riadkov textu alebo zoskupenie viacerých do jedného, krok vpred a vzad. V spracovávanom texte sa dá vyhľadávať a je možné tento text aj upraviť podľa vlastných potrieb.
 
-InterText nezohľadňuje používateľove úpravy textu počas používanie a pri následnom spracovávaní textu sa tak neprispôsobí používateľovi. Okrem toho zjednodušovanie textu v tomto nástroji by bolo pomerne náročné.
+InterText nezohľadňuje používateľove úpravy textu počas používania a pri následnom spracovávaní textu sa tak neprispôsobí používateľovi. Okrem toho zjednodušovanie textu v tomto nástroji by bolo pomerne náročné.
 
 Na obrázku~\fullref{fig:intertext_interface} je zobrazená aplikácia InterText s testovacím vstupom, na ktorom je vidno väčšinu už spomenutej funkcionality, ako presúvanie a zoskupovanie riadkov, číslovanie, atď.
 
@@ -55,7 +55,7 @@ Na obrázku~\fullref{fig:intertext_interface} je zobrazená aplikácia InterText
 	%\section{Subsection}
 	\section{NOVA Text Aligner}
 }
-NOVA Text Aligner\footnote{http://www.supernova-soft.com/wpsite/products/text-aligner/} je aplikácia na zarovnávanie textu, pričom nevyužíva algoritmy na zarovnávanie textu, ale manuálne používateľovo určovanie zarovnania.
+NOVA Text Aligner\footnote{http://www.supernova-soft.com/wpsite/products/text-aligner/} je aplikácia na zarovnávanie textu, pričom nevyužíva algoritmy na zarovnávanie textu, ale používateľ si musí sám určiť zarovnanie.
 
 Ako vidno na obrázku~\fullref{fig:nova_text_aligner_interface} hlavná editovacia časť aplikácie je rozdelené do dvoch častí. Umožňuje do ľavej aj pravej časti načítať rôzny text, v ktorom sa dá veľmi jednoducho vyhľadávať, k čomu napomáha zvýraznenie vyhľadaných slov. Načítaný text je možné premiestňovať a zoskupovať, či už podľa riadkov alebo aj v celých blokoch a nechýba možnosť editovať text. Je možné si túto aplikáciu prispôsobiť. Ponúka možnosti ako zmena typu písma a pod. Finálny spracovaný text sa dá exportovať do viacerých formátov, z ktorých populárne sú formáty elektronických knižiek EPUB a MOBI.
 
@@ -108,6 +108,208 @@ Na obrázku~\fullref{fig:google_translate_example} je zobrazený preklad anglick
 	\caption[Google Translate]{Google Translate}\label{fig:google_translate_example}
 \end{figure}
 
+Analyzované nástroje nespĺňajú všetky požiadavky na systém schopný spoznámkovať učebný text v takom rozsahu, ktorý by umožňoval používateľovi prispôsobiť si spracovaný text. Systém musí umožňovať editáciu jednotlivých viet výstupného textu podľa vôle používateľa. Tieto úpravy musí zohľadniť pri následnej aplikácií transformácií vstupného textu. Dáta ohľadne spoznámkovávania textu musia byť uložené na externom úložisku, ako napríklad v databáze.
+
+%
+% Uchovávanie textov v databázach
+%
+\ifthenelse {\boolean{bachelor}}
+{
+	%\subsection{Subsection}
+	\subsection{Uchovávanie textov v databázach}
+}
+{
+	%\section{Subsection}
+	\section{Uchovávanie textov v databázach}
+}
+\label{subsection:persisting_texts_in_db}
+Text je špecifický údajový model s variabilnou štruktúrou. Ak chceme efektívne ukladať texty v databázach, je nutné použiť vhodnú databázu. Databázu, ktorá je tomu prispôsobená, pri ktorej nebudeme zbytočne čerpať pamäť a takisto bude jednoduché narábať s dátami. To znamená bezproblémové ukladanie, získavanie, vyhľadávanie a spracovanie textov na úrovni databázy. V nasledujúcich kapitolách sa pozrieme, aké typy databáz existujú a aké možnosti z pohľadu ukladania textov ponúkajú.
+
+%
+% Relačné databázy
+%
+\ifthenelse {\boolean{bachelor}}
+{
+	%\subsection{Subsection}
+	\subsubsection{Relačné databázy}
+}
+{
+	%\section{Subsection}
+	\subsection{Relačné databázy}
+}
+\label{subsubsection:relation_dbs}
+Relačné databázy boli dlhé roky populárnou a finančne nenáročnou voľbou pri tvorbe veľkých podnikateľských aplikácií. Momentálne sú používané vo väčšine súčasných aplikácií a pracujú spoľahlivo pri obmedzenom množstve dát~\cite{MongoDBvsMySQL2015}. Problém s relačným modelom relačných databáz nastáva, keď vzniká potreba aplikácie s obrovským množstvom dát. Menovite rozšíriteľnosť (angl. scalability) a schéme sa stávajú najväčším problémom relačných databáz~\cite{NoSQLDBvsRealtionDB}.
+
+Tento typ databáz oplýva veľkou úrovňou jednotvárnosti, ukladá dáta v tabuľkách zložených z riadov a stĺpcov. Každý záznam (riadok) v tabuľke predstavuje zjednodušený objekt alebo vzťah z reálneho života. Výhodou relačných databáz je možnosť jednoduchého vytvorenia prispôsobeného pohľadu na dáta~\cite{Maier}.
+
+%
+% Textové databázy
+%
+\ifthenelse {\boolean{bachelor}}
+{
+	%\subsection{Subsection}
+	\subsubsection{Textové databázy}
+}
+{
+	%\section{Subsection}
+	\subsection{Textové databázy}
+}
+\label{subsubsection:text_dbs}
+S rozmachom variácie dát v posledných rokoch sa začali objavovať a vznikať nerelačné databázy, aby pokryli požiadavky na nové aplikácie. Textové databázy sú druhom nerelačných databáz.
+
+Textové databázy ukladajú dáta vo forme dokumentov, vďaka čomu ponúkajú vysoký výkon a horizontálnu rozšíriteľnosť~\cite{NoSQLDBvsRealtionDB}. Uložené dokumenty môžu nadobúdať rôzne formáty, ako napríklad JSON, BSON, XML a BLOB, ktoré poskytujú veľkú flexibilnosť pre dáta. Každý záznam v takejto databáze preto môže mať inú štruktúru, napríklad počet alebo typ polí, čo šetrí úložným priestorom, keďže neobsahuje nepotrebné prázdne polia~\cite{NoSQLDBvsRealtionDB}.
+
+Dokumenty v databáze sú referencované kľúčom, ktorý môže byť reťazec, cesta, ale dokonca aj dokument~\cite{NoSQLDBvsRealtionDB}. Majú dynamickú schému, čo umožňuje vytvárať záznamy bez toho, aby bolo potrebné predtým definovať štruktúru. Uľahčujú zmenu štruktúry záznamov jednoduchým pridaním, odstránením alebo zmenou typu poľa. Vďaka svojej štruktúre sú dokumenty ľahko namapovateľné na objekty z objektovo-orientovaných programovacích jazykov a odstraňujú tým potrebu pre použitie objektovo-relačnej mapovacej vrstvy.
+\\
+
+Primárne využitie týchto databáz je v aplikáciách, ktoré potrebujú ukladať dáta, ktorých štruktúra je vopred neznáma alebo sa mení. Predstaviteľmi sú napríklad \textit{MongoDB} alebo \textit{CouchDB} databázy.
+
+%
+% MongoDB
+%
+\ifthenelse {\boolean{bachelor}}
+{
+	%\subsection{Subsection}
+	\paragraph{MongoDB}
+}
+{
+	\%section{Subsection}
+	\subsubsection{MongoDB}
+}
+\label{subsection:mongodb}
+MongoDB\footnote{www.mongodb.org} je dokumentová nerelačná databáza vytvorená v C++ spustená v roku 2009~\cite{NoSQLDBvsRealtionDB}. Ukladá dáta v dokumentoch vo formáte BSON (Binary JSON), ktorých štruktúra sa môže meniť. Využíva dynamickú štruktúru schém, preto dokáže vytvárať záznamy bez preddefinovanej štruktúry dát, lebo štruktúra sa vytvára za behu, pričom môže byť veľmi jednoducho pozmenená pridaním, odstránením alebo zmenou typu polia dokumentu určujúceho štruktúru. Umožňuje jednoduché ukladanie dát s hierarchickými vzťahmi alebo komplexnejších štruktúr, ako sú napríklad polia, listy alebo vnorené polia.
+
+Vlastnosti ako chybová tolerancia, perzistencia a konzistencia dát sú súčasťou MongoDB. Oproti klasickým dokumentovým databázam ponúka aj vymoženosti, ako agregácia, ad hoc dopyty, indexovanie, a pod. Taktiež má svoj vlastný plnohodnotný dopytovací jazyk \textit{mongo query language}~\cite{NoSQLDBvsRealtionDB}.
+
+Prvky poskytované databázou MongoDB sú prvky zahrnuté v relačných databázach rozšírené o ďalšiu funkcionalitu. Porovnanie poskytovaných prvkov je v tabuľke~\fullref{table:features_of_mongodb}. 
+
+\begin{table}[H]
+	\centering
+	\caption{Prvky poskytované MongoDB}
+	\label{table:features_of_mongodb}
+	\begin{tabular}{|l|l|l|}
+		\hline
+		& \textbf{MySQL} & \textbf{MongoDB} \\ \hline
+		Bohatý dátový model & Nie & Áno \\ \hline
+		Dynamická štruktúra & Nie & Áno \\ \hline
+		Dátové typy & Áno & Áno \\ \hline
+		Lokálnosť dát & Nie & Áno \\ \hline
+		Aktualizovanie polí & Áno & Áno \\ \hline
+		Ľahké pre programátorov & Nie & Áno \\ \hline
+		Komplexné transakcie & Áno & Nie \\ \hline
+		Audit & Áno & Áno \\ \hline
+		Auto-sharding & Nie & Áno \\ \hline
+	\end{tabular}
+\end{table}
+
+Bohatý dátový model (angl. Rich Data Model) znamená, že dátový model poskytuje veľa funkcionality. Princípom dynamickej štruktúry (angl. Dynamic Structure) je jednoduchá zmena štruktúru, pričom nemusí byť vôbec zadefinovaná a každý záznam môže mať odlišnú štruktúru. Lokálnosť dát (angl. Data Locality) znamená uchovávanie súvisiacich dát pokope. Aktualizovanie polí umožňuje vykonávať nad poliami operácie, ako sú inkrementácia podľa špecifikovaného množstva, vynásobenie hodnotou, premenovanie, aktualizácia iba ak je hodnota väčšia alebo menšia ako špecifická hodnota a ďalšie. Audit (angl. Auditing) je funkcionalita, ktorá umožňuje administrátorom a používateľom sledovať aktivity systému.
+Auto-sharding pri náraste dát, aby sa zabránilo poklesu priepustnosti operácií čítania a zapisovania, ukladá dáta automaticky na viacero strojov.
+
+MongoDB má vlastnú konvenciu názvov svojich častí. Tie sa v niektorých prípadoch líšia s názvami relačných databáz. Rozdiely sú zobrazene v tabuľke~\fullref{table:names_of_mongodb}. Za zástupcu relačných databáz bola vybraná MySQL databáza. 
+
+\begin{table}[H]
+	\centering
+	\caption{Porovnanie používaných pojmov~\cite{MongoDBvsMySQL2015}}
+	\label{table:names_of_mongodb}
+	\begin{tabular}{|l|l|}
+		\hline
+		\textbf{MySQL} & \textbf{MongoDB} \\ \hline
+		Databáza & Databáza \\ \hline
+		Tabuľka & Kolekcia \\ \hline
+		Index & Index \\ \hline
+		Riadok & BSON dokument \\ \hline
+		Stĺpec & BSON pole (angl. field) \\ \hline
+		Spojenie & Vnorené dokumenty a prepojenie \\ \hline
+		Primárny kľúč & Primárny kľúč \\ \hline
+		Zoskupenie & Agregácia \\ \hline
+	\end{tabular}
+\end{table}
+
+%
+% Ostatné databázové systémy
+%
+\ifthenelse {\boolean{bachelor}}
+{
+	%\subsection{Subsection}
+	\subsubsection{Ostatné databázové systémy}
+}
+{
+	\%section{Subsection}
+	\subsection{Ostatné databázové systémy}
+}
+\label{subsection:types_of_norelation_dbs}
+Okrem relačných a textových dokumentov existuje ešte niekoľko druhov databáz. V nasledujúcich častiach si priblížime niektoré z nerelačných databáz.
+
+%
+% Kľúč - hodnota databázy
+%
+\ifthenelse {\boolean{bachelor}}
+{
+	%\subsection{Subsection}
+	\paragraph{Kľúč - hodnota databázy}
+}
+{
+	\%section{Subsection}
+	\subsubsection{Kľúč - hodnota databázy}
+}
+\label{subsubsection:key_value_db}
+Nerelačné databázy typu kľúč - hodnota sú v svojej podstate celkom jednoduché, ale zároveň efektívne. Umožňujú používateľovi ukladať dáta ľubovoľne, kedže neobsahujú schémy. Uložené dáta sa skladajú z dvoch častí. Prvá časť je kľuč a druhá časť je hodnota~\cite{NoSQLDBvsRealtionDB}, pričom kľúč je samo-generujúci string a hodnota môže byť takmer čokoľvek, od string, JSON cez BLOB až po obrázok~\cite{MongoDBvsMySQL2015}.
+
+Kľúč - hodnota databázy sú veľmi podobné hašovacím tabuľkám, kde kľúč je indexom do tabuľky, pomocou ktorého používateľ môže pristúpiť k hodnote daného kľúču. Tento typ databáz uprednostňuje rozšíriteľnosť pred konzistenciou. Ponúka vysokú konkurenčnosť (angl. concurrency), rýchle vyhľadávanie a schopnosť uloženia veľkého množstva dát za cenu spojovacích a agregačných operácií. Taktiež je veľmi náročné vytvoriť ľubovoľný pohľad na dáta z dôvodu chýbajúcej schémy~\cite{NoSQLDBvsRealtionDB}.
+
+Najznámejšími predstaviteľmi tohto typu databáz sú \textit{Amazon DynamoDB} a \textit{RIAK}.
+
+%
+% Stĺpcové databázy
+%
+\ifthenelse {\boolean{bachelor}}
+{
+	%\subsection{Subsection}
+	\paragraph{Stĺpcové databázy}
+}
+{
+	\%section{Subsection}
+	\subsubsection{Stĺpcové databázy}
+}
+\label{subsubsection:column_db}
+Stĺpcové databázy musia mať preddefinovanú schému, v ktorej sú jednotlivé bunky záznamov zoskupené do kolekcie stĺpcov~\cite{MongoDBvsMySQL2015}. Dáta nie sú ukladané do tabuliek, ale do masívne distribuovaných architektúr, s hlavným zámerom, aby agregácia dát mohla prebehnúť veľmi rýchlo s redukovaním I/O aktivity.
+
+Tento typ databáz taktiež poskytuje veľkú rozšíriteľnosť v ukladaní dát.
+
+Najvhodnejšie je využívať stĺpcové databázy v analytických aplikáciách alebo aplikáciách, ktoré získavajú dáta pomocou metódy \textit{data mining}~\cite{NoSQLDBvsRealtionDB}.
+
+%
+% Grafové databázy
+%
+\ifthenelse {\boolean{bachelor}}
+{
+	%\subsection{Subsection}
+	\paragraph{Grafové databázy}
+}
+{
+	\%section{Subsection}
+	\subsubsection{grafové databázy}
+}
+\label{subsubsection:graph_db}
+Grafové databázy su špeciálny typ databáz, v ktorých sú dáta uložené vo forme grafu. Graf pozostáva z vrcholov a hrán, pričom vrcholy predstavujú objekty a hrany reprezentujú vzťahy medzi nimi. Každý vrchol okrem iného obsahuje aj ukazovateľ na priľahlé vrcholy, čo umožňuje prechádzať obrovské množstvo dát rýchlejšie ako v relačných databázach~\cite{NoSQLDBvsRealtionDB}.
+
+Údaje sa ukladajú v polo-štruktúrovanej forme, kde je kladený hlavný dôraz na prepojenia medzi dátami. Grafové databázy spĺňajú vlastnosť ACID a sú veľmi vhodné pre biometrické aplikácie alebo aplikácie sociálnych sietí. Hlavným predstaviteľom grafových databáz je \textit{Neo4j}~\cite{NoSQLDBvsRealtionDB}.
+
+%
+% Objektovo orientované databázy
+%
+\ifthenelse {\boolean{bachelor}}
+{
+	%\subsection{Subsection}
+	\paragraph{Objektovo orientované databázy}
+}
+{
+	\%section{Subsection}
+	\subsubsection{Objektovo orientované databázy databázy}
+}
+\label{subsubsection:object_oriented_db}
+Objektovo orientované databázy ukladajú dáta vo forme objektov, rovnako ako sú údaje reprezentované v objektoch v objektovo orientovaných programovacích jazykoch (OOP). Tieto databázy podporujú všetky vymoženosti OOP, ako enkapsulácia, polymorfizmus, ale aj dedenie. Objektovo orientované databázy robia moderný vývoj softvéru jednoduchším~\cite{NoSQLDBvsRealtionDB}.
+
 %
 % Zhrnutie aplikácií na spracovanie prirodzeného jazyka
 %
@@ -120,112 +322,16 @@ Na obrázku~\fullref{fig:google_translate_example} je zobrazený preklad anglick
 	%\section{Subsection}
 	\section{Zhrnutie}
 }
-Analyzovali sme aplikácie, ktoré umožňujú spravovať a editovať paralelný text. Za ich pomoci dokážeme zo vstupného textu získať výstupný text. Napríklad pri preklade máme vstupný text množinu viet v anglickom jazyku, ktorú chceme preložiť do slovenského jazyka a výstupný text je preloženú množinu viet. Pri zjednodušovaní textu je na vstupe taktiež množina viet a na výstupe je každá veta zo vstupnej množiny zjednodušená podľa istých pravidiel. Výstupný text vzniká určitou transformáciou vstupného textu, aplikovaním transformácie na každú vetu zdrojového textu.
+\label{subsection:analysis2:zhrnutie}
+Analyzovali sme aplikácie, ktoré umožňujú spravovať a editovať paralelný text. Za ich pomoci dokážeme zo vstupného textu získať výstupný text. Napríklad pri preklade máme vstupný text množinu viet v anglickom jazyku, ktorú chceme preložiť do slovenského jazyka a výstupný text je preloženú množinu viet. Pri zjednodušovaní textu je na vstupe taktiež množina viet a na výstupe je každá veta zo vstupnej množiny zjednodušená podľa istých pravidiel. Výstupný text vzniká určitou transformáciou vstupného textu, aplikovaním transformácie na každú vetu zdrojového textu.\\
 
-Analyzované nástroje nespĺňajú všetky požiadavky na systém schopný spoznámkovať učebný text v takom rozsahu, ktorý by umožňoval používateľovi prispôsobiť si spracovaný text. Systém musí umožňovať editáciu jednotlivých viet výstupného textu podľa vôle používateľa. Tieto úpravy musí zohľadniť pri následnej aplikácií transformácií vstupného textu. Dáta ohľadne spoznámkovávania textu musí ukladať mimo používateľovho úložného priestoru.
+[TREBA TO TU NEJAK PREPOJIT, KEDZE TEXT HORE JE ZO ZHRNUTIA NASTROJOV A TEXT POD JE ZO ZHRNUTIA DATABAZ - SPOJIT DO JEDNEHO ZHRNUTIA CELEJ KAPITOLY !!!]\\
 
-%
-% Smerovanie práce
-%
-\ifthenelse {\boolean{bachelor}}
-{
-	%\section{Analysis}
-	\section{Smerovanie práce} 
-}
-{
-	%\chapter{Analysis}
-	\chapter{Smerovanie práce}
-}
-V letnom semestri plánujem najskôr dokončiť prototyp. To znamená spraviť používateľské rozhranie, ktoré bude umožňovať vložiť text na spracovanie, zobrazí poznámky a tak isto umožní používateľovi pre ľubovoľnú vetu pozmeniť tvar poznámky. Tieto zmeny sa uložia do databázy a zohľadnia pri ďalšom použití. Úprava spracovanej poznámky bude fungovať na princípe preusporiadania slov vety, takže používateľovi zabráni zadávať ľubovoľné a nesprávne slová. Predíde sa tým nezmyselným záznamom v databáze.
+NOSQL databáza je narozdiel do RDBMS modelu (Relation Data Base Management System)
+navrhnutá, tak aby bola jednoducho rozšíriteľná so zväčšovaním dát. Väčšina NOSQL databáz odstránila niektoré nepotrebné prvky RDBMS modelov, čím sa stali podstatne ľahšími a efektívnejšími. Toto na druhej strane spôsobilo, že NOSQL model negarantuje vlastnosti ACID (Atomicity, Consistency, Isolation, Durability), ale naopak garantuje vlastnosti BASE (Basically Available, Soft state, Eventula Consistency)~\cite{NoSQLDBvsRealtionDB}.
 
-Do systému doimplementovať ,,AND poznámkovač'', ktorý identifikuje množinu súvisiacu so spojkou AND a pre každú entitu v tejto množine oddelenú čiarkou vygeneruje samostatnú poznámku.
+Nerelačné databázy neukladajú údaje v tabuľkách a nemajú fixnú schému. Tieto vlastnosti im umožňujú jednoducho spracovávať neštruktúrované dáta, ako sú dokumenty, e-maily a mnoho ďalších~\cite{MongoDBvsMySQL2015}. Preto majú čím ďalej, tým viac využití.
 
-Následne plánujem dokončiť kapitolu návrh, napísať kapitoly záver, anotácia, výsledky a ďalšie.
+Existuje hneď niekoľko prípadov, kedy je lepšie použiť nerelačnú databázu namiesto relačnej databázy. Keď je potrebné, aby aplikácia dokázala spracovávať rôzne typy a tvary dát alebo pri potrebe spravovať aplikáciu efektívnejšie pri rozširovaní, je rozhodne výhodnejšie použiť nerelačnú databázu. Niektoré databázy, ako napríklad textová databáza MongoDB uľahčuje vývoj aplikácií, keďže jeho dokumentová štruktúra dát je jednoducho namapovateľná na moderné, objektovo-orientované programovacie jazyky a tým pádom nie je potreba využívať komplexnú objektovo-relačnú mapovaciu vrstvu, ktorá je nutná pri použití relačných databáz na prevod objektov z programovacie jazyka na perzistentné objekty v databáze. Všeobecne je omnoho ľahšie rozšíriť schému / model nerelačnej databázy ako rozširovať schému relačnej databázy.
 
-%
-% Opis prototypu
-%
-\ifthenelse {\boolean{bachelor}}
-{
-	%\section{Analysis}
-	\section{Opis prototypu} 
-}
-{
-	%\chapter{Analysis}
-	\chapter{Opis prototypu}
-}
-V zimnom semestri som implementoval prototyp aplikácie na spoznámkovanie učebného textu.
-
-%
-% Notenizer
-%
-\ifthenelse {\boolean{bachelor}}
-{
-	%\section{Analysis}
-	\subsection{Notenizer} 
-}
-{
-	%\chapter{Analysis}
-	\section{Notenizer}
-}
-\label{subsection:notenizer}
-\textbf{Notenizer} je prototyp aplikácie na extrahovanie relevantných informácií z učebných textov. Využíva nástroj Stanford CoreNLP, ktorý je implementovaný v Jave, ale cez IKVM je portnutý aj na C\#. Na ukážke \fullref{code:spustenie_stanford_corenlp} je ukázané prepojenie nástroja StanfordCoreNLP s aplikáciou Notenizer. 
-\\
-
-\begin{lstlisting}[ language = csharp, caption={Spustenie StanfordCoreNLP}, label = {code:spustenie_stanford_corenlp}]
-String jarRoot = @"stanford-corenlp-3.5.2-models";
-
-Properties properties = new Properties();
-// Zvolime, ktore nastroje chceme pouzit.
-// pos = part-of-speech tagger
-// ssplit = sentence split
-// atd.
-properties.setProperty("annotators", "tokenize, ssplit, pos, parse");
-properties.setProperty("sutime.binders", "0");
-properties.setProperty("ner.useSUTime", "false");
-
-// Nastavenie aktualneho priecinku, aby StanfordCoreNLP vedel najst
-// vsetky potrebne subory
-String currentDirectory = Environment.CurrentDirectory;
-Directory.SetCurrentDirectory(jarRoot);
-StanfordCoreNLP pipeline = new StanfordCoreNLP(properties);
-Directory.SetCurrentDirectory(currentDirectory);
-
-// Vytvorenie anotacie z textu
-Annotation annotation = new Annotation(text);
-
-// Spustenie
-pipeline.annotate(annotation);
-\end{lstlisting}
-
-Údaje získané z tohto nástroja, napríklad POS značky, vzťahy medzi slovami, pozície slov a mnoho ďalších, Notenizer ďalej spracováva. Najdôležitejšie vlastnosti, ktoré sa využívajú v najväčšej miere pri spracovávaní sú závislosti (angl. dependency) medzi slovami vo vete.  
-
-Spracovávaný text sa postupne spracováva po vetách. Každá veta sa samostatne ,,rozparsuje'', spoznámkuje. Vety sa parsujú na základe pravidiel. Na začiatku je daná statická sada pravidiel na spracovanie viet a textov. Po tom, ako sa celý text spracuje, tak sa použité pravidlá uložia do databázy aj s informáciami o pôvodnej vete a novo vytvorenej zjednodušenej vete. Následne pri opätovnom používaní aplikácie, keď sa začne spracovávať text, tak sa vyhľadajú pre každú vetu pravidlá v databáze, vyberú sa tie s najväčšou zhodou a podľa toho sa spracuje daná veta. Statické pravidla na spracovanie vety sa v tomto prípade použijú len v prípade, ak sa v databáze nenašli žiadne pravidlá na spracovanie vety, ktoré by pre danú vetu vyhovovali, to znamená, že takúto alebo podobnú vetu zatiaľ Notenizer nespracovával.
-
-Na obrázku~\fullref{fig:example_output} je ukázaný ukážkový výstup prototypu pre vstupný text z wikipédie:
-\textit{,,Czech Republic (Czech: Česká republika) is a country in Central Europe, sometimes also known as Czechia (Czech: Česko). The capital and the biggest city is Prague. The currency is the Czech Crown (koruna česká - CZK). 1€ is about 27 CZK. The president of the Czech Republic is Miloš Zeman. The Czech Republic's population is about 10.5 million. The local language is Czech language. The Czech language is a Slavic language. It is related to languages like Slovak and Polish. In 1993 the Czech Ministry of Foreign Affairs announced that the name Czechia be used for the country outside of formal official documents. This has not caught on in English usage. Czech Republic has no sea; its neighbour countries are Germany, Austria, Slovakia, and Poland.''}
-\\
-
-Výstup je v tvare [pôvodná veta] ===>> [poznámka z pôvodnej vety].
-
-\begin{figure}[H]
-	\begin{center}\includegraphics[scale=0.7]{example_output}\end{center}
-	\caption[Ukážkový výstup prototypu]{Ukážkový výstup prototypu}\label{fig:example_output}
-\end{figure}
-
-%
-% Pravidlá
-%
-\ifthenelse {\boolean{bachelor}}
-{
-	%\subsection{Subsection}
-	\subsubsection{Pravidlá}
-}
-{
-	%\section{Subsection}
-	\subsection{Pravidlá}
-}
-\label{subsubsec:notenizer_pravidla}
-Pri spracovaní pôvodnej vety sa na túto vetu aplikuje \textit{pravidlo na spracovanie}. Toto pravidlo obsahuje okrem iného zoznam závislostí pôvodnej vety. Podľa týchto závislostí slov vo vete sa v spracovávanej vete vyhľadajú slová, ktoré majú byť použité v poznámke. Vyhľadávajú sa, okrem iného, podľa POS značiek a indexov vo vete. Pre podrobnejšie informácie o vyhľadávaní a vytváraní pravidiel viď. sekcie~\fullref{subsubsection:rule_lookup} a~\fullref{subsubsection:rule_creation}
-
-Obsahuje aj zoznam závislostí zjednodušenej vety - poznámky. Tieto závislosti sa aplikujú na spracovávané vety na vygenerovanie zjednodušenej vety (viď.~\fullref{subsubsection:rule_application}).
+V systéme potrebujeme ukladať v databáze texty a informácie o nich. Počet viet, slov, vzťahov je pre každý text odlišný a preto nedokážeme vopred definovať efektívnu schému na ukladanie týchto dát. Textové databázy, so svojou dynamickou a ľahko upraviteľnou štruktúrou, sú na tento účel ideálne, pričom ukladanie textov v tabuľkách by bolo náročne, navyše relačné databázy nemajú predvolené podporované vyhľadávania v štruktúrach ako text. MongoDB (viď.~\fullref{subsection:mongodb}) je vyspelá, dokumentová databáza zahrňajúca všetku funkcionalitu, ktorú potrebujeme.

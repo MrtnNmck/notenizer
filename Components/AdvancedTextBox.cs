@@ -13,7 +13,13 @@ namespace nsComponents
 {
     public partial class AdvancedTextBox : Panel
     {
+        #region Variables
+
         private RichTextBox _richTextBox = null;
+
+        #endregion Variables
+
+        #region Constructors
 
         public AdvancedTextBox() : base()
         {
@@ -27,6 +33,31 @@ namespace nsComponents
             Init();
             this._richTextBox.Text = text;
         }
+
+        #endregion Constuctors
+
+        #region Properties
+
+        public RichTextBox TextBox
+        {
+            get { return this._richTextBox; }
+        }
+
+        #endregion Properties
+
+        #region Event Handlers
+
+        protected override void OnMouseWheel(MouseEventArgs e)
+        {
+            base.OnMouseWheel(e);
+
+            if (Parent is IMousable)
+                (Parent as IMousable).DoMouseWheel(e);
+        }
+
+        #endregion Event Hanlders
+
+        #region Methods
 
         private void Init()
         {
@@ -45,17 +76,6 @@ namespace nsComponents
             this.Controls.Add(this._richTextBox);
         }
 
-        public RichTextBox TextBox
-        {
-            get { return this._richTextBox; }
-        }
-
-        protected override void OnMouseWheel(MouseEventArgs e)
-        {
-            base.OnMouseWheel(e);
-
-            if (Parent is IMousable)
-                (Parent as IMousable).DoMouseWheel(e);
-        }
+        #endregion Methods
     }
 }

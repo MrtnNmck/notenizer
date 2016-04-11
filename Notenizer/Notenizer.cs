@@ -511,10 +511,10 @@ namespace nsNotenizer
             note.Rule = noteRule;
         }
 
-        private void ApplyRule(NotenizerNote note, NotenizerAndParserRule andParserRyle)
+        private void ApplyRule(NotenizerNote note, NotenizerAndParserRule andParserRule)
         {
-            note.SplitToSentences(andParserRyle.SentenceEnd);
-            note.AndParserRule = andParserRyle;
+            note.SplitToSentences(andParserRule.SentenceEnd);
+            note.AndParserRule = andParserRule;
         }
 
         /// <summary>

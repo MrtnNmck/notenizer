@@ -18,8 +18,14 @@ namespace nsGUI
 {
     public partial class FormMain : Form
     {
+        #region Variables
+
         private Notenizer _notenizer;
         private AndParser _andParser;
+
+        #endregion Variables
+
+        #region Constructors
 
         public FormMain()
         {
@@ -32,77 +38,11 @@ namespace nsGUI
             ProcessText(text);
         }
 
-        private void Init()
-        {
-            this.Icon = Properties.Resources.AppIcon;
+        #endregion Constuctors
 
-            _notenizer = new Notenizer();
-            _andParser = new AndParser();
+        #region Properties
 
-            InitializeComponent();
-            this.CenterToScreen();
-
-            this.menuStrip1.BackColor = Color.FromArgb(255, 106, 77);
-        }
-
-        private void ShowNotes(List<NotenizerNote> notes)
-        {
-            foreach (NotenizerNote noteLoop in notes)
-            {
-                this._tableLayoutPanelMain.PerformSafely(() => this._tableLayoutPanelMain.RowCount += 1);
-
-                this._tableLayoutPanelMain.PerformSafely(() => this._tableLayoutPanelMain.Controls.Add(new AdvancedTextBox(noteLoop.OriginalSentence.ToString()),
-                    0, this._tableLayoutPanelMain.RowCount - 1));
-
-                NotenizerAdvancedTextBox nAdvTextBox = new NotenizerAdvancedTextBox(noteLoop);
-                nAdvTextBox.EditButtonClicked += NoteEditButton_Click;
-                nAdvTextBox.AndParseButtonClicked += AndParserButton_Click;
-
-                this._tableLayoutPanelMain.PerformSafely(() => this._tableLayoutPanelMain.Controls.Add(nAdvTextBox, 1,
-                    this._tableLayoutPanelMain.RowCount - 1));
-                this._tableLayoutPanelMain.PerformSafely(() => this._tableLayoutPanelMain.RowStyles.Add(new RowStyle(SizeType.Absolute, ComponentConstants.NotenizerAdvancedTextBoxSize + 15F)));
-
-                nAdvTextBox.PerformSafely(() => nAdvTextBox.IsAndParserButtonVisible = _andParser.IsParsableSentence(noteLoop.OriginalSentence));
-            }
-        }
-
-        private void Clear()
-        {
-            this._tableLayoutPanelMain.SuspendLayout();
-
-            // do not remove first row
-            while (this._tableLayoutPanelMain.RowCount > 1)
-            {
-                int row = this._tableLayoutPanelMain.RowCount - 1;
-
-                for (int i = 0; i < this._tableLayoutPanelMain.ColumnCount; i++)
-                {
-                    Control control = this._tableLayoutPanelMain.GetControlFromPosition(i, row);
-                    this._tableLayoutPanelMain.Controls.Remove(control);
-                    control.Dispose();
-                }
-
-                this._tableLayoutPanelMain.RowStyles.RemoveAt(row);
-                this._tableLayoutPanelMain.RowCount--;
-            }
-
-            // show new changed
-            this._tableLayoutPanelMain.ResumeLayout(false);
-            this._tableLayoutPanelMain.PerformLayout();
-        }
-
-        private void ProcessText(String text)
-        {
-            this._advancedProgressBar.Start();
-
-            Task.Factory.StartNew(() =>
-            {
-                this._notenizer.RunCoreNLP(text);
-            }).ContinueWith(delegate {
-                ShowNotes(this._notenizer.Notes);
-                this._advancedProgressBar.StopAndReset();
-            }).ContinueWith(TaskExceptionHandler.Handle, TaskContinuationOptions.OnlyOnFaulted);
-        }
+        #endregion Properties
 
         #region Event Handlers
 
@@ -132,124 +72,15 @@ namespace nsGUI
         private void NoteEditButton_Click(object sender, EventArgs e)
         {
             NotenizerNote notenizerNote = (sender as NotenizerAdvancedTextBox).Note;
+            FormEditNote formEditNote = CreateFormEditNote(notenizerNote);
 
-            NotenizerNote parsedAndNote;
-            NotePart sourceNotePart;
-            int andSetPosition;
-            FormEditNote frmReorderNote;
-
-            if (notenizerNote.AndParserRule != null)
+            if (formEditNote.ShowDialog() == DialogResult.OK)
             {
-                parsedAndNote = _notenizer.ApplyRule(notenizerNote.OriginalSentence, notenizerNote.AndParserRule);
-                sourceNotePart = parsedAndNote.NoteParts[0];
-                andSetPosition = notenizerNote.AndParserRule.SetsPosition;
-            }
-            else
-            {
-                parsedAndNote = new NotenizerNote(notenizerNote.OriginalSentence);
-                sourceNotePart = new NotePart(notenizerNote.OriginalSentence);
-                andSetPosition = 0;
-            }
-
-            if (_andParser.IsParsableSentence(notenizerNote.OriginalSentence))
-            {
-                List<NotePart> noteParts = new List<NotePart>();
-                List<NoteParticle> andSets = _andParser.GetAndSets(notenizerNote.OriginalSentence);
-
-                foreach (NoteParticle andSetLoop in andSets)
-                {
-                    NotePart notePart = sourceNotePart.Clone();
-
-                    if (notenizerNote.AndParserRule == null || andSetPosition == 0)
-                        notePart.NoteParticles.Insert(andSetPosition, andSetLoop);
-                    else
-                        notePart.NoteParticles.Insert(notePart.InitializedNoteParticles[andSetPosition - 1].NoteDependency.Position + 1, andSetLoop);
-
-                    noteParts.Add(notePart);
-                }
-
-                frmReorderNote = new FormEditNote(notenizerNote, parsedAndNote, noteParts, andSetPosition);
-            }
-            else
-            {
-                frmReorderNote = new FormEditNote(notenizerNote);
-            }
-
-            if (frmReorderNote.ShowDialog() == DialogResult.OK)
-            {
-                notenizerNote.Replace(frmReorderNote.NoteParts);
-
-                this._advancedProgressBar.Start();
-
                 Task.Factory.StartNew(() =>
                 {
-                    String noteId;
-                    String ruleId = null;
-                    String andParserRuleId = String.Empty;
-                    BsonDocument ruleDoc;
-
-                    if (notenizerNote.Rule == null)
-                        throw new Exception("NotenizerNote.Rule is null!");
-
-                    notenizerNote.Rule.UpdatedAt = DateTime.Now;
-                    if (notenizerNote.Rule.CreatedBy == nsEnums.CreatedBy.Notenizer || notenizerNote.Rule.Match.Structure < 100.0)    // insert
-                    {
-                        notenizerNote.Rule.CreatedBy = nsEnums.CreatedBy.User;
-
-                        ruleDoc = DocumentCreator.CreateNoteRuleDocument(notenizerNote.Rule, notenizerNote);
-                        ruleId = DB.InsertToCollection(DBConstants.NoteRulesCollectionName, ruleDoc).Result;
-                    }
-                    else                                                                // update
-                    {
-                        ruleDoc = DocumentCreator.CreateNoteRuleDocument(notenizerNote.Rule, notenizerNote);
-                        ruleId = DB.ReplaceInCollection(DBConstants.NoteRulesCollectionName, notenizerNote.Rule.ID, ruleDoc).Result;
-                    }
-
-                    if (frmReorderNote.AndParserEnabled)
-                    {
-                        NotenizerDependencies andParserDependencies = new NotenizerDependencies();
-
-                        foreach (NoteParticle noteParticleLoop in frmReorderNote.AndParserNotePart.InitializedNoteParticles)
-                            andParserDependencies.Add(noteParticleLoop.NoteDependency);
-
-                        if (notenizerNote.AndParserRule == null)
-                            notenizerNote.AndParserRule = new NotenizerAndParserRule(andParserDependencies, CreatedBy.User, frmReorderNote.AndSetPosition, andParserDependencies.Count);
-                        else
-                        {
-                            notenizerNote.AndParserRule.RuleDependencies = andParserDependencies;
-                            notenizerNote.AndParserRule.SetsPosition = frmReorderNote.AndSetPosition;
-                            notenizerNote.AndParserRule.SentenceEnd = andParserDependencies.Count;
-                        }
-
-                        BsonDocument andParserRuleDoc = DocumentCreator.CreateAndParserRuleDocument(notenizerNote.AndParserRule);
-
-                        if (notenizerNote.AndParserRule.ID == String.Empty)
-                            andParserRuleId = DB.InsertToCollection(DBConstants.AndParserRulesCollectionName, andParserRuleDoc).Result;
-                        else
-                            andParserRuleId = DB.ReplaceInCollection(DBConstants.AndParserRulesCollectionName, notenizerNote.AndParserRule.ID, andParserRuleDoc).Result;
-                    }
-
-                    // UPDATE only user-created rules, not Notenizer-created!
-                    // which value of originalSentence is same as value persisted in DB
-                    // We do not want to update note in DB, if we processed SIMILAR but not THE SAME sentence
-                    if (notenizerNote.Rule.CreatedBy == nsEnums.CreatedBy.User
-                        && notenizerNote.Rule.Match.Content == 100)
-                    {
-                        notenizerNote.UpdatedAt = DateTime.Now;
-                        noteId = DB.ReplaceInCollection(DBConstants.NotesCollectionName, notenizerNote.Rule.Note.ID, DocumentCreator.CreateNoteDocument(notenizerNote, String.Empty, ruleId, andParserRuleId)).Result;
-                    }
-                    else
-                    {
-                        notenizerNote.CreatedBy = nsEnums.CreatedBy.User;
-                        notenizerNote.CreatedAt = DateTime.Now;
-                        notenizerNote.UpdatedAt = notenizerNote.CreatedAt;
-
-                        BsonDocument noteDoc = DocumentCreator.CreateNoteDocument(notenizerNote, String.Empty, ruleId, andParserRuleId);
-                        noteId = DB.InsertToCollection(DBConstants.NotesCollectionName, noteDoc).Result;
-                        notenizerNote.Rule = DocumentParser.ParseNoteRule(ruleDoc);
-                    }
-
-                }).ContinueWith(delegate
+                    SaveData(notenizerNote, formEditNote);
+                })
+                .ContinueWith(delegate
                 {
                     (sender as NotenizerAdvancedTextBox).PerformSafely(() => (sender as NotenizerAdvancedTextBox).AdvancedTextBox.TextBox.Text = notenizerNote.Value);
                     this._advancedProgressBar.StopAndReset();
@@ -257,81 +88,217 @@ namespace nsGUI
             }
         }
 
-        private void AndParserButton_Click(object sender, EventArgs e)
+        #endregion Event Hanlders
+
+        #region Methods
+
+        private void Init()
         {
-            NotenizerNote notenizerNote = (sender as NotenizerAdvancedTextBox).Note;
-            NotenizerNote parsedAndNote;
-            NotePart sourceNotePart;
-            int andSetPosition;
+            this.Icon = Properties.Resources.AppIcon;
 
-            if (notenizerNote.AndParserRule != null)
+            _notenizer = new Notenizer();
+            _andParser = new AndParser();
+
+            InitializeComponent();
+            this.CenterToScreen();
+
+            this.menuStrip1.BackColor = Color.FromArgb(255, 106, 77);
+        }
+
+        private void ShowNotes(List<NotenizerNote> notes)
+        {
+            NotenizerAdvancedTextBox nAdvTextBox;
+
+            foreach (NotenizerNote noteLoop in notes)
             {
-                parsedAndNote = _notenizer.ApplyRule(notenizerNote.OriginalSentence, notenizerNote.AndParserRule);
-                sourceNotePart = parsedAndNote.NoteParts[0];
-                andSetPosition = notenizerNote.AndParserRule.SetsPosition;
-            }
-            else
-            {
-                parsedAndNote = new NotenizerNote(notenizerNote.OriginalSentence);
-                sourceNotePart = new NotePart(notenizerNote.OriginalSentence);
-                andSetPosition = 0;
-            }
+                nAdvTextBox = new NotenizerAdvancedTextBox(noteLoop);
+                nAdvTextBox.EditButtonClicked += NoteEditButton_Click;
 
-            List<NotePart> noteParts = new List<NotePart>();
-            List<NoteParticle> andSets = _andParser.GetAndSets(notenizerNote.OriginalSentence);
+                this._tableLayoutPanelMain.PerformSafely(() => this._tableLayoutPanelMain.RowCount += 1);
+                this._tableLayoutPanelMain.PerformSafely(() => this._tableLayoutPanelMain.Controls.Add(
+                    new AdvancedTextBox(noteLoop.OriginalSentence.ToString()),
+                    0, 
+                    this._tableLayoutPanelMain.RowCount - 1));
 
-            foreach (NoteParticle andSetLoop in andSets)
-            {
-                NotePart notePart = sourceNotePart.Clone();
+                this._tableLayoutPanelMain.PerformSafely(() => this._tableLayoutPanelMain.Controls.Add(
+                    nAdvTextBox, 
+                    1,
+                    this._tableLayoutPanelMain.RowCount - 1));
 
-                if (notenizerNote.AndParserRule == null || andSetPosition == 0)
-                    notePart.NoteParticles.Insert(andSetPosition, andSetLoop);
-                else
-                    notePart.NoteParticles.Insert(notePart.InitializedNoteParticles[andSetPosition - 1].NoteDependency.Position + 1, andSetLoop);
-
-                noteParts.Add(notePart);
-            }
-
-            FormAndParser frmAndParser = new FormAndParser(parsedAndNote, noteParts, andSetPosition);
-            if (frmAndParser.ShowDialog() == DialogResult.OK)
-            {
-                this._advancedProgressBar.Start();
-
-                Task.Factory.StartNew(() =>
-                {
-                    String ruleId;
-                    NotenizerDependencies dependencies = new NotenizerDependencies();
-
-                    foreach (NoteParticle noteParticleLoop in frmAndParser.ActiveNotePart.InitializedNoteParticles)
-                        dependencies.Add(noteParticleLoop.NoteDependency);
-
-                    if (notenizerNote.AndParserRule == null)
-                        notenizerNote.AndParserRule = new NotenizerAndParserRule(dependencies, CreatedBy.User, frmAndParser.AndSetsPosition, dependencies.Count);
-                    else
-                    {
-                        notenizerNote.AndParserRule.RuleDependencies = dependencies;
-                        notenizerNote.AndParserRule.SetsPosition = frmAndParser.AndSetsPosition;
-                        notenizerNote.AndParserRule.SentenceEnd = dependencies.Count;
-                    }
-                    BsonDocument andParserRuleDoc = DocumentCreator.CreateAndParserRuleDocument(notenizerNote.AndParserRule);
-
-                    if (notenizerNote.AndParserRule.ID == String.Empty)
-                    {
-                        ruleId = DB.InsertToCollection(DBConstants.AndParserRulesCollectionName, andParserRuleDoc).Result;
-                        notenizerNote.AndParserRule.ID = ruleId;
-                        // update v note kolekcii
-                        String temp = DB.Update(DBConstants.NotesCollectionName, notenizerNote.Rule.Note.ID, DBConstants.AndParserRuleRefIdFieldName, ObjectId.Parse(ruleId)).Result;
-                    }
-                    else
-                        ruleId = DB.ReplaceInCollection(DBConstants.AndParserRulesCollectionName, notenizerNote.AndParserRule.ID, andParserRuleDoc).Result;
-
-                }).ContinueWith(delegate
-                {
-                    this._advancedProgressBar.StopAndReset();
-                });
+                this._tableLayoutPanelMain.PerformSafely(() => this._tableLayoutPanelMain.RowStyles.Add(
+                    new RowStyle(SizeType.Absolute, ComponentConstants.NotenizerAdvancedTextBoxSize + 15F)));
             }
         }
 
-        #endregion Event Handlers
+        private void Clear()
+        {
+            int row;
+            Control control;
+            this._tableLayoutPanelMain.SuspendLayout();
+
+            // do not remove first row
+            while (this._tableLayoutPanelMain.RowCount > 1)
+            {
+                row = this._tableLayoutPanelMain.RowCount - 1;
+
+                for (int i = 0; i < this._tableLayoutPanelMain.ColumnCount; i++)
+                {
+                    control = this._tableLayoutPanelMain.GetControlFromPosition(i, row);
+                    this._tableLayoutPanelMain.Controls.Remove(control);
+                    control.Dispose();
+                }
+
+                this._tableLayoutPanelMain.RowStyles.RemoveAt(row);
+                this._tableLayoutPanelMain.RowCount--;
+            }
+
+            // show new changes
+            this._tableLayoutPanelMain.ResumeLayout(false);
+            this._tableLayoutPanelMain.PerformLayout();
+        }
+
+        private void ProcessText(String text)
+        {
+            this._advancedProgressBar.Start();
+
+            Task.Factory.StartNew(() =>
+            {
+                this._notenizer.RunCoreNLP(text);
+            })
+            .ContinueWith(delegate
+            {
+                ShowNotes(this._notenizer.Notes);
+                this._advancedProgressBar.StopAndReset();
+            })
+            .ContinueWith(TaskExceptionHandler.Handle, TaskContinuationOptions.OnlyOnFaulted);
+        }
+
+        private FormEditNote CreateFormEditNote(NotenizerNote note)
+        {
+            NotenizerNote parsedAndNote;
+            NotePart sourceNotePart;
+            int andSetPosition;
+            FormEditNote formEditNote;
+
+            if (note.AndParserRule != null)
+            {
+                parsedAndNote = _notenizer.ApplyRule(note.OriginalSentence, note.AndParserRule);
+                sourceNotePart = parsedAndNote.NoteParts[0];
+                andSetPosition = note.AndParserRule.SetsPosition;
+            }
+            else
+            {
+                parsedAndNote = new NotenizerNote(note.OriginalSentence);
+                sourceNotePart = new NotePart(note.OriginalSentence);
+                andSetPosition = 0;
+            }
+
+            if (_andParser.IsParsableSentence(note.OriginalSentence))
+            {
+                List<NotePart> noteParts = new List<NotePart>();
+                List<NoteParticle> andSets = _andParser.GetAndSets(note.OriginalSentence);
+
+                foreach (NoteParticle andSetLoop in andSets)
+                {
+                    NotePart notePart = sourceNotePart.Clone();
+
+                    if (note.AndParserRule == null || andSetPosition == 0)
+                        notePart.NoteParticles.Insert(andSetPosition, andSetLoop);
+                    else
+                        notePart.NoteParticles.Insert(notePart.InitializedNoteParticles[andSetPosition - 1].NoteDependency.Position + 1, andSetLoop);
+
+                    noteParts.Add(notePart);
+                }
+
+                formEditNote = new FormEditNote(note, parsedAndNote, noteParts, andSetPosition);
+            }
+            else
+            {
+                formEditNote = new FormEditNote(note);
+            }
+
+            return formEditNote;
+        }
+
+        private void SaveData(NotenizerNote note, FormEditNote formEditNote)
+        {
+            SaveData(note, formEditNote.NoteNoteParts, formEditNote.AndParserEnabled, formEditNote.AndParserNotePart, formEditNote.AndSetPosition);
+        }
+
+        private void SaveData(NotenizerNote note, List<NotePart> noteNoteParts, bool andParserEnabled, NotePart andParserNotePart, int andSetPosition)
+        {
+            // UPDATE only user-created rules, not Notenizer-created!
+            // which value of originalSentence is same as value persisted in DB
+            // We do not want to update note in DB, if we processed SIMILAR but not THE SAME sentence
+
+            note.Replace(noteNoteParts);
+
+            this._advancedProgressBar.Start();
+
+            String noteId;
+            String ruleId = null;
+            String andParserRuleId = String.Empty;
+            BsonDocument ruleDoc;
+
+            if (note.Rule == null)
+                throw new Exception("NotenizerNote.Rule is null!");
+
+            note.Rule.UpdatedAt = DateTime.Now;
+            if (note.Rule.CreatedBy == nsEnums.CreatedBy.Notenizer || note.Rule.Match.Structure < 100.0)    // insert
+            {
+                note.Rule.CreatedBy = nsEnums.CreatedBy.User;
+
+                ruleDoc = DocumentCreator.CreateNoteRuleDocument(note.Rule, note);
+                ruleId = DB.InsertToCollection(DBConstants.NoteRulesCollectionName, ruleDoc).Result;
+            }
+            else                                                                                            // update
+            {
+                ruleDoc = DocumentCreator.CreateNoteRuleDocument(note.Rule, note);
+                ruleId = DB.ReplaceInCollection(DBConstants.NoteRulesCollectionName, note.Rule.ID, ruleDoc).Result;
+            }
+
+            if (andParserEnabled)
+            {
+                NotenizerDependencies andParserDependencies = new NotenizerDependencies();
+
+                foreach (NoteParticle noteParticleLoop in andParserNotePart.InitializedNoteParticles)
+                    andParserDependencies.Add(noteParticleLoop.NoteDependency);
+
+                if (note.AndParserRule == null)
+                    note.AndParserRule = new NotenizerAndParserRule(andParserDependencies, CreatedBy.User, andSetPosition, andParserDependencies.Count);
+                else
+                {
+                    note.AndParserRule.RuleDependencies = andParserDependencies;
+                    note.AndParserRule.SetsPosition = andSetPosition;
+                    note.AndParserRule.SentenceEnd = andParserDependencies.Count;
+                }
+
+                BsonDocument andParserRuleDoc = DocumentCreator.CreateAndParserRuleDocument(note.AndParserRule);
+
+                if (note.AndParserRule.ID == String.Empty)
+                    andParserRuleId = DB.InsertToCollection(DBConstants.AndParserRulesCollectionName, andParserRuleDoc).Result;
+                else
+                    andParserRuleId = DB.ReplaceInCollection(DBConstants.AndParserRulesCollectionName, note.AndParserRule.ID, andParserRuleDoc).Result;
+            }
+
+            if (note.Rule.CreatedBy == nsEnums.CreatedBy.User
+                && note.Rule.Match.Content == 100)
+            {
+                note.UpdatedAt = DateTime.Now;
+                noteId = DB.ReplaceInCollection(DBConstants.NotesCollectionName, note.Rule.Note.ID, DocumentCreator.CreateNoteDocument(note, String.Empty, ruleId, andParserRuleId)).Result;
+            }
+            else
+            {
+                note.CreatedBy = nsEnums.CreatedBy.User;
+                note.CreatedAt = DateTime.Now;
+                note.UpdatedAt = note.CreatedAt;
+
+                BsonDocument noteDoc = DocumentCreator.CreateNoteDocument(note, String.Empty, ruleId, andParserRuleId);
+                noteId = DB.InsertToCollection(DBConstants.NotesCollectionName, noteDoc).Result;
+                note.Rule = DocumentParser.ParseNoteRule(ruleDoc);
+            }
+        }
+
+        #endregion Methods
     }
 }

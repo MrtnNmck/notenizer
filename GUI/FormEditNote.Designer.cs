@@ -332,7 +332,6 @@ namespace nsGUI
             this.label7.Size = new System.Drawing.Size(35, 13);
             this.label7.TabIndex = 3;
             this.label7.Text = "Notes";
-            this.label7.Click += new System.EventHandler(this.label7_Click);
             // 
             // label8
             // 
