@@ -191,5 +191,11 @@ namespace nsNotenizerObjects
             _noteParts = new List<NotePart>();
             Add(parts);
         }
+
+        public void CreateRule()
+        {
+            this._rule = new NotenizerNoteRule(nsEnums.CreatedBy.Notenizer);
+            this._rule.Match = new Match(0, 0);
+        }
     }
 }

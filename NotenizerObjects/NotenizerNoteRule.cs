@@ -18,6 +18,11 @@ namespace nsNotenizerObjects
             _sentencesEnds = sentencesEnds;
         }
 
+        public NotenizerNoteRule(CreatedBy createdBy) : base(createdBy)
+        {
+            _sentencesEnds = null;
+        }
+
         public List<int> SentencesEnds
         {
             get { return _sentencesEnds; }

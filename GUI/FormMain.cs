@@ -84,7 +84,8 @@ namespace nsGUI
                 {
                     (sender as NotenizerAdvancedTextBox).PerformSafely(() => (sender as NotenizerAdvancedTextBox).AdvancedTextBox.TextBox.Text = notenizerNote.Value);
                     this._advancedProgressBar.StopAndReset();
-                });
+                })
+                .ContinueWith(TaskExceptionHandler.Handle, TaskContinuationOptions.OnlyOnFaulted);
             }
         }
 
@@ -296,6 +297,8 @@ namespace nsGUI
                 BsonDocument noteDoc = DocumentCreator.CreateNoteDocument(note, String.Empty, ruleId, andParserRuleId);
                 noteId = DB.InsertToCollection(DBConstants.NotesCollectionName, noteDoc).Result;
                 note.Rule = DocumentParser.ParseNoteRule(ruleDoc);
+                note.Rule.Match = new Match(100, 100);
+                note.Rule.Note = DocumentParser.ParseNote(noteDoc);
             }
         }
 

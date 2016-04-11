@@ -26,6 +26,15 @@ namespace nsNotenizerObjects
             _updatedAt = DateTime.Now;
         }
 
+        public NotenizerRule(CreatedBy createdBy)
+        {
+            _id = null;
+            _dependencies = null;
+            _createdBy = createdBy;
+            _createdAt = DateTime.Now;
+            _updatedAt = DateTime.Now;
+        }
+
         public NotenizerDependencies RuleDependencies
         {
             get { return _dependencies; }

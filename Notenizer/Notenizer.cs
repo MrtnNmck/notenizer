@@ -148,37 +148,20 @@ namespace nsNotenizer
                 }
 
                 NotenizerNote note = StaticParser(sentence);
-                //sentencesNoted.Add(note);
                 notesToSave.Add(note);
             }
 
             // inserting into DB AFTER ALL sentences from article were processed
             // to avoid processed sentence to affect processing other sentences from article
-            //
-            // TODO:
-            // we need to change this
-            // it's bad to go again to DB just to parse rule from result of it
-            // we have all the information to create note just now
-            // maybe somthing like: note.CreateRule()
             foreach (NotenizerNote sentenceNotedLoop in notesToSave)
             {
                 String noteRuleId = DB.InsertToCollection(DBConstants.NoteRulesCollectionName, DocumentCreator.CreateNoteRuleDocument(sentenceNotedLoop)).Result;
                 String id = DB.InsertToCollection(DBConstants.NotesCollectionName, DocumentCreator.CreateNoteDocument(sentenceNotedLoop, String.Empty, noteRuleId, String.Empty)).Result;
 
-                NotenizerNoteRule rule = GetRuleForSentence(sentenceNotedLoop.OriginalSentence);
+                sentenceNotedLoop.CreateRule();
 
-                if (rule != null && rule.RuleDependencies != null && rule.RuleDependencies.Count > 0)
-                {
-                    NotenizerNote parsedNote = ApplyRule(sentenceNotedLoop.OriginalSentence, rule);
-
-                    if (rule.Note.AndParserRuleRefId != DBConstants.BsonNullValue)
-                        parsedNote.AndParserRule = DocumentParser.ParseAndParserRule(DB.GetFirst(DBConstants.AndParserRulesCollectionName, DocumentCreator.CreateFilterById(rule.Note.AndParserRuleRefId)).Result);
-
-                    Console.WriteLine("Parsed note: " + parsedNote.OriginalSentence + " ===> " + parsedNote.Value);
-                    sentencesNoted.Add(parsedNote);
-
-                    continue;
-                }
+                Console.WriteLine("Parsed note: " + sentenceNotedLoop.OriginalSentence + " ===> " + sentenceNotedLoop.Value);
+                sentencesNoted.Add(sentenceNotedLoop);
             }
 
             return sentencesNoted;
