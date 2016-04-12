@@ -32,5 +32,6 @@ namespace nsConstants
         public const String Root = "root";
 
         public const String AndConjuction = "and";
+        public static readonly Char[] SentenceTerminators = { '.', '!', '?' };
     }
 }

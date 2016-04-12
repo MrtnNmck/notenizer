@@ -1,4 +1,5 @@
-﻿using System;
+﻿using nsExtensions;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -43,7 +44,7 @@ namespace nsGUI
 
         private void ButtonConfirm_Click(Object sender, EventArgs e)
         {
-            this._textForProcessing = this._notenizerTextBoxText.TextBox.Text.Trim();
+            this._textForProcessing = this._notenizerTextBoxText.TextBox.Text.Trim().NormalizeWhiteSpaces();
             this.DialogResult = DialogResult.OK;
         }
 

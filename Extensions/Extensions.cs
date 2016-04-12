@@ -96,5 +96,32 @@ namespace nsExtensions
             tooltip.ShowAlways = true;
             tooltip.SetToolTip(c, toolTipText);
         }
+
+        public static string NormalizeWhiteSpaces(this String source)
+        {
+            StringBuilder sb = new StringBuilder();
+            bool isPrevWhiteWhiteSpace = false;
+
+            foreach (Char c in source)
+            {
+                if (Char.IsWhiteSpace(c))
+                {
+                    if (isPrevWhiteWhiteSpace)
+                        continue;
+                    else
+                        isPrevWhiteWhiteSpace = true;
+                }
+                else
+                    isPrevWhiteWhiteSpace = false;
+
+                // remove all whitespaces before sentence terminator
+                if (GrammaticalConstants.SentenceTerminators.Contains(c))
+                    sb.Remove(sb.Length - 1, 1);
+
+                sb.Append(c);
+            }
+
+            return sb.ToString();
+        }
     }
 }
