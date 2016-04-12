@@ -13,6 +13,8 @@ using nsParsers;
 using nsEnums;
 using System.Drawing;
 using nsExceptions;
+using System.IO;
+using System.Linq;
 
 namespace nsGUI
 {
@@ -22,6 +24,7 @@ namespace nsGUI
 
         private Notenizer _notenizer;
         private AndParser _andParser;
+        private List<NotenizerAdvancedTextBox> _noteTextBoxes;
 
         #endregion Variables
 
@@ -54,19 +57,32 @@ namespace nsGUI
 
         private void Menu_Open(object sender, EventArgs e)
         {
-            FormTextInputer frmTextInputer = new FormTextInputer();
-
-            if (frmTextInputer.ShowDialog() == DialogResult.OK)
-            {
-                string textForProcessing = frmTextInputer.TextForProcessing;
-
-                ProcessText(textForProcessing);
-            }
+            ProcessText(new FormTextInputer());
         }
 
         private void Menu_Clear(object sender, EventArgs e)
         {
             Clear();
+        }
+
+        private void Menu_Export(Object sender, EventArgs e)
+        {
+            String fileToSavePath = GetSaveFileLocation("txt files (*.txt)|*.txt");
+
+            if (fileToSavePath.IsNullOrEmpty())
+                return;
+
+            ExportToTextFile(fileToSavePath, this._noteTextBoxes.Select(x => x.AdvancedTextBox.TextBox.Text));
+        }
+
+        private void Menu_OpenFile(Object sender, EventArgs e)
+        {
+            String fileToOpenPath = GetOpenFileLocation("txt files (*.txt)|*.txt");
+
+            if (fileToOpenPath.IsNullOrEmpty())
+                return;
+
+            ProcessText(new FormTextInputer(GetTextFromFile(fileToOpenPath)));
         }
 
         private void NoteEditButton_Click(object sender, EventArgs e)
@@ -89,7 +105,7 @@ namespace nsGUI
             }
         }
 
-        #endregion Event Hanlders
+        #endregion Event Handlers
 
         #region Methods
 
@@ -97,8 +113,9 @@ namespace nsGUI
         {
             this.Icon = Properties.Resources.AppIcon;
 
-            _notenizer = new Notenizer();
-            _andParser = new AndParser();
+            this._notenizer = new Notenizer();
+            this._andParser = new AndParser();
+            this._noteTextBoxes = new List<NotenizerAdvancedTextBox>();
 
             InitializeComponent();
             this.CenterToScreen();
@@ -114,6 +131,7 @@ namespace nsGUI
             {
                 nAdvTextBox = new NotenizerAdvancedTextBox(noteLoop);
                 nAdvTextBox.EditButtonClicked += NoteEditButton_Click;
+                this._noteTextBoxes.Add(nAdvTextBox);
 
                 this._tableLayoutPanelMain.PerformSafely(() => this._tableLayoutPanelMain.RowCount += 1);
                 this._tableLayoutPanelMain.PerformSafely(() => this._tableLayoutPanelMain.Controls.Add(
@@ -153,9 +171,18 @@ namespace nsGUI
                 this._tableLayoutPanelMain.RowCount--;
             }
 
+            this._noteTextBoxes.Clear();
+            this._noteTextBoxes = null;
+
             // show new changes
             this._tableLayoutPanelMain.ResumeLayout(false);
             this._tableLayoutPanelMain.PerformLayout();
+        }
+
+        private void ProcessText(FormTextInputer formTextInputer)
+        {
+            if (formTextInputer.ShowDialog() == DialogResult.OK)
+                ProcessText(formTextInputer.TextForProcessing);
         }
 
         private void ProcessText(String text)
@@ -300,6 +327,49 @@ namespace nsGUI
                 note.Rule.Match = new Match(100, 100);
                 note.Rule.Note = DocumentParser.ParseNote(noteDoc);
             }
+        }
+        
+        private String GetSaveFileLocation(String filter)
+        {
+            SaveFileDialog dialog = new SaveFileDialog();
+
+            dialog.Filter = filter;
+            dialog.Title = "Choose file to save";
+
+            if (dialog.ShowDialog() == DialogResult.OK)
+                return dialog.FileName;
+
+            return null;
+        }
+
+        private String GetOpenFileLocation(String filter)
+        {
+            OpenFileDialog dialog = new OpenFileDialog();
+
+            dialog.Filter = filter;
+            dialog.Title = "Choose file to open";
+
+            if (dialog.ShowDialog() == DialogResult.OK)
+                return dialog.FileName;
+
+            return null;
+        }
+
+        private void ExportToTextFile(String filePath, IEnumerable<String> values)
+        {
+            File.WriteAllLines(filePath, values);
+
+            if (MessageBox.Show(
+                "Do you want to open saved file?",
+                "Open file",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question) == DialogResult.Yes)
+                System.Diagnostics.Process.Start(filePath);
+        }
+
+        private String GetTextFromFile(String filePath)
+        {
+            return File.ReadAllText(filePath);
         }
 
         #endregion Methods

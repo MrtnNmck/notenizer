@@ -25,8 +25,15 @@ namespace nsGUI
         {
             InitializeComponent();
             this.Icon = Properties.Resources.AppIcon;
-
             this.CenterToParent();
+        }
+
+        public FormTextInputer(String text)
+        {
+            InitializeComponent();
+            this.Icon = Properties.Resources.AppIcon;
+            this.CenterToParent();
+            this._notenizerTextBoxText.TextBox.Text = text;
         }
 
         #endregion Constuctors
@@ -53,7 +60,7 @@ namespace nsGUI
             this.DialogResult = DialogResult.Cancel;
         }
 
-        #endregion Event Hanlders
+        #endregion Event Handlers
 
         #region Methods
 

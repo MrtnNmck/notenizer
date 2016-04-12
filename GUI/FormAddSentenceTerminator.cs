@@ -71,7 +71,7 @@ namespace nsGUI
             this.DialogResult = DialogResult.Cancel;
         }
 
-        #endregion Event Hanlders
+        #endregion Event Handlers
 
         #region Methods
 

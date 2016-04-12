@@ -83,7 +83,7 @@ namespace nsComponents
 
         #region Event Handlers
 
-        #endregion Event Hanlders
+        #endregion Event Handlers
 
         #region Methods
 

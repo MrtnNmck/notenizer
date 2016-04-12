@@ -36,7 +36,7 @@ namespace nsComponents
             base.OnMouseWheel((MouseEventArgs)e);
         }
 
-        #endregion Event Hanlders
+        #endregion Event Handlers
 
         #region Methods
 

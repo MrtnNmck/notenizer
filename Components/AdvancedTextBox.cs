@@ -55,7 +55,7 @@ namespace nsComponents
                 (Parent as IMousable).DoMouseWheel(e);
         }
 
-        #endregion Event Hanlders
+        #endregion Event Handlers
 
         #region Methods
 

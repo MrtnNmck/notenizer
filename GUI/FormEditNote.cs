@@ -108,7 +108,7 @@ namespace nsGUI
             }
         }
 
-        #endregion Event Hanlders
+        #endregion Event Handlers
 
         #region Methods
 

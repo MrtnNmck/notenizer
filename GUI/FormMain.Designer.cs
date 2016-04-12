@@ -30,10 +30,11 @@ namespace nsGUI
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this._labelCaption = new System.Windows.Forms.Label();
             this._panelHeader = new System.Windows.Forms.Panel();
             this._panelMain = new System.Windows.Forms.Panel();
-            this._tableLayoutPanelMain = new AdvancedTableLayoutPanel();
+            this._tableLayoutPanelMain = new nsComponents.AdvancedTableLayoutPanel();
             this._labelCoolumnCaption1 = new System.Windows.Forms.Label();
             this._labelColumnCaption2 = new System.Windows.Forms.Label();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
@@ -44,7 +45,10 @@ namespace nsGUI
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.clearToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this._panelBottom = new System.Windows.Forms.Panel();
-            this._advancedProgressBar = new AdvancedProgressBar();
+            this._advancedProgressBar = new nsComponents.AdvancedProgressBar(this.components);
+            this.exportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator();
+            this.openFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this._panelHeader.SuspendLayout();
             this._panelMain.SuspendLayout();
             this._tableLayoutPanelMain.SuspendLayout();
@@ -119,7 +123,7 @@ namespace nsGUI
             this._labelColumnCaption2.AutoSize = true;
             this._labelColumnCaption2.Dock = System.Windows.Forms.DockStyle.Fill;
             this._labelColumnCaption2.Font = new System.Drawing.Font("Segoe UI Emoji", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this._labelColumnCaption2.Location = new System.Drawing.Point(489, 1);
+            this._labelColumnCaption2.Location = new System.Drawing.Point(492, 1);
             this._labelColumnCaption2.Name = "_labelColumnCaption2";
             this._labelColumnCaption2.Size = new System.Drawing.Size(478, 688);
             this._labelColumnCaption2.TabIndex = 1;
@@ -141,6 +145,9 @@ namespace nsGUI
             // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.openToolStripMenuItem,
+            this.openFileToolStripMenuItem,
+            this.toolStripMenuItem3,
+            this.exportToolStripMenuItem,
             this.toolStripMenuItem1,
             this.quitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
@@ -158,7 +165,7 @@ namespace nsGUI
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(143, 6);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(149, 6);
             // 
             // quitToolStripMenuItem
             // 
@@ -180,7 +187,7 @@ namespace nsGUI
             // 
             this.clearToolStripMenuItem.Name = "clearToolStripMenuItem";
             this.clearToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.C)));
-            this.clearToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
+            this.clearToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.clearToolStripMenuItem.Text = "Clear";
             this.clearToolStripMenuItem.Click += new System.EventHandler(this.Menu_Clear);
             // 
@@ -194,16 +201,38 @@ namespace nsGUI
             this._panelBottom.Size = new System.Drawing.Size(984, 29);
             this._panelBottom.TabIndex = 4;
             // 
-            // _progressBar
+            // _advancedProgressBar
             // 
             this._advancedProgressBar.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this._advancedProgressBar.Location = new System.Drawing.Point(3, 3);
-            this._advancedProgressBar.Name = "_progressBar";
+            this._advancedProgressBar.MarqueeAnimationSpeed = 0;
+            this._advancedProgressBar.Name = "_advancedProgressBar";
             this._advancedProgressBar.Size = new System.Drawing.Size(978, 23);
             this._advancedProgressBar.Style = System.Windows.Forms.ProgressBarStyle.Marquee;
             this._advancedProgressBar.TabIndex = 0;
+            // 
+            // exportToolStripMenuItem
+            // 
+            this.exportToolStripMenuItem.Name = "exportToolStripMenuItem";
+            this.exportToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
+            this.exportToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.exportToolStripMenuItem.Text = "Export";
+            this.exportToolStripMenuItem.Click += new System.EventHandler(this.Menu_Export);
+            // 
+            // toolStripMenuItem3
+            // 
+            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(149, 6);
+            // 
+            // openFileToolStripMenuItem
+            // 
+            this.openFileToolStripMenuItem.Name = "openFileToolStripMenuItem";
+            this.openFileToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.P)));
+            this.openFileToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.openFileToolStripMenuItem.Text = "Open File";
+            this.openFileToolStripMenuItem.Click += new System.EventHandler(this.Menu_OpenFile);
             // 
             // FormMain
             // 
@@ -246,5 +275,8 @@ namespace nsGUI
         private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem clearToolStripMenuItem;
         private AdvancedProgressBar _advancedProgressBar;
+        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem3;
+        private System.Windows.Forms.ToolStripMenuItem exportToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem openFileToolStripMenuItem;
     }
 }

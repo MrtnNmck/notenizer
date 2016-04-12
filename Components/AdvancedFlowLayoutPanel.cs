@@ -66,7 +66,7 @@ namespace nsComponents
             this.DoDragDrop(data, sourcePanel, destinationPanel, p);
         }
 
-        #endregion Event Hanlders
+        #endregion Event Handlers
 
         #region Methods
 

@@ -62,7 +62,7 @@ namespace nsComponents
             }
         }
 
-        #endregion Event Hanlders
+        #endregion Event Handlers
 
         #region Methods
 
