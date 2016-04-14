@@ -21,6 +21,7 @@ namespace nsComponents
         private NotenizerDependency _dependency;
         private RepresentMode _representMode;
         private bool _isDeletable = true;
+        private String _toolTip;
 
         #endregion Variables
 
@@ -95,8 +96,14 @@ namespace nsComponents
             {
                 this.BorderWidth = 2;
                 this.BorderColor = ComponentConstants.NamedEntityColors[_dependency.CorrespondingWord.NamedEntity.Type];
-                this.SetToolTip("Entity: " + _dependency.CorrespondingWord.NamedEntity.Type.ToString());
+                this._toolTip = "Entity: " + _dependency.CorrespondingWord.NamedEntity.Type.ToString();
+                ResetToolTip();
             }
+        }
+
+        public void ResetToolTip()
+        {
+            this.SetToolTip(this._toolTip);
         }
 
         #endregion Methods

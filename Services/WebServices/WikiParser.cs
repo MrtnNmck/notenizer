@@ -22,11 +22,11 @@ namespace nsServices.WebServices
             String source;
             byte[] response;
             HtmlNode content;
-            StringBuilder sb;
             HttpClient client;
             HtmlDocument document;
+            List<String> sentences;
 
-            sb = new StringBuilder();
+            sentences = new List<String>();
             client = new HttpClient();
             response = client.GetByteArrayAsync(url).Result;
             source = Encoding.GetEncoding("utf-8").GetString(response, 0, response.Length - 1);
@@ -46,10 +46,10 @@ namespace nsServices.WebServices
                     break;
 
                 if (childNoteLoop.Name == "p")
-                    sb.Append(childNoteLoop.InnerText);
+                    sentences.Add(childNoteLoop.InnerText.Trim());
             }
 
-            return sb.ToString();
+            return String.Join(NotenizerConstants.WordDelimeter, sentences);
         }
 
         private static Uri CreateUrl(String countryName)

@@ -56,11 +56,13 @@
             // radioButtonCountry
             // 
             this.radioButtonCountry.AutoSize = true;
+            this.radioButtonCountry.Checked = true;
             this.radioButtonCountry.Font = new System.Drawing.Font("Segoe UI Light", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.radioButtonCountry.Location = new System.Drawing.Point(7, 44);
             this.radioButtonCountry.Name = "radioButtonCountry";
             this.radioButtonCountry.Size = new System.Drawing.Size(70, 21);
-            this.radioButtonCountry.TabIndex = 1;
+            this.radioButtonCountry.TabIndex = 2;
+            this.radioButtonCountry.TabStop = true;
             this.radioButtonCountry.Text = "Country";
             this.radioButtonCountry.UseVisualStyleBackColor = true;
             this.radioButtonCountry.CheckedChanged += new System.EventHandler(this.radioButtonCountry_CheckedChanged);
@@ -68,13 +70,11 @@
             // radioButtonUrl
             // 
             this.radioButtonUrl.AutoSize = true;
-            this.radioButtonUrl.Checked = true;
             this.radioButtonUrl.Font = new System.Drawing.Font("Segoe UI Light", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.radioButtonUrl.Location = new System.Drawing.Point(7, 20);
             this.radioButtonUrl.Name = "radioButtonUrl";
             this.radioButtonUrl.Size = new System.Drawing.Size(75, 21);
-            this.radioButtonUrl.TabIndex = 0;
-            this.radioButtonUrl.TabStop = true;
+            this.radioButtonUrl.TabIndex = 1;
             this.radioButtonUrl.Text = "Link (Url)";
             this.radioButtonUrl.UseVisualStyleBackColor = true;
             this.radioButtonUrl.CheckedChanged += new System.EventHandler(this.RadioButtonUrl_CheckedChanged);
@@ -85,9 +85,9 @@
             this.labelUrl.Font = new System.Drawing.Font("Segoe UI Light", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.labelUrl.Location = new System.Drawing.Point(14, 90);
             this.labelUrl.Name = "labelUrl";
-            this.labelUrl.Size = new System.Drawing.Size(30, 17);
+            this.labelUrl.Size = new System.Drawing.Size(52, 17);
             this.labelUrl.TabIndex = 1;
-            this.labelUrl.Text = "Link";
+            this.labelUrl.Text = "Country";
             // 
             // textBoxUrl
             // 
@@ -96,7 +96,7 @@
             this.textBoxUrl.Location = new System.Drawing.Point(72, 90);
             this.textBoxUrl.Name = "textBoxUrl";
             this.textBoxUrl.Size = new System.Drawing.Size(301, 20);
-            this.textBoxUrl.TabIndex = 2;
+            this.textBoxUrl.TabIndex = 0;
             // 
             // panel1
             // 

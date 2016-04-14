@@ -116,9 +116,10 @@ namespace nsExtensions
 
                 // remove all whitespaces before sentence terminator
                 if (GrammaticalConstants.SentenceTerminators.Contains(c) && isPrevWhiteWhiteSpace)
+                {
                     sb.Remove(sb.Length - 1, 1);
-
-                //if (c == Environment.NewLinekk)
+                    isPrevWhiteWhiteSpace = false;
+                }
 
                 sb.Append(c);
             }

@@ -47,6 +47,9 @@ namespace nsComponents
         {
             this.SetFont(e.Control, this._controlsFont);
 
+            if (e.Control is NotenizerAdvancedLabel)
+                (e.Control as NotenizerAdvancedLabel).ResetToolTip();
+
             base.OnControlAdded(e);
         }
 

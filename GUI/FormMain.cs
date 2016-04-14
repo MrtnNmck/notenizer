@@ -193,7 +193,6 @@ namespace nsGUI
             }
 
             this._noteTextBoxes.Clear();
-            this._noteTextBoxes = null;
 
             // show new changes
             this._tableLayoutPanelMain.ResumeLayout(false);
