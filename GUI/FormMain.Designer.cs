@@ -49,6 +49,7 @@ namespace nsGUI
             this.exportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripSeparator();
             this.openFileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openLinkToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this._panelHeader.SuspendLayout();
             this._panelMain.SuspendLayout();
             this._tableLayoutPanelMain.SuspendLayout();
@@ -146,6 +147,7 @@ namespace nsGUI
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.openToolStripMenuItem,
             this.openFileToolStripMenuItem,
+            this.openLinkToolStripMenuItem,
             this.toolStripMenuItem3,
             this.exportToolStripMenuItem,
             this.toolStripMenuItem1,
@@ -234,6 +236,14 @@ namespace nsGUI
             this.openFileToolStripMenuItem.Text = "Open File";
             this.openFileToolStripMenuItem.Click += new System.EventHandler(this.Menu_OpenFile);
             // 
+            // openLinkToolStripMenuItem
+            // 
+            this.openLinkToolStripMenuItem.Name = "openLinkToolStripMenuItem";
+            this.openLinkToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.L)));
+            this.openLinkToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.openLinkToolStripMenuItem.Text = "Open Link";
+            this.openLinkToolStripMenuItem.Click += new System.EventHandler(this.Menu_OpenLink);
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -278,5 +288,6 @@ namespace nsGUI
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem3;
         private System.Windows.Forms.ToolStripMenuItem exportToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem openFileToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem openLinkToolStripMenuItem;
     }
 }

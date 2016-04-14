@@ -8,7 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace nsNotenizer
+namespace nsServices.DBServices
 {
     public static class DocumentParser
     {

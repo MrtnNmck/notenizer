@@ -19,6 +19,7 @@ using nsDB;
 using nsEnums;
 using nsParsers;
 using nsComparsions;
+using nsServices.DBServices;
 
 namespace nsNotenizer
 {

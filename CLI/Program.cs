@@ -7,6 +7,7 @@ using nsNotenizer;
 using nsDB;
 using System.Windows.Forms;
 using nsGUI;
+using nsServices.WebServices;
 
 namespace nsCLI
 {
@@ -31,15 +32,23 @@ namespace nsCLI
             {
                 if (options.GUI)
                 {
-                    if (options.Text == String.Empty)
-                        Application.Run(new FormMain());
-                    else
+                    if (options.Text != String.Empty)
                         Application.Run(new FormMain(options.Text));
+                    else if (options.Url != String.Empty)
+                        Application.Run(new FormMain(WikiParser.Parse(options.Url)));
+                    else if (options.Country != String.Empty)
+                        Application.Run(new FormMain(WikiParser.ParseCountry(options.Country)));
+                    else
+                        Application.Run(new FormMain());
                 }
                 else if (!options.GUI)
                 {
                     if (options.Text != String.Empty)
                         notenizer.RunCoreNLP(options.Text);
+                    else if (options.Url != String.Empty)
+                        Application.Run(new FormMain(WikiParser.Parse(options.Url)));
+                    else if (options.Country != String.Empty)
+                        Application.Run(new FormMain(WikiParser.ParseCountry(options.Country)));
                 }
             }
         }

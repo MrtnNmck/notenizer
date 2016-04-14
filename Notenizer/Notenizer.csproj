@@ -148,8 +148,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DocumentCreator.cs" />
-    <Compile Include="DocumentParser.cs" />
     <Compile Include="Notenizer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -355,6 +353,10 @@
     <ProjectReference Include="..\Parsers\Parsers.csproj">
       <Project>{26543069-4b17-4652-ac7c-01202a8bf751}</Project>
       <Name>Parsers</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Services\Services.csproj">
+      <Project>{768f9185-c372-4a22-acae-2c01101d598d}</Project>
+      <Name>Services</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -15,6 +15,8 @@ using System.Drawing;
 using nsExceptions;
 using System.IO;
 using System.Linq;
+using nsServices.DBServices;
+using nsServices.WebServices;
 
 namespace nsGUI
 {
@@ -83,6 +85,25 @@ namespace nsGUI
                 return;
 
             ProcessText(new FormTextInputer(GetTextFromFile(fileToOpenPath)));
+        }
+
+        private void Menu_OpenLink(Object sender, EventArgs e)
+        {
+            FormOpenLink formOpenLink = new FormOpenLink();
+
+            if (formOpenLink.ShowDialog() == DialogResult.OK)
+            {
+                if (formOpenLink.Url != String.Empty)
+                {
+                    if (!WebParser.UrlExists(formOpenLink.Url))
+                        MessageBox.Show(formOpenLink.Url + " is not a valid URL.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    else
+                    ProcessText(new FormTextInputer(WikiParser.Parse(formOpenLink.Url)));
+                }
+                else
+                    ProcessText(new FormTextInputer(WikiParser.ParseCountry(formOpenLink.Country)));
+            }
+                
         }
 
         private void NoteEditButton_Click(object sender, EventArgs e)

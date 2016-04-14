@@ -16,6 +16,12 @@ namespace nsCLI
         [Option('t', "text", Required = false, HelpText = "Text to process.", DefaultValue = "")]
         public string Text { get; set; }
 
+        [Option('u', "url", Required = false, HelpText = "Url of wiki page containing article about country.", DefaultValue = "")]
+        public string Url { get; set; }
+
+        [Option('c', "country", Required = false, HelpText = "Process article about country from wikipedia.", DefaultValue = "")]
+        public string Country { get; set; }
+
         public string GetUsage()
         {
             return HelpText.AutoBuild(this, (HelpText current) => HelpText.DefaultParsingErrorsHandler(this, current));
