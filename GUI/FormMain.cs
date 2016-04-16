@@ -195,14 +195,7 @@ namespace nsGUI
             this._noteTextBoxes.Clear();
 
             // show new changes
-            this._tableLayoutPanelMain.RowStyles.Clear();
-            this._tableLayoutPanelMain.RowCount = 1;
-            this._tableLayoutPanelMain.RowStyles.Add(new RowStyle(SizeType.Absolute, 30F));
-            this._tableLayoutPanelMain.AutoScroll = false;
-            this._tableLayoutPanelMain.ResumeLayout(true);
-            this._tableLayoutPanelMain.AutoScroll = true;
-            this._tableLayoutPanelMain.ResumeLayout(true);
-            //this._tableLayoutPanelMain.PerformLayout();
+            this._tableLayoutPanelMain.ResizeToOriginal();
         }
 
         private void ProcessText(FormTextInputer formTextInputer)
