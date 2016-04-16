@@ -1,5 +1,7 @@
 ﻿using MongoDB.Driver;
 using nsConstants;
+using System;
+using nsExtensions;
 
 namespace nsDB
 {
@@ -7,6 +9,7 @@ namespace nsDB
     {
         private static IMongoClient _client;
         private static IMongoDatabase _database;
+        private static String _databaseName = null;
 
         public static IMongoClient Client
         {
@@ -24,10 +27,16 @@ namespace nsDB
             get
             {
                 if (_database == null)
-                    _database = Client.GetDatabase(DBConstants.DatabaseName);
+                    _database = Client.GetDatabase(DatabaseName.IsNullOrEmpty() ? DBConstants.DatabaseName : DatabaseName);
 
                 return _database;
             }
+        }
+
+        public static String DatabaseName
+        {
+            get { return _databaseName; }
+            set { _databaseName = value; }
         }
     }
 }

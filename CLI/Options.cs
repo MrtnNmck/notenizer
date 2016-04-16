@@ -22,6 +22,9 @@ namespace nsCLI
         [Option('c', "country", Required = false, HelpText = "Process article about country from wikipedia.", DefaultValue = "")]
         public string Country { get; set; }
 
+        [Option('d', "db", Required = false, HelpText = "Name of database to connect to.", DefaultValue = null)]
+        public string DatabaseName { get; set; }
+
         public string GetUsage()
         {
             return HelpText.AutoBuild(this, (HelpText current) => HelpText.DefaultParsingErrorsHandler(this, current));

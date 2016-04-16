@@ -30,6 +30,9 @@ namespace nsCLI
 
             if (CommandLine.Parser.Default.ParseArguments(args, options))
             {
+                if (options.DatabaseName != null)
+                    ConnectionManager.DatabaseName = options.DatabaseName;
+
                 if (options.GUI)
                 {
                     if (options.Text != String.Empty)

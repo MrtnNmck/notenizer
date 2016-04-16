@@ -66,6 +66,10 @@
       <Project>{ce035769-8676-4ef9-a711-17da8ecd8e17}</Project>
       <Name>Constants</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Extensions\Extensions.csproj">
+      <Project>{a935e0ec-5e82-46b1-a209-405d11faa30c}</Project>
+      <Name>Extensions</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NotenizerObjects\NotenizerObjects.csproj">
       <Project>{6fdbbec7-9acc-44ea-aaf3-86d771ee5f46}</Project>
       <Name>NotenizerObjects</Name>
