@@ -25,7 +25,7 @@ namespace nsNotenizer
 {
     public class Notenizer
     {
-        private bool _redirectOutputToFile = false;
+        private bool _redirectOutputToFile = true;
         private String _redirectOutputToFileFileName = @"./out.txt";
         List<NotenizerNote> _notes;
         StanfordCoreNLP _pipeline;

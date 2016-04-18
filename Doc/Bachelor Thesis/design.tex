@@ -154,55 +154,66 @@ V nasledujúcich častiach si priblížime prácu s dátami z databázy, ako vyh
 \ifthenelse {\boolean{bachelor}}
 {
 	%\subsection{Subsection}
-	\subsubsection{Vyhľadávanie pravidla}
+	\subsubsection{Vyhľadanie pravidla}
 }
 {
 	%\section{Subsection}
-	\subsection{Vyhľadávanie pravidla}
+	\subsection{Vyhľadanie pravidla}
 }
+
 \label{subsubsection:rule_lookup}
-Pred spracovaním vety sa vyhľadá pravidlo v databáze vhodné na jej zjednodušenie. Pri vyhľadávaní sa berie do úvahy viacero podmienok.
+Pri spracovávaní vety, pred vytvorením poznámky, aplikovateľné pravidlo musí byť vyhľadané v databáze. Závislosti pravidla a závislostí vety musia spolu korešpondovať. Pre vyhľadanie pravidla, pravidlo aj veta musia obsahovať rovnakú množinu závislostí. To znamená mať rovnaký počet záznamov v \textit{zozname dát o pôvodnej vete} a zároveň tieto záznamy musia obsahovať rovnaké názvy vzťahov závislostí.
 
-Spracovávaná veta, pre ktorú hľadáme pravidlo, musí mať rovnaký počet záznamov v \textit{zozname závislosti pôvodnej vety} a zároveň musia byť napárované práve všetky názvy vzťahov v závislostiach v tomto zozname.
+Aplikovateľné pravidlo je vyhľadané ak hlavná podmienka je splnená. Avšak, táto podmienka môže spôsobiť, že viacero aplikovateľných pravidiel je vyhľadaných. V takom prípade zhoda spracovávanej vety a originálnej vety obdržanej z pravidla musí byť vypočítaná. Pravidlo s najväčšou zhodou je následne aplikované.
 
-Pri použití týchto podmienok vieme rýchlo vyhľadať pravidlo, ktoré súvisí s podobnou vetou. Avšak, môže nastať situácia, kedy je pre spracovávanú vetu vhodných viacero pravidiel. Vtedy sa rozhoduje podľa zhody pôvodných viet, ktoré vybrať. Vyberá sa, a následne aplikuje, to s najväčšou zhodou.
+Výpočet zhody pozostáva z niekoľkých krokov. Najskôr je separátne vypočítaná zhoda POS značiek podradeného a nadradeného tokenu. Indexy nadradeného a podradeného tokenu su taktiež vypočítané separátne. Tieto prvé kroky určia, či veta obsahuje ľubovolnú závislosť s rovnakou POS značkou alebo indexom. V nasledujúcom kroku je určená polovičná zhoda závislostí. Polovičná zhoda závislosti je zhoda POS značky a indexu nadradeného alebo podradeného tokenu. Zhodu POS značky a indexu nadradeného alebo podradeného tokenu počítame pre každú závislosť. Nakoniec, v poslednom kroku, počítame počet úplne zhodných závislostí. Úplní zhoda závislosti je zhoda POS značky a indexu nadradeného, a zároveň podradeného tokenu. Každý krok ma priradené ohodnotenie. Ak je podmienka v kroku vyhodnotená ako správna, ohodnotenie kroku je pripočítané do finálnej hodnoty. Finálna zhoda je percentuálne ohodnotenie zhody. Ohodnotenie krokov odzrkadľuje dôležitosť daného kroku vo výpočte presnej zhody, pričom závisí od počtu závislostí a krokov, takže finálna zhoda nemôže presiahnuť hodnotu 100\%. Pseudokód~\ref{alg:calculating_match} zobrazuje algoritmus výpočtu zhody, konkrétny príklad je zobrazený na obrázku~\fullref{fig:calculate_match_sentences_example}
 
-Určovanie najväčšej zhody má viacero krokov. Najskôr sa spočítavajú zhody POS značiek nadradených a podradených tokenov zvlášť a následne, indexy slov prislúchajúcich tokenom taktiež nezávisle od seba. Tým sa zisťuje, či spracovávaná veta obsahuje ľubovoľnú závislosť s rovnakou hodnotou POS značky alebo indexu či už nadradeného alebo podradeného tokenu. V druhom kroku sa určuje polovičná zhoda závislosti, teda či spracovávaná veta obsahuje zhody POS značiek a zároveň indexov slov v nadradenom tokene alebo v podradenom tokene. V poslednom, treťom sa zisťuje počet úplných zhôd závislostí, čo znamená zhoda POS značiek a indexov zároveň, v nadradenom a podradenom tokene zároveň. Tieto tri hodnoty sa na záver spočítajú a tým získame percentuálne ohodnotenie zhody viet.
+\begin{algorithm}[H]
+	\floatname{algorithm}{Algoritmus}
+	\footnotesize %\small, \footnotesize, \scriptsize, or \tiny
+	\begin{algorithmic}[1]
 
-Toto určovanie najväčšej zhody sa uskutoční pre každé vyhovujúce pravidlo a vyberie sa pravidlo s najväčšou zhodou. \\
-
-Predpokladajme situáciu kedy spracovávame vetu ,,The local language is Czech language.'' a v databáze máme, okrem iného, uložené pravidlá pre vety ,,The local language is Czech language'' a ,,The Czech language is a Slavic language.''. Vtedy nastane, že pre spracovávanú vetu je vhodných viacero pravidiel. Keďže obe vety majú v \textit{zozname závislostí pôvodnej vety} práve 5 záznamov a tieto záznamy sa skladajú práve z množiny vzťahov \{det, amod, nsubj, cop, root\}, vyhľadanie pravidlá nám vráti minimálne tieto dve pravidlá. Po aplikovaní určenia najväčšej zhody týchto dvoch pravidiel a spracovávanou vetou, zistíme, že pravidlo prvej menovanej vety má so spracovávanou vetou cca. $99,99\%$ zhodu a pravidlo druhej vety má cca. $63,57\%$ zhodu. Aplikuje sa prvé pravidlo.
-
-Ukážkový proces vyhľadania pravidla a určenie zhody je zobrazený na obrázku~\fullref{fig:rule_lookup}.
+		\Procedure{CalculateMatch}{$sentence, originalDependencies$}
+		\State $oneCompareTypeRating \gets \text{calculate percentage rating of one comparison}$
+		
+		\ForAll {$originalDependencies$}
+		\If {$\text{count(}sentence\text{, }dependency\text{) =  count(}originalDependencies\text{, }dependency\text{)}$}
+		\State $match \gets match \text{ + } oneCompareTypeRating$
+		\EndIf
+		\State $counter \gets counter \text{ + } \text{count(}originalDependencies\text{, } dependency\text{)}$
+		\EndFor
+		
+		\State $oneCompareTypeRating \gets oneCompareType / counter$
+		\ForAll {$originalDependency$}
+		\ForAll {$dependency$}
+		\ForAll {$comparison$}
+		\If {$\text{applyComparison(}sentence, comparison, dependency\text{)}$}
+		\State $match \gets match \text{ + } oneCompareTypeRating$
+		\EndIf
+		\EndFor
+		\EndFor
+		\EndFor
+		
+		\Return $match$
+		\EndProcedure
+	\end{algorithmic}
+	\caption[Výpočet zhody]{Výpočet zhody}	
+	\label{alg:calculating_match}
+\end{algorithm}
 
 \begin{figure}[H]
-	\begin{center}\includegraphics[scale=0.6]{rule_lookup}\end{center}
-	\caption[Vyhľadanie pravidla]{Vyhľadanie pravidla}\label{fig:rule_lookup}
+	\begin{center}\includegraphics[scale=0.2]{calculate_match_sentences_example}\end{center}
+	\caption[Príklad určenia zhody]{Príklad určenia zhody}\label{fig:calculate_match_sentences_example}
 \end{figure}
 
-%
-% Vytváranie pravidla
-%
-\ifthenelse {\boolean{bachelor}}
-{
-	%\subsection{Subsection}
-	\subsubsection{Vytváranie pravidla}
-}
-{
-	%\section{Subsection}
-	\subsection{Vytváranie pravidla}
-}
-\label{subsubsection:rule_creation}
-Ak nám proces vyhľadania pravidla nevyhľadal žiadne pravidlo, znamená to, že sme doposiaľ nespracovávali takú istú alebo podobnú vetu. V tomto prípade použijeme náš parser, ktorý operuje nad staticky danou sadou pravidiel. Výstupom parseru bude zjednodušená veta, ktorej pravidlo sa následne uloží do databázy a pri ďalšom spracovávaní takej istej alebo podobnej vety sa toto pravidlo vyhľadá a aplikuje ak bude mať dostatočné veľkú zhodu.
+Predpokladajme situáciu z obrázka~\fullref{fig:calculate_match_sentences_example}. Máme pravidlá pre dve vety s spracovávame prvú z nich. V tejto situácií, minimálne dve pravidlá su aplikovateľné na vetu \textit{a}. Predpokladajme, že vypočítavame zhodu s vetou \textit{b}. Prechádzame postupne cez všetky závislosti spracovávanej vety \textit{a}. Prvá závislosť je so vzťahom \textit{det}, nadradeným tokenom s POS značkou NN (noun - podstatné meno) a indexom 3 a podradeným tokenom s POS značkou DT (determiner - determinant) a indexom 1. V prvok kroku zistíme, či veta \textit{b} obsahuje závislosť so vzťahom \textit{det} a tokenmi s POS značkami NN alebo DT and indexmi rovnými 1 alebo 3. Toto je separátny výpočet POS značiek a indexov. v nasledujúcom kroku zisťujeme, či veta \textit{b} obsahuje závislosť so vzťahom \textit{det} a nadradeným alebo podradeným tokenom s POS značkou NN a indexom 3 alebo POS značkou DT a indexom 1. Toto je polovičná zhoda. V poslednom kroku hľadáme vo vete \textit{b} závislosť so vzťahom \textit{det} a nadradeným tokenom práve s POS značkou NN a indexom 3 a zároveň podradený token práve s POS značkou DT a indexom 1. Ak ktorýkoľvek krok bol vyhodnotený ako správny, jeho ohodnotenie je pridané ku koncovému výsledku a iterácia pokračuje s nasledujúcou závislosťou, pokým sa nevyhodnotí posledná.
 
-Zo závislostí pôvodnej vety sa vytvorí \textit{zoznam závislostí pôvodnej vety}, zo závislostí zjednodušenej vety sa vytvorí \textit{zoznam závislostí zjednodušenej vety} a zo zjednodušenej vety sa určia konce viet. Tieto informácie sa spolu uložia do dokumentu (záznamu) do databázy ako \textbf{pravidlo}.
+Aplikovaním určenia zhody vety \textit{a} s vetami \textit{a} a \textit{b} zistíme, že s vetou \textit{a} má zhodu $100\%$ a s vetou \textit{b} má cca. $63,57\%$ zhodu.
 
-Na obrázku~\fullref{fig:rule_creation} je znázornený proces nevyhľadania pravidla, použitia parsera s následným uložením nového pravidla.
-
-\begin{figure}[H]
-	\begin{center}\includegraphics[scale=0.5]{rule_creation}\end{center}
-	\caption[Vytvorenie pravidla]{Vytvorenie pravidla}\label{fig:rule_creation}
-\end{figure}
+%\begin{figure}[H]
+%	\begin{center}\includegraphics[scale=0.6]{rule_lookup}\end{center}
+%	\caption[Vyhľadanie pravidla]{Vyhľadanie pravidla}\label{fig:rule_lookup}
+%\end{figure}
 
 %
 % Aplikovanie pravidla
@@ -217,83 +228,92 @@ Na obrázku~\fullref{fig:rule_creation} je znázornený proces nevyhľadania pra
 	\subsection{Aplikovanie pravidla}
 }
 \label{subsubsection:rule_application}
-Máme spracovávanú vetu a pravidlo na aplikovanie. Z princípu vyhľadávania pravidiel (viď.~\fullref{subsubsection:rule_lookup} pre podrobnosti) vieme, že spracovávaná veta obsahuje závislosti zo zoznamu závislostí pôvodnej vety a tým pádom obsahuje aj závislosti zo zoznamu závislostí zjednodušenej vety. 
 
-Proces aplikovania pravidla prebieha nasledovne. Pre každú závislosť v zozname závislostí zjednodušenej vety, sa vyhľadá táto závislosť v spracovávanej vete. Z nájdenej závislosti sa zoberie slovo prislúchajúce podradenému tokenu a pridá sa do výslednej zjednodušenej vety na miesto svojho indexu. V prípade ak sa jedná o závislosť \textit{nominal subject}, zoberie sa aj slovo prislúchajúce nadradenému tokenu a taktiež sa pridá do výslednej vety. Po prejdení všetkých závislostí zo zoznamu sa urobia posledné úpravy zjednodušenej vety, ako kapitalizácia prvého písmena vety a rozdelenie vety na viacero viet, ak tak definovalo pravidlo.
+Z princípu vyhľadania pravidla (viď.~\fullref{subsubsection:rule_lookup}), spracovávaná veta musí obsahovať, nie všetky, závislostí zo \textit{zoznamu dát pôvodnej vety}, vety prepojenej s pravidlom a tým pádom aj závislostí zo \textit{zoznamu dát poznámky} pravidla.
 
-Funkcia, ktorá bude aplikovať pravidlo na vetu s cieľom získania zjednodušenej vety bude vyzerať ako je naznačené v ukážke~\fullref{code:apply_rule_example}.
-\\
+Proces aplikovania pravidla na vetu s cieľom vytvorenia poznámky sa skladá z niekoľkých krokov. Pre všetky závislosti zo \textit{zoznamu dát poznámky}, príslušná závislosť je vyhľadaná v spracovávanej vete. Pri vyhľadávaní príslušnej závislosti sa závislosti neporovnávajú, okrem iného, na základe POS značiek svojich tokenov, ale podľa nadradených POS značiek svojich tokenov. To znamená, že ak token obsahuje POS značku NNP (proper noun, singular - [SLOVENSKY EKVIVALENT]), jeho nadradaná POS značka je NN (noun - podstatné meno). Vyhľadáva sa teda podľa množiny POS značiek podstatného mena, a to konkrétne \textit{NN, NNS, NNP} a \textit{NNPS}. Tento spôsob vyhľadávania nám umožňuje [BLA BLA, blizie opisane v BLA BLA]. Avšak, môže to spôsobiť vyhľadanie viac ako jednej príslušnej závislosti. Preto zhoda závislostí musí byť vypočítaná (viď.~\nameref{paragraph:dependency_match} na strane \pageref{paragraph:dependency_match}). Po vypočítaní zhody závislosti a získanie závislosti s najväčšou zhodou, slovo korešpondujúce s tokenom, ktorý sa ma z danej závislosti vybrať, sa pridá do poznámky na pozíciu indexu tokenu. Po spracovaní všetkých závislostí, posledné minoritné úpravy su vykonané nad poznámkou, ako napríklad rozdelenie na viacero viet, ak tak určovalo pravidlo, kapitalizácia prvých písmen viet poznámky a iné. Pseudokód aplikovania pravidla na vetu s cieľom vytvoriť poznámku je zobrazený na algoritme~\ref{alg:applying_rule}.
 
-\begin{lstlisting}[language = csharp, caption={Aplikovanie pravidla}, label = {code:apply_rule_example}]
-// Funkcia aplikuje pravidlo na vetu a vrati zjednodusenu vetu
-private Note ApplyRule(NotenizerSentence sentence, NotenizerRule rule)
-{
-	// Vytvorenie objektu zjednodusenej vety
-	Note note = new Note(sentence);
-	// Vytvorenie objektu casti zjednodusenej vety - zjedn. veta sa moze skladat
-	// z viacerych
-	NotePart notePart = new NotePart(sentence);
+\begin{algorithm}
+	\floatname{algorithm}{Algoritmus}
+	\caption[Aplikovanie pravidla]{Aplikovanie pravidla}\label{alg:applying_rule}
+	\begin{algorithmic}[1]
+		\Procedure{ApplyRule}{$sentence, rule$}
+		\State $note \gets \text{new Note}$
+		\ForAll {$ruleDependencies$}
+		\State $dependency \gets \text{findDependency(} sentence \text{, } ruleDependency \text{)}$
+		\If {$\text{isFound(}dependency\text{)}$}
+		\State $\text{add(} note \text{, getDependent(} dependency \text{))}$
+		\If {$\text{isNominalSubject(relation(}dependency \text{))}$}
+		\State $\text{add(} note \text{, getGovernor(} dependency \text{))}$
+		\EndIf
+		\EndIf
+		\EndFor
+		
+		\State $\text{splitToSentences(} note \text{, sentencesEnds(} rule \text{))}$	
+		
+		\Return $note$
+		\EndProcedure
+	\end{algorithmic}
+\end{algorithm}
 
-	foreach (NotenizerDependency dependencyLoop in rule.RuleDependencies)
-	{
-		// Vyhlada zavislost a prida hodnotu prisluchajuceho slova do vyslednej
-		// zjednodusenej vety
-		ApplyRulesDependency(sentence, dependencyLoop, notePart);
-	}
+Pre vetu ,,The president of the Slovak Republic is Andrej Kiska.'' nám nástroj Stanford CoreNLP poskytne závislosti slov vo vete, ktoré sú v textovej podobe výstupu zobrazené v ukážke~\fullref{code:sentence_dependencies}. Závislosti sú v tvare\\ 
 
-	// Finalne upravy
-	note.Add(notePart);
-	note.SplitToSentences(rule.SentencesEnds);
+[\textit{názov závislosti}] ([\textit{slovo prislúchajúce nadradenému tokenu}] - [\textit{index slova vo vete}], [\textit{slovo prislúchajúce podradenému tokenu}] - [\textit{index slova vo vete}]).\\
 
-	return note;
-}
-\end{lstlisting}
+Ak na túto vetu aplikujeme pravidlo v tvare zobrazené na obrázku~\fullref{fig:apply_rule_example_rule}, výsledná poznámka bude ,,President is Kiska.''. \\
 
-Pre vetu ,,The president of the Czech Republic is Miloš Zeman.'' nám nástroj Stanford CoreNLP poskytne závislosti slov vo vete, ktoré sú v textovej podobe výstupu zobrazené v ukážke~\fullref{code:sentence_dependencies}. Závislosti sú v tvare\\ 
-
-[názov závislosti] ([slovo prislúchajúce nadradenému tokenu] - [index slova vo vete], [slovo prislúchajúce podradenému tokenu] - [index slova vo vete]).\\
-
-Ak na túto vetu aplikujeme pravidlo, ktoré obsahuje v zozname závislostí zjednodušenej vety dve závislosti:
-\begin{enumerate}
-	\item nsubj
-	\begin{itemize}
-		\item podradený token
-		\begin{itemize}
-			\item POS: NN
-			\item index: 2
-		\end{itemize}
-		\item nadradený token
-		\begin{itemize}
-			\item POS: NNP
-			\item index: 9
-		\end{itemize}
-	\end{itemize}
-	
-	\item cop
-	\begin{itemize}
-		\item podradený token
-		\begin{itemize}
-			\item POS: VBZ
-			\item index: 7
-		\end{itemize}
-		\item nadradený token
-		\begin{itemize}
-			\item POS: NNP
-			\item index: 9
-		\end{itemize}
-	\end{itemize}
-\end{enumerate}
-
-Tak výsledná zjednodušená veta bude ,,President is Zeman.''. \\
+\begin{figure}[H]
+	\begin{center}\includegraphics[scale=0.32]{apply_rule_example_rule}\end{center}
+	\caption[Príklad pravidla]{Príklad pravidla}\label{fig:apply_rule_example_rule}
+\end{figure}
 
 \begin{lstlisting}[language = csharp, caption={Závislosti jednoduchej vety}, label = {code:sentence_dependencies}]
-root(ROOT-0, Zeman-9)
+root(ROOT-0, Kiska-9)
 det(president-2, The-1)
-nsubj(Zeman-9, president-2)
+nsubj(Kiska-9, president-2)
 case(Republic-6, of-3)
 det(Republic-6, the-4)
-compund(Republic-6, Czech-5)
+compound(Republic-6, Slovak-5)
 nmod:of(president-2, Republic-6)
-cop(Zeman-9, is-7)
-compund(Zeman-9, Milos-8)
+cop(Kiska-9, is-7)
+compound(Kiska-9, Andrej-8)
 \end{lstlisting}
+
+%
+% Výpočet zhody závislostí
+%
+\ifthenelse {\boolean{bachelor}}
+{
+	%\subsection{Subsection}
+	\paragraph{Výpočet zhody závislostí}
+}
+{
+	%\section{Subsection}
+	\subsubsection{Výpočet zhody závislostí}
+}
+\label{paragraph:dependency_match}
+Dummy text..
+
+%
+% Vytváranie pravidla
+%
+\ifthenelse {\boolean{bachelor}}
+{
+	%\subsection{Subsection}
+	\subsubsection{Vytvorenie pravidla}
+}
+{
+	%\section{Subsection}
+	\subsection{Vytvorenie pravidla}
+}
+\label{subsubsection:rule_creation}
+Ak nám proces vyhľadania pravidla nevyhľadal žiadne pravidlo, znamená to, že sme doposiaľ nespracovávali takú istú alebo podobnú vetu. V tomto prípade sú použité statické pravidlá na spracovanie vety. Výstupom bude zjednodušená veta - poznámka.
+
+Vytvorí sa záznam o pôvodnej vete, ktorý okrem iného obsahuje \textit{zoznam dát o pôvodnej vete}, ktorý sa vyskladá zo závislostí vety. Následne sa vytvorí záznam o pravidle, ktorý okrem iného obsahuje \textit{zoznam dát o poznámke}, vyskladaný zo závislosti poznámky. Nakoniec sa tieto dva záznamy prepoja a tým sa vytvorí nové pravidlo na spracovanie takej istej alebo podobnej vety, akú sme práve spracovali.
+
+Na obrázku~\fullref{fig:rule_creation} je znázornený proces nevyhľadania pravidla, použitia parsera s následným uložením nového pravidla.
+
+\begin{figure}[H]
+	\begin{center}\includegraphics[scale=0.5]{rule_creation}\end{center}
+	\caption[Vytvorenie pravidla]{Vytvorenie pravidla}\label{fig:rule_creation}
+\end{figure}
