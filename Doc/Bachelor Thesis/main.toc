@@ -41,7 +41,7 @@
 \contentsline {subsubsection}{\numberline {4.2.2}Aplikovanie pravidla}{30}{subsubsection.4.2.2}
 \contentsline {paragraph}{V\IeC {\'y}po\IeC {\v c}et zhody z\IeC {\'a}vislost\IeC {\'\i }}{32}{section*.10}
 \contentsline {subsubsection}{\numberline {4.2.3}Vytvorenie pravidla}{32}{subsubsection.4.2.3}
-\contentsline {section}{Literat\'ura}{34}{figure.17}
+\contentsline {section}{Literat\'ura}{34}{figure.18}
 \contentsline {section}{\numberline {A}Zoznam vz\IeC {\v t}ahov z\IeC {\'a}vislost\IeC {\'\i }}{35}{appendix.A}
 \contentsline {section}{\numberline {B}Legenda diagramov kolekci\IeC {\'\i }}{36}{appendix.B}
 \contentsline {section}{\numberline {C}Uk\IeC {\'a}\IeC {\v z}ka cel\IeC {\'e}ho z\IeC {\'a}znamu}{37}{appendix.C}

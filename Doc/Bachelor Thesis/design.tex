@@ -256,28 +256,17 @@ Proces aplikovania pravidla na vetu s cieľom vytvorenia poznámky sa skladá z 
 	\end{algorithmic}
 \end{algorithm}
 
-Pre vetu ,,The president of the Slovak Republic is Andrej Kiska.'' nám nástroj Stanford CoreNLP poskytne závislosti slov vo vete, ktoré sú v textovej podobe výstupu zobrazené v ukážke~\fullref{code:sentence_dependencies}. Závislosti sú v tvare\\ 
+Pre vetu ,,The president of the Slovak republic is Andrej Kiska.'' nám nástroj Stanford CoreNLP poskytne závislostí vyobrazené na obrázku~\fullref{fig:example_sentence_andrej_kiska}. Ak na túto vetu aplikujeme pravidlo v tvare zobrazené na obrázku~\fullref{fig:apply_rule_example_rule}, výsledná poznámka bude ,,President is Kiska.''. 
 
-[\textit{názov závislosti}] ([\textit{slovo prislúchajúce nadradenému tokenu}] - [\textit{index slova vo vete}], [\textit{slovo prislúchajúce podradenému tokenu}] - [\textit{index slova vo vete}]).\\
-
-Ak na túto vetu aplikujeme pravidlo v tvare zobrazené na obrázku~\fullref{fig:apply_rule_example_rule}, výsledná poznámka bude ,,President is Kiska.''. \\
+\begin{figure}[H]
+	\begin{center}\includegraphics[scale=0.32]{example_sentence_andrej_kiska}\end{center}
+	\caption[Zásivlostí jednoduchej vety]{Zásivlostí jednoduchej vety}\label{fig:example_sentence_andrej_kiska}
+\end{figure}
 
 \begin{figure}[H]
 	\begin{center}\includegraphics[scale=0.32]{apply_rule_example_rule}\end{center}
 	\caption[Príklad pravidla]{Príklad pravidla}\label{fig:apply_rule_example_rule}
 \end{figure}
-
-\begin{lstlisting}[language = csharp, caption={Závislosti jednoduchej vety}, label = {code:sentence_dependencies}]
-root(ROOT-0, Kiska-9)
-det(president-2, The-1)
-nsubj(Kiska-9, president-2)
-case(Republic-6, of-3)
-det(Republic-6, the-4)
-compound(Republic-6, Slovak-5)
-nmod:of(president-2, Republic-6)
-cop(Kiska-9, is-7)
-compound(Kiska-9, Andrej-8)
-\end{lstlisting}
 
 %
 % Výpočet zhody závislostí
@@ -292,7 +281,8 @@ compound(Kiska-9, Andrej-8)
 	\subsubsection{Výpočet zhody závislostí}
 }
 \label{paragraph:dependency_match}
-Dummy text..
+
+Výpočet zhody závislostí pozostáva s niekoľkých krokov a princíp výpočtu je veľmi podobný s výpočtom zhody viet zo sekcie~\fullref{subsubsection:rule_lookup}. Porovnávajú sa vždy nadradené aj podradené tokeny. Porovnanie ma niekoľko krokov. Začína sa s porovnaním POS značiek. Pokračuje sa názvoslovnou entitou, indexom, lemou a nakoniec sa porovná vzdialenosť pozícií tokenov vo vetách. Každý krok je príslušne ohodnotený a ak porovnanie bolo úspešné, ohodnotenie sa pripočíta k finálnej hodnote reprezentujúca percentuálne zhodu závislostí.
 
 %
 % Vytváranie pravidla
