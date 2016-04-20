@@ -53,12 +53,13 @@
     <Compile Include="Match.cs" />
     <Compile Include="NamedEntity.cs" />
     <Compile Include="Note.cs" />
-    <Compile Include="NotenizerAndParserRule.cs" />
+    <Compile Include="NotenizerAndRule.cs" />
     <Compile Include="NotenizerDependencies.cs" />
     <Compile Include="NotenizerDependency.cs" />
     <Compile Include="NotenizerNote.cs" />
     <Compile Include="NotenizerNoteRule.cs" />
     <Compile Include="NotenizerRule.cs" />
+    <Compile Include="NotenizerStructure.cs" />
     <Compile Include="NoteParticle.cs" />
     <Compile Include="NotePart.cs" />
     <Compile Include="NotenizerRelation.cs" />
@@ -66,6 +67,8 @@
     <Compile Include="PartOfSpeech.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="NotenizerWord.cs" />
+    <Compile Include="Sentence.cs" />
+    <Compile Include="Structure.cs" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />

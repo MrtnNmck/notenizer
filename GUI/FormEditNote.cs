@@ -120,7 +120,7 @@ namespace nsGUI
 
         private void InitUniversalControls()
         {
-            this._textBoxNote.Text = _note.Value;
+            this._textBoxNote.Text = _note.Text;
             this._textBoxOriginalSentence.Text = _note.OriginalSentence.ToString();
         }
 

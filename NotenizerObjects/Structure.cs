@@ -8,24 +8,23 @@ using nsEnums;
 
 namespace nsNotenizerObjects
 {
-    public class Article : IPersistable
+    public class Structure : IPersistable
     {
-        private String _id;
         private DateTime _createdAt;
         private DateTime _updatedAt;
-        private CreatedBy _createdBy;
-        private String _value;
+        private String _id;
 
-        public Article(
-            String id,
-            DateTime createdAt,
-            DateTime updatedAt,
-            String value)
+        public Structure(DateTime createdAt, DateTime updatedAt)
         {
-            this._id = id;
-            this._createdAt = createdAt;
-            this._updatedAt = updatedAt;
-            this._value = value;
+            _createdAt = createdAt;
+            _updatedAt = updatedAt;
+        }
+
+        public Structure(String id, DateTime createdAt, DateTime updatedAt)
+        {
+            _id = id;
+            _createdAt = createdAt;
+            _updatedAt = updatedAt;
         }
 
         public DateTime CreatedAt
@@ -45,12 +44,12 @@ namespace nsNotenizerObjects
         {
             get
             {
-                return this._createdBy;
+                throw new NotImplementedException();
             }
 
             set
             {
-                this._createdBy = value;
+                throw new NotImplementedException();
             }
         }
 
@@ -60,6 +59,7 @@ namespace nsNotenizerObjects
             {
                 return this._id;
             }
+
             set
             {
                 this._id = value;
@@ -76,14 +76,6 @@ namespace nsNotenizerObjects
             set
             {
                 this._updatedAt = value;
-            }
-        }
-
-        public String Value
-        {
-            get
-            {
-                return this._value;
             }
         }
     }

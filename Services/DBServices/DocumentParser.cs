@@ -27,13 +27,13 @@ namespace nsServices.DBServices
             dependencies = ParseDependencies(dbEntry, DBConstants.NoteDependenciesFieldName);
 
             List<int> sentencesEnds = new List<int>();
-            foreach (BsonInt32 endLoop in dbEntry[DBConstants.SentencesEndsFieldName].AsBsonArray)
+            foreach (BsonInt32 endLoop in dbEntry[DBConstants.SentenceTerminatorsFieldName].AsBsonArray)
                 sentencesEnds.Add((int)endLoop);
 
             return new NotenizerNoteRule(_id, dependencies, sentencesEnds, createdBy);
         }
 
-        public static NotenizerAndParserRule ParseAndParserRule(BsonDocument dbEntry)
+        public static NotenizerAndRule ParseAndParserRule(BsonDocument dbEntry)
         {
             NotenizerDependencies dependencies;
             int sentenceEnd;
@@ -44,10 +44,10 @@ namespace nsServices.DBServices
             createdBy = dbEntry[DBConstants.CreatedByFieldName].AsInt32.ToEnum<CreatedBy>();
             id = dbEntry[DBConstants.IdFieldName].AsObjectId.ToString();
             dependencies = ParseDependencies(dbEntry, DBConstants.NoteDependenciesFieldName);
-            setsPosition = dbEntry[DBConstants.AndSetsPositionsFieldName].AsInt32;
-            sentenceEnd = dbEntry[DBConstants.SentenceEndFieldname].AsInt32;
+            setsPosition = dbEntry[DBConstants.AndSetPositionFieldName].AsInt32;
+            sentenceEnd = dbEntry[DBConstants.SentenceTerminatorsFieldName].AsInt32;
 
-            return new NotenizerAndParserRule(id, dependencies, createdBy, setsPosition, sentenceEnd);
+            return new NotenizerAndRule(id, dependencies, createdBy, setsPosition, sentenceEnd);
         }
 
         private static NotenizerDependencies ParseDependencies(BsonDocument dbEntry, String noteFieldName)
@@ -105,7 +105,7 @@ namespace nsServices.DBServices
             createdAt = dbEntry[DBConstants.CreatedAtFieldName].ToUniversalTime();
             updatedAt = dbEntry[DBConstants.UpdatedAtFieldName].ToUniversalTime();
             createdBy = dbEntry[DBConstants.CreatedByFieldName].AsInt32.ToEnum<CreatedBy>();
-            andParserRuleRefId = dbEntry[DBConstants.AndParserRuleRefIdFieldName].ToString();
+            andParserRuleRefId = dbEntry[DBConstants.AndRuleRefIdFieldName].ToString();
 
             return new Note(id, originalSentence, note, createdAt, updatedAt, createdBy, andParserRuleRefId);
         }
@@ -116,15 +116,13 @@ namespace nsServices.DBServices
             String article;
             DateTime createdAt;
             DateTime updatedAt;
-            CreatedBy createdBy;
 
             id = dbEntry[DBConstants.IdFieldName].AsObjectId.ToString();
             createdAt = dbEntry[DBConstants.CreatedAtFieldName].ToUniversalTime();
             updatedAt = dbEntry[DBConstants.UpdatedAtFieldName].ToUniversalTime();
-            createdBy = dbEntry[DBConstants.CreatedByFieldName].AsInt32.ToEnum<CreatedBy>();
-            article = dbEntry[DBConstants.ArticleFieldName].ToString().Trim();
+            article = dbEntry[DBConstants.TextFieldName].ToString().Trim();
 
-            return new Article(id, createdAt, updatedAt, createdBy, article);
+            return new Article(id, createdAt, updatedAt, article);
         }
 
         /// <summary>
@@ -139,8 +137,8 @@ namespace nsServices.DBServices
 
             foreach (BsonDocument bsonDocLoop in dbEntries)
             {
-                BsonDocument articleDocument = DB.GetFirst(DBConstants.ArticlesCollectionName, DocumentCreator.CreateFilterById(bsonDocLoop[DBConstants.ArticleIdFieldName].AsObjectId.ToString())).Result;
-                BsonDocument ruleDocument = DB.GetFirst(DBConstants.NoteRulesCollectionName, DocumentCreator.CreateFilterById(bsonDocLoop[DBConstants.NoteRuleRefIdFieldName].AsObjectId.ToString())).Result;
+                BsonDocument articleDocument = DB.GetFirst(DBConstants.ArticlesCollectionName, DocumentCreator.CreateFilterById(bsonDocLoop[DBConstants.ArticleRefIdFieldName].AsObjectId.ToString())).Result;
+                BsonDocument ruleDocument = DB.GetFirst(DBConstants.NoteRulesCollectionName, DocumentCreator.CreateFilterById(bsonDocLoop[DBConstants.RuleRefIdFieldName].AsObjectId.ToString())).Result;
                 NotenizerNoteRule r = ParseNoteRule(ruleDocument);
 
                 r.Article = ParseArticle(articleDocument);

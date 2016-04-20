@@ -25,7 +25,7 @@ namespace nsNotenizer
 {
     public class Notenizer
     {
-        private bool _redirectOutputToFile = true;
+        private bool _redirectOutputToFile = false;
         private String _redirectOutputToFileFileName = @"./out.txt";
         List<NotenizerNote> _notes;
         StanfordCoreNLP _pipeline;
@@ -137,10 +137,10 @@ namespace nsNotenizer
                 {
                     NotenizerNote parsedNote = ApplyRule(sentence, rule);
 
-                    if (rule.Note.AndParserRuleRefId != DBConstants.BsonNullValue)
-                        parsedNote.AndParserRule =  DocumentParser.ParseAndParserRule(DB.GetFirst(DBConstants.AndParserRulesCollectionName, DocumentCreator.CreateFilterById(rule.Note.AndParserRuleRefId)).Result);
+                    if (rule.Note.AndRuleID != DBConstants.BsonNullValue)
+                        parsedNote.AndParserRule =  DocumentParser.ParseAndParserRule(DB.GetFirst(DBConstants.AndParserRulesCollectionName, DocumentCreator.CreateFilterById(rule.Note.AndRuleID)).Result);
 
-                    Console.WriteLine("Parsed note: " + parsedNote.OriginalSentence + " ===> " + parsedNote.Value);
+                    Console.WriteLine("Parsed note: " + parsedNote.OriginalSentence + " ===> " + parsedNote.Text);
                     sentencesNoted.Add(parsedNote);
 
                     continue;
@@ -151,11 +151,11 @@ namespace nsNotenizer
             }
 
             Article article;
-            List<MongoDB.Bson.BsonDocument> articles = DB.GetAll(DBConstants.ArticlesCollectionName, DocumentCreator.CreateFilter(DBConstants.ArticleFieldName, annotation.ToString().Trim())).Result;
+            List<MongoDB.Bson.BsonDocument> articles = DB.GetAll(DBConstants.ArticlesCollectionName, DocumentCreator.CreateFilter(DBConstants.TextFieldName, annotation.ToString().Trim())).Result;
 
             if (articles.Count == 0)
             {
-                article = new Article(String.Empty, DateTime.Now, DateTime.Now, CreatedBy.User, annotation.ToString().Trim());
+                article = new Article(String.Empty, DateTime.Now, DateTime.Now, annotation.ToString().Trim());
                 article.ID = DB.InsertToCollection(DBConstants.ArticlesCollectionName, DocumentCreator.CreateArticleDocument(article)).Result;
             }
             else
@@ -165,13 +165,40 @@ namespace nsNotenizer
             // to avoid processed sentence to affect processing other sentences from article
             foreach (NotenizerNote sentenceNotedLoop in notesToSave)
             {
-                String noteRuleId = DB.InsertToCollection(DBConstants.NoteRulesCollectionName, DocumentCreator.CreateNoteRuleDocument(sentenceNotedLoop)).Result;
-                String id = DB.InsertToCollection(DBConstants.NotesCollectionName, DocumentCreator.CreateNoteDocument(sentenceNotedLoop, article.ID, noteRuleId, String.Empty)).Result;
+                // ulozit struktury: pravidla, vety
+                // ulozit pravidlo
+                // ulozit vetu
+                // ulozit poznamku
 
-                sentenceNotedLoop.CreateRule();
-                sentenceNotedLoop.Rule.Article = article;
+                // save rule's structure
+                NotenizerNoteRule rule = sentenceNotedLoop.CreateRule();
+                sentenceNotedLoop.CreateStructure();
+                rule.Structure.Structure.ID = DB.InsertToCollection(DBConstants.StructuresCollectionName, DocumentCreator.CreateStructureDocument(rule)).Result;
 
-                Console.WriteLine("Parsed note: " + sentenceNotedLoop.OriginalSentence + " ===> " + sentenceNotedLoop.Value);
+                // save sentence's structure
+                NotenizerStructure sentenceStructure = sentenceNotedLoop.OriginalSentence.CreateStructure();
+                sentenceStructure.Structure.ID = DB.InsertToCollection(DBConstants.StructuresCollectionName, DocumentCreator.CreateStructureDocument(sentenceStructure)).Result;
+
+                // save rule
+                rule.ID = DB.InsertToCollection(DBConstants.NoteRulesCollectionName, DocumentCreator.CreateRuleDocument(rule)).Result;
+
+                // save sentence
+                sentenceNotedLoop.OriginalSentence.Sentence.ID = DB.InsertToCollection(DBConstants.SentencesCollectionName, DocumentCreator.CreateSentenceDocument(
+                    sentenceNotedLoop.OriginalSentence, 
+                    sentenceStructure.Structure.ID,
+                    article.ID, 
+                    rule.ID, 
+                    String.Empty)).Result;
+
+                // save note
+                Note note = sentenceNotedLoop.CreateNote();
+                note.ID = DB.InsertToCollection(DBConstants.NotesCollectionName, DocumentCreator.CreateNoteDocument(
+                    sentenceNotedLoop, 
+                    sentenceNotedLoop.OriginalSentence.Sentence.ID, 
+                    rule.ID, 
+                    String.Empty)).Result;
+
+                Console.WriteLine("Parsed note: " + sentenceNotedLoop.OriginalSentence + " ===> " + sentenceNotedLoop.Text);
                 sentencesNoted.Add(sentenceNotedLoop);
             }
 
@@ -449,7 +476,7 @@ namespace nsNotenizer
 
             foreach (NotenizerNote noteLoop in notes)
             {
-                Console.WriteLine(noteLoop.OriginalSentence + " ---> " + noteLoop.Value);
+                Console.WriteLine(noteLoop.OriginalSentence + " ---> " + noteLoop.Text);
             }
         }
 
@@ -493,8 +520,8 @@ namespace nsNotenizer
 
             if (rule is NotenizerNoteRule)
                 ApplyRule(note, rule as NotenizerNoteRule);
-            else if (rule is NotenizerAndParserRule)
-                ApplyRule(note, rule as NotenizerAndParserRule);
+            else if (rule is NotenizerAndRule)
+                ApplyRule(note, rule as NotenizerAndRule);
 
             return note;
         }
@@ -505,7 +532,7 @@ namespace nsNotenizer
             note.Rule = noteRule;
         }
 
-        private void ApplyRule(NotenizerNote note, NotenizerAndParserRule andParserRule)
+        private void ApplyRule(NotenizerNote note, NotenizerAndRule andParserRule)
         {
             note.SplitToSentences(andParserRule.SentenceEnd);
             note.AndParserRule = andParserRule;

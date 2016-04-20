@@ -49,7 +49,7 @@ namespace nsComponents
 
             Init();
 
-            this._advancedTextBox.TextBox.Text = note.Value;
+            this._advancedTextBox.TextBox.Text = note.Text;
         }
 
         #endregion Constuctors

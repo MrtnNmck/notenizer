@@ -26,6 +26,7 @@ namespace nsNotenizerObjects
         public List<int> SentencesEnds
         {
             get { return _sentencesEnds; }
+            set { this._sentencesEnds = value; }
         }
     }
 }

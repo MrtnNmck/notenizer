@@ -120,7 +120,7 @@ namespace nsGUI
                 })
                 .ContinueWith(delegate
                 {
-                    (sender as NotenizerAdvancedTextBox).PerformSafely(() => (sender as NotenizerAdvancedTextBox).AdvancedTextBox.TextBox.Text = notenizerNote.Value);
+                    (sender as NotenizerAdvancedTextBox).PerformSafely(() => (sender as NotenizerAdvancedTextBox).AdvancedTextBox.TextBox.Text = notenizerNote.Text);
                     this._advancedProgressBar.StopAndReset();
                 })
                 .ContinueWith(TaskExceptionHandler.Handle, TaskContinuationOptions.OnlyOnFaulted);
@@ -314,7 +314,7 @@ namespace nsGUI
                     andParserDependencies.Add(noteParticleLoop.NoteDependency);
 
                 if (note.AndParserRule == null)
-                    note.AndParserRule = new NotenizerAndParserRule(andParserDependencies, CreatedBy.User, andSetPosition, andParserDependencies.Count);
+                    note.AndParserRule = new NotenizerAndRule(andParserDependencies, CreatedBy.User, andSetPosition, andParserDependencies.Count);
                 else
                 {
                     note.AndParserRule.RuleDependencies = andParserDependencies;

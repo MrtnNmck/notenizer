@@ -1,0 +1,152 @@
+﻿using nsInterfaces;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using nsEnums;
+
+namespace nsNotenizerObjects
+{
+    public class Sentence : IPersistable
+    {
+        private DateTime _createdAt;
+        private DateTime _updatedAt;
+        private String _id;
+        private String _text;
+        private String _articleID;
+        private String _structureID;
+        private String _ruleID;
+        private String _andRuleID;
+
+        public Sentence(String text)
+        {
+            this._createdAt = DateTime.Now;
+            this._updatedAt = DateTime.Now;
+        }
+
+        public Sentence(String text, String id, DateTime createdAt, DateTime updatedAt)
+        {
+            this._id = id;
+            this._createdAt = createdAt;
+            this._updatedAt = updatedAt;
+        }
+
+        public DateTime CreatedAt
+        {
+            get
+            {
+                return this._createdAt;
+            }
+
+            set
+            {
+                this._createdAt = value;
+            }
+        }
+
+        public CreatedBy CreatedBy
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public String ID
+        {
+            get
+            {
+                return this._id;
+            }
+
+            set
+            {
+                this._id = value;
+            }
+        }
+
+        public DateTime UpdatedAt
+        {
+            get
+            {
+                return this._updatedAt;
+            }
+
+            set
+            {
+                this._updatedAt = value;
+            }
+        }
+
+        public String Text
+        {
+            get
+            {
+                return this._text;
+            }
+
+            set
+            {
+                this._text = value;
+            }
+        }
+
+        public String StructureID
+        {
+            get
+            {
+                return _structureID;
+            }
+
+            set
+            {
+                _structureID = value;
+            }
+        }
+
+        public String RuleID
+        {
+            get
+            {
+                return _ruleID;
+            }
+
+            set
+            {
+                _ruleID = value;
+            }
+        }
+
+        public String AndRuleID
+        {
+            get
+            {
+                return _andRuleID;
+            }
+
+            set
+            {
+                _andRuleID = value;
+            }
+        }
+
+        public String ArticleID
+        {
+            get
+            {
+                return _articleID;
+            }
+
+            set
+            {
+                _articleID = value;
+            }
+        }
+    }
+}

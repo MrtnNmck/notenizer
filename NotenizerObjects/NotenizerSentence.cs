@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using nsExtensions;
 using nsEnums;
+using nsInterfaces;
 
 namespace nsNotenizerObjects
 {
@@ -15,11 +16,14 @@ namespace nsNotenizerObjects
 		private NotenizerDependencies _dependencies;
         private CompressedDependencies _compressedDependencies;
 		private Annotation _annotation;
+        private Sentence _sentence;
+        private NotenizerStructure _structure;
 
 		public NotenizerSentence(Annotation annotation)
 		{
 			_annotation = annotation;
 			_dependencies = GetDepencencies(annotation, ref _compressedDependencies);
+            _sentence = new Sentence(this.ToString());
 		}
 
         public NotenizerDependencies Dependencies
@@ -35,6 +39,11 @@ namespace nsNotenizerObjects
         public CompressedDependencies CompressedDependencies
         {
             get { return _compressedDependencies; }
+        }
+
+        public Sentence Sentence
+        {
+            get { return this._sentence; }
         }
 
         private NotenizerDependencies GetDepencencies(Annotation annotation, ref CompressedDependencies compressedDependencies)
@@ -212,6 +221,13 @@ namespace nsNotenizerObjects
             }
 
             throw new Exception("Sentence doesn't contain dependency: " + dependency.ToString());
+        }
+
+        public NotenizerStructure CreateStructure()
+        {
+            this._structure = new NotenizerStructure(this._dependencies);
+
+            return this._structure;
         }
     }
 }

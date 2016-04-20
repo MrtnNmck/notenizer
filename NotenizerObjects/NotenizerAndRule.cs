@@ -7,19 +7,19 @@ using System.Threading.Tasks;
 
 namespace nsNotenizerObjects
 {
-    public class NotenizerAndParserRule : NotenizerRule
+    public class NotenizerAndRule : NotenizerRule
     {
         private int _setsPosition;
         private int _sentenceEnd;
 
-        public NotenizerAndParserRule(String id, NotenizerDependencies dependencies, CreatedBy createdBy, int setsPosition, int sentenceEnd)
+        public NotenizerAndRule(String id, NotenizerDependencies dependencies, CreatedBy createdBy, int setsPosition, int sentenceEnd)
             : base(id, dependencies, createdBy)
         {
             _setsPosition = setsPosition;
             _sentenceEnd = sentenceEnd;
         }
 
-        public NotenizerAndParserRule(NotenizerDependencies dependencies, CreatedBy createdBy, int setsPosition, int sentenceEnd)
+        public NotenizerAndRule(NotenizerDependencies dependencies, CreatedBy createdBy, int setsPosition, int sentenceEnd)
             : base(String.Empty, dependencies, createdBy)
         {
             _setsPosition = setsPosition;

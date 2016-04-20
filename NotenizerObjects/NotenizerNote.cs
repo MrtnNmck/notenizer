@@ -10,18 +10,20 @@ namespace nsNotenizerObjects
     public class NotenizerNote
     {
         private NotenizerSentence _originalSentence;
-        private String _note;
+        private String _text;
         private List<NotePart> _noteParts;
         private CreatedBy _createdBy = CreatedBy.Notenizer;
         private DateTime _createdAt;
         private DateTime _updatedAt;
         private NotenizerNoteRule _rule;
-        private NotenizerAndParserRule _andParserRule;
+        private NotenizerAndRule _andParserRule;
         private CompressedDependencies _compressedDependencies;
+        private NotenizerStructure _structure;
+        private Note _note;
 
         public NotenizerNote(NotenizerSentence originalSentence)
         {
-            _note = String.Empty;
+            _text = String.Empty;
             _noteParts = new List<NotePart>();
             _originalSentence = originalSentence;
             _createdAt = DateTime.Now;
@@ -41,9 +43,9 @@ namespace nsNotenizerObjects
         /// <summary>
         /// String representation of note from sentence.
         /// </summary>
-        public String Value
+        public String Text
         {
-            get { return _note.Trim(); }
+            get { return _text.Trim(); }
         }
 
         /// <summary>
@@ -108,7 +110,7 @@ namespace nsNotenizerObjects
             set { _rule = value; }
         }
 
-        public NotenizerAndParserRule AndParserRule
+        public NotenizerAndRule AndParserRule
         {
             get { return _andParserRule; }
             set { _andParserRule = value; }
@@ -119,9 +121,41 @@ namespace nsNotenizerObjects
             get { return _compressedDependencies; }
         }
 
+        public NotenizerDependencies Dependencies
+        {
+            get
+            {
+                NotenizerDependencies dependencies = new NotenizerDependencies();
+
+                foreach (NotePart notePartLoop in this._noteParts)
+                {
+                    foreach (NoteParticle noteParticleLoop in notePartLoop.NoteParticles)
+                    {
+                        if (noteParticleLoop == null)
+                            continue;
+
+                        dependencies.Add(noteParticleLoop.NoteDependency);
+                    }
+                }
+
+                return dependencies;
+            }
+        }
+
+        public NotenizerStructure Structure
+        {
+            get { return this._structure; }
+        }
+
+        public Note Note
+        {
+            get { return this._note; }
+            set { this._note = value; }
+        }
+
         public void Replace(List<NotePart> noteParts)
         {
-            _note = String.Empty;
+            _text = String.Empty;
             _noteParts.Clear();
 
             Add(noteParts);
@@ -143,7 +177,7 @@ namespace nsNotenizerObjects
         /// <param name="notePart"></param>
         public void Add(NotePart notePart)
         {
-            _note += notePart.AdjustedValue + NotenizerConstants.WordDelimeter;
+            _text += notePart.AdjustedValue + NotenizerConstants.WordDelimeter;
             _noteParts.Add(notePart);
 
             foreach (NoteParticle notePartNoteParticleLoop in notePart.InitializedNoteParticles)
@@ -174,7 +208,7 @@ namespace nsNotenizerObjects
                 parts.Add(notePart);
             }
 
-            _note = String.Empty;
+            _text = String.Empty;
             _noteParts = new List<NotePart>();
 
             Add(parts);
@@ -187,15 +221,33 @@ namespace nsNotenizerObjects
             NotePart notePart = new NotePart(_originalSentence);
             notePart.Add(_noteParts[0].InitializedNoteParticles.GetRange(0, sentenceEnd));
             parts.Add(notePart);
-            _note = String.Empty;
+            _text = String.Empty;
             _noteParts = new List<NotePart>();
             Add(parts);
         }
 
-        public void CreateRule()
+        public NotenizerNoteRule CreateRule()
         {
             this._rule = new NotenizerNoteRule(nsEnums.CreatedBy.Notenizer);
             this._rule.Match = new Match(0, 0);
+            this._rule.SentencesEnds = this._noteParts.Select(x => x.InitializedNoteParticles.Count).ToList<int>();
+
+            return this._rule;
+        }
+
+        public NotenizerStructure CreateStructure()
+        {
+            this._structure = new NotenizerStructure(this.Dependencies);
+            this._rule.Structure = this._structure;
+
+            return this._structure;
+        }
+
+        public Note CreateNote()
+        {
+            this._note = new Note(this._text);
+
+            return this._note;
         }
     }
 }

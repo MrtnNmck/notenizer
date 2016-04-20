@@ -2,6 +2,7 @@
 using MongoDB.Driver;
 using nsConstants;
 using nsEnums;
+using nsExtensions;
 using nsInterfaces;
 using nsNotenizerObjects;
 using System;
@@ -14,40 +15,134 @@ namespace nsServices.DBServices
 {
     public static class DocumentCreator
     {
-        public static BsonDocument CreateNoteDocument(NotenizerNote note, String articleId, String noteRuleId, String andParseRuleId)
+        public static BsonDocument CreateNoteDocument(NotenizerNote note, String sentenceId, String noteRuleId, String andParseRuleId)
+        {
+            BsonDocument doc = new BsonDocument();
+            BsonValue sentenceObjectId;
+            BsonValue andParserRuleObjectId;
+            BsonValue ruleObjectId;
+            BsonArray originalDepencenciesArr = new BsonArray();
+            Dictionary<String, BsonArray> dependencies = new Dictionary<String, BsonArray>();
+
+            note.Note.SentenceID = sentenceId;
+            note.Note.RuleID = noteRuleId;
+            note.Note.AndRuleID = andParseRuleId;
+
+            sentenceObjectId = sentenceId.ToObjectId();
+            ruleObjectId = noteRuleId.ToObjectId();
+            andParserRuleObjectId = andParseRuleId.ToObjectId();
+
+            doc.Add(DBConstants.TextFieldName, new BsonString(note.Text));
+            doc.Add(DBConstants.SentenceRefIdFieldName, sentenceObjectId);
+            doc.Add(DBConstants.RuleRefIdFieldName, ruleObjectId);
+            doc.Add(DBConstants.AndRuleRefIdFieldName, andParserRuleObjectId);
+            doc = doc.InsertNotenizerSpecificFields(note.Note);
+
+            return doc;
+        }
+
+        public static BsonDocument CreateSentenceDocument(NotenizerSentence sentence, String structureId, String articleId, String ruleId, String andRuleId)
         {
             BsonDocument doc = new BsonDocument();
             BsonValue articleObjectId;
             BsonValue andParserRuleObjectId;
+            BsonValue ruleObjectId;
+            BsonValue structureObjectId;
             BsonArray originalDepencenciesArr = new BsonArray();
             Dictionary<String, BsonArray> dependencies = new Dictionary<String, BsonArray>();
 
-            if (articleId == String.Empty)
-                articleObjectId = BsonNull.Value;
-            else
-                articleObjectId = ObjectId.Parse(articleId);
+            sentence.Sentence.StructureID = structureId;
+            sentence.Sentence.ArticleID = articleId;
+            sentence.Sentence.RuleID = ruleId;
+            sentence.Sentence.AndRuleID = andRuleId;
 
-            if (andParseRuleId == String.Empty)
-                andParserRuleObjectId = BsonNull.Value;
-            else
-                andParserRuleObjectId = ObjectId.Parse(andParseRuleId);
+            articleObjectId = articleId.ToObjectId();
+            ruleObjectId = ruleId.ToObjectId();
+            andParserRuleObjectId = andRuleId.ToObjectId();
+            structureObjectId = structureId.ToObjectId();
 
-            doc.Add(DBConstants.OriginalSentenceFieldName, new BsonString(note.OriginalSentence.ToString()));
-            doc.Add(DBConstants.NoteFieldName, new BsonString(note.Value));
-            doc.Add(DBConstants.OriginalSentenceDependenciesFieldName, originalDepencenciesArr);
-            doc.Add(DBConstants.ArticleIdFieldName, articleObjectId);
-            doc.Add(DBConstants.NoteRuleRefIdFieldName, ObjectId.Parse(noteRuleId));
-            doc.Add(DBConstants.AndParserRuleRefIdFieldName, andParserRuleObjectId);
-            doc.Add(DBConstants.CreatedByFieldName, new BsonInt32((int)note.CreatedBy));
-            doc.Add(DBConstants.CreatedAtFieldName, new BsonDateTime(note.CreatedAt));
-            doc.Add(DBConstants.UpdatedAtFieldName, new BsonDateTime(note.UpdatedAt));
+            doc.Add(DBConstants.TextFieldName, new BsonString(sentence.ToString()));
+            doc.Add(DBConstants.ArticleRefIdFieldName, articleObjectId);
+            doc.Add(DBConstants.RuleRefIdFieldName, ruleObjectId);
+            doc.Add(DBConstants.AndRuleRefIdFieldName, andParserRuleObjectId);
+            doc.Add(DBConstants.StructureRefIdFieldName, structureObjectId);
+            doc = doc.InsertNotenizerSpecificFields(sentence.Sentence);
+            
+            return doc;
+        }
 
-            foreach (NotenizerDependency dependencyLoop in note.OriginalSentence.Dependencies)
+        public static BsonDocument CreateStructureDocument(NotenizerSentence sentence)
+        {
+            return CreateStructureDocument(sentence.Dependencies);
+        }
+
+        public static BsonDocument CreateStructureDocument(NotenizerNoteRule rule)
+        {
+            return CreateStructureDocument(rule.Structure.Dependencies, true);
+        }
+
+        public static BsonDocument CreateStructureDocument(NotenizerStructure structure)
+        {
+            return CreateStructureDocument(structure.Dependencies);
+        }
+
+        public static BsonDocument CreateStructureDocument(List<NotenizerDependency> dependencies, bool additionalInfo = false)
+        {
+            BsonDocument document = new BsonDocument();
+            BsonArray structureDataArray = new BsonArray();
+            BsonDocument dependencyDoc;
+            Dictionary<String, BsonArray> dependenciesDictionary = new Dictionary<String, BsonArray>();
+
+            foreach (NotenizerDependency dependencyLoop in dependencies)
             {
-                BsonDocument dependencyDoc = CreateDependencyDocument(dependencyLoop);
+                if (additionalInfo)
+                    dependencyDoc = CreateDependencyDocument(dependencyLoop, dependencyLoop.ComparisonType, dependencyLoop.TokenType);
+                else
+                    dependencyDoc = CreateDependencyDocument(dependencyLoop);
 
-                AppendDependencyDocument(dependencyLoop, dependencyDoc, originalDepencenciesArr, dependencies);
+                AppendDependencyDocument(dependencyLoop, dependencyDoc, structureDataArray, dependenciesDictionary);
             }
+
+            document.Add(DBConstants.StructureDataFieldName, structureDataArray);
+
+            return document;
+        }
+
+        public static BsonDocument CreateRuleDocument(NotenizerNoteRule rule)
+        {
+            BsonDocument document = new BsonDocument();
+            BsonValue structureObjectId;
+
+            structureObjectId = rule.Structure.Structure.ID.ToObjectId();
+
+            document.Add(DBConstants.StructureRefIdFieldName, structureObjectId);
+            document.Add(DBConstants.SentenceTerminatorsFieldName, new BsonArray(rule.SentencesEnds));
+            document = document.InsertNotenizerSpecificFields(rule);
+
+            return document;
+        }
+
+        public static BsonDocument CreateRuleDocument(NotenizerAndRule rule)
+        {
+            BsonDocument document = new BsonDocument();
+            BsonValue structureObjectId;
+
+            structureObjectId = rule.Structure.Structure.ID.ToObjectId();
+
+            document.Add(DBConstants.StructureRefIdFieldName, structureObjectId);
+            document.Add(DBConstants.SentenceTerminatorsFieldName, new BsonInt32(rule.SentenceEnd));
+            document.Add(DBConstants.AndSetPositionFieldName, new BsonInt32(rule.SetsPosition));
+            document = document.InsertNotenizerSpecificFields(rule);
+
+            return document;
+        }
+
+        public static BsonDocument CreateArticleDocument(Article article)
+        {
+            BsonDocument doc = new BsonDocument();
+
+            doc.Add(DBConstants.TextFieldName, new BsonString(article.Value));
+            doc = doc.InsertNotenizerSpecificFields(article);
 
             return doc;
         }
@@ -70,7 +165,7 @@ namespace nsServices.DBServices
             doc.Add(DBConstants.CreatedByFieldName, new BsonInt32((int)createdBy));
             doc.Add(DBConstants.CreatedAtFieldName, new BsonDateTime(createdAt));
             doc.Add(DBConstants.UpdatedAtFieldName, new BsonDateTime(updatedAt));
-            doc.Add(DBConstants.SentencesEndsFieldName, sentencesEnds);
+            doc.Add(DBConstants.SentenceTerminatorsFieldName, sentencesEnds);
 
             BsonArray noteDependenciesArr = CreateNoteRuleNotDependenciesArray(note, sentencesEnds);
 
@@ -79,7 +174,7 @@ namespace nsServices.DBServices
             return doc;
         }
 
-        public static BsonDocument CreateAndParserRuleDocument(NotenizerAndParserRule rule)
+        public static BsonDocument CreateAndParserRuleDocument(NotenizerAndRule rule)
         {
             BsonDocument doc = new BsonDocument();
             BsonArray noteDependenciesArr = new BsonArray();
@@ -88,8 +183,8 @@ namespace nsServices.DBServices
             doc.Add(DBConstants.CreatedByFieldName, new BsonInt32((int)rule.CreatedBy));
             doc.Add(DBConstants.CreatedAtFieldName, new BsonDateTime(rule.CreatedAt));
             doc.Add(DBConstants.UpdatedAtFieldName, new BsonDateTime(rule.UpdatedAt));
-            doc.Add(DBConstants.AndSetsPositionsFieldName, new BsonInt32(rule.SetsPosition));
-            doc.Add(DBConstants.SentenceEndFieldname, new BsonInt32(rule.SentenceEnd));
+            doc.Add(DBConstants.AndSetPositionFieldName, new BsonInt32(rule.SetsPosition));
+            doc.Add(DBConstants.SentenceTerminatorsFieldName, new BsonInt32(rule.SentenceEnd));
 
             rule.RuleDependencies.ForEach(delegate (NotenizerDependency dep)
             {
@@ -106,7 +201,7 @@ namespace nsServices.DBServices
         {
             BsonDocument doc = CreateNoteDocument(note, articleId);
 
-            doc[DBConstants.AdditionalInformationFieldName][DBConstants.AndSetsPositionsFieldName] = new BsonArray(andSetsPositions);
+            doc[DBConstants.AdditionalInformationFieldName][DBConstants.AndSetPositionFieldName] = new BsonArray(andSetsPositions);
 
             return doc;
         }
@@ -122,14 +217,14 @@ namespace nsServices.DBServices
             BsonArray andSetsPositions = new BsonArray();
 
             doc.Add(DBConstants.OriginalSentenceFieldName, new BsonString(note.OriginalSentence.ToString()));
-            doc.Add(DBConstants.NoteFieldName, new BsonString(note.Value));
+            doc.Add(DBConstants.NoteFieldName, new BsonString(note.Text));
             doc.Add(DBConstants.CreatedByFieldName, new BsonInt32((int)note.CreatedBy));
-            doc.Add(DBConstants.ArticleIdFieldName, new BsonInt32(articleId));
+            doc.Add(DBConstants.ArticleRefIdFieldName, new BsonInt32(articleId));
             doc.Add(DBConstants.CreatedAtFieldName, new BsonDateTime(note.CreatedAt));
             doc.Add(DBConstants.UpdatedAtFieldName, new BsonDateTime(note.UpdatedAt));
             doc.Add(DBConstants.AdditionalInformationFieldName, additionInformationDoc);
-            additionInformationDoc.Add(DBConstants.SentencesEndsFieldName, sentencesEnds);
-            additionInformationDoc.Add(DBConstants.AndSetsPositionsFieldName, andSetsPositions);
+            additionInformationDoc.Add(DBConstants.SentenceTerminatorsFieldName, sentencesEnds);
+            additionInformationDoc.Add(DBConstants.AndSetPositionFieldName, andSetsPositions);
 
             BsonArray originalDepencenciesArr = new BsonArray();
             foreach (NotenizerDependency dependencyLoop in note.OriginalSentence.Dependencies)
@@ -147,17 +242,7 @@ namespace nsServices.DBServices
 
             doc.Add(DBConstants.NoteDependenciesFieldName, noteDependenciesArr);
             return doc;
-        }
-
-        public static BsonDocument CreateArticleDocument(Article article)
-        {
-            BsonDocument doc = new BsonDocument();
-
-            doc.Add(DBConstants.ArticleFieldName, new BsonString(article.Value));
-            doc = doc.InsertNotenizerSpecificFields(article as IPersistable);
-
-            return doc;
-        }
+        }        
 
         public static BsonArray CreateNoteRuleNotDependenciesArray(List<NotePart> noteParts)
         {
@@ -176,6 +261,7 @@ namespace nsServices.DBServices
             int dependencyPosition = 0;
             BsonArray noteDependenciesArr = new BsonArray();
             Dictionary<String, BsonArray> dependencies = new Dictionary<String, BsonArray>();
+            BsonDocument dependencyDoc;
 
             foreach (NotePart notePartLoop in noteParts)
             {
@@ -184,7 +270,7 @@ namespace nsServices.DBServices
                     if (noteObjectLoop == null)
                         continue;
 
-                    BsonDocument dependencyDoc = CreateDependencyDocument(noteObjectLoop.NoteDependency, noteObjectLoop.NoteDependency.ComparisonType, noteObjectLoop.NoteDependency.TokenType);
+                    dependencyDoc = CreateDependencyDocument(noteObjectLoop.NoteDependency, noteObjectLoop.NoteDependency.ComparisonType, noteObjectLoop.NoteDependency.TokenType);
 
                     AppendDependencyDocument(noteObjectLoop.NoteDependency, dependencyDoc, noteDependenciesArr, dependencies);
 
@@ -291,9 +377,13 @@ namespace nsServices.DBServices
 
         private static BsonDocument InsertNotenizerSpecificFields(this BsonDocument doc, IPersistable persistableObj)
         {
-            doc.Add(DBConstants.CreatedByFieldName, new BsonInt32((int)persistableObj.CreatedBy));
-            doc.Add(DBConstants.CreatedAtFieldName, new BsonDateTime(persistableObj.CreatedAt));
-            doc.Add(DBConstants.UpdatedAtFieldName, new BsonDateTime(persistableObj.UpdatedAt));
+            return doc.InsertNotenizerSpecificFields(persistableObj.CreatedAt, persistableObj.UpdatedAt);
+        }
+
+        private static BsonDocument InsertNotenizerSpecificFields(this BsonDocument doc, DateTime createdAt, DateTime updatedAt)
+        {
+            doc.Add(DBConstants.CreatedAtFieldName, new BsonDateTime(createdAt));
+            doc.Add(DBConstants.UpdatedAtFieldName, new BsonDateTime(updatedAt));
 
             return doc;
         }

@@ -18,6 +18,8 @@ namespace nsNotenizerObjects
         protected Article article;
         protected DateTime _createdAt;
         protected DateTime _updatedAt;
+        protected NotenizerStructure _structure;
+        protected String structureID;
 
         public NotenizerRule(String id, NotenizerDependencies dependencies, CreatedBy createdBy)
         {
@@ -92,6 +94,25 @@ namespace nsNotenizerObjects
             set
             {
                 article = value;
+            }
+        }
+
+        public NotenizerStructure Structure
+        {
+            get { return this._structure; }
+            set { this._structure = value; }
+        }
+
+        public String StructureID
+        {
+            get
+            {
+                return structureID;
+            }
+
+            set
+            {
+                structureID = value;
             }
         }
     }

@@ -11,12 +11,13 @@ namespace nsNotenizerObjects
     public class Note : IPersistable
     {
         private String _id;
-        private String _note;
-        private String _originalSentence;
+        private String _text;
         private DateTime _createdAt;
         private DateTime _updatedAt;
         private CreatedBy _createdBy;
-        private String _andParserRuleRefId;
+        private String _andRuleId;
+        private String _ruleId;
+        private String _sentenceId;
 
         public Note(
             String id,
@@ -28,27 +29,27 @@ namespace nsNotenizerObjects
             String andParserRuleRefId)
         {
             _id = id;
-            _note = persistedNote;
-            _originalSentence = persistedOriginalSentence;
+            _text = persistedNote;
             _createdAt = persistedCreatedAt;
             _updatedAt = persistedUpdatedAt;
             _createdBy = persistedCreatedBy;
-            _andParserRuleRefId = andParserRuleRefId;
+            _andRuleId = andParserRuleRefId;
+        }
+
+        public Note(String text)
+        {
+            this._text = text;
         }
 
         public String ID
         {
             get { return _id; }
+            set { this._id = value; }
         }
 
-        public String Value
+        public String Text
         {
-            get { return _note; }
-        }
-
-        public String OriginalSentence
-        {
-            get { return _originalSentence; }
+            get { return _text; }
         }
 
         public DateTime CreatedAt
@@ -69,9 +70,22 @@ namespace nsNotenizerObjects
             set { this._createdBy = value; }
         }
 
-        public String AndParserRuleRefId
+        public String AndRuleID
         {
-            get { return _andParserRuleRefId; }
+            get { return _andRuleId; }
+            set { this._andRuleId = value; }
+        }
+
+        public String SentenceID
+        {
+            get { return this._sentenceId; }
+            set { this._andRuleId = value; }
+        }
+
+        public String RuleID
+        {
+            get { return this._ruleId; }
+            set { this._ruleId = value; }
         }
     }
 }

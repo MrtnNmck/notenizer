@@ -1,5 +1,6 @@
 ﻿using edu.stanford.nlp.ling;
 using edu.stanford.nlp.trees;
+using MongoDB.Bson;
 using nsEnums;
 using System;
 using System.Collections.Generic;
@@ -56,6 +57,21 @@ namespace nsExtensions
                 return "by";
 
             return specific;
+        }
+
+        public static BsonValue ToObjectId(this String objectIdString)
+        {
+            try
+            {
+                if (objectIdString == String.Empty)
+                    return BsonNull.Value;
+
+                return ObjectId.Parse(objectIdString);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error parsing ObjectId from string " + objectIdString + Environment.NewLine + Environment.NewLine + ex.Message);
+            }
         }
     }
 }
