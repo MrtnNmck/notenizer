@@ -110,6 +110,23 @@ namespace nsServices.DBServices
             return new Note(id, originalSentence, note, createdAt, updatedAt, createdBy, andParserRuleRefId);
         }
 
+        public static Article ParseArticle(BsonDocument dbEntry)
+        {
+            String id;
+            String article;
+            DateTime createdAt;
+            DateTime updatedAt;
+            CreatedBy createdBy;
+
+            id = dbEntry[DBConstants.IdFieldName].AsObjectId.ToString();
+            createdAt = dbEntry[DBConstants.CreatedAtFieldName].ToUniversalTime();
+            updatedAt = dbEntry[DBConstants.UpdatedAtFieldName].ToUniversalTime();
+            createdBy = dbEntry[DBConstants.CreatedByFieldName].AsInt32.ToEnum<CreatedBy>();
+            article = dbEntry[DBConstants.ArticleFieldName].ToString().Trim();
+
+            return new Article(id, createdAt, updatedAt, createdBy, article);
+        }
+
         /// <summary>
         /// Gets rule for parsing with the heighest match with original sentence.
         /// </summary>
@@ -122,9 +139,11 @@ namespace nsServices.DBServices
 
             foreach (BsonDocument bsonDocLoop in dbEntries)
             {
+                BsonDocument articleDocument = DB.GetFirst(DBConstants.ArticlesCollectionName, DocumentCreator.CreateFilterById(bsonDocLoop[DBConstants.ArticleIdFieldName].AsObjectId.ToString())).Result;
                 BsonDocument ruleDocument = DB.GetFirst(DBConstants.NoteRulesCollectionName, DocumentCreator.CreateFilterById(bsonDocLoop[DBConstants.NoteRuleRefIdFieldName].AsObjectId.ToString())).Result;
                 NotenizerNoteRule r = ParseNoteRule(ruleDocument);
 
+                r.Article = ParseArticle(articleDocument);
                 r.Note = ParseNote(bsonDocLoop);
                 r.Match = CalculateMatch(sentence, r.RuleDependencies, bsonDocLoop);
 

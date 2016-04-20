@@ -43,7 +43,14 @@
   <ItemGroup>
     <Compile Include="IMousable.cs" />
     <Compile Include="INotenizerComponent.cs" />
+    <Compile Include="IPersistable.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Enums\Enums.csproj">
+      <Project>{57E4152F-A7B5-4107-9EEB-54BB78BF6DFC}</Project>
+      <Name>Enums</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

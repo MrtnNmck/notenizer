@@ -27,6 +27,7 @@ namespace nsGUI
         private Notenizer _notenizer;
         private AndParser _andParser;
         private List<NotenizerAdvancedTextBox> _noteTextBoxes;
+        private String _article;
 
         #endregion Variables
 
@@ -206,6 +207,7 @@ namespace nsGUI
 
         private void ProcessText(String text)
         {
+            this._article = text;
             this._advancedProgressBar.Start();
 
             Task.Factory.StartNew(() =>

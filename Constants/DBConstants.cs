@@ -9,7 +9,6 @@ namespace nsConstants
     public class DBConstants
     {
         public const String DatabaseName = "notenizer";
-        public const String NotesCollectionName = "notes";
         public const String POSFieldName = "pos";
         public const String IndexFieldName = "index";
         public const String GovernorFieldName = "governor";
@@ -33,11 +32,15 @@ namespace nsConstants
         public const String AndSetsPositionsFieldName = "setsPosition";
         public const String NoteRuleRefIdFieldName = "noteRuleRefId";
         public const String AndParserRuleRefIdFieldName = "andParserRuleRefId";
-        public const String NoteRulesCollectionName = "noteRules";
-        public const String AndParserRulesCollectionName = "andParserRules";
         public const String BsonNullValue = "BsonNull";
         public const String SentenceEndFieldname = "sentenceEnd";
         public const String LemmaFieldName = "lemma";
         public const String NERFieldName = "ner";
+        public const String ArticleFieldName = "article";
+
+        public const String NotesCollectionName = "notes";
+        public const String NoteRulesCollectionName = "noteRules";
+        public const String AndParserRulesCollectionName = "andParserRules";
+        public const String ArticlesCollectionName = "articles";
     }
 }

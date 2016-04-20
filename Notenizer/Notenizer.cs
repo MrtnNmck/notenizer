@@ -58,7 +58,7 @@ namespace nsNotenizer
                     properties.setProperty("sutime.binders", "0");
                     properties.setProperty("ner.useSUTime", "false");
 
-                    // bugfix for time exception
+                    // prevent time exception
                     CultureInfo cultureInfo = new CultureInfo("en-US");
                     Thread.CurrentThread.CurrentCulture = cultureInfo;
                     Thread.CurrentThread.CurrentUICulture = cultureInfo;
@@ -105,9 +105,7 @@ namespace nsNotenizer
             }
 
             _notes = Parse(annotation);
-            //_andNotes = AndParserFn(annotation);
             PrintNotes(_notes);
-            //PrintNotes(andNotes);
         }
 
         private NotenizerNoteRule GetRuleForSentence(NotenizerSentence sentence)
@@ -152,14 +150,26 @@ namespace nsNotenizer
                 notesToSave.Add(note);
             }
 
+            Article article;
+            List<MongoDB.Bson.BsonDocument> articles = DB.GetAll(DBConstants.ArticlesCollectionName, DocumentCreator.CreateFilter(DBConstants.ArticleFieldName, annotation.ToString().Trim())).Result;
+
+            if (articles.Count == 0)
+            {
+                article = new Article(String.Empty, DateTime.Now, DateTime.Now, CreatedBy.User, annotation.ToString().Trim());
+                article.ID = DB.InsertToCollection(DBConstants.ArticlesCollectionName, DocumentCreator.CreateArticleDocument(article)).Result;
+            }
+            else
+                article = DocumentParser.ParseArticle(articles[0]);
+
             // inserting into DB AFTER ALL sentences from article were processed
             // to avoid processed sentence to affect processing other sentences from article
             foreach (NotenizerNote sentenceNotedLoop in notesToSave)
             {
                 String noteRuleId = DB.InsertToCollection(DBConstants.NoteRulesCollectionName, DocumentCreator.CreateNoteRuleDocument(sentenceNotedLoop)).Result;
-                String id = DB.InsertToCollection(DBConstants.NotesCollectionName, DocumentCreator.CreateNoteDocument(sentenceNotedLoop, String.Empty, noteRuleId, String.Empty)).Result;
+                String id = DB.InsertToCollection(DBConstants.NotesCollectionName, DocumentCreator.CreateNoteDocument(sentenceNotedLoop, article.ID, noteRuleId, String.Empty)).Result;
 
                 sentenceNotedLoop.CreateRule();
+                sentenceNotedLoop.Rule.Article = article;
 
                 Console.WriteLine("Parsed note: " + sentenceNotedLoop.OriginalSentence + " ===> " + sentenceNotedLoop.Value);
                 sentencesNoted.Add(sentenceNotedLoop);

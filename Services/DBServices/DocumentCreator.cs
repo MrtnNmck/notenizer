@@ -2,6 +2,7 @@
 using MongoDB.Driver;
 using nsConstants;
 using nsEnums;
+using nsInterfaces;
 using nsNotenizerObjects;
 using System;
 using System.Collections.Generic;
@@ -148,6 +149,16 @@ namespace nsServices.DBServices
             return doc;
         }
 
+        public static BsonDocument CreateArticleDocument(Article article)
+        {
+            BsonDocument doc = new BsonDocument();
+
+            doc.Add(DBConstants.ArticleFieldName, new BsonString(article.Value));
+            doc = doc.InsertNotenizerSpecificFields(article as IPersistable);
+
+            return doc;
+        }
+
         public static BsonArray CreateNoteRuleNotDependenciesArray(List<NotePart> noteParts)
         {
             BsonArray temp = new BsonArray();
@@ -261,11 +272,30 @@ namespace nsServices.DBServices
                         dependencies.Select(x => x.Relation.ShortName));
         }
 
+        public static FilterDefinition<BsonDocument> CreateFilter(String fieldName, String fieldValue)
+        {
+            return Builders<BsonDocument>.Filter.Eq(fieldName, fieldValue);
+        }
+
+        public static FilterDefinition<BsonDocument> CreateFilter(String fieldName, ObjectId fieldValue)
+        {
+            return Builders<BsonDocument>.Filter.Eq(fieldName, fieldValue);
+        }
+
         public static FilterDefinition<BsonDocument> CreateFilterById(String id)
         {
             ObjectId objectId = ObjectId.Parse(id);
 
-            return Builders<BsonDocument>.Filter.Eq(DBConstants.IdFieldName, objectId);
+            return CreateFilter(DBConstants.IdFieldName, objectId);
+        }
+
+        private static BsonDocument InsertNotenizerSpecificFields(this BsonDocument doc, IPersistable persistableObj)
+        {
+            doc.Add(DBConstants.CreatedByFieldName, new BsonInt32((int)persistableObj.CreatedBy));
+            doc.Add(DBConstants.CreatedAtFieldName, new BsonDateTime(persistableObj.CreatedAt));
+            doc.Add(DBConstants.UpdatedAtFieldName, new BsonDateTime(persistableObj.UpdatedAt));
+
+            return doc;
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using nsEnums;
+using nsInterfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,13 +8,14 @@ using System.Threading.Tasks;
 
 namespace nsNotenizerObjects
 {
-    public class NotenizerRule
+    public class NotenizerRule : IPersistable
     {
         protected NotenizerDependencies _dependencies;
         protected Match _match;
         protected CreatedBy _createdBy;
         protected String _id;
         protected Note _note;
+        protected Article article;
         protected DateTime _createdAt;
         protected DateTime _updatedAt;
 
@@ -78,6 +80,19 @@ namespace nsNotenizerObjects
         {
             get { return _note; }
             set { _note = value; }
+        }
+
+        public Article Article
+        {
+            get
+            {
+                return article;
+            }
+
+            set
+            {
+                article = value;
+            }
         }
     }
 }

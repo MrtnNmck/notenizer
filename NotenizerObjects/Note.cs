@@ -1,4 +1,5 @@
 ﻿using nsEnums;
+using nsInterfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace nsNotenizerObjects
 {
-    public class Note
+    public class Note : IPersistable
     {
         private String _id;
         private String _note;
@@ -53,16 +54,19 @@ namespace nsNotenizerObjects
         public DateTime CreatedAt
         {
             get { return _createdAt; }
+            set { this._createdAt = value; }
         }
 
         public DateTime UpdatedAt
         {
             get { return _updatedAt; }
+            set { this._updatedAt = value; }
         }
 
         public CreatedBy CreatedBy
         {
             get { return _createdBy; }
+            set { this._createdBy = value; }
         }
 
         public String AndParserRuleRefId

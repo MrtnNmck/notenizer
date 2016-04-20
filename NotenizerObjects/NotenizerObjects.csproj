@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Article.cs" />
     <Compile Include="CompressedDependencies.cs" />
     <Compile Include="Match.cs" />
     <Compile Include="NamedEntity.cs" />
@@ -81,6 +82,10 @@
     <ProjectReference Include="..\Extensions\Extensions.csproj">
       <Project>{a935e0ec-5e82-46b1-a209-405d11faa30c}</Project>
       <Name>Extensions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Interfaces\Interfaces.csproj">
+      <Project>{654fbc57-770b-473a-ae1f-b75122886edd}</Project>
+      <Name>Interfaces</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
