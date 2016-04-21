@@ -14,7 +14,7 @@ namespace nsNotenizerObjects
         private DateTime _createdAt;
         private DateTime _updatedAt;
         private CreatedBy _createdBy;
-        private String _value;
+        private String _text;
 
         public Article(
             String id,
@@ -25,7 +25,7 @@ namespace nsNotenizerObjects
             this._id = id;
             this._createdAt = createdAt;
             this._updatedAt = updatedAt;
-            this._value = value;
+            this._text = value;
         }
 
         public DateTime CreatedAt
@@ -83,7 +83,7 @@ namespace nsNotenizerObjects
         {
             get
             {
-                return this._value;
+                return this._text;
             }
         }
     }

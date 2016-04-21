@@ -32,6 +32,26 @@ namespace nsNotenizerObjects
             this._updatedAt = updatedAt;
         }
 
+        public Sentence(
+            String id,
+            String text,
+            String articleID,
+            String structureID,
+            String ruleID,
+            String andRuleID,
+            DateTime createdAt,
+            DateTime updatedAt)
+        {
+            this._id = id;
+            this._text = text;
+            this._articleID = articleID;
+            this._structureID = structureID;
+            this._ruleID = ruleID;
+            this._andRuleID = andRuleID;
+            this._createdAt = createdAt;
+            this._updatedAt = updatedAt;
+        }
+
         public DateTime CreatedAt
         {
             get

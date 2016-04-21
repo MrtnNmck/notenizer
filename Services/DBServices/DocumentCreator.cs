@@ -346,9 +346,21 @@ namespace nsServices.DBServices
 
         }
 
+        public static FilterDefinition<BsonDocument> CreateFilterByStructure(NotenizerStructure structure)
+        {
+            return CreateFilterByStructure(structure.Dependencies, structure.DistinctDependenciesCount);
+        }
+
+        public static FilterDefinition<BsonDocument> CreateFilterByStructure(NotenizerDependencies dependencies, int size)
+        {
+            return Builders<BsonDocument>.Filter.Size(DBConstants.StructureDataFieldName, size)
+                    & Builders<BsonDocument>.Filter.All(DBConstants.StructureDataFieldName + "." + DBConstants.DependencyNameFieldName,
+                        dependencies.Select(x => x.Relation.ShortName));
+        }
+
         public static FilterDefinition<BsonDocument> CreateFilterByDependencies(NotenizerSentence sentence)
         {
-            return CreateFilterByDependencies(sentence.Dependencies, sentence.DistinctDependenciesCount);
+            return CreateFilterByDependencies(sentence.Structure.Dependencies, sentence.Structure.DistinctDependenciesCount);
         }
 
         public static FilterDefinition<BsonDocument> CreateFilterByDependencies(List<NotenizerDependency> dependencies, int size)
@@ -370,9 +382,14 @@ namespace nsServices.DBServices
 
         public static FilterDefinition<BsonDocument> CreateFilterById(String id)
         {
+            return CreateFilterById(DBConstants.IdFieldName, id);
+        }
+
+        public static FilterDefinition<BsonDocument> CreateFilterById(String fieldName, String id)
+        {
             ObjectId objectId = ObjectId.Parse(id);
 
-            return CreateFilter(DBConstants.IdFieldName, objectId);
+            return CreateFilter(fieldName, objectId);
         }
 
         private static BsonDocument InsertNotenizerSpecificFields(this BsonDocument doc, IPersistable persistableObj)
@@ -387,5 +404,6 @@ namespace nsServices.DBServices
 
             return doc;
         }
+
     }
 }

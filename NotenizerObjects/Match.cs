@@ -10,15 +10,17 @@ namespace nsNotenizerObjects
     {
         private double _structure;
         private double _content;
+        private double _value;
 
         public Match()
         {
         }
 
-        public Match(double structure, double content)
+        public Match(double structure, double content, double value)
         {
             _structure = structure;
             _content = content;
+            _value = value;
         }
 
         public double Structure
@@ -31,6 +33,12 @@ namespace nsNotenizerObjects
         {
             get { return Math.Round(_content); }
             set { _content = value; }
+        }
+
+        public double Value
+        {
+            get { return Math.Round(_value); }
+            set { _value = value; }
         }
     }
 }

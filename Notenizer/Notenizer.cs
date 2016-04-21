@@ -20,6 +20,7 @@ using nsEnums;
 using nsParsers;
 using nsComparsions;
 using nsServices.DBServices;
+using MongoDB.Bson;
 
 namespace nsNotenizer
 {
@@ -110,8 +111,47 @@ namespace nsNotenizer
 
         private NotenizerNoteRule GetRuleForSentence(NotenizerSentence sentence)
         {
-            NotenizerNoteRule rule = DocumentParser.GetHeighestMatch(sentence,
-                    DB.GetAll(DBConstants.NotesCollectionName, DocumentCreator.CreateFilterByDependencies(sentence)).Result);
+            // vyhladat vyhovujuce struktury
+            // zistit najvacsiu zhodu so strukturou
+            // pre tu strukturu najst vetu, pravidlo a and-pravidlo
+            // pre pravidlo najst poznamku
+            Match match;
+
+            Structure structure = DocumentParser.GetHeighestMatch(
+                sentence.Structure,
+                DB.GetAll(DBConstants.StructuresCollectionName, DocumentCreator.CreateFilterByDependencies(sentence)).Result,
+                out match);
+
+            NotenizerStructure matchedSentenceStructure = new NotenizerStructure(structure);
+
+            List<MongoDB.Bson.BsonDocument> sentencesWithSameStructure = DB.GetAll(
+                DBConstants.SentencesCollectionName,
+                DocumentCreator.CreateFilterById(DBConstants.StructureRefIdFieldName, matchedSentenceStructure.Structure.ID)).Result;
+
+            nsNotenizerObjects.Sentence matchedSentence = null;
+
+            if (sentencesWithSameStructure.Count > 0)
+            {
+                matchedSentence = DocumentParser.ParseSentence(sentencesWithSameStructure[0]);
+                foreach (BsonDocument sentenceWithSameStructureLoop in sentencesWithSameStructure)
+                {
+                    if (sentenceWithSameStructureLoop[DBConstants.TextFieldName].AsString.Trim() == sentence.Sentence.Text)
+                    {
+                        match.Value = 100.0;
+                        matchedSentence = DocumentParser.ParseSentence(sentenceWithSameStructureLoop);
+                        break;
+                    }
+                }
+            }
+
+            NotenizerSentence matchedNotenizerSentence = null;
+            if (matchedSentence != null)
+                matchedNotenizerSentence = new NotenizerSentence(matchedSentence, matchedSentenceStructure);
+
+            Article article = DocumentParser.ParseArticle(
+                DB.GetFirst(
+                    DBConstants.ArticlesCollectionName,
+                    DocumentCreator.CreateFilterById(matchedNotenizerSentence.Sentence.ArticleID)).Result);
 
             return rule;
         }
@@ -176,7 +216,7 @@ namespace nsNotenizer
                 rule.Structure.Structure.ID = DB.InsertToCollection(DBConstants.StructuresCollectionName, DocumentCreator.CreateStructureDocument(rule)).Result;
 
                 // save sentence's structure
-                NotenizerStructure sentenceStructure = sentenceNotedLoop.OriginalSentence.CreateStructure();
+                NotenizerStructure sentenceStructure = sentenceNotedLoop.OriginalSentence.Structure;
                 sentenceStructure.Structure.ID = DB.InsertToCollection(DBConstants.StructuresCollectionName, DocumentCreator.CreateStructureDocument(sentenceStructure)).Result;
 
                 // save rule

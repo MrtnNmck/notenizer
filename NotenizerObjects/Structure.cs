@@ -13,15 +13,18 @@ namespace nsNotenizerObjects
         private DateTime _createdAt;
         private DateTime _updatedAt;
         private String _id;
+        private NotenizerDependencies _dependencies;
 
-        public Structure(DateTime createdAt, DateTime updatedAt)
+        public Structure(NotenizerDependencies dependencies, DateTime createdAt, DateTime updatedAt)
         {
+            _dependencies = dependencies;
             _createdAt = createdAt;
             _updatedAt = updatedAt;
         }
 
-        public Structure(String id, DateTime createdAt, DateTime updatedAt)
+        public Structure(NotenizerDependencies dependencies, String id, DateTime createdAt, DateTime updatedAt)
         {
+            _dependencies = dependencies;
             _id = id;
             _createdAt = createdAt;
             _updatedAt = updatedAt;
@@ -76,6 +79,19 @@ namespace nsNotenizerObjects
             set
             {
                 this._updatedAt = value;
+            }
+        }
+
+        public NotenizerDependencies Dependencies
+        {
+            get
+            {
+                return _dependencies;
+            }
+
+            set
+            {
+                _dependencies = value;
             }
         }
     }

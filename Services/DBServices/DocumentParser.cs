@@ -12,6 +12,59 @@ namespace nsServices.DBServices
 {
     public static class DocumentParser
     {
+        public static Structure ParseStructure(BsonDocument persistedStructure)
+        {
+            String id;
+            DateTime createdAt;
+            DateTime updatedAt;
+            NotenizerDependencies dependencies;
+
+            id = persistedStructure[DBConstants.IdFieldName].AsObjectId.ToString();
+            createdAt = persistedStructure[DBConstants.CreatedAtFieldName].ToUniversalTime();
+            updatedAt = persistedStructure[DBConstants.UpdatedAtFieldName].ToUniversalTime();
+            dependencies = ParseDependencies(persistedStructure, DBConstants.StructureDataFieldName);
+
+            return new Structure(dependencies, id, createdAt, updatedAt);
+        }
+
+        public static Sentence ParseSentence(BsonDocument persistedSentnece)
+        {
+            String id;
+            String text;
+            String articleID;
+            String structureID;
+            String ruleID;
+            String andRuleID;
+            DateTime createdAt;
+            DateTime updatedAt;
+
+            id = persistedSentnece[DBConstants.IdFieldName].AsObjectId.ToString();
+            text = persistedSentnece[DBConstants.TextFieldName].AsString;
+            articleID = persistedSentnece[DBConstants.ArticleRefIdFieldName].AsObjectId.ToString();
+            ruleID = persistedSentnece[DBConstants.RuleRefIdFieldName].AsObjectId.ToString();
+            structureID = persistedSentnece[DBConstants.StructureRefIdFieldName].AsObjectId.ToString();
+            createdAt = persistedSentnece[DBConstants.CreatedAtFieldName].ToUniversalTime();
+            updatedAt = persistedSentnece[DBConstants.UpdatedAtFieldName].ToUniversalTime();
+            andRuleID = persistedSentnece[DBConstants.AndRuleRefIdFieldName] != null ? persistedSentnece[DBConstants.AndRuleRefIdFieldName].AsObjectId.ToString() : null;
+
+            return new Sentence(id, text, articleID, structureID, ruleID, andRuleID, createdAt, updatedAt);
+        }
+
+        public static Article ParseArticle(BsonDocument persistedArticle)
+        {
+            String id;
+            String text;
+            DateTime createdAt;
+            DateTime updatedAt;
+
+            id = persistedArticle[DBConstants.IdFieldName].AsObjectId.ToString();
+            text = persistedArticle[DBConstants.TextFieldName].AsString.Trim();
+            createdAt = persistedArticle[DBConstants.CreatedAtFieldName].ToUniversalTime();
+            updatedAt = persistedArticle[DBConstants.UpdatedAtFieldName].ToUniversalTime();
+
+            return new Article(id, createdAt, updatedAt, text);
+        }
+
         /// <summary>
         /// Makes rule for parsing the sentence from entry from database.
         /// </summary>
@@ -110,21 +163,6 @@ namespace nsServices.DBServices
             return new Note(id, originalSentence, note, createdAt, updatedAt, createdBy, andParserRuleRefId);
         }
 
-        public static Article ParseArticle(BsonDocument dbEntry)
-        {
-            String id;
-            String article;
-            DateTime createdAt;
-            DateTime updatedAt;
-
-            id = dbEntry[DBConstants.IdFieldName].AsObjectId.ToString();
-            createdAt = dbEntry[DBConstants.CreatedAtFieldName].ToUniversalTime();
-            updatedAt = dbEntry[DBConstants.UpdatedAtFieldName].ToUniversalTime();
-            article = dbEntry[DBConstants.TextFieldName].ToString().Trim();
-
-            return new Article(id, createdAt, updatedAt, article);
-        }
-
         /// <summary>
         /// Gets rule for parsing with the heighest match with original sentence.
         /// </summary>
@@ -143,7 +181,7 @@ namespace nsServices.DBServices
 
                 r.Article = ParseArticle(articleDocument);
                 r.Note = ParseNote(bsonDocLoop);
-                r.Match = CalculateMatch(sentence, r.RuleDependencies, bsonDocLoop);
+                //r.Match = CalculateMatch(sentence, r.RuleDependencies, bsonDocLoop);
 
                 if (rule == null
                     || rule.Match.Structure < r.Match.Structure
@@ -159,14 +197,38 @@ namespace nsServices.DBServices
             return rule;
         }
 
+        public static Structure GetHeighestMatch(NotenizerStructure structure, List<BsonDocument> persistedStructures, out Match m)
+        {
+            Structure struc = null;
+            Match match;
+            Match heighestMatch = null;
+
+            foreach (BsonDocument persistedStructureLoop in persistedStructures)
+            {
+                match = CalculateMatch(structure, persistedStructureLoop);
+
+                if (heighestMatch == null
+                    || heighestMatch.Structure < match.Structure
+                    || (heighestMatch.Structure == match.Structure
+                        && heighestMatch.Content < match.Content))
+                {
+                    heighestMatch = match;
+                    struc = ParseStructure(persistedStructureLoop);
+                }
+            }
+
+            m = heighestMatch;
+            return struc;
+        }
+
         /// <summary>
         /// Calculates the match between original sentence (from DB) and sentence that is being parsed.
         /// </summary>
-        /// <param name="sentence"></param>
-        /// <param name="parsedDependencies"></param>
-        /// <param name="dbEntry"></param>
+        /// <param name="notenizerStructure"></param>
+        /// <param name="structure"></param>
+        /// <param name="persistedStructure"></param>
         /// <returns></returns>
-        private static Match CalculateMatch(NotenizerSentence sentence, List<NotenizerDependency> parsedDependencies, BsonDocument dbEntry)
+        private static Match CalculateMatch(NotenizerStructure notenizerStructure, BsonDocument persistedStructure)
         {
             Double structureCompareCount = 5.0;
             Double contentCompareCount = 12.0;
@@ -176,16 +238,17 @@ namespace nsServices.DBServices
             Double oneContentComapareTypeIterRating;
             Double structureCounter = 0.0;
             Double contentCounter = 0.0;
+            Double valueCounter = 0.0;
             Dictionary<String, Dictionary<Tuple<PartOfSpeechType, PartOfSpeechType>, int>> structureDic = new Dictionary<string, Dictionary<Tuple<PartOfSpeechType, PartOfSpeechType>, int>>();
 
             int c = 0;
 
-            oneStructureCompareTypeIterRating = oneStructeCompareRating / Double.Parse(dbEntry[DBConstants.OriginalSentenceDependenciesFieldName].AsBsonArray.Count.ToString());
-            foreach (BsonDocument origDepDocLoop in dbEntry[DBConstants.OriginalSentenceDependenciesFieldName].AsBsonArray)
+            oneStructureCompareTypeIterRating = oneStructeCompareRating / Double.Parse(persistedStructure[DBConstants.OriginalSentenceDependenciesFieldName].AsBsonArray.Count.ToString());
+            foreach (BsonDocument origDepDocLoop in persistedStructure[DBConstants.OriginalSentenceDependenciesFieldName].AsBsonArray)
             {
                 String depName = origDepDocLoop[DBConstants.DependencyNameFieldName].AsString;
 
-                if (sentence.CompressedDependencies[depName].Count == origDepDocLoop[DBConstants.DependenciesFieldName].AsBsonArray.Count)
+                if (notenizerStructure.CompressedDependencies[depName].Count == origDepDocLoop[DBConstants.DependenciesFieldName].AsBsonArray.Count)
                 {
                     structureCounter += oneStructureCompareTypeIterRating;
                 }
@@ -199,7 +262,7 @@ namespace nsServices.DBServices
             // the dependency with same POS tag or same index at governor or dependent.
             oneStructureCompareTypeIterRating = oneStructeCompareRating / (double)(c);
             oneContentComapareTypeIterRating = oneContentCompareRating / (double)(c);
-            foreach (BsonDocument origDepDocLoop in dbEntry[DBConstants.OriginalSentenceDependenciesFieldName].AsBsonArray)
+            foreach (BsonDocument origDepDocLoop in persistedStructure[DBConstants.OriginalSentenceDependenciesFieldName].AsBsonArray)
             {
                 String depName = origDepDocLoop[DBConstants.DependencyNameFieldName].AsString;
 
@@ -218,19 +281,19 @@ namespace nsServices.DBServices
 
                     structureDic[depName][govPOSdepPOSKey]++;
 
-                    if (sentence.CompressedDependencies[depName].Where(
+                    if (notenizerStructure.CompressedDependencies[depName].Where(
                         x => x.Dependent.POS.Type == PartOfSpeech.GetTypeFromTag(depLoop[DBConstants.DependentFieldName].AsBsonDocument[DBConstants.POSFieldName].AsString)).FirstOrDefault() != null)
                     {
                         structureCounter += oneStructureCompareTypeIterRating;
                     }
 
-                    if (sentence.CompressedDependencies[depName].Where(
+                    if (notenizerStructure.CompressedDependencies[depName].Where(
                         x => x.Governor.POS.Type == PartOfSpeech.GetTypeFromTag(depLoop[DBConstants.GovernorFieldName].AsBsonDocument[DBConstants.POSFieldName].AsString)).FirstOrDefault() != null)
                     {
                         structureCounter += oneStructureCompareTypeIterRating;
                     }
 
-                    if (sentence.CompressedDependencies[depName].Where(
+                    if (notenizerStructure.CompressedDependencies[depName].Where(
                         x => x.Dependent.POS.Type == PartOfSpeech.GetTypeFromTag(depLoop[DBConstants.DependentFieldName].AsBsonDocument[DBConstants.POSFieldName].AsString)
                         && x.Governor.POS.Type == PartOfSpeech.GetTypeFromTag(depLoop[DBConstants.GovernorFieldName].AsBsonDocument[DBConstants.POSFieldName].AsString)).FirstOrDefault() != null)
                     {
@@ -240,33 +303,33 @@ namespace nsServices.DBServices
 
                     /* ================= Content match ================= */
 
-                    if (sentence.CompressedDependencies[depName].Where(
+                    if (notenizerStructure.CompressedDependencies[depName].Where(
                         x => x.Dependent.Index == depLoop[DBConstants.DependentFieldName].AsBsonDocument[DBConstants.IndexFieldName]).FirstOrDefault() != null)
                     {
                         contentCounter += oneContentComapareTypeIterRating;
                     }
 
-                    if (sentence.CompressedDependencies[depName].Where(
+                    if (notenizerStructure.CompressedDependencies[depName].Where(
                         x => x.Governor.Index == depLoop[DBConstants.GovernorFieldName].AsBsonDocument[DBConstants.IndexFieldName]).FirstOrDefault() != null)
                     {
                         contentCounter += oneContentComapareTypeIterRating;
                     }
 
-                    if (sentence.CompressedDependencies[depName].Where(
+                    if (notenizerStructure.CompressedDependencies[depName].Where(
                         x =>x.Governor.POS.Tag == depLoop[DBConstants.GovernorFieldName].AsBsonDocument[DBConstants.POSFieldName] 
                         && x.Governor.Index == depLoop[DBConstants.GovernorFieldName].AsBsonDocument[DBConstants.IndexFieldName]).FirstOrDefault() != null)
                     {
                         contentCounter += oneContentComapareTypeIterRating;
                     }
 
-                    if (sentence.CompressedDependencies[depName].Where(
+                    if (notenizerStructure.CompressedDependencies[depName].Where(
                         x => x.Dependent.POS.Tag == depLoop[DBConstants.DependentFieldName].AsBsonDocument[DBConstants.POSFieldName]
                         && x.Dependent.Index == depLoop[DBConstants.DependentFieldName].AsBsonDocument[DBConstants.IndexFieldName]).FirstOrDefault() != null)
                     {
                         contentCounter += oneContentComapareTypeIterRating;
                     }
 
-                    if (sentence.CompressedDependencies[depName].Where(
+                    if (notenizerStructure.CompressedDependencies[depName].Where(
                         x => x.Dependent.POS.Tag == depLoop[DBConstants.DependentFieldName].AsBsonDocument[DBConstants.POSFieldName]
                         && x.Dependent.Index == depLoop[DBConstants.DependentFieldName].AsBsonDocument[DBConstants.IndexFieldName]
                         && x.Governor.POS.Tag == depLoop[DBConstants.GovernorFieldName].AsBsonDocument[DBConstants.POSFieldName]
@@ -275,45 +338,45 @@ namespace nsServices.DBServices
                         contentCounter += oneContentComapareTypeIterRating;
                     }
 
-                    if (sentence.CompressedDependencies[depName].Where(
+                    if (notenizerStructure.CompressedDependencies[depName].Where(
                         x => x.Dependent.NamedEntity.Value == depLoop[DBConstants.DependentFieldName].AsBsonDocument[DBConstants.NERFieldName]).FirstOrDefault() != null)
                     {
                         contentCounter += oneContentComapareTypeIterRating;
                     }
 
-                    if (sentence.CompressedDependencies[depName].Where(
+                    if (notenizerStructure.CompressedDependencies[depName].Where(
                         x => x.Dependent.Lemma == depLoop[DBConstants.DependentFieldName].AsBsonDocument[DBConstants.LemmaFieldName]).FirstOrDefault() != null)
                     {
                         contentCounter += oneContentComapareTypeIterRating;
                     }
 
-                    if (sentence.CompressedDependencies[depName].Where(
+                    if (notenizerStructure.CompressedDependencies[depName].Where(
                         x => x.Governor.NamedEntity.Value == depLoop[DBConstants.GovernorFieldName].AsBsonDocument[DBConstants.NERFieldName]).FirstOrDefault() != null)
                     {
                         contentCounter += oneContentComapareTypeIterRating;
                     }
 
-                    if (sentence.CompressedDependencies[depName].Where(
+                    if (notenizerStructure.CompressedDependencies[depName].Where(
                         x => x.Governor.Lemma == depLoop[DBConstants.GovernorFieldName].AsBsonDocument[DBConstants.LemmaFieldName]).FirstOrDefault() != null)
                     {
                         contentCounter += oneContentComapareTypeIterRating;
                     }
 
-                    if (sentence.CompressedDependencies[depName].Where(
+                    if (notenizerStructure.CompressedDependencies[depName].Where(
                         x => x.Dependent.NamedEntity.Value == depLoop[DBConstants.DependentFieldName].AsBsonDocument[DBConstants.NERFieldName]
                         && x.Dependent.Lemma == depLoop[DBConstants.DependentFieldName].AsBsonDocument[DBConstants.LemmaFieldName]).FirstOrDefault() != null)
                     {
                         contentCounter += oneContentComapareTypeIterRating;
                     }
 
-                    if (sentence.CompressedDependencies[depName].Where(
+                    if (notenizerStructure.CompressedDependencies[depName].Where(
                         x => x.Governor.NamedEntity.Value == depLoop[DBConstants.GovernorFieldName].AsBsonDocument[DBConstants.NERFieldName]
                         && x.Governor.Lemma == depLoop[DBConstants.GovernorFieldName].AsBsonDocument[DBConstants.LemmaFieldName]).FirstOrDefault() != null)
                     {
                         contentCounter += oneContentComapareTypeIterRating;
                     }
 
-                    if (sentence.CompressedDependencies[depName].Where(
+                    if (notenizerStructure.CompressedDependencies[depName].Where(
                         x => x.Dependent.NamedEntity.Value == depLoop[DBConstants.DependentFieldName].AsBsonDocument[DBConstants.NERFieldName]
                         && x.Dependent.Lemma == depLoop[DBConstants.DependentFieldName].AsBsonDocument[DBConstants.LemmaFieldName]
                         && x.Governor.NamedEntity.Value == depLoop[DBConstants.GovernorFieldName].AsBsonDocument[DBConstants.NERFieldName]
@@ -332,7 +395,7 @@ namespace nsServices.DBServices
 
                 foreach (KeyValuePair<Tuple<PartOfSpeechType, PartOfSpeechType>, int> govPOSdepGOVCountKVPLoop in structDicKVPLoop.Value)
                 {
-                    if (sentence.CompressedDependencies[structDicKVPLoop.Key].Where(
+                    if (notenizerStructure.CompressedDependencies[structDicKVPLoop.Key].Where(
                         x => x.Governor.POS.Type == govPOSdepGOVCountKVPLoop.Key.Item1
                         && x.Dependent.POS.Type == govPOSdepGOVCountKVPLoop.Key.Item2).Count() == govPOSdepGOVCountKVPLoop.Value)
                     {
@@ -343,7 +406,7 @@ namespace nsServices.DBServices
 
             structureCounter += oneStructeCompareRating / z * y;
 
-            return new Match(structureCounter, contentCounter);
+            return new Match(structureCounter, contentCounter, valueCounter);
         }
     }
 }
