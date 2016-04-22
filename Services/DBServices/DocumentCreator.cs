@@ -15,25 +15,21 @@ namespace nsServices.DBServices
 {
     public static class DocumentCreator
     {
-        public static BsonDocument CreateNoteDocument(NotenizerNote note, String sentenceId, String noteRuleId, String andParseRuleId)
+        public static BsonDocument CreateNoteDocument(NotenizerNote note, String noteRuleId, String andParseRuleId)
         {
             BsonDocument doc = new BsonDocument();
-            BsonValue sentenceObjectId;
             BsonValue andParserRuleObjectId;
             BsonValue ruleObjectId;
             BsonArray originalDepencenciesArr = new BsonArray();
             Dictionary<String, BsonArray> dependencies = new Dictionary<String, BsonArray>();
 
-            note.Note.SentenceID = sentenceId;
             note.Note.RuleID = noteRuleId;
             note.Note.AndRuleID = andParseRuleId;
 
-            sentenceObjectId = sentenceId.ToObjectId();
             ruleObjectId = noteRuleId.ToObjectId();
             andParserRuleObjectId = andParseRuleId.ToObjectId();
 
             doc.Add(DBConstants.TextFieldName, new BsonString(note.Text));
-            doc.Add(DBConstants.SentenceRefIdFieldName, sentenceObjectId);
             doc.Add(DBConstants.RuleRefIdFieldName, ruleObjectId);
             doc.Add(DBConstants.AndRuleRefIdFieldName, andParserRuleObjectId);
             doc = doc.InsertNotenizerSpecificFields(note.Note);
@@ -41,13 +37,14 @@ namespace nsServices.DBServices
             return doc;
         }
 
-        public static BsonDocument CreateSentenceDocument(NotenizerSentence sentence, String structureId, String articleId, String ruleId, String andRuleId)
+        public static BsonDocument CreateSentenceDocument(NotenizerSentence sentence, String structureId, String articleId, String ruleId, String andRuleId, String noteId)
         {
             BsonDocument doc = new BsonDocument();
             BsonValue articleObjectId;
             BsonValue andParserRuleObjectId;
             BsonValue ruleObjectId;
             BsonValue structureObjectId;
+            BsonValue noteObjectId;
             BsonArray originalDepencenciesArr = new BsonArray();
             Dictionary<String, BsonArray> dependencies = new Dictionary<String, BsonArray>();
 
@@ -55,17 +52,20 @@ namespace nsServices.DBServices
             sentence.Sentence.ArticleID = articleId;
             sentence.Sentence.RuleID = ruleId;
             sentence.Sentence.AndRuleID = andRuleId;
+            sentence.Sentence.NoteID = noteId;
 
             articleObjectId = articleId.ToObjectId();
             ruleObjectId = ruleId.ToObjectId();
             andParserRuleObjectId = andRuleId.ToObjectId();
             structureObjectId = structureId.ToObjectId();
+            noteObjectId = noteId.ToObjectId();
 
             doc.Add(DBConstants.TextFieldName, new BsonString(sentence.ToString()));
             doc.Add(DBConstants.ArticleRefIdFieldName, articleObjectId);
             doc.Add(DBConstants.RuleRefIdFieldName, ruleObjectId);
             doc.Add(DBConstants.AndRuleRefIdFieldName, andParserRuleObjectId);
             doc.Add(DBConstants.StructureRefIdFieldName, structureObjectId);
+            doc.Add(DBConstants.NoteRefIdFieldName, noteObjectId);
             doc = doc.InsertNotenizerSpecificFields(sentence.Sentence);
             
             return doc;
@@ -116,7 +116,7 @@ namespace nsServices.DBServices
             structureObjectId = rule.Structure.Structure.ID.ToObjectId();
 
             document.Add(DBConstants.StructureRefIdFieldName, structureObjectId);
-            document.Add(DBConstants.SentenceTerminatorsFieldName, new BsonArray(rule.SentencesEnds));
+            document.Add(DBConstants.SentenceTerminatorsFieldName, new BsonArray(rule.SentencesTerminators));
             document = document.InsertNotenizerSpecificFields(rule);
 
             return document;
@@ -130,7 +130,7 @@ namespace nsServices.DBServices
             structureObjectId = rule.Structure.Structure.ID.ToObjectId();
 
             document.Add(DBConstants.StructureRefIdFieldName, structureObjectId);
-            document.Add(DBConstants.SentenceTerminatorsFieldName, new BsonInt32(rule.SentenceEnd));
+            document.Add(DBConstants.SentenceTerminatorsFieldName, new BsonInt32(rule.SentenceTerminator));
             document.Add(DBConstants.AndSetPositionFieldName, new BsonInt32(rule.SetsPosition));
             document = document.InsertNotenizerSpecificFields(rule);
 
@@ -184,7 +184,7 @@ namespace nsServices.DBServices
             doc.Add(DBConstants.CreatedAtFieldName, new BsonDateTime(rule.CreatedAt));
             doc.Add(DBConstants.UpdatedAtFieldName, new BsonDateTime(rule.UpdatedAt));
             doc.Add(DBConstants.AndSetPositionFieldName, new BsonInt32(rule.SetsPosition));
-            doc.Add(DBConstants.SentenceTerminatorsFieldName, new BsonInt32(rule.SentenceEnd));
+            doc.Add(DBConstants.SentenceTerminatorsFieldName, new BsonInt32(rule.SentenceTerminator));
 
             rule.RuleDependencies.ForEach(delegate (NotenizerDependency dep)
             {

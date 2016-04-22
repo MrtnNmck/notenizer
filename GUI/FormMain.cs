@@ -319,7 +319,7 @@ namespace nsGUI
                 {
                     note.AndParserRule.RuleDependencies = andParserDependencies;
                     note.AndParserRule.SetsPosition = andSetPosition;
-                    note.AndParserRule.SentenceEnd = andParserDependencies.Count;
+                    note.AndParserRule.SentenceTerminator = andParserDependencies.Count;
                 }
 
                 BsonDocument andParserRuleDoc = DocumentCreator.CreateAndParserRuleDocument(note.AndParserRule);
@@ -334,7 +334,7 @@ namespace nsGUI
                 && note.Rule.Match.Content == 100)
             {
                 note.UpdatedAt = DateTime.Now;
-                noteId = DB.ReplaceInCollection(DBConstants.NotesCollectionName, note.Rule.Note.ID, DocumentCreator.CreateNoteDocument(note, String.Empty, ruleId, andParserRuleId)).Result;
+                //noteId = DB.ReplaceInCollection(DBConstants.NotesCollectionName, note.Rule.Note.ID, DocumentCreator.CreateNoteDocument(note, String.Empty, ruleId, andParserRuleId)).Result;
             }
             else
             {
@@ -342,10 +342,11 @@ namespace nsGUI
                 note.CreatedAt = DateTime.Now;
                 note.UpdatedAt = note.CreatedAt;
 
-                BsonDocument noteDoc = DocumentCreator.CreateNoteDocument(note, String.Empty, ruleId, andParserRuleId);
+                BsonDocument noteDoc = null;
+                //BsonDocument noteDoc = DocumentCreator.CreateNoteDocument(note, String.Empty, ruleId, andParserRuleId);
                 noteId = DB.InsertToCollection(DBConstants.NotesCollectionName, noteDoc).Result;
                 note.Rule = DocumentParser.ParseNoteRule(ruleDoc);
-                note.Rule.Match = new Match(100, 100);
+                note.Rule.Match = new Match(100, 100, 100);
                 note.Rule.Note = DocumentParser.ParseNote(noteDoc);
             }
         }

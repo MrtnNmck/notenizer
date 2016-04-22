@@ -10,20 +10,27 @@ namespace nsNotenizerObjects
     public class NotenizerAndRule : NotenizerRule
     {
         private int _setsPosition;
-        private int _sentenceEnd;
+        private int _sentenceTerminator;
 
         public NotenizerAndRule(String id, NotenizerDependencies dependencies, CreatedBy createdBy, int setsPosition, int sentenceEnd)
             : base(id, dependencies, createdBy)
         {
             _setsPosition = setsPosition;
-            _sentenceEnd = sentenceEnd;
+            _sentenceTerminator = sentenceEnd;
         }
 
         public NotenizerAndRule(NotenizerDependencies dependencies, CreatedBy createdBy, int setsPosition, int sentenceEnd)
             : base(String.Empty, dependencies, createdBy)
         {
             _setsPosition = setsPosition;
-            _sentenceEnd = sentenceEnd;
+            _sentenceTerminator = sentenceEnd;
+        }
+
+        public NotenizerAndRule(String id, String structureId, DateTime createdAt, DateTime updatedAt, int setsPosition, int sentenceTerminator)
+            : base(id, structureId, createdAt, updatedAt)
+        {
+            this._setsPosition = setsPosition;
+            this._sentenceTerminator = sentenceTerminator;
         }
 
         public int SetsPosition
@@ -32,10 +39,10 @@ namespace nsNotenizerObjects
             set { _setsPosition = value; }
         }
 
-        public int SentenceEnd
+        public int SentenceTerminator
         {
-            get { return _sentenceEnd; }
-            set { _sentenceEnd = value; }
+            get { return _sentenceTerminator; }
+            set { _sentenceTerminator = value; }
         }
     }
 }

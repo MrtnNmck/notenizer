@@ -17,7 +17,6 @@ namespace nsNotenizerObjects
         private CreatedBy _createdBy;
         private String _andRuleId;
         private String _ruleId;
-        private String _sentenceId;
 
         public Note(
             String id,
@@ -34,6 +33,22 @@ namespace nsNotenizerObjects
             _updatedAt = persistedUpdatedAt;
             _createdBy = persistedCreatedBy;
             _andRuleId = andParserRuleRefId;
+        }
+
+        public Note(
+            String id,
+            String text,
+            String ruleID,
+            String andRuleID,
+            DateTime createdAt,
+            DateTime updatedAt)
+        {
+            this._id = id;
+            this._text = text;
+            this._ruleId = ruleID;
+            this._andRuleId = andRuleID;
+            this._createdAt = createdAt;
+            this._updatedAt = updatedAt;
         }
 
         public Note(String text)
@@ -75,13 +90,7 @@ namespace nsNotenizerObjects
             get { return _andRuleId; }
             set { this._andRuleId = value; }
         }
-
-        public String SentenceID
-        {
-            get { return this._sentenceId; }
-            set { this._andRuleId = value; }
-        }
-
+        
         public String RuleID
         {
             get { return this._ruleId; }

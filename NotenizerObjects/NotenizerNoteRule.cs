@@ -10,23 +10,29 @@ namespace nsNotenizerObjects
 {
     public class NotenizerNoteRule : NotenizerRule
     {
-        private List<int> _sentencesEnds;
+        private SentencesTerminators _sentencesTerminators;
 
-        public NotenizerNoteRule(String id, NotenizerDependencies dependencies, List<int> sentencesEnds, CreatedBy createdBy)
+        public NotenizerNoteRule(String id, NotenizerDependencies dependencies, SentencesTerminators sentencesEnds, CreatedBy createdBy)
             : base(id, dependencies, createdBy)
         {
-            _sentencesEnds = sentencesEnds;
+            _sentencesTerminators = sentencesEnds;
+        }
+
+        public NotenizerNoteRule(String id, String structureId, DateTime createdAt, DateTime updatedAt, SentencesTerminators sentencesTerminators)
+            : base(id, structureId, createdAt, updatedAt)
+        {
+            this._sentencesTerminators = sentencesTerminators;
         }
 
         public NotenizerNoteRule(CreatedBy createdBy) : base(createdBy)
         {
-            _sentencesEnds = null;
+            _sentencesTerminators = null;
         }
 
-        public List<int> SentencesEnds
+        public SentencesTerminators SentencesTerminators
         {
-            get { return _sentencesEnds; }
-            set { this._sentencesEnds = value; }
+            get { return _sentencesTerminators; }
+            set { this._sentencesTerminators = value; }
         }
     }
 }

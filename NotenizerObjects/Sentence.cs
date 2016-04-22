@@ -18,6 +18,7 @@ namespace nsNotenizerObjects
         private String _structureID;
         private String _ruleID;
         private String _andRuleID;
+        private String _noteID;
 
         public Sentence(String text)
         {
@@ -39,6 +40,7 @@ namespace nsNotenizerObjects
             String structureID,
             String ruleID,
             String andRuleID,
+            String noteId,
             DateTime createdAt,
             DateTime updatedAt)
         {
@@ -48,6 +50,7 @@ namespace nsNotenizerObjects
             this._structureID = structureID;
             this._ruleID = ruleID;
             this._andRuleID = andRuleID;
+            this._noteID = NoteID;
             this._createdAt = createdAt;
             this._updatedAt = updatedAt;
         }
@@ -166,6 +169,19 @@ namespace nsNotenizerObjects
             set
             {
                 _articleID = value;
+            }
+        }
+
+        public String NoteID
+        {
+            get
+            {
+                return _noteID;
+            }
+
+            set
+            {
+                _noteID = value;
             }
         }
     }

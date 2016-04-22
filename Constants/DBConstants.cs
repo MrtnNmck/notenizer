@@ -46,6 +46,7 @@ namespace nsConstants
         public const String StructureRefIdFieldName = "structure_ref_id";
         public const String StructureDataFieldName = "structure_data";
         public const String SentenceRefIdFieldName = "sentence_ref_id";
+        public const String NoteRefIdFieldName = "note_ref_id";
 
         public const String NotesCollectionName = "notes";
         public const String NoteRulesCollectionName = "rules";

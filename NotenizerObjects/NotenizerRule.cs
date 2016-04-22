@@ -19,7 +19,7 @@ namespace nsNotenizerObjects
         protected DateTime _createdAt;
         protected DateTime _updatedAt;
         protected NotenizerStructure _structure;
-        protected String structureID;
+        protected String _structureID;
 
         public NotenizerRule(String id, NotenizerDependencies dependencies, CreatedBy createdBy)
         {
@@ -37,6 +37,14 @@ namespace nsNotenizerObjects
             _createdBy = createdBy;
             _createdAt = DateTime.Now;
             _updatedAt = DateTime.Now;
+        }
+
+        public NotenizerRule(String id, String structureId, DateTime createdAt, DateTime updatedAt)
+        {
+            this._id = id;
+            this._structureID = structureId;
+            this._createdAt = createdAt;
+            this._updatedAt = updatedAt;
         }
 
         public NotenizerDependencies RuleDependencies
@@ -107,12 +115,12 @@ namespace nsNotenizerObjects
         {
             get
             {
-                return structureID;
+                return _structureID;
             }
 
             set
             {
-                structureID = value;
+                _structureID = value;
             }
         }
     }

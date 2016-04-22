@@ -100,7 +100,7 @@ namespace nsNotenizerObjects
         {
             get
             {
-                return this.NoteDependencies.Complement(_originalSentence.Dependencies, _originalSentence.CompressedDependencies);
+                return this.NoteDependencies.Complement(_originalSentence.Structure.Dependencies, _originalSentence.Structure.CompressedDependencies);
             }
         }
 
@@ -229,8 +229,8 @@ namespace nsNotenizerObjects
         public NotenizerNoteRule CreateRule()
         {
             this._rule = new NotenizerNoteRule(nsEnums.CreatedBy.Notenizer);
-            this._rule.Match = new Match(0, 0);
-            this._rule.SentencesEnds = this._noteParts.Select(x => x.InitializedNoteParticles.Count).ToList<int>();
+            this._rule.Match = new Match(0, 0, 0);
+            this._rule.SentencesTerminators = (SentencesTerminators)this._noteParts.Select(x => x.InitializedNoteParticles.Count).ToList<int>();
 
             return this._rule;
         }
