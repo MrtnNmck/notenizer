@@ -21,8 +21,9 @@ namespace nsNotenizerObjects
         private String _noteID;
         private Article _article;
 
-        public Sentence(String text)
+        public Sentence(String text, Article article)
         {
+            this._article = article;
             this._text = text;
             this._createdAt = DateTime.Now;
             this._updatedAt = DateTime.Now;

@@ -300,19 +300,22 @@ namespace nsGUI
                 // INSERT
                 // article is already in DB at this moment
 
-                note.Rule.Structure = note.Structure;
                 note.Rule.SentencesTerminators = note.SentencesTerminators;
 
-                BsonDocument noteStructureDoc = DocumentCreator.CreateStructureDocument(note.Structure);
-                BsonDocument sentenceStructureDoc = DocumentCreator.CreateStructureDocument(note.OriginalSentence);
+                // insert new rule
+                note.Structure.Structure.Dependencies = note.Structure.Dependencies;
+                note.Structure.Structure.ID = DB.InsertToCollection(
+                    DBConstants.StructuresCollectionName,
+                    DocumentCreator.CreateStructureDocument(
+                        note.Structure,
+                        true)).Result;
 
-                Object temp = DB.InsertToCollection(DBConstants.StructuresCollectionName, noteStructureDoc).Result;
-                note.Rule.Structure = new NotenizerStructure(DocumentParser.ParseStructure(noteStructureDoc));
+                note.Rule.ID = DB.InsertToCollection(
+                    DBConstants.RulesCollectionName,
+                    DocumentCreator.CreateRuleDocument(
+                        note.Rule)).Result;
 
-                BsonDocument newRuleDoc = DocumentCreator.CreateRuleDocument(note.Rule);
-                note.Rule.ID = DB.InsertToCollection(DBConstants.NoteRulesCollectionName, newRuleDoc).Result;
-
-                String andRuleId = String.Empty;
+                // insert new and-rule
                 if (andParserEnabled)
                 {
                     NotenizerDependencies andParserDependencies = new NotenizerDependencies();
@@ -320,43 +323,48 @@ namespace nsGUI
                     foreach (NoteParticle noteParticleLoop in andParserNotePart.InitializedNoteParticles)
                         andParserDependencies.Add(noteParticleLoop.NoteDependency);
 
-                    if (note.AndRule == null)
-                        note.AndRule = new NotenizerAndRule(andParserDependencies, andSetPosition, andParserDependencies.Count);
-                    else
-                    {
-                        note.AndRule.Structure = new NotenizerStructure(andParserDependencies);
-                        note.AndRule.SetsPosition = andSetPosition;
-                        note.AndRule.SentenceTerminator = andParserDependencies.Count;
-                    }
+                    note.AndRule = new NotenizerAndRule(andParserDependencies, andSetPosition, andParserDependencies.Count);
+                    note.AndRule.Structure.Structure.ID = DB.InsertToCollection(
+                        DBConstants.StructuresCollectionName,
+                        DocumentCreator.CreateStructureDocument(
+                            note.AndRule.Structure,
+                            true)).Result;
 
-                    BsonDocument andRuleStructureDoc = DocumentCreator.CreateStructureDocument(note.AndRule.Structure);
-                    temp = DB.InsertToCollection(DBConstants.StructuresCollectionName, andRuleStructureDoc);
-
-                    note.AndRule.Structure.Structure = DocumentParser.ParseStructure(andRuleStructureDoc);
-                    BsonDocument andRuleDoc = DocumentCreator.CreateRuleDocument(note.AndRule);
-                    note.AndRule.ID = DB.InsertToCollection(DBConstants.AndParserRulesCollectionName, andRuleDoc).Result;
+                    note.AndRule.ID = DB.InsertToCollection(
+                        DBConstants.AndRulesCollectionName,
+                        DocumentCreator.CreateRuleDocument(
+                            note.AndRule)).Result;
                 }
 
-                note.Note = new Note(note.Text);
-                BsonDocument newNoteDoc = DocumentCreator.CreateNoteDocument(note, note.Rule.ID, note.AndRule.ID);
-                temp = DB.InsertToCollection(DBConstants.NotesCollectionName, newNoteDoc);
-                note.Note = DocumentParser.ParseNote(newNoteDoc);
+                // insert new note
+                note.Note.Text = note.Text;
+                note.Note.AndRuleID = note.AndRule == null ? String.Empty : note.AndRule.ID;
+                note.Note.RuleID = note.Rule.ID;
 
+                note.Note.ID = DB.InsertToCollection(
+                    DBConstants.NotesCollectionName,
+                    DocumentCreator.CreateNoteDocument(
+                        note,
+                        note.Note.RuleID,
+                        note.Note.AndRuleID)).Result;
 
-                note.OriginalSentence.Sentence.StructureID = DB.InsertToCollection(DBConstants.StructuresCollectionName, sentenceStructureDoc).Result;
-                BsonDocument newSentenceDocument = DocumentCreator.CreateSentenceDocument(note.OriginalSentence, note.OriginalSentence.Sentence.StructureID, note.OriginalSentence.Sentence.ArticleID,
-                    note.Rule.ID, note.AndRule.ID, note.Note.ID);
-                temp = DB.InsertToCollection(DBConstants.SentencesCollectionName, newSentenceDocument).Result;
-                note.OriginalSentence.Sentence = DocumentParser.ParseSentence(newSentenceDocument);
+                // insert sentence
+                note.OriginalSentence.Sentence.StructureID = DB.InsertToCollection(
+                    DBConstants.StructuresCollectionName,
+                    DocumentCreator.CreateStructureDocument(
+                        note.OriginalSentence.Structure)).Result;
 
+                note.OriginalSentence.Sentence.ID = DB.InsertToCollection(
+                    DBConstants.SentencesCollectionName,
+                    DocumentCreator.CreateSentenceDocument(
+                        note.OriginalSentence,
+                        note.OriginalSentence.Sentence.StructureID,
+                        note.Rule.Sentence.Article.ID,
+                        note.Rule.ID,
+                        note.AndRule == null ? String.Empty : note.AndRule.ID,
+                        note.Note.ID)).Result;
 
-                //note/*.Rule.*/Note = note.Note;
-                note.Rule.Match = new Match(NotenizerConstants.MaxMatchValue);
                 note.Rule.Sentence = note.OriginalSentence.Sentence;
-
-                //note.AndRule.Note = note.Note;
-                note.AndRule.Match = new Match(NotenizerConstants.MaxMatchValue);
-                note.AndRule.Sentence = note.OriginalSentence.Sentence;
             }
             else if (note.Rule.Match.Structure == NotenizerConstants.MaxMatchValue
                      && note.Rule.Match.Value < NotenizerConstants.MaxMatchValue)
@@ -369,7 +377,7 @@ namespace nsGUI
                 note.Rule.Structure = new NotenizerStructure(DocumentParser.ParseStructure(noteStructureDoc));
 
                 BsonDocument updateRuleDoc = DocumentCreator.CreateRuleDocument(note.Rule);
-                note.Rule.ID = DB.ReplaceInCollection(DBConstants.NoteRulesCollectionName, note.Rule.ID, updateRuleDoc).Result;
+                note.Rule.ID = DB.ReplaceInCollection(DBConstants.RulesCollectionName, note.Rule.ID, updateRuleDoc).Result;
 
                 String andRuleId = String.Empty;
                 if (andParserEnabled)
@@ -393,7 +401,7 @@ namespace nsGUI
 
                     note.AndRule.Structure.Structure = DocumentParser.ParseStructure(andRuleStructureDoc);
                     BsonDocument andRuleDoc = DocumentCreator.CreateRuleDocument(note.AndRule);
-                    note.AndRule.ID = DB.ReplaceInCollection(DBConstants.AndParserRulesCollectionName, note.AndRule.ID, andRuleDoc).Result;
+                    note.AndRule.ID = DB.ReplaceInCollection(DBConstants.AndRulesCollectionName, note.AndRule.ID, andRuleDoc).Result;
                 }
 
                 note.Note = new Note(note.Text);
@@ -424,7 +432,6 @@ namespace nsGUI
                 note.Rule.SentencesTerminators = note.SentencesTerminators;
 
                 // update rule
-                note.Rule.SentencesTerminators = note.SentencesTerminators;
                 note.Structure.Structure.Dependencies = note.Structure.Dependencies;
                 note.Structure.Structure.ID = DB.ReplaceInCollection(
                     DBConstants.StructuresCollectionName,
@@ -434,7 +441,7 @@ namespace nsGUI
                         true)).Result;
 
                 note.Rule.ID = DB.ReplaceInCollection(
-                    DBConstants.NoteRulesCollectionName,
+                    DBConstants.RulesCollectionName,
                     note.Rule.ID,
                     DocumentCreator.CreateRuleDocument(
                         note.Rule)).Result;
@@ -453,10 +460,11 @@ namespace nsGUI
                         note.AndRule.Structure.Structure.ID = DB.InsertToCollection(
                             DBConstants.StructuresCollectionName,
                             DocumentCreator.CreateStructureDocument(
-                                note.AndRule.Structure)).Result;
+                                note.AndRule.Structure,
+                                true)).Result;
 
                         note.AndRule.ID = DB.InsertToCollection(
-                            DBConstants.AndParserRulesCollectionName,
+                            DBConstants.AndRulesCollectionName,
                             DocumentCreator.CreateRuleDocument(
                                 note.AndRule)).Result;
                     }
@@ -471,10 +479,11 @@ namespace nsGUI
                             DBConstants.StructuresCollectionName,
                             note.AndRule.Structure.Structure.ID,
                             DocumentCreator.CreateStructureDocument(
-                                note.AndRule.Structure)).Result;
+                                note.AndRule.Structure,
+                                true)).Result;
 
                         note.AndRule.ID = DB.ReplaceInCollection(
-                            DBConstants.AndParserRulesCollectionName,
+                            DBConstants.AndRulesCollectionName,
                             note.AndRule.ID,
                             DocumentCreator.CreateRuleDocument(
                                 note.AndRule)).Result;
@@ -492,6 +501,8 @@ namespace nsGUI
                         note.Note.RuleID,
                         note.Note.AndRuleID)).Result;
             }
+
+            note.Rule.Match = new Match(NotenizerConstants.MaxMatchValue);
         }
 
         #endregion Methods

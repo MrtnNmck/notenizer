@@ -49,8 +49,8 @@ namespace nsConstants
         public const String NoteRefIdFieldName = "note_ref_id";
 
         public const String NotesCollectionName = "notes";
-        public const String NoteRulesCollectionName = "rules";
-        public const String AndParserRulesCollectionName = "and_rules";
+        public const String RulesCollectionName = "rules";
+        public const String AndRulesCollectionName = "and_rules";
         public const String ArticlesCollectionName = "articles";
         public const String StructuresCollectionName = "structures";
         public const String SentencesCollectionName = "sentences";

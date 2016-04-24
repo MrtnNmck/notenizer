@@ -17,18 +17,12 @@ namespace nsNotenizerObjects
         private Sentence _sentence;
         private NotenizerStructure _structure;
 
-		public NotenizerSentence(Annotation annotation)
+		public NotenizerSentence(Annotation annotation, Article article)
 		{
 			_annotation = annotation;
-            _sentence = new Sentence(this.ToString());
+            _sentence = new Sentence(this.ToString(), article);
             _structure = new NotenizerStructure(GetDepencencies(annotation));
 		}
-
-        public NotenizerSentence(Sentence sentence, NotenizerStructure structure)
-        {
-            _sentence = sentence;
-            _structure = structure;
-        }
 
         public Sentence Sentence
         {

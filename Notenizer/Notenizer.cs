@@ -169,7 +169,7 @@ namespace nsNotenizer
 
             matchedSentenceRule = DocumentParser.ParseRule(
                 DB.GetFirst(
-                    DBConstants.NoteRulesCollectionName,
+                    DBConstants.RulesCollectionName,
                     DocumentCreator.CreateFilterById(matchedSentence.RuleID)).Result);
 
             matchedSentenceRule.Structure = new NotenizerStructure(
@@ -180,7 +180,6 @@ namespace nsNotenizer
 
             matchedSentenceRule.Sentence = matchedSentence;
             matchedSentenceRule.Sentence.Article = article;
-            //matchedSentenceRule.Note = matchedSentenceNote;
             matchedSentenceRule.Match = match;
             matchedNote = matchedSentenceNote;
 
@@ -193,7 +192,7 @@ namespace nsNotenizer
 
             andRule = DocumentParser.ParseAndRule(
                 DB.GetFirst(
-                    DBConstants.AndParserRulesCollectionName,
+                    DBConstants.AndRulesCollectionName,
                     DocumentCreator.CreateFilterById(rule.Sentence.AndRuleID)).Result);
 
             andRule.Structure = new NotenizerStructure(
@@ -203,7 +202,6 @@ namespace nsNotenizer
                         DocumentCreator.CreateFilterById(andRule.StructureID)).Result));
 
             andRule.Sentence = rule.Sentence;
-            //andRule.Note = rule.Note;
 
             return andRule;
         }
@@ -218,10 +216,21 @@ namespace nsNotenizer
             List<NotenizerNote> sentencesNoted = new List<NotenizerNote>();
             List<NotenizerNote> notesToSave = new List<NotenizerNote>();
 
+            Article article;
+            List<BsonDocument> articles = DB.GetAll(DBConstants.ArticlesCollectionName, DocumentCreator.CreateFilter(DBConstants.TextFieldName, annotation.ToString().Trim())).Result;
+
+            if (articles.Count == 0)
+            {
+                article = new Article(String.Empty, DateTime.Now, DateTime.Now, annotation.ToString().Trim());
+                article.ID = DB.InsertToCollection(DBConstants.ArticlesCollectionName, DocumentCreator.CreateArticleDocument(article)).Result;
+            }
+            else
+                article = DocumentParser.ParseArticle(articles[0]);
+
             // ================== REFACTORED PART HERE ======================
             foreach (Annotation sentenceLoop in annotation.get(typeof(CoreAnnotations.SentencesAnnotation)) as ArrayList)
             {
-                NotenizerSentence sentence = new NotenizerSentence(sentenceLoop);
+                NotenizerSentence sentence = new NotenizerSentence(sentenceLoop, article);
                 Note matchedNote;
 
                 NotenizerNoteRule rule = GetRuleForSentence(sentence, out matchedNote);
@@ -244,17 +253,6 @@ namespace nsNotenizer
                 notesToSave.Add(note);
             }
 
-            Article article;
-            List<MongoDB.Bson.BsonDocument> articles = DB.GetAll(DBConstants.ArticlesCollectionName, DocumentCreator.CreateFilter(DBConstants.TextFieldName, annotation.ToString().Trim())).Result;
-
-            if (articles.Count == 0)
-            {
-                article = new Article(String.Empty, DateTime.Now, DateTime.Now, annotation.ToString().Trim());
-                article.ID = DB.InsertToCollection(DBConstants.ArticlesCollectionName, DocumentCreator.CreateArticleDocument(article)).Result;
-            }
-            else
-                article = DocumentParser.ParseArticle(articles[0]);
-
             // inserting into DB AFTER ALL sentences from article were processed
             // to avoid processed sentence to affect processing other sentences from article
             foreach (NotenizerNote sentenceNotedLoop in notesToSave)
@@ -269,7 +267,7 @@ namespace nsNotenizer
                 sentenceStructure.Structure.ID = DB.InsertToCollection(DBConstants.StructuresCollectionName, DocumentCreator.CreateStructureDocument(sentenceStructure)).Result;
 
                 // save rule
-                rule.ID = DB.InsertToCollection(DBConstants.NoteRulesCollectionName, DocumentCreator.CreateRuleDocument(rule)).Result;
+                rule.ID = DB.InsertToCollection(DBConstants.RulesCollectionName, DocumentCreator.CreateRuleDocument(rule)).Result;
 
                 // save note
                 Note note = sentenceNotedLoop.CreateNote();
@@ -658,128 +656,6 @@ namespace nsNotenizer
                 NoteParticle dependencyObj = new NoteParticle(dependency, rule.TokenType, rule.Position);
                 notePart.Add(dependencyObj);
             }
-        }
-
-        private List<NotenizerNote> AndParserFn(Annotation annotation)
-        {
-            AndParser andParser = new AndParser();
-
-            List<NotenizerNote> notes = new List<NotenizerNote>();
-            List<NotenizerNote> andNotes = new List<NotenizerNote>();
-
-            NoteParticle processAndConjuctionsStartingParticle = null;
-            List<NotenizerDependency> processAndConjuctionsConjuctions = null;
-
-            foreach (Annotation sentenceLoop in annotation.get(typeof(CoreAnnotations.SentencesAnnotation)) as ArrayList)
-            {
-                notes.Add(StaticParser(new NotenizerSentence(sentenceLoop)));
-            }
-
-            foreach(NotenizerNote noteLoop in notes)
-            {
-                if (!noteLoop.OriginalSentence.Structure.CompressedDependencies.ContainsKey(GrammaticalConstants.Conjuction)
-                    || noteLoop.OriginalSentence.Structure.CompressedDependencies[GrammaticalConstants.Conjuction] == null
-                    || !noteLoop.OriginalSentence.Structure.CompressedDependencies[GrammaticalConstants.Conjuction].Any(x => x.Relation.Specific == GrammaticalConstants.AndConjuction))
-                    continue;
-                andParser.GetAndSets(noteLoop.OriginalSentence);
-                NotenizerNote note = new NotenizerNote(noteLoop.OriginalSentence);
-
-                foreach(NotePart notePartLoop in noteLoop.NoteParts)
-                {
-                    NotePart notePart = new NotePart(noteLoop.OriginalSentence);
-                    processAndConjuctionsStartingParticle = null;
-                    processAndConjuctionsConjuctions = null;
-
-                    foreach(NoteParticle noteParticleLoop in notePartLoop.InitializedNoteParticles)
-                    {
-                        // preachadzat vsetky dependencies v note particle
-                        // ak ani gov ani dep nemamju previazanie na ziadnu dependency so vztahoj conj:and
-                        // tak ju pridaj do NotePart
-                        //List<NotenizerDependency> depToGov = noteLoop.OriginalSentence.GetDependenciesByShortName(noteParticleLoop.NoteDependency, ComparisonType.DependantToGovernor, GrammaticalConstants.Conjuction);
-                        //List<NotenizerDependency> govToGov = noteLoop.OriginalSentence.GetDependenciesByShortName(noteParticleLoop.NoteDependency, ComparisonType.GovernorToGovernor, GrammaticalConstants.Conjuction);
-                        //List<NotenizerDependency> conjuctions = depToGov.Concat(govToGov).ToList();
-                        List<NotenizerDependency> conjuctions = noteLoop.OriginalSentence.Structure.GetDependenciesByShortName(noteParticleLoop.NoteDependency, 
-                            NotenizerExtensions.CreateComperisonType(noteParticleLoop.NoteDependency.TokenType, TokenType.Governor), 
-                            GrammaticalConstants.Conjuction, GrammaticalConstants.AppositionalModifier);
-                        
-                        if (!conjuctions.Any(x => x.Relation.Specific == GrammaticalConstants.AndConjuction))
-                        {
-                            notePart.Add(noteParticleLoop);
-                        }
-                        else
-                        {
-                            processAndConjuctionsStartingParticle = noteParticleLoop;
-                            processAndConjuctionsConjuctions = conjuctions;
-
-                            break;
-                        }
-
-                        // ak ma, naklonuj NotePart,
-                        // pridaj ju do povodnej NotePart a zisti dalsie prepojenie ako mnod:in a ukonci tak tento NotePart
-                        // potom pre vsetky prepojenie s dependecy conj:and
-                        // naklonuj NotePart
-                        // zisti prepojenia ako nmod:in
-                        // pridaj do naklonovaje NotePart
-                        //
-                        // nakoniec pridaj vsetky NoteParts do Note a tym vytvor novu poznamku 
-                        // zlozenu z niekolkych viet, ktore budu mat rovnaky zaklad, ale budu
-                        // sa lisit v prepojeniach AND
-                    }
-
-                    if (processAndConjuctionsStartingParticle != null)
-                    {
-                        NotePart clonedNotePart;
-                        List<NotePart> clonedNoteParts = new List<NotePart>();
-                        List<NotenizerDependency> repetitionPartDependencies = new List<NotenizerDependency>();
-                        List<NotenizerDependency> andConjuctionsAppos = processAndConjuctionsConjuctions.Where(x => x.Relation.Specific == GrammaticalConstants.AndConjuction
-                            || x.Relation.ShortName == GrammaticalConstants.AppositionalModifier).ToList();
-
-                        repetitionPartDependencies = repetitionPartDependencies.Concat(andConjuctionsAppos).ToList();
-
-                        foreach (NotenizerDependency andApposDependencyLoop in andConjuctionsAppos)
-                        {
-                            repetitionPartDependencies = repetitionPartDependencies.Concat(
-                                noteLoop.OriginalSentence.Structure.GetDependenciesByShortName(andApposDependencyLoop, ComparisonType.DependentToGovernor, GrammaticalConstants.AppositionalModifier)).ToList();
-                        }
-
-                        foreach (NotenizerDependency andConjuctionLoop in repetitionPartDependencies)
-                        {
-                            clonedNotePart = notePart.Clone();
-                            clonedNoteParts.Add(clonedNotePart);
-                            clonedNotePart.Add(new NoteParticle(andConjuctionLoop.Dependent, andConjuctionLoop));
-
-                            AddAditionalNoteParticles(noteLoop.OriginalSentence, andConjuctionLoop, clonedNotePart);
-                        }
-
-                        notePart.Add(new NoteParticle(processAndConjuctionsStartingParticle.NoteDependency.CorrespondingWord, processAndConjuctionsStartingParticle.NoteDependency));
-                        AddAditionalNoteParticles(noteLoop.OriginalSentence, processAndConjuctionsStartingParticle.NoteDependency, notePart);
-                        note.Add(notePart);
-                        note.Add(clonedNoteParts);
-                        andNotes.Add(note);
-                    }
-                }
-            }
-
-            return andNotes;
-        }
-
-        public void AddAditionalNoteParticles(NotenizerSentence sentence, NotenizerDependency dependency, NotePart destinationNotePart)
-        {
-            NotenizerDependency compound = sentence.Structure.GetDependencyByShortName(dependency, ComparisonType.DependentToGovernor, GrammaticalConstants.CompoudModifier);
-            if (compound != null)
-                destinationNotePart.Add(new NoteParticle(compound.Dependent, compound));
-
-            NotenizerDependency nmod = sentence.Structure.GetDependencyByShortName(dependency, ComparisonType.DependentToGovernor, GrammaticalConstants.NominalModifier);
-            if (nmod != null)
-                destinationNotePart.Add(new NoteParticle(nmod.Dependent, nmod));
-        }
-
-        private bool IsAndParsableSentence(NotenizerSentence sentence)
-        {
-            return ((sentence.Structure.CompressedDependencies.ContainsKey(GrammaticalConstants.Conjuction)
-                && sentence.Structure.CompressedDependencies[GrammaticalConstants.Conjuction] != null
-                && sentence.Structure.CompressedDependencies[GrammaticalConstants.Conjuction].Any(x => x.Relation.Specific == GrammaticalConstants.AndConjuction))
-                || sentence.Structure.Dependencies.Where(x => x.Dependent.Word.ToLower().Trim() == GrammaticalConstants.AndConjuction || x.Governor.Word.ToLower() == GrammaticalConstants.AndConjuction).Count() > 0);
         }
     }
 }

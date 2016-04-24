@@ -43,6 +43,7 @@ namespace nsNotenizerObjects
         public NotenizerDependencies Dependencies
         {
             get { return _dependencies; }
+            set { this._dependencies = value; }
         }
 
         public int DistinctDependenciesCount
@@ -53,6 +54,7 @@ namespace nsNotenizerObjects
         public CompressedDependencies CompressedDependencies
         {
             get { return _compressedDependencies; }
+            set { this._compressedDependencies = value; }
         }
 
         /// <summary>
