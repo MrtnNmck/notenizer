@@ -78,7 +78,12 @@ namespace nsNotenizerObjects
 
         public void Add(NoteParticle noteParticle)
         {
-            _noteParticles[noteParticle.NoteDependency.Position] = noteParticle;
+            Add(noteParticle, noteParticle.NoteDependency.Position);
+        }
+
+        public void Add(NoteParticle noteParticle, int position)
+        {
+            _noteParticles[position] = noteParticle;
         }
 
         public NotePart Clone()

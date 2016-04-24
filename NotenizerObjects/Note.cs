@@ -54,6 +54,8 @@ namespace nsNotenizerObjects
         public Note(String text)
         {
             this._text = text;
+            this._createdAt = DateTime.Now;
+            this._updatedAt = DateTime.Now;
         }
 
         public String ID
@@ -65,6 +67,7 @@ namespace nsNotenizerObjects
         public String Text
         {
             get { return _text; }
+            set { this._text = value; }
         }
 
         public DateTime CreatedAt

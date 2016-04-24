@@ -9,8 +9,6 @@ namespace nsInterfaces
 {
     public interface IPersistable
     {
-        CreatedBy CreatedBy { get; set; }
-
         String ID { get; }
 
         DateTime CreatedAt { get; set; }

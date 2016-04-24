@@ -52,7 +52,7 @@ namespace nsComparsions
         public double Compare(NotenizerDependency source, NotenizerDependency dest, int dependeciesAndWordsCount)
         {
             _matchRating = 0;
-            _oneComparisonRating = NotenizerConstants.MaximumMatchPercentageValue / Count;
+            _oneComparisonRating = NotenizerConstants.MaxMatchValue / Count;
 
             foreach (Comparsion<bool> boolWordComparsionLoop in _boolWordsComparsions)
             {

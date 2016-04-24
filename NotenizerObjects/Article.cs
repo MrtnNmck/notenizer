@@ -13,7 +13,6 @@ namespace nsNotenizerObjects
         private String _id;
         private DateTime _createdAt;
         private DateTime _updatedAt;
-        private CreatedBy _createdBy;
         private String _text;
 
         public Article(
@@ -38,19 +37,6 @@ namespace nsNotenizerObjects
             set
             {
                 this._createdAt = value;
-            }
-        }
-
-        public CreatedBy CreatedBy
-        {
-            get
-            {
-                return this._createdBy;
-            }
-
-            set
-            {
-                this._createdBy = value;
             }
         }
 

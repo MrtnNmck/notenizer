@@ -33,6 +33,7 @@ namespace nsNotenizerObjects
         public Sentence Sentence
         {
             get { return this._sentence; }
+            set { this._sentence = value; }
         }
 
         public NotenizerStructure Structure

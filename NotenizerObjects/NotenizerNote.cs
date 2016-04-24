@@ -109,10 +109,15 @@ namespace nsNotenizerObjects
             set { _rule = value; }
         }
 
-        public NotenizerAndRule AndParserRule
+        public NotenizerAndRule AndRule
         {
             get { return _andParserRule; }
             set { _andParserRule = value; }
+        }
+
+        public SentencesTerminators SentencesTerminators
+        {
+            get { return new SentencesTerminators(this._noteParts.Select(x => x.InitializedNoteParticles.Count).ToList<int>()); }
         }
 
         public NotenizerDependencies Dependencies
@@ -139,6 +144,7 @@ namespace nsNotenizerObjects
         public NotenizerStructure Structure
         {
             get { return this._structure; }
+            set { this._structure = value; }
         }
 
         public Note Note
@@ -151,6 +157,8 @@ namespace nsNotenizerObjects
         {
             _text = String.Empty;
             _noteParts.Clear();
+            _structure.Dependencies.Clear();
+            _structure.CompressedDependencies.Clear();
 
             Add(noteParts);
         }
@@ -175,7 +183,10 @@ namespace nsNotenizerObjects
             _noteParts.Add(notePart);
 
             foreach (NoteParticle notePartNoteParticleLoop in notePart.InitializedNoteParticles)
+            {
                 this._structure.CompressedDependencies.Add(notePartNoteParticleLoop.NoteDependency);
+                this._structure.Dependencies.Add(notePartNoteParticleLoop.NoteDependency);
+            }
         }
 
         /// <summary>
@@ -223,7 +234,7 @@ namespace nsNotenizerObjects
         public NotenizerNoteRule CreateRule()
         {
             this._rule = new NotenizerNoteRule(nsEnums.CreatedBy.Notenizer);
-            this._rule.Match = new Match(0, 0, 0);
+            this._rule.Match = new Match(NotenizerConstants.MaxMatchValue);
             this._rule.SentencesTerminators = new SentencesTerminators(this._noteParts.Select(x => x.InitializedNoteParticles.Count).ToList<int>());
 
             return this._rule;

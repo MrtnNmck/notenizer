@@ -14,18 +14,18 @@ namespace nsNotenizerObjects
         protected Match _match;
         protected CreatedBy _createdBy;
         protected String _id;
-        protected Note _note;
+        //protected Note _note;
         protected DateTime _createdAt;
         protected DateTime _updatedAt;
         protected NotenizerStructure _structure;
         protected String _structureID;
         protected Sentence _sentence;
 
-        public NotenizerRule(String id, NotenizerDependencies dependencies, CreatedBy createdBy)
+        public NotenizerRule(String id, NotenizerDependencies dependencies)
         {
             _id = id;
+            _structure = new NotenizerStructure(dependencies);
             _dependencies = dependencies;
-            _createdBy = createdBy;
             _createdAt = DateTime.Now;
             _updatedAt = DateTime.Now;
         }
@@ -86,11 +86,11 @@ namespace nsNotenizerObjects
             set { _id = value; }
         }
 
-        public Note Note
-        {
-            get { return _note; }
-            set { _note = value; }
-        }
+        //public Note Note
+        //{
+        //    get { return _note; }
+        //    set { _note = value; }
+        //}
 
         public NotenizerStructure Structure
         {

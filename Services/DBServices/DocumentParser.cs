@@ -299,8 +299,8 @@ namespace nsServices.DBServices
         {
             Double structureCompareCount = 5.0;
             Double contentCompareCount = 12.0;
-            Double oneStructeCompareRating = NotenizerConstants.MaximumMatchPercentageValue / structureCompareCount;
-            Double oneContentCompareRating = NotenizerConstants.MaximumMatchPercentageValue / contentCompareCount;
+            Double oneStructeCompareRating = NotenizerConstants.MaxMatchValue / structureCompareCount;
+            Double oneContentCompareRating = NotenizerConstants.MaxMatchValue / contentCompareCount;
             Double oneStructureCompareTypeIterRating;
             Double oneContentComapareTypeIterRating;
             Double structureCounter = 0.0;

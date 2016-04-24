@@ -109,7 +109,7 @@ namespace nsNotenizer
             PrintNotes(_notes);
         }
 
-        private NotenizerNoteRule GetRuleForSentence(NotenizerSentence sentence)
+        private NotenizerNoteRule GetRuleForSentence(NotenizerSentence sentence, out Note matchedNote)
         {
             // vyhladat vyhovujuce struktury
             // zistit najvacsiu zhodu so strukturou
@@ -122,6 +122,7 @@ namespace nsNotenizer
             Article article;
             Note matchedSentenceNote;
             NotenizerNoteRule matchedSentenceRule;
+            matchedNote = null;
 
             structure = DocumentParser.GetHeighestMatch(
                 sentence.Structure,
@@ -179,8 +180,9 @@ namespace nsNotenizer
 
             matchedSentenceRule.Sentence = matchedSentence;
             matchedSentenceRule.Sentence.Article = article;
-            matchedSentenceRule.Note = matchedSentenceNote;
+            //matchedSentenceRule.Note = matchedSentenceNote;
             matchedSentenceRule.Match = match;
+            matchedNote = matchedSentenceNote;
 
             return matchedSentenceRule;
         }
@@ -201,7 +203,7 @@ namespace nsNotenizer
                         DocumentCreator.CreateFilterById(andRule.StructureID)).Result));
 
             andRule.Sentence = rule.Sentence;
-            andRule.Note = rule.Note;
+            //andRule.Note = rule.Note;
 
             return andRule;
         }
@@ -220,15 +222,17 @@ namespace nsNotenizer
             foreach (Annotation sentenceLoop in annotation.get(typeof(CoreAnnotations.SentencesAnnotation)) as ArrayList)
             {
                 NotenizerSentence sentence = new NotenizerSentence(sentenceLoop);
+                Note matchedNote;
 
-                NotenizerNoteRule rule = GetRuleForSentence(sentence);
+                NotenizerNoteRule rule = GetRuleForSentence(sentence, out matchedNote);
 
                 if (rule != null && rule.Structure.Dependencies != null && rule.Structure.Dependencies.Count > 0)
                 {
                     NotenizerNote parsedNote = ApplyRule(sentence, rule);
+                    parsedNote.Note = matchedNote;
 
-                    if (rule.Note.AndRuleID != DBConstants.BsonNullValue)
-                        parsedNote.AndParserRule = GetAndRuleForSentence(rule);
+                    if (parsedNote.Note.AndRuleID != DBConstants.BsonNullValue)
+                        parsedNote.AndRule = GetAndRuleForSentence(rule);
 
                     Console.WriteLine("Parsed note: " + parsedNote.OriginalSentence + " ===> " + parsedNote.Text);
                     sentencesNoted.Add(parsedNote);
@@ -255,11 +259,6 @@ namespace nsNotenizer
             // to avoid processed sentence to affect processing other sentences from article
             foreach (NotenizerNote sentenceNotedLoop in notesToSave)
             {
-                // ulozit struktury: pravidla, vety
-                // ulozit pravidlo
-                // ulozit vetu
-                // ulozit poznamku
-
                 // save rule's structure
                 NotenizerNoteRule rule = sentenceNotedLoop.CreateRule();
                 sentenceNotedLoop.CreateStructure();
@@ -271,7 +270,6 @@ namespace nsNotenizer
 
                 // save rule
                 rule.ID = DB.InsertToCollection(DBConstants.NoteRulesCollectionName, DocumentCreator.CreateRuleDocument(rule)).Result;
-
 
                 // save note
                 Note note = sentenceNotedLoop.CreateNote();
@@ -613,7 +611,8 @@ namespace nsNotenizer
                 ApplyRule(note, rule as NotenizerNoteRule);
             else if (rule is NotenizerAndRule)
                 ApplyRule(note, rule as NotenizerAndRule);
-
+            //note.Note = rule.Note;
+            note.Structure = rule.Structure;
             return note;
         }
 
@@ -626,7 +625,7 @@ namespace nsNotenizer
         private void ApplyRule(NotenizerNote note, NotenizerAndRule andParserRule)
         {
             note.SplitToSentences(andParserRule.SentenceTerminator);
-            note.AndParserRule = andParserRule;
+            note.AndRule = andParserRule;
         }
 
         /// <summary>
@@ -656,14 +655,8 @@ namespace nsNotenizer
 
             if (dependency != null)
             {
-                NoteParticle dependencyObj = new NoteParticle(dependency, rule.TokenType);
+                NoteParticle dependencyObj = new NoteParticle(dependency, rule.TokenType, rule.Position);
                 notePart.Add(dependencyObj);
-
-                //if (dependency.Relation.IsNominalSubject())
-                //{
-                //    NoteParticle govObj = new NoteParticle(dependency, TokenType.Governor);
-                //    notePart.Add(govObj);
-                //}
             }
         }
 

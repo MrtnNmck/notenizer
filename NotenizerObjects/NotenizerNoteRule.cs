@@ -13,7 +13,7 @@ namespace nsNotenizerObjects
         private SentencesTerminators _sentencesTerminators;
 
         public NotenizerNoteRule(String id, NotenizerDependencies dependencies, SentencesTerminators sentencesEnds, CreatedBy createdBy)
-            : base(id, dependencies, createdBy)
+            : base(id, dependencies)
         {
             _sentencesTerminators = sentencesEnds;
         }

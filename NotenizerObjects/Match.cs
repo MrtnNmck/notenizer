@@ -16,6 +16,11 @@ namespace nsNotenizerObjects
         {
         }
 
+        public Match(double all)
+        {
+            _structure = _content = _value = all;
+        }
+
         public Match(double structure, double content, double value)
         {
             _structure = structure;
@@ -39,6 +44,11 @@ namespace nsNotenizerObjects
         {
             get { return Math.Round(_value); }
             set { _value = value; }
+        }
+
+        public override String ToString()
+        {
+            return String.Format("Structure match: {1}{0}Content match: {2}{0}Value match: {2}{0}", Environment.NewLine, this.Structure, this.Content, this.Value);
         }
     }
 }
