@@ -22,7 +22,7 @@ namespace nsNotenizerObjects
         {
             _noteParticles = new List<NoteParticle>();
             _originalSentence = originalSentence;
-            InitializeStructure(originalSentence.DependencyWordsInSentenceCount());
+            InitializeStructure(originalSentence.Structure.DependencyWordsInSentenceCount());
         }
         
         public String Value

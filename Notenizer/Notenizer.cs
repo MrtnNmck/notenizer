@@ -109,27 +109,31 @@ namespace nsNotenizer
             PrintNotes(_notes);
         }
 
-        private NotenizerNoteRule GetRuleForSentence(
-            NotenizerSentence sentence, 
-            out NotenizerSentence oMatchedSentence,
-            out Article oMatchedSentenceArticle,
-            out Note oMatchedSentenceNote,
-            out NotenizerAndRule oMatchedSentenceAndRule)
+        private NotenizerNoteRule GetRuleForSentence(NotenizerSentence sentence)
         {
             // vyhladat vyhovujuce struktury
             // zistit najvacsiu zhodu so strukturou
             // pre tu strukturu najst vetu, pravidlo a and-pravidlo
             // pre pravidlo najst poznamku
             Match match;
+            Structure structure;
+            NotenizerStructure matchedSentenceStructure;
+            List<MongoDB.Bson.BsonDocument> sentencesWithSameStructure;
+            Article article;
+            Note matchedSentenceNote;
+            NotenizerNoteRule matchedSentenceRule;
 
-            Structure structure = DocumentParser.GetHeighestMatch(
+            structure = DocumentParser.GetHeighestMatch(
                 sentence.Structure,
-                DB.GetAll(DBConstants.StructuresCollectionName, DocumentCreator.CreateFilterByDependencies(sentence)).Result,
+                DB.GetAll(DBConstants.StructuresCollectionName, DocumentCreator.CreateFilterByStructure(sentence)).Result,
                 out match);
 
-            NotenizerStructure matchedSentenceStructure = new NotenizerStructure(structure);
+            if (structure == null)
+                return null;
 
-            List<MongoDB.Bson.BsonDocument> sentencesWithSameStructure = DB.GetAll(
+            matchedSentenceStructure = new NotenizerStructure(structure);
+
+            sentencesWithSameStructure = DB.GetAll(
                 DBConstants.SentencesCollectionName,
                 DocumentCreator.CreateFilterById(DBConstants.StructureRefIdFieldName, matchedSentenceStructure.Structure.ID)).Result;
 
@@ -149,24 +153,23 @@ namespace nsNotenizer
                 }
             }
 
-            NotenizerSentence matchedNotenizerSentence = null;
-            if (matchedSentence != null)
-                matchedNotenizerSentence = new NotenizerSentence(matchedSentence, matchedSentenceStructure);
+            if (matchedSentence == null)
+                return null;
 
-            Article article = DocumentParser.ParseArticle(
+            article = DocumentParser.ParseArticle(
                 DB.GetFirst(
                     DBConstants.ArticlesCollectionName,
-                    DocumentCreator.CreateFilterById(matchedNotenizerSentence.Sentence.ArticleID)).Result);
+                    DocumentCreator.CreateFilterById(matchedSentence.ArticleID)).Result);
 
-            Note matchedSentenceNote = DocumentParser.ParseNote(
+            matchedSentenceNote = DocumentParser.ParseNote(
                 DB.GetFirst(
                     DBConstants.NotesCollectionName,
-                    DocumentCreator.CreateFilterById(matchedNotenizerSentence.Sentence.NoteID)).Result);
+                    DocumentCreator.CreateFilterById(matchedSentence.NoteID)).Result);
 
-            NotenizerNoteRule matchedSentenceRule = DocumentParser.ParseRule(
+            matchedSentenceRule = DocumentParser.ParseRule(
                 DB.GetFirst(
                     DBConstants.NoteRulesCollectionName,
-                    DocumentCreator.CreateFilterById(matchedNotenizerSentence.Sentence.RuleID)).Result);
+                    DocumentCreator.CreateFilterById(matchedSentence.RuleID)).Result);
 
             matchedSentenceRule.Structure = new NotenizerStructure(
                 DocumentParser.ParseStructure(
@@ -174,27 +177,33 @@ namespace nsNotenizer
                         DBConstants.StructuresCollectionName,
                         DocumentCreator.CreateFilterById(matchedSentenceRule.StructureID)).Result));
 
-            NotenizerAndRule matchedSentenceAndRule = null;
-            if (!matchedNotenizerSentence.Sentence.AndRuleID.IsNullOrEmpty())
-            {
-                matchedSentenceAndRule = DocumentParser.ParseAndRule(
-                    DB.GetFirst(
-                        DBConstants.AndParserRulesCollectionName,
-                        DocumentCreator.CreateFilterById(matchedNotenizerSentence.Sentence.AndRuleID)).Result);
-
-                matchedSentenceAndRule.Structure = new NotenizerStructure(
-                    DocumentParser.ParseStructure(
-                        DB.GetFirst(
-                            DBConstants.StructuresCollectionName,
-                            DocumentCreator.CreateFilterById(matchedSentenceAndRule.StructureID)).Result));
-            }
-
-            oMatchedSentence = matchedNotenizerSentence;
-            oMatchedSentenceAndRule = matchedSentenceAndRule;
-            oMatchedSentenceArticle = article;
-            oMatchedSentenceNote = matchedSentenceNote;
+            matchedSentenceRule.Sentence = matchedSentence;
+            matchedSentenceRule.Sentence.Article = article;
+            matchedSentenceRule.Note = matchedSentenceNote;
+            matchedSentenceRule.Match = match;
 
             return matchedSentenceRule;
+        }
+
+        public NotenizerAndRule GetAndRuleForSentence(NotenizerRule rule)
+        {
+            NotenizerAndRule andRule;
+
+            andRule = DocumentParser.ParseAndRule(
+                DB.GetFirst(
+                    DBConstants.AndParserRulesCollectionName,
+                    DocumentCreator.CreateFilterById(rule.Sentence.AndRuleID)).Result);
+
+            andRule.Structure = new NotenizerStructure(
+                DocumentParser.ParseStructure(
+                    DB.GetFirst(
+                        DBConstants.StructuresCollectionName,
+                        DocumentCreator.CreateFilterById(andRule.StructureID)).Result));
+
+            andRule.Sentence = rule.Sentence;
+            andRule.Note = rule.Note;
+
+            return andRule;
         }
 
         /// <summary>
@@ -212,14 +221,14 @@ namespace nsNotenizer
             {
                 NotenizerSentence sentence = new NotenizerSentence(sentenceLoop);
 
-                NotenizerNoteRule rule = GetRuleForSentence(sentence, out null,  out null, out null, out null);
+                NotenizerNoteRule rule = GetRuleForSentence(sentence);
 
-                if (rule != null && rule.RuleDependencies != null && rule.RuleDependencies.Count > 0)
+                if (rule != null && rule.Structure.Dependencies != null && rule.Structure.Dependencies.Count > 0)
                 {
                     NotenizerNote parsedNote = ApplyRule(sentence, rule);
 
                     if (rule.Note.AndRuleID != DBConstants.BsonNullValue)
-                        parsedNote.AndParserRule =  DocumentParser.ParseAndParserRule(DB.GetFirst(DBConstants.AndParserRulesCollectionName, DocumentCreator.CreateFilterById(rule.Note.AndRuleID)).Result);
+                        parsedNote.AndParserRule = GetAndRuleForSentence(rule);
 
                     Console.WriteLine("Parsed note: " + parsedNote.OriginalSentence + " ===> " + parsedNote.Text);
                     sentencesNoted.Add(parsedNote);
@@ -294,10 +303,10 @@ namespace nsNotenizer
             foreach (NotenizerDependency dependencyLoop in sentence.Structure.Dependencies)
             {
                 if (dependencyLoop.Relation.IsNominalSubject()
-                    && !((note.CompressedDependencies.ContainsKey(GrammaticalConstants.NominalSubject) 
-                            && note.CompressedDependencies[GrammaticalConstants.NominalSubject].Any(x => x.Key == dependencyLoop.Key))
-                        || (note.CompressedDependencies.ContainsKey(GrammaticalConstants.NominalSubjectPassive) 
-                            && note.CompressedDependencies[GrammaticalConstants.NominalSubjectPassive].Any(x => x.Key == dependencyLoop.Key))))
+                    && !((note.Structure.CompressedDependencies.ContainsKey(GrammaticalConstants.NominalSubject) 
+                            && note.Structure.CompressedDependencies[GrammaticalConstants.NominalSubject].Any(x => x.Key == dependencyLoop.Key))
+                        || (note.Structure.CompressedDependencies.ContainsKey(GrammaticalConstants.NominalSubjectPassive) 
+                            && note.Structure.CompressedDependencies[GrammaticalConstants.NominalSubjectPassive].Any(x => x.Key == dependencyLoop.Key))))
                 {
                     NotePart notePart = new NotePart(sentence);
 
@@ -593,7 +602,7 @@ namespace nsNotenizer
             NotenizerNote note = new NotenizerNote(sentence);
             NotePart notePart = new NotePart(sentence);
 
-            foreach (NotenizerDependency ruleLoop in rule.RuleDependencies)
+            foreach (NotenizerDependency ruleLoop in rule.Structure.Dependencies)
             {
                 ApplyRule(sentence, ruleLoop, notePart);
             }

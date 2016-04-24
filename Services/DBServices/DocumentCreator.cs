@@ -73,27 +73,22 @@ namespace nsServices.DBServices
 
         public static BsonDocument CreateStructureDocument(NotenizerSentence sentence)
         {
-            return CreateStructureDocument(sentence.Dependencies);
+            return CreateStructureDocument(sentence.Structure);
         }
 
         public static BsonDocument CreateStructureDocument(NotenizerNoteRule rule)
         {
-            return CreateStructureDocument(rule.Structure.Dependencies, true);
+            return CreateStructureDocument(rule.Structure, true);
         }
 
-        public static BsonDocument CreateStructureDocument(NotenizerStructure structure)
-        {
-            return CreateStructureDocument(structure.Dependencies);
-        }
-
-        public static BsonDocument CreateStructureDocument(List<NotenizerDependency> dependencies, bool additionalInfo = false)
+        public static BsonDocument CreateStructureDocument(NotenizerStructure structure, bool additionalInfo = false)
         {
             BsonDocument document = new BsonDocument();
             BsonArray structureDataArray = new BsonArray();
             BsonDocument dependencyDoc;
             Dictionary<String, BsonArray> dependenciesDictionary = new Dictionary<String, BsonArray>();
 
-            foreach (NotenizerDependency dependencyLoop in dependencies)
+            foreach (NotenizerDependency dependencyLoop in structure.Dependencies)
             {
                 if (additionalInfo)
                     dependencyDoc = CreateDependencyDocument(dependencyLoop, dependencyLoop.ComparisonType, dependencyLoop.TokenType);
@@ -104,6 +99,7 @@ namespace nsServices.DBServices
             }
 
             document.Add(DBConstants.StructureDataFieldName, structureDataArray);
+            document = document.InsertNotenizerSpecificFields(structure.Structure);
 
             return document;
         }
@@ -227,7 +223,7 @@ namespace nsServices.DBServices
             additionInformationDoc.Add(DBConstants.AndSetPositionFieldName, andSetsPositions);
 
             BsonArray originalDepencenciesArr = new BsonArray();
-            foreach (NotenizerDependency dependencyLoop in note.OriginalSentence.Dependencies)
+            foreach (NotenizerDependency dependencyLoop in note.OriginalSentence.Structure.Dependencies)
             {
                 BsonDocument dependencyDoc = CreateDependencyDocument(dependencyLoop);
 
@@ -344,6 +340,11 @@ namespace nsServices.DBServices
                 { DBConstants.DependenciesFieldName, arr }
             };
 
+        }
+
+        public static FilterDefinition<BsonDocument> CreateFilterByStructure(NotenizerSentence sentence)
+        {
+            return CreateFilterByStructure(sentence.Structure);
         }
 
         public static FilterDefinition<BsonDocument> CreateFilterByStructure(NotenizerStructure structure)

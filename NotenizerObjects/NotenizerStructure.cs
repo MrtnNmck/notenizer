@@ -13,6 +13,13 @@ namespace nsNotenizerObjects
         private NotenizerDependencies _dependencies;
         private Structure _structure;
 
+        public NotenizerStructure()
+        {
+            _dependencies = new NotenizerDependencies();
+            _compressedDependencies = new CompressedDependencies();
+            _structure = new Structure();
+        }
+
         public NotenizerStructure(NotenizerDependencies dependencies)
         {
             _dependencies = dependencies;

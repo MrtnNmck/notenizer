@@ -17,7 +17,6 @@ namespace nsNotenizerObjects
         private DateTime _updatedAt;
         private NotenizerNoteRule _rule;
         private NotenizerAndRule _andParserRule;
-        private CompressedDependencies _compressedDependencies;
         private NotenizerStructure _structure;
         private Note _note;
 
@@ -28,7 +27,7 @@ namespace nsNotenizerObjects
             _originalSentence = originalSentence;
             _createdAt = DateTime.Now;
             _updatedAt = DateTime.Now;
-            _compressedDependencies = new CompressedDependencies();
+            _structure = new NotenizerStructure();
         }
 
         /// <summary>
@@ -116,11 +115,6 @@ namespace nsNotenizerObjects
             set { _andParserRule = value; }
         }
 
-        public CompressedDependencies CompressedDependencies
-        {
-            get { return _compressedDependencies; }
-        }
-
         public NotenizerDependencies Dependencies
         {
             get
@@ -181,7 +175,7 @@ namespace nsNotenizerObjects
             _noteParts.Add(notePart);
 
             foreach (NoteParticle notePartNoteParticleLoop in notePart.InitializedNoteParticles)
-                _compressedDependencies.Add(notePartNoteParticleLoop.NoteDependency);
+                this._structure.CompressedDependencies.Add(notePartNoteParticleLoop.NoteDependency);
         }
 
         /// <summary>
@@ -230,7 +224,7 @@ namespace nsNotenizerObjects
         {
             this._rule = new NotenizerNoteRule(nsEnums.CreatedBy.Notenizer);
             this._rule.Match = new Match(0, 0, 0);
-            this._rule.SentencesTerminators = (SentencesTerminators)this._noteParts.Select(x => x.InitializedNoteParticles.Count).ToList<int>();
+            this._rule.SentencesTerminators = new SentencesTerminators(this._noteParts.Select(x => x.InitializedNoteParticles.Count).ToList<int>());
 
             return this._rule;
         }

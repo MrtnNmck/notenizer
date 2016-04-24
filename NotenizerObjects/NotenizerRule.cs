@@ -15,11 +15,11 @@ namespace nsNotenizerObjects
         protected CreatedBy _createdBy;
         protected String _id;
         protected Note _note;
-        protected Article article;
         protected DateTime _createdAt;
         protected DateTime _updatedAt;
         protected NotenizerStructure _structure;
         protected String _structureID;
+        protected Sentence _sentence;
 
         public NotenizerRule(String id, NotenizerDependencies dependencies, CreatedBy createdBy)
         {
@@ -92,19 +92,6 @@ namespace nsNotenizerObjects
             set { _note = value; }
         }
 
-        public Article Article
-        {
-            get
-            {
-                return article;
-            }
-
-            set
-            {
-                article = value;
-            }
-        }
-
         public NotenizerStructure Structure
         {
             get { return this._structure; }
@@ -121,6 +108,19 @@ namespace nsNotenizerObjects
             set
             {
                 _structureID = value;
+            }
+        }
+
+        public Sentence Sentence
+        {
+            get
+            {
+                return _sentence;
+            }
+
+            set
+            {
+                _sentence = value;
             }
         }
     }

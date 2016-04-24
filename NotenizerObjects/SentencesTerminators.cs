@@ -11,5 +11,10 @@ namespace nsNotenizerObjects
         public SentencesTerminators()
         {
         }
+
+        public SentencesTerminators(List<int> sentenceTerminators)
+        {
+            this.AddRange(sentenceTerminators);
+        }
     }
 }

@@ -10,6 +10,7 @@ namespace nsEnums
     {
         Governor,
         Dependent,
-        NotenizerSpecial
+        NotenizerSpecial,
+        Unidentified
     }
 }

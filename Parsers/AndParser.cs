@@ -26,9 +26,9 @@ namespace nsParsers
         /// <returns></returns>
         public override Boolean IsParsableSentence(NotenizerSentence sentence)
         {
-            return (sentence.CompressedDependencies.ContainsKey(GrammaticalConstants.Conjuction)
-                && sentence.CompressedDependencies[GrammaticalConstants.Conjuction] != null
-                && sentence.CompressedDependencies[GrammaticalConstants.Conjuction].Exists(x => x.Relation.Specific == GrammaticalConstants.AndConjuction || x.Relation.ShortName == GrammaticalConstants.AppositionalModifier));
+            return (sentence.Structure.CompressedDependencies.ContainsKey(GrammaticalConstants.Conjuction)
+                && sentence.Structure.CompressedDependencies[GrammaticalConstants.Conjuction] != null
+                && sentence.Structure.CompressedDependencies[GrammaticalConstants.Conjuction].Exists(x => x.Relation.Specific == GrammaticalConstants.AndConjuction || x.Relation.ShortName == GrammaticalConstants.AppositionalModifier));
         }
 
         /// <summary>
@@ -59,13 +59,13 @@ namespace nsParsers
 
             andSets = new List<NoteParticle>();
             repetitionPartDependencies = new List<NotenizerDependency>();
-            andConjuctionsApposDependencies = sentence.Dependencies.Where(x => x.Relation.Specific == GrammaticalConstants.AndConjuction
+            andConjuctionsApposDependencies = sentence.Structure.Dependencies.Where(x => x.Relation.Specific == GrammaticalConstants.AndConjuction
                                                                             || x.Relation.ShortName == GrammaticalConstants.AppositionalModifier).ToList();
             repetitionPartDependencies = repetitionPartDependencies.Concat(andConjuctionsApposDependencies).ToList();
 
             foreach (NotenizerDependency andApposDependencyLoop in andConjuctionsApposDependencies)
             {
-                List<NotenizerDependency> apposSecondLevelDependencies = sentence.GetDependenciesByShortName(andApposDependencyLoop, ComparisonType.DependentToGovernor, GrammaticalConstants.AppositionalModifier);
+                List<NotenizerDependency> apposSecondLevelDependencies = sentence.Structure.GetDependenciesByShortName(andApposDependencyLoop, ComparisonType.DependentToGovernor, GrammaticalConstants.AppositionalModifier);
                 foreach (NotenizerDependency apposSecondLevelDependencyLoop in apposSecondLevelDependencies)
                 {
                     // add only disctinct dependencies
@@ -107,11 +107,11 @@ namespace nsParsers
         /// <param name="comparisonType">Type of comparison to use in extraction of dependency</param>
         private void AddAditionalNoteParticles(NotenizerSentence sentence, NotenizerDependency dependency, NotePart destinationNotePart, ComparisonType comparisonType)
         {
-            NotenizerDependency compound = sentence.GetDependencyByShortName(dependency, comparisonType, GrammaticalConstants.CompoudModifier);
+            NotenizerDependency compound = sentence.Structure.GetDependencyByShortName(dependency, comparisonType, GrammaticalConstants.CompoudModifier);
             if (compound != null)
                 destinationNotePart.Add(new NoteParticle(compound, TokenType.Dependent, true));
 
-            NotenizerDependency nmod = sentence.GetDependencyByShortName(dependency, comparisonType, GrammaticalConstants.NominalModifier, GrammaticalConstants.AdjectivalModifier);
+            NotenizerDependency nmod = sentence.Structure.GetDependencyByShortName(dependency, comparisonType, GrammaticalConstants.NominalModifier, GrammaticalConstants.AdjectivalModifier);
             if (nmod != null)
                 destinationNotePart.Add(new NoteParticle(nmod, TokenType.Dependent, true));
         }

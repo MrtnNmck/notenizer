@@ -19,9 +19,11 @@ namespace nsNotenizerObjects
         private String _ruleID;
         private String _andRuleID;
         private String _noteID;
+        private Article _article;
 
         public Sentence(String text)
         {
+            this._text = text;
             this._createdAt = DateTime.Now;
             this._updatedAt = DateTime.Now;
         }
@@ -50,7 +52,7 @@ namespace nsNotenizerObjects
             this._structureID = structureID;
             this._ruleID = ruleID;
             this._andRuleID = andRuleID;
-            this._noteID = NoteID;
+            this._noteID = noteId;
             this._createdAt = createdAt;
             this._updatedAt = updatedAt;
         }
@@ -182,6 +184,19 @@ namespace nsNotenizerObjects
             set
             {
                 _noteID = value;
+            }
+        }
+
+        public Article Article
+        {
+            get
+            {
+                return _article;
+            }
+
+            set
+            {
+                _article = value;
             }
         }
     }

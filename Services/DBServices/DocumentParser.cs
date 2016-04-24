@@ -46,7 +46,7 @@ namespace nsServices.DBServices
             structureID = persistedSentnece[DBConstants.StructureRefIdFieldName].AsObjectId.ToString();
             createdAt = persistedSentnece[DBConstants.CreatedAtFieldName].ToUniversalTime();
             updatedAt = persistedSentnece[DBConstants.UpdatedAtFieldName].ToUniversalTime();
-            andRuleID = persistedSentnece[DBConstants.AndRuleRefIdFieldName] != null ? persistedSentnece[DBConstants.AndRuleRefIdFieldName].AsObjectId.ToString() : null;
+            andRuleID = persistedSentnece[DBConstants.AndRuleRefIdFieldName].ToString();
             noteID = persistedSentnece[DBConstants.NoteRefIdFieldName].AsObjectId.ToString();
 
             return new Sentence(id, text, articleID, structureID, ruleID, andRuleID, noteID, createdAt, updatedAt);
@@ -79,7 +79,7 @@ namespace nsServices.DBServices
             id = persistedNote[DBConstants.IdFieldName].AsObjectId.ToString();
             text = persistedNote[DBConstants.TextFieldName].AsString;
             ruleID = persistedNote[DBConstants.RuleRefIdFieldName].AsObjectId.ToString();
-            andRuleID = persistedNote[DBConstants.AndRuleRefIdFieldName] != null ? persistedNote[DBConstants.AndRuleRefIdFieldName].AsObjectId.ToString() : null;
+            andRuleID = persistedNote[DBConstants.AndRuleRefIdFieldName].ToString();
             createdAt = persistedNote[DBConstants.CreatedAtFieldName].ToUniversalTime();
             updatedAt = persistedNote[DBConstants.UpdatedAtFieldName].ToUniversalTime();
 
@@ -185,8 +185,8 @@ namespace nsServices.DBServices
                     BsonDocument governorDoc = dependencyDocLoop[DBConstants.GovernorFieldName].AsBsonDocument;
                     BsonDocument dependantDoc = dependencyDocLoop[DBConstants.DependentFieldName].AsBsonDocument;
                     int position = dependencyDocLoop[DBConstants.PositionFieldName].AsInt32;
-                    ComparisonType comparisonType = dependencyDocLoop[DBConstants.ComparisonTypeFieldName].AsInt32.ToEnum<ComparisonType>();
-                    TokenType tokenType = dependencyDocLoop[DBConstants.TokenTypeFieldName].AsInt32.ToEnum<TokenType>();
+                    ComparisonType comparisonType = dependencyDocLoop.GetValue(DBConstants.ComparisonTypeFieldName, ComparisonType.Unidentified).AsInt32.ToEnum<ComparisonType>();
+                    TokenType tokenType = dependencyDocLoop.GetValue(DBConstants.TokenTypeFieldName, TokenType.Unidentified).AsInt32.ToEnum<TokenType>();
 
                     NotenizerWord governor = new NotenizerWord(
                         governorDoc[DBConstants.POSFieldName].AsString, 
@@ -310,8 +310,8 @@ namespace nsServices.DBServices
 
             int c = 0;
 
-            oneStructureCompareTypeIterRating = oneStructeCompareRating / Double.Parse(persistedStructure[DBConstants.OriginalSentenceDependenciesFieldName].AsBsonArray.Count.ToString());
-            foreach (BsonDocument origDepDocLoop in persistedStructure[DBConstants.OriginalSentenceDependenciesFieldName].AsBsonArray)
+            oneStructureCompareTypeIterRating = oneStructeCompareRating / Double.Parse(persistedStructure[DBConstants.StructureDataFieldName].AsBsonArray.Count.ToString());
+            foreach (BsonDocument origDepDocLoop in persistedStructure[DBConstants.StructureDataFieldName].AsBsonArray)
             {
                 String depName = origDepDocLoop[DBConstants.DependencyNameFieldName].AsString;
 
@@ -329,7 +329,7 @@ namespace nsServices.DBServices
             // the dependency with same POS tag or same index at governor or dependent.
             oneStructureCompareTypeIterRating = oneStructeCompareRating / (double)(c);
             oneContentComapareTypeIterRating = oneContentCompareRating / (double)(c);
-            foreach (BsonDocument origDepDocLoop in persistedStructure[DBConstants.OriginalSentenceDependenciesFieldName].AsBsonArray)
+            foreach (BsonDocument origDepDocLoop in persistedStructure[DBConstants.StructureDataFieldName].AsBsonArray)
             {
                 String depName = origDepDocLoop[DBConstants.DependencyNameFieldName].AsString;
 

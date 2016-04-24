@@ -15,6 +15,11 @@ namespace nsNotenizerObjects
         private String _id;
         private NotenizerDependencies _dependencies;
 
+        public Structure()
+        {
+            _dependencies = new NotenizerDependencies();
+        }
+
         public Structure(NotenizerDependencies dependencies, DateTime createdAt, DateTime updatedAt)
         {
             _dependencies = dependencies;
