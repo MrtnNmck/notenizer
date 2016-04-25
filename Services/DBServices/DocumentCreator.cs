@@ -200,7 +200,7 @@ namespace nsServices.DBServices
         {
             return new BsonDocument
             {
-                { DBConstants.DependencyNameFieldName, currentDependency.Relation.ShortName },
+                { DBConstants.RelationNameFieldName, currentDependency.Relation.ShortName },
                 { DBConstants.DependenciesFieldName, arr }
             };
 
@@ -219,7 +219,7 @@ namespace nsServices.DBServices
         public static FilterDefinition<BsonDocument> CreateFilterByStructure(NotenizerDependencies dependencies, int size)
         {
             return Builders<BsonDocument>.Filter.Size(DBConstants.StructureDataFieldName, size)
-                    & Builders<BsonDocument>.Filter.All(DBConstants.StructureDataFieldName + "." + DBConstants.DependencyNameFieldName,
+                    & Builders<BsonDocument>.Filter.All(DBConstants.StructureDataFieldName + "." + DBConstants.RelationNameFieldName,
                         dependencies.Select(x => x.Relation.ShortName));
         }
 

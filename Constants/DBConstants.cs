@@ -21,7 +21,7 @@ namespace nsConstants
 
         public const String OriginalSentenceFieldName = "originalSentence";
 
-        public const String DependencyNameFieldName = "dependency_name";
+        public const String RelationNameFieldName = "relation_name";
         public const String NoteDependenciesFieldName = "noteDependencies";
 
         public const String NoteFieldName = "note";

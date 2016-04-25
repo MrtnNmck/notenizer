@@ -139,7 +139,7 @@ namespace nsServices.DBServices
             // foreach note dependency
             foreach (BsonDocument documentLoop in dbEntry[noteFieldName].AsBsonArray)
             {
-                NotenizerRelation relation = new NotenizerRelation(documentLoop[DBConstants.DependencyNameFieldName].AsString);
+                NotenizerRelation relation = new NotenizerRelation(documentLoop[DBConstants.RelationNameFieldName].AsString);
 
                 // foreach dependency in array of dependencies with same relation name
                 foreach (BsonDocument dependencyDocLoop in documentLoop[DBConstants.DependenciesFieldName].AsBsonArray)
@@ -205,7 +205,7 @@ namespace nsServices.DBServices
         private static Match CalculateMatch(NotenizerStructure notenizerStructure, BsonDocument persistedStructure)
         {
             Double structureCompareCount = 5.0;
-            Double contentCompareCount = 10.0;
+            Double contentCompareCount = 8.0;
             Double oneStructeCompareRating = NotenizerConstants.MaxMatchValue / structureCompareCount;
             Double oneContentCompareRating = NotenizerConstants.MaxMatchValue / contentCompareCount;
             Double oneStructureCompareTypeIterRating;
@@ -220,9 +220,9 @@ namespace nsServices.DBServices
             oneStructureCompareTypeIterRating = oneStructeCompareRating / Double.Parse(persistedStructure[DBConstants.StructureDataFieldName].AsBsonArray.Count.ToString());
             foreach (BsonDocument origDepDocLoop in persistedStructure[DBConstants.StructureDataFieldName].AsBsonArray)
             {
-                String depName = origDepDocLoop[DBConstants.DependencyNameFieldName].AsString;
+                String relationName = origDepDocLoop[DBConstants.RelationNameFieldName].AsString;
 
-                if (notenizerStructure.CompressedDependencies[depName].Count == origDepDocLoop[DBConstants.DependenciesFieldName].AsBsonArray.Count)
+                if (notenizerStructure.CompressedDependencies[relationName].Count == origDepDocLoop[DBConstants.DependenciesFieldName].AsBsonArray.Count)
                 {
                     structureCounter += oneStructureCompareTypeIterRating;
                 }
@@ -238,36 +238,36 @@ namespace nsServices.DBServices
             oneContentComapareTypeIterRating = oneContentCompareRating / (double)(c);
             foreach (BsonDocument origDepDocLoop in persistedStructure[DBConstants.StructureDataFieldName].AsBsonArray)
             {
-                String depName = origDepDocLoop[DBConstants.DependencyNameFieldName].AsString;
+                String relationName = origDepDocLoop[DBConstants.RelationNameFieldName].AsString;
 
                 foreach (BsonDocument depLoop in origDepDocLoop[DBConstants.DependenciesFieldName].AsBsonArray)
                 {
                     /* ================= Structure match ================= */
-                    if (!structureDic.ContainsKey(depName))
-                        structureDic.Add(depName, new Dictionary<Tuple<PartOfSpeechType, PartOfSpeechType>, int>());
+                    if (!structureDic.ContainsKey(relationName))
+                        structureDic.Add(relationName, new Dictionary<Tuple<PartOfSpeechType, PartOfSpeechType>, int>());
 
                     Tuple<PartOfSpeechType, PartOfSpeechType> govPOSdepPOSKey = new Tuple<PartOfSpeechType, PartOfSpeechType>(
                         PartOfSpeech.GetTypeFromTag(depLoop[DBConstants.GovernorFieldName].AsBsonDocument[DBConstants.POSFieldName].AsString),
                         PartOfSpeech.GetTypeFromTag(depLoop[DBConstants.DependentFieldName].AsBsonDocument[DBConstants.POSFieldName].AsString));
 
-                    if (!structureDic[depName].ContainsKey(govPOSdepPOSKey))
-                        structureDic[depName].Add(govPOSdepPOSKey, 0);
+                    if (!structureDic[relationName].ContainsKey(govPOSdepPOSKey))
+                        structureDic[relationName].Add(govPOSdepPOSKey, 0);
 
-                    structureDic[depName][govPOSdepPOSKey]++;
+                    structureDic[relationName][govPOSdepPOSKey]++;
 
-                    if (notenizerStructure.CompressedDependencies[depName].Where(
+                    if (notenizerStructure.CompressedDependencies[relationName].Where(
                         x => x.Dependent.POS.Type == PartOfSpeech.GetTypeFromTag(depLoop[DBConstants.DependentFieldName].AsBsonDocument[DBConstants.POSFieldName].AsString)).FirstOrDefault() != null)
                     {
                         structureCounter += oneStructureCompareTypeIterRating;
                     }
 
-                    if (notenizerStructure.CompressedDependencies[depName].Where(
+                    if (notenizerStructure.CompressedDependencies[relationName].Where(
                         x => x.Governor.POS.Type == PartOfSpeech.GetTypeFromTag(depLoop[DBConstants.GovernorFieldName].AsBsonDocument[DBConstants.POSFieldName].AsString)).FirstOrDefault() != null)
                     {
                         structureCounter += oneStructureCompareTypeIterRating;
                     }
 
-                    if (notenizerStructure.CompressedDependencies[depName].Where(
+                    if (notenizerStructure.CompressedDependencies[relationName].Where(
                         x => x.Dependent.POS.Type == PartOfSpeech.GetTypeFromTag(depLoop[DBConstants.DependentFieldName].AsBsonDocument[DBConstants.POSFieldName].AsString)
                         && x.Governor.POS.Type == PartOfSpeech.GetTypeFromTag(depLoop[DBConstants.GovernorFieldName].AsBsonDocument[DBConstants.POSFieldName].AsString)).FirstOrDefault() != null)
                     {
@@ -277,33 +277,33 @@ namespace nsServices.DBServices
 
                     /* ================= Content match ================= */
 
-                    if (notenizerStructure.CompressedDependencies[depName].Where(
+                    if (notenizerStructure.CompressedDependencies[relationName].Where(
                         x => x.Dependent.Index == depLoop[DBConstants.DependentFieldName].AsBsonDocument[DBConstants.IndexFieldName]).FirstOrDefault() != null)
                     {
                         contentCounter += oneContentComapareTypeIterRating;
                     }
 
-                    if (notenizerStructure.CompressedDependencies[depName].Where(
+                    if (notenizerStructure.CompressedDependencies[relationName].Where(
                         x => x.Governor.Index == depLoop[DBConstants.GovernorFieldName].AsBsonDocument[DBConstants.IndexFieldName]).FirstOrDefault() != null)
                     {
                         contentCounter += oneContentComapareTypeIterRating;
                     }
 
-                    if (notenizerStructure.CompressedDependencies[depName].Where(
+                    if (notenizerStructure.CompressedDependencies[relationName].Where(
                         x =>x.Governor.POS.Tag == depLoop[DBConstants.GovernorFieldName].AsBsonDocument[DBConstants.POSFieldName] 
                         && x.Governor.Index == depLoop[DBConstants.GovernorFieldName].AsBsonDocument[DBConstants.IndexFieldName]).FirstOrDefault() != null)
                     {
                         contentCounter += oneContentComapareTypeIterRating;
                     }
 
-                    if (notenizerStructure.CompressedDependencies[depName].Where(
+                    if (notenizerStructure.CompressedDependencies[relationName].Where(
                         x => x.Dependent.POS.Tag == depLoop[DBConstants.DependentFieldName].AsBsonDocument[DBConstants.POSFieldName]
                         && x.Dependent.Index == depLoop[DBConstants.DependentFieldName].AsBsonDocument[DBConstants.IndexFieldName]).FirstOrDefault() != null)
                     {
                         contentCounter += oneContentComapareTypeIterRating;
                     }
 
-                    if (notenizerStructure.CompressedDependencies[depName].Where(
+                    if (notenizerStructure.CompressedDependencies[relationName].Where(
                         x => x.Dependent.POS.Tag == depLoop[DBConstants.DependentFieldName].AsBsonDocument[DBConstants.POSFieldName]
                         && x.Dependent.Index == depLoop[DBConstants.DependentFieldName].AsBsonDocument[DBConstants.IndexFieldName]
                         && x.Governor.POS.Tag == depLoop[DBConstants.GovernorFieldName].AsBsonDocument[DBConstants.POSFieldName]
@@ -312,31 +312,19 @@ namespace nsServices.DBServices
                         contentCounter += oneContentComapareTypeIterRating;
                     }
 
-                    if (notenizerStructure.CompressedDependencies[depName].Where(
+                    if (notenizerStructure.CompressedDependencies[relationName].Where(
                         x => x.Dependent.NamedEntity.Value == depLoop[DBConstants.DependentFieldName].AsBsonDocument[DBConstants.NERFieldName]).FirstOrDefault() != null)
                     {
                         contentCounter += oneContentComapareTypeIterRating;
                     }
 
-                    if (notenizerStructure.CompressedDependencies[depName].Where(
+                    if (notenizerStructure.CompressedDependencies[relationName].Where(
                         x => x.Governor.NamedEntity.Value == depLoop[DBConstants.GovernorFieldName].AsBsonDocument[DBConstants.NERFieldName]).FirstOrDefault() != null)
                     {
                         contentCounter += oneContentComapareTypeIterRating;
                     }
 
-                    if (notenizerStructure.CompressedDependencies[depName].Where(
-                        x => x.Dependent.NamedEntity.Value == depLoop[DBConstants.DependentFieldName].AsBsonDocument[DBConstants.NERFieldName]).FirstOrDefault() != null)
-                    {
-                        contentCounter += oneContentComapareTypeIterRating;
-                    }
-
-                    if (notenizerStructure.CompressedDependencies[depName].Where(
-                        x => x.Governor.NamedEntity.Value == depLoop[DBConstants.GovernorFieldName].AsBsonDocument[DBConstants.NERFieldName]).FirstOrDefault() != null)
-                    {
-                        contentCounter += oneContentComapareTypeIterRating;
-                    }
-
-                    if (notenizerStructure.CompressedDependencies[depName].Where(
+                    if (notenizerStructure.CompressedDependencies[relationName].Where(
                         x => x.Dependent.NamedEntity.Value == depLoop[DBConstants.DependentFieldName].AsBsonDocument[DBConstants.NERFieldName]
                         && x.Governor.NamedEntity.Value == depLoop[DBConstants.GovernorFieldName].AsBsonDocument[DBConstants.NERFieldName]).FirstOrDefault() != null)
                     {

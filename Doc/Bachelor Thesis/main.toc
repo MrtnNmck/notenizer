@@ -42,9 +42,10 @@
 \contentsline {subsubsection}{\numberline {4.1.7}Zhrnutie}{30}{subsubsection.4.1.7}
 \contentsline {subsection}{\numberline {4.2}Mana\IeC {\v z}ment d\IeC {\'a}t}{30}{subsection.4.2}
 \contentsline {subsubsection}{\numberline {4.2.1}Vyh\IeC {\v l}adanie pravidla}{31}{subsubsection.4.2.1}
-\contentsline {subsubsection}{\numberline {4.2.2}Aplikovanie pravidla}{33}{subsubsection.4.2.2}
-\contentsline {paragraph}{V\IeC {\'y}po\IeC {\v c}et zhody z\IeC {\'a}vislost\IeC {\'\i }}{34}{section*.10}
-\contentsline {subsubsection}{\numberline {4.2.3}Vytvorenie pravidla}{35}{subsubsection.4.2.3}
-\contentsline {section}{Literat\'ura}{36}{subsubsection.4.2.3}
-\contentsline {section}{\numberline {A}Zoznam vz\IeC {\v t}ahov z\IeC {\'a}vislost\IeC {\'\i }}{37}{appendix.A}
-\contentsline {section}{\numberline {B}Legenda diagramov kolekci\IeC {\'\i }}{38}{appendix.B}
+\contentsline {paragraph}{V\IeC {\'y}po\IeC {\v c}et zhody viet}{31}{section*.10}
+\contentsline {subsubsection}{\numberline {4.2.2}Aplikovanie pravidla}{35}{subsubsection.4.2.2}
+\contentsline {paragraph}{V\IeC {\'y}po\IeC {\v c}et zhody z\IeC {\'a}vislost\IeC {\'\i }}{37}{section*.11}
+\contentsline {subsubsection}{\numberline {4.2.3}Vytvorenie pravidla}{37}{subsubsection.4.2.3}
+\contentsline {section}{Literat\'ura}{38}{subsubsection.4.2.3}
+\contentsline {section}{\numberline {A}Zoznam vz\IeC {\v t}ahov z\IeC {\'a}vislost\IeC {\'\i }}{39}{appendix.A}
+\contentsline {section}{\numberline {B}Legenda diagramov kolekci\IeC {\'\i }}{40}{appendix.B}
