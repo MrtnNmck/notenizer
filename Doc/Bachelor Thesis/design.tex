@@ -26,16 +26,23 @@
 	\section{Návrh uchovávania textov v databázach}
 }
 \label{subsection:our_design_persisting_data}
-Dáta budeme ukladať v dokumentovej databáze MongoDB. Keďže spracovávané dáta sa dajú rozdeliť do troch kategórií, budeme využívať primárne tri databázové kolekcie na ich ukladanie. Sú to:
+Na uchovávanie dát sme zvolili dokumentovú databázu MongoDB. Ukladané dáta sa dajú rozdeliť do niekoľkých samostatných kolekcií. Sú to:
 
 \begin{my_itemize}
-	\myitem sentences,
 	\myitem rules,
-	\myitem texts.
+	\myitem sentences,
+	\myitem notes
+	\myitem structures,
+	\myitem articles,
+	\myitem and rules.
 \end{my_itemize}
 	
-Pri návrhu sme vychádzali z princípu čo najjednoduchších kolekcií, ktoré budu obsahovať iba relevantné informácie.
-V nasledujúcich častiach ich opíšeme bližšie aj s názornými ukážkami.
+Prepojenia medzi jednotlivými kolekciami sú zobrazené na obrázku~\fullref{fig:db_schema}. Nasledujúcich časti opisujú stručne každú kolekciu. Všetky kolekcie obsahujú okrem polí špecifických pre danú kolekciu, aj polia časových značiek označujúcich vytvorenie a aktualizáciu záznamu.
+
+\begin{figure}[H]
+	\begin{center}\includegraphics[scale=0.60]{db_schema}\end{center}
+	\caption[Databázový model]{Databázový model}\label{fig:db_schema}
+\end{figure}
 
 %
 % Kolekcia texts
@@ -43,19 +50,42 @@ V nasledujúcich častiach ich opíšeme bližšie aj s názornými ukážkami.
 \ifthenelse {\boolean{bachelor}}
 {
 	%\subsection{Subsection}
-	\subsubsection{Kolekcia texts}
+	\subsubsection{Kolekcia articles}
 }
 {
 	%\section{Subsection}
-	\subsection{Kolekcia texts}
+	\subsection{Kolekcia articles}
 }
-V kolekcií \textit{texts} sa ukladajú celé texty, ktoré sú spracovávané. 
+\label{subsubsection:collection_articles}
+V kolekcií \textit{articles} sa ukladajú spracovávané texty. 
 
-Kolekcia obsahuje iba jedno pole textového typu slúžiace na uloženie textu v pôvodnom tvare. Štruktúra uložených dát v kolekcií \textit{texts} je zobrazená na obrázku~\fullref{fig:texts_collection_structure}.
+Kolekcia obsahuje textové pole \textit{text} na uloženie textu v pôvodnom tvare. Model kolekcie \textit{articles} je zobrazený na obrázku~\fullref{fig:articles_collection_model}.
 
 \begin{figure}[H]
-	\begin{center}\includegraphics[scale=0.60]{texts_collection}\end{center}
-	\caption[Štruktúra kolekcie texts]{Štruktúra kolekcie texts}\label{fig:texts_collection_structure}
+	\begin{center}\includegraphics[scale=0.60]{articles_model}\end{center}
+	\caption[Model kolekcie articles]{Model kolekcie articles}\label{fig:articles_collection_model}
+\end{figure}
+
+%
+% Kolekcia notes
+%
+\ifthenelse {\boolean{bachelor}}
+{
+	%\subsection{Subsection}
+	\subsubsection{Kolekcia notes}
+}
+{
+	%\section{Subsection}
+	\subsection{Kolekcia notes}
+}
+\label{subsubsection:collection_notes}
+Kolekcia \textit{notes} uchováva vytvorené poznámky z viet.
+
+Obsahuje textové pole \textit{text} s hodnotou poznámky a dve referencujúce polia. Jedno sa odkazuje do kolekcie \textit{rules} na pravidlo, ktoré bolo použité na vytvorenie poznámky. Druhé referencuje použité and\hyph pravidlo v kolekcií \textit{and\textunderscore rules}. Toto pole môže byť prázdne, ak sa and\hyph pravidlo pri vytváraní poznámky nepoužilo. Na obrázku~\fullref{fig:notes_collection_model} je vyobrazený model kolekcie \textit{notes}.
+
+\begin{figure}[H]
+	\begin{center}\includegraphics[scale=0.60]{notes_model}\end{center}
+	\caption[Model kolekcie notes]{Model kolekcie notes}\label{fig:notes_collection_model}
 \end{figure}
 
 %
@@ -70,13 +100,40 @@ Kolekcia obsahuje iba jedno pole textového typu slúžiace na uloženie textu v
 	%\section{Subsection}
 	\subsection{Kolekcia sentences}
 }
-V ďalšej kolekcii \textit{sentences} ukladáme spracovávané vety a vytvorené poznámky z týchto viet, pričom vety sa odkazujú na texty, z ktorých pochádzajú v kolekcií \textit{texts}. Umožní nám to jednoducho zistiť, v akom texte sa daná veta nachádzala.
+\label{subsubsection:collection_sentences}
+V následujúcej kolekcií \textit{sentences} sa ukladajú spracované vety aj s informáciami o článku, pravidlách a poznámke.
 
-Dáta sú uložené v dokumentoch, ktoré obsahujú tri polia. Jedno, textové, určené na uchovanie pôvodného znenia vety, druhé tiež textové na uchovanie novo vytvorenej vety po spracovaní vety uloženej v prvom poli a tretie pole, ktoré bude odkazovať na záznam v kolekcii \textit{texts}. Štruktúra dát v tejto kolekcií je načrtnutá na obrázku~\fullref{fig:sentences_collection_structure}.
+Kolekcia sa skladá z textového polia \textit{text} uchovávajúce hodnotu vety a piatich referencujúcich polí \textit{article\textunderscore ref\textunderscore id}, \textit{structure\textunderscore ref\textunderscore id}, \textit{rule\textunderscore id}, \textit{rule\textunderscore ref\textunderscore id}, \textit{and \textunderscore rule\textunderscore ref\textunderscore id} a \textit{note\textunderscore id}. \textit{Article\textunderscore ref\textunderscore id} odkazuje na článok z kolekcie \textit{articles}, ktorého súčasťou je daná veta. Pole \textit{structure\textunderscore ref\textunderscore id} odkazuje do kolekcie \textit{structures}, ktoré reprezentuje štruktúru vety. Nasledujúce polia \textit{rule\textunderscore ref\textunderscore id} a \textit{and\textunderscore rule\textunderscore ref\textunderscore id} odkazujú na použité pravidlo a and\hyph pravidlo pri spracovávaní vety, v tomto poradí. Pole \textit{note\textunderscore ref\textunderscore id} odkazuje na poznámku z kolekcie \textit{notes}, ktorá bola vytvorená z vety.
+
+Model tejto kolekcie je načrtnutý na obrázku~\fullref{fig:sentences_collection_model}.
 
 \begin{figure}[H]
-	\begin{center}\includegraphics[scale=0.60]{sentences_collection}\end{center}
-	\caption[Štruktúra kolekcie sentences]{Štruktúra kolekcie sentences}\label{fig:sentences_collection_structure}
+	\begin{center}\includegraphics[scale=0.60]{sentences_model}\end{center}
+	\caption[Model kolekcie sentences]{Model kolekcie sentences}\label{fig:sentences_collection_model}
+\end{figure}
+
+%
+% Kolekcia structures
+%
+\ifthenelse {\boolean{bachelor}}
+{
+	%\subsection{Subsection}
+	\subsubsection{Kolekcia structures}
+}
+{
+	%\section{Subsection}
+	\subsection{Kolekcia structures}
+}
+\label{subsubsection:collection_structures}
+V kolekcií \textit{structures} sú uložené štruktúry viet a pravidiel. Štruktúra je zložená hlavne zo závislostí, tokenov, názvoslovných značiek, indexov a iné.
+
+Kolekcia sa skladá z jedného pola \textit{structure\textunderscore data}. Toto pole je zoznam dokumentov, obsahujúcich vyššie spomenuté údaje. Dokument v tomto zozname obsahuje textové pole \textit{dependency\textunderscore name} s názvom závislosti a zoznam dokumentov závislostí \textit{dependencies} s týmto názvom. Dokument v zozname \textit{dependencies} sa skladá z polí \textit{governor} a \textit{dependent} typu dokument, celočíselného pola \textit{position} uchovávajúceho pozíciu závislosti vo vete alebo poznámke, \textit{comparison\textunderscore type}, ktoré je celočíselnou reprezentáciou typu porovnania a poľa \textit{token\textunderscore type}, ktoré je taktiež celočíselnou reprezentáciou typu tokenu. Dokumenty polí \textit{governor} a \textit{depdendent} obsahujú údaje o prislúchajúcich tokenoch závislosti. V textovom poli \textit{POS} sa ukladá značka slovného druhu, pole \textit{index} uchováva index tokenu vo vete, \textit{ner} je textové pole reprezentujúce názvoslovnú entitu tokenu a v poli \textit{lemma} je textová reprezentácia lemy tokenu.
+
+Celý model kolekcie je zobrazený na obrázku~\fullref{fig:structures_collection_model}.
+
+\begin{figure}[H]
+	\begin{center}\includegraphics[scale=0.53]{structure_model}\end{center}
+	\caption[Model kolekcie structures]{Model kolekcie structures}\label{fig:structures_collection_model}
 \end{figure}
 
 %
@@ -91,46 +148,80 @@ Dáta sú uložené v dokumentoch, ktoré obsahujú tri polia. Jedno, textové, 
 	%\section{Subsection}
 	\subsection{Kolekcia rules}
 }
-V poslednej kolekcii pomenovanej \textit{rules} sa ukladajú pravidla na spracovávanie viet, ktoré sa odkazujú na vety v kolekcii \textit{sentences}, ktoré boli podľa daného pravidla spracované. Ukladaním viet a pravidiel na ich spracovanie do separátnych kolekcií zabránime duplikovaniu dát a zrýchlime vyhľadávanie. Referencia do kolekcie \textit{sentences} nám poskytuje možnosť jednoduchého a rýchleho vyhľadanie viet, na ktoré bolo konkrétne pravidlo aplikované a aký bol výstup aplikovania tohto pravidla.
+\label{subsubsection:collection_rules}
+\textit{Rules} je kolekcia, do ktorej sa ukladajú pravidla na vytvorenie poznámok z viet. Vďaka databázovému modelu na obrázku~\fullref{fig:db_schema} a prepojeniam medzi kolekciami je táto kolekcia minimalistická.
 
-Pravidlo sa skladá hlavne z dvoch častí. Zoznam závislostí pôvodnej vety a zoznam závislostí zjednodušenej vety. Práve závislosti z druhého menovaného zoznamu sa aplikujú na spracovávanú vetu s cieľom zjednodušiť ju.
+Skladá sa z dvoch polí. Pole \textit{sentence\textunderscore terminators} je zoznam čísel, ktoré reprezentujú konce viet v poznámke. Referencujúce pole \textit{structure\textunderscore ref\textunderscore id} odkazuje do kolekcie \textit{structures} na štruktúru, ktorou sa má prípadná veta spracovať. Model kolekcie \textit{rules} je vyjadrený obrázkom~\fullref{fig:rules_collection_model}.
 
-Každý záznam v tejto kolekcii obsahuje pole celých čísel určujúcich pozície slov, za ktorými je vo vytvorenej zjednodušenej vete ukončenie vety. V prípade jednoduchých viet to bude posledné slovo vety, ale pri súvetiach to môže byť viacero slov na ľubovolných miestach vety. Pre jednoduchú vetu \textit{,,The president of the Czech Republic is Miloš Zeman.''} bude toto pole obsahovať hodnotu 3, keďže zjednodušená veta bude v tvare \textit{,,President is Zeman.''}. Pre zloženú vetu v tvare \textit{,,Czech Republic has no sea; its neighbour countries are Germany, Austria, Slovakia and Poland.''} bude spomínané pole obsahovať dve hodnoty, keďže táto veta sa skladá z dvoch. Prvá obsahujúca informáciu o mori a druhá s informáciou o susedných štátoch, a tak sa aj spracuje pri zjednodušovaní.
-
-Okrem poľa určujúceho konce viet, bude každý záznam obsahovať dva hlavné zoznamy závislostí. Prvý zoznam bude pozostávať zo závislostí pôvodnej vety a druhý zoznam bude zložený zo závislostí zjednodušenej vety. Zoznamy majú nasledujúcu štruktúru. Tieto dokumenty majú názov vzťahu závislosti a ich zoznam, pričom sa párujú práve podľa názvu. Tento vnorený zoznam obsahuje už konkrétne závislosti. Každá závislosť uložená v databáze sa skladá z nadradeného tokenu (angl. governor), podradeného tokenu (angl. dependent) a pozície tejto závislosti medzi všetkými závislosťami vety. Tokeny sú dokumenty skladajúce sa z dvoch polí, jedno textové, obsahujúce skratku POS značky a druhé číselne, obsahujúce pozíciu slova vo vete, ku ktorému sa daný token viaže.
-
-Celá štruktúra dát v kolekcii \textit{rules} sa dá vyjadriť diagramom~\fullref{fig:rules_collection_structure}.
+Pole \textit{sentence\textunderscore terminators} zväčša obsahuje jeden záznam. Napríklad pri vete \textit{,,The president of the Slovak Republic is andrej Kiska.''} a poznámke z tejto vety v tvare \textit{,,President is Kiska.''} bude obsahovať jeden záznam: 3. Číslo 3 preto, lebo koniec vety, v tomto prípade bodka, sa nachádza na tretej pozícií spomedzi tokenov vo vete. Číslovanie pozícií začína indexom nula. V prípade ak veta je súvetie, zložené z viacerých jednoduchých viet, môže pole \textit{sentence\textunderscore terminators} obsahovať viacero záznamov, ak napríklad chceme z každej jednoduchej vety súvetia získať zjednodušenú vetu a vytvoriť tak zloženú poznámku, skladajúcu sa zo zjednodušených viet.
 
 \begin{figure}[H]
-	\begin{center}\includegraphics[scale=0.45]{rules_collection}\end{center}
-	\caption[Štruktúra kolekcie rules]{Štruktúra kolekcie rules}\label{fig:rules_collection_structure}
+	\begin{center}\includegraphics[scale=0.60]{rules_model}\end{center}
+	\caption[Model kolekcie rules]{Model kolekcie rules}\label{fig:rules_collection_model}
 \end{figure}
 
-Dáta sú v MongoDB databáze uložené v binárnom JSON formáte. Na ukážke~\fullref{code:collection_rules_data_example} je zobrazená časť uložených údajov o pôvodnej vete. Ukážka celého záznamu pre vetu ,,The president of the Czech Republic is Milos Zeman.'' je priložená v prílohe~\fullref{appendix:db_entry_full_example}.
-\\
-\begin{lstlisting}[language = json, caption={Ukážka dát kolekcie rules}, label = {code:collection_rules_data_example}]
-{  
-	"originalDependencies" : [  
-		{  
-			"dependencyName" : "det",
-			"dependencies" : [  
-				{  
-					"governor" : {  
-						"pos" : "NN",
-						"index" : 2
-					},
-					"dependent" : {  
-						"pos" : "DT",
-						"index" : 1
-					},
-					"position" : 0
-				},
-				{ ... }
-			]
-		}
-	]
+%
+% Kolekcia and_rules
+%
+\ifthenelse {\boolean{bachelor}}
+{
+	%\subsection{Subsection}
+	\subsubsection{Kolekcia and rules}
 }
-\end{lstlisting}
+{
+	%\section{Subsection}
+	\subsection{Kolekcia and rules}
+}
+\label{subsubsection:collection_and_rules}
+Posledná kolekcia uchováva pravidlá pre spracovanie vety a vytvorenie viacnásobnej poznámky z vety. Táto kolekcia je veľmi podobná kolekcií \textit{rules} a obsahuje rovnaké polia doplnené o ďalšie špecifické pole.
+
+Špecifické pole, o ktoré je kolekcia rozšírená oproti kolekcií \textit{rules} je celočíselné pole \textit{set\textunderscore position}. Toto pole uchováva pozíciu množiny v viacnásobnej poznámke. Model kolekcie je vyobrazený na obrázku~\fullref{fig:and_rules_collection_model}.
+
+\begin{figure}[H]
+	\begin{center}\includegraphics[scale=0.60]{and_rules_model}\end{center}
+	\caption[Model kolekcie and rules]{Model kolekcie and rules}\label{fig:and_rules_collection_model}
+\end{figure}
+
+%Dáta sú v MongoDB databáze uložené v binárnom JSON formáte. Na ukážke~\fullref{code:collection_rules_data_example} je zobrazená časť uložených údajov o pôvodnej vete. Ukážka celého záznamu pre vetu ,,The president of the Czech Republic is Milos Zeman.'' je priložená v prílohe~\fullref{appendix:db_entry_full_example}.
+%\\
+%\begin{lstlisting}[language = json, caption={Ukážka dát kolekcie rules}, label = {code:collection_rules_data_example}]
+%{  
+%	"originalDependencies" : [  
+%		{  
+%			"dependencyName" : "det",
+%			"dependencies" : [  
+%				{  
+%					"governor" : {  
+%						"pos" : "NN",
+%						"index" : 2
+%					},
+%					"dependent" : {  
+%						"pos" : "DT",
+%						"index" : 1
+%					},
+%					"position" : 0
+%				},
+%				{ ... }
+%			]
+%		}
+%	]
+%}
+%\end{lstlisting}
+
+%
+% Kolekcie zhrnutie
+%
+\ifthenelse {\boolean{bachelor}}
+{
+	%\subsection{Subsection}
+	\subsubsection{Zhrnutie}
+}
+{
+	%\section{Subsection}
+	\subsection{Zhrnutie}
+}
+\label{subsubsection:collections_summary}
+Pri návrhu databázového modelu a kolekcií sme vychádzali z princípu jednoduchých kolekcií so zoskupením súvisiacich dát a oddelenia ich od zvyšku. Vďaka využívaniu viacerých, medzi sebou prepojených, kolekcií sme zabezpečili neduplikovanie dát, jednoduché vyhľadanie napríklad viet ku článku a iné. Okrem toho nám tento model umožňuje ďalšiu funkcionalitu, ako napríklad aplikovanie jedného pravidla na viacero viet so zhodnou štruktúrou. Oddelenie dát do samostatných štruktúr nám uľahčuje aj prípadne neskoršie rozšírenie databázového modelu alebo zmenu konkrétnych štruktúr. Taktiež uľahčuje prípadné klastrovanie databázy, ak by bolo nutné, keďže každá kolekcia by mohla byť na samostatnom serveri.
 
 
 %
@@ -301,9 +392,9 @@ Ak nám proces vyhľadania pravidla nevyhľadal žiadne pravidlo, znamená to, �
 
 Vytvorí sa záznam o pôvodnej vete, ktorý okrem iného obsahuje \textit{zoznam dát o pôvodnej vete}, ktorý sa vyskladá zo závislostí vety. Následne sa vytvorí záznam o pravidle, ktorý okrem iného obsahuje \textit{zoznam dát o poznámke}, vyskladaný zo závislosti poznámky. Nakoniec sa tieto dva záznamy prepoja a tým sa vytvorí nové pravidlo na spracovanie takej istej alebo podobnej vety, akú sme práve spracovali.
 
-Na obrázku~\fullref{fig:rule_creation} je znázornený proces nevyhľadania pravidla, použitia parsera s následným uložením nového pravidla.
+%Na obrázku~\fullref{fig:rule_creation} je znázornený proces nevyhľadania pravidla, použitia parsera s následným uložením nového pravidla.
 
-\begin{figure}[H]
-	\begin{center}\includegraphics[scale=0.5]{rule_creation}\end{center}
-	\caption[Vytvorenie pravidla]{Vytvorenie pravidla}\label{fig:rule_creation}
-\end{figure}
+%\begin{figure}[H]
+%	\begin{center}\includegraphics[scale=0.5]{rule_creation}\end{center}
+%	\caption[Vytvorenie pravidla]{Vytvorenie pravidla}\label{fig:rule_creation}
+%\end{figure}

@@ -143,39 +143,54 @@
 \newlabel{section:design}{{4}{25}{Návrh}{section.4}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.1}N\IeC {\'a}vrh uchov\IeC {\'a}vania textov v datab\IeC {\'a}zach}{25}{subsection.4.1}}
 \newlabel{subsection:our_design_persisting_data}{{4.1}{25}{Návrh uchovávania textov v databázach}{subsection.4.1}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.1.1}Kolekcia texts}{25}{subsubsection.4.1.1}}
-\@writefile{lof}{\contentsline {figure}{\numberline {12}{\ignorespaces \IeC {\v S}trukt\IeC {\'u}ra kolekcie texts}}{25}{figure.12}}
-\newlabel{fig:texts_collection_structure}{{12}{25}{Štruktúra kolekcie texts}{figure.12}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.1.2}Kolekcia sentences}{25}{subsubsection.4.1.2}}
-\@writefile{lof}{\contentsline {figure}{\numberline {13}{\ignorespaces \IeC {\v S}trukt\IeC {\'u}ra kolekcie sentences}}{26}{figure.13}}
-\newlabel{fig:sentences_collection_structure}{{13}{26}{Štruktúra kolekcie sentences}{figure.13}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.1.3}Kolekcia rules}{26}{subsubsection.4.1.3}}
-\@writefile{lof}{\contentsline {figure}{\numberline {14}{\ignorespaces \IeC {\v S}trukt\IeC {\'u}ra kolekcie rules}}{27}{figure.14}}
-\newlabel{fig:rules_collection_structure}{{14}{27}{Štruktúra kolekcie rules}{figure.14}{}}
-\newlabel{code:collection_rules_data_example}{{1}{28}{Ukážka dát kolekcie rules}{lstlisting.1}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {1}Uk\IeC {\'a}\IeC {\v z}ka d\IeC {\'a}t kolekcie rules}{28}{lstlisting.1}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Mana\IeC {\v z}ment d\IeC {\'a}t}{28}{subsection.4.2}}
-\newlabel{subsection:data_management}{{4.2}{28}{Manažment dát}{subsection.4.2}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.2.1}Vyh\IeC {\v l}adanie pravidla}{28}{subsubsection.4.2.1}}
-\newlabel{subsubsection:rule_lookup}{{4.2.1}{28}{Vyhľadanie pravidla}{subsubsection.4.2.1}{}}
-\@writefile{loa}{\contentsline {algorithm}{\numberline {1}{\ignorespaces V\IeC {\'y}po\IeC {\v c}et zhody}}{29}{algorithm.1}}
-\newlabel{alg:calculating_match}{{1}{29}{Vyhľadanie pravidla}{algorithm.1}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {15}{\ignorespaces Pr\IeC {\'\i }klad ur\IeC {\v c}enia zhody}}{30}{figure.15}}
-\newlabel{fig:calculate_match_sentences_example}{{15}{30}{Príklad určenia zhody}{figure.15}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.2.2}Aplikovanie pravidla}{30}{subsubsection.4.2.2}}
-\newlabel{subsubsection:rule_application}{{4.2.2}{30}{Aplikovanie pravidla}{subsubsection.4.2.2}{}}
-\@writefile{loa}{\contentsline {algorithm}{\numberline {2}{\ignorespaces Aplikovanie pravidla}}{31}{algorithm.2}}
-\newlabel{alg:applying_rule}{{2}{31}{Aplikovanie pravidla}{algorithm.2}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {16}{\ignorespaces Z\IeC {\'a}sivlost\IeC {\'\i } jednoduchej vety}}{32}{figure.16}}
-\newlabel{fig:example_sentence_andrej_kiska}{{16}{32}{Zásivlostí jednoduchej vety}{figure.16}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {17}{\ignorespaces Pr\IeC {\'\i }klad pravidla}}{32}{figure.17}}
-\newlabel{fig:apply_rule_example_rule}{{17}{32}{Príklad pravidla}{figure.17}{}}
-\@writefile{toc}{\contentsline {paragraph}{V\IeC {\'y}po\IeC {\v c}et zhody z\IeC {\'a}vislost\IeC {\'\i }}{32}{section*.10}}
-\newlabel{paragraph:dependency_match}{{4.2.2}{32}{Výpočet zhody závislostí}{section*.10}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.2.3}Vytvorenie pravidla}{32}{subsubsection.4.2.3}}
-\newlabel{subsubsection:rule_creation}{{4.2.3}{32}{Vytvorenie pravidla}{subsubsection.4.2.3}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {18}{\ignorespaces Vytvorenie pravidla}}{33}{figure.18}}
-\newlabel{fig:rule_creation}{{18}{33}{Vytvorenie pravidla}{figure.18}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {12}{\ignorespaces Datab\IeC {\'a}zov\IeC {\'y} model}}{25}{figure.12}}
+\newlabel{fig:db_schema}{{12}{25}{Databázový model}{figure.12}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.1.1}Kolekcia articles}{26}{subsubsection.4.1.1}}
+\newlabel{subsubsection:collection_articles}{{4.1.1}{26}{Kolekcia articles}{subsubsection.4.1.1}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {13}{\ignorespaces Model kolekcie articles}}{26}{figure.13}}
+\newlabel{fig:articles_collection_model}{{13}{26}{Model kolekcie articles}{figure.13}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.1.2}Kolekcia notes}{26}{subsubsection.4.1.2}}
+\newlabel{subsubsection:collection_notes}{{4.1.2}{26}{Kolekcia notes}{subsubsection.4.1.2}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {14}{\ignorespaces Model kolekcie notes}}{26}{figure.14}}
+\newlabel{fig:notes_collection_model}{{14}{26}{Model kolekcie notes}{figure.14}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.1.3}Kolekcia sentences}{27}{subsubsection.4.1.3}}
+\newlabel{subsubsection:collection_sentences}{{4.1.3}{27}{Kolekcia sentences}{subsubsection.4.1.3}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {15}{\ignorespaces Model kolekcie sentences}}{27}{figure.15}}
+\newlabel{fig:sentences_collection_model}{{15}{27}{Model kolekcie sentences}{figure.15}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.1.4}Kolekcia structures}{27}{subsubsection.4.1.4}}
+\newlabel{subsubsection:collection_structures}{{4.1.4}{27}{Kolekcia structures}{subsubsection.4.1.4}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {16}{\ignorespaces Model kolekcie structures}}{28}{figure.16}}
+\newlabel{fig:structures_collection_model}{{16}{28}{Model kolekcie structures}{figure.16}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.1.5}Kolekcia rules}{29}{subsubsection.4.1.5}}
+\newlabel{subsubsection:collection_rules}{{4.1.5}{29}{Kolekcia rules}{subsubsection.4.1.5}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {17}{\ignorespaces Model kolekcie rules}}{29}{figure.17}}
+\newlabel{fig:rules_collection_model}{{17}{29}{Model kolekcie rules}{figure.17}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.1.6}Kolekcia and rules}{29}{subsubsection.4.1.6}}
+\newlabel{subsubsection:collection_and_rules}{{4.1.6}{29}{Kolekcia and rules}{subsubsection.4.1.6}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {18}{\ignorespaces Model kolekcie and rules}}{30}{figure.18}}
+\newlabel{fig:and_rules_collection_model}{{18}{30}{Model kolekcie and rules}{figure.18}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.1.7}Zhrnutie}{30}{subsubsection.4.1.7}}
+\newlabel{subsubsection:collections_summary}{{4.1.7}{30}{Zhrnutie}{subsubsection.4.1.7}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Mana\IeC {\v z}ment d\IeC {\'a}t}{30}{subsection.4.2}}
+\newlabel{subsection:data_management}{{4.2}{30}{Manažment dát}{subsection.4.2}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.2.1}Vyh\IeC {\v l}adanie pravidla}{31}{subsubsection.4.2.1}}
+\newlabel{subsubsection:rule_lookup}{{4.2.1}{31}{Vyhľadanie pravidla}{subsubsection.4.2.1}{}}
+\@writefile{loa}{\contentsline {algorithm}{\numberline {1}{\ignorespaces V\IeC {\'y}po\IeC {\v c}et zhody}}{32}{algorithm.1}}
+\newlabel{alg:calculating_match}{{1}{32}{Vyhľadanie pravidla}{algorithm.1}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {19}{\ignorespaces Pr\IeC {\'\i }klad ur\IeC {\v c}enia zhody}}{32}{figure.19}}
+\newlabel{fig:calculate_match_sentences_example}{{19}{32}{Príklad určenia zhody}{figure.19}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.2.2}Aplikovanie pravidla}{33}{subsubsection.4.2.2}}
+\newlabel{subsubsection:rule_application}{{4.2.2}{33}{Aplikovanie pravidla}{subsubsection.4.2.2}{}}
+\@writefile{loa}{\contentsline {algorithm}{\numberline {2}{\ignorespaces Aplikovanie pravidla}}{34}{algorithm.2}}
+\newlabel{alg:applying_rule}{{2}{34}{Aplikovanie pravidla}{algorithm.2}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {20}{\ignorespaces Z\IeC {\'a}sivlost\IeC {\'\i } jednoduchej vety}}{34}{figure.20}}
+\newlabel{fig:example_sentence_andrej_kiska}{{20}{34}{Zásivlostí jednoduchej vety}{figure.20}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {21}{\ignorespaces Pr\IeC {\'\i }klad pravidla}}{34}{figure.21}}
+\newlabel{fig:apply_rule_example_rule}{{21}{34}{Príklad pravidla}{figure.21}{}}
+\@writefile{toc}{\contentsline {paragraph}{V\IeC {\'y}po\IeC {\v c}et zhody z\IeC {\'a}vislost\IeC {\'\i }}{34}{section*.10}}
+\newlabel{paragraph:dependency_match}{{4.2.2}{34}{Výpočet zhody závislostí}{section*.10}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.2.3}Vytvorenie pravidla}{35}{subsubsection.4.2.3}}
+\newlabel{subsubsection:rule_creation}{{4.2.3}{35}{Vytvorenie pravidla}{subsubsection.4.2.3}{}}
 \bibstyle{plain}
 \bibdata{references}
 \bibcite{AllenNLP}{{1}{}{{}}{{}}}
@@ -187,15 +202,11 @@
 \bibcite{Maier}{{7}{}{{}}{{}}}
 \bibcite{NoSQLDBvsRealtionDB}{{8}{}{{}}{{}}}
 \bibcite{Preeti}{{9}{}{{}}{{}}}
-\@writefile{toc}{\contentsline {section}{Literat\'ura}{34}{figure.18}}
-\@writefile{toc}{\contentsline {section}{\numberline {A}Zoznam vz\IeC {\v t}ahov z\IeC {\'a}vislost\IeC {\'\i }}{35}{appendix.A}}
-\@writefile{lof}{\contentsline {figure}{\numberline {19}{\ignorespaces Zoznam z\IeC {\'a}vislot\IeC {\'\i }}}{35}{figure.19}}
-\newlabel{fig:dependencies_table}{{19}{35}{Zoznam závislotí}{figure.19}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {B}Legenda diagramov kolekci\IeC {\'\i }}{36}{appendix.B}}
-\@writefile{lof}{\contentsline {figure}{\numberline {20}{\ignorespaces Legenda diagramov kolekci\IeC {\'\i }}}{36}{figure.20}}
-\newlabel{fig:collections_legend}{{20}{36}{Legenda diagramov kolekcií}{figure.20}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {C}Uk\IeC {\'a}\IeC {\v z}ka cel\IeC {\'e}ho z\IeC {\'a}znamu}{37}{appendix.C}}
-\newlabel{appendix:db_entry_full_example}{{C}{37}{Ukážka celého záznamu}{appendix.C}{}}
-\newlabel{code:collection_rules_data_example}{{2}{37}{Ukážka dát kolekcie rules}{lstlisting.2}{}}
-\@writefile{lol}{\contentsline {lstlisting}{\numberline {2}Uk\IeC {\'a}\IeC {\v z}ka d\IeC {\'a}t kolekcie rules}{37}{lstlisting.2}}
+\@writefile{toc}{\contentsline {section}{Literat\'ura}{36}{subsubsection.4.2.3}}
+\@writefile{toc}{\contentsline {section}{\numberline {A}Zoznam vz\IeC {\v t}ahov z\IeC {\'a}vislost\IeC {\'\i }}{37}{appendix.A}}
+\@writefile{lof}{\contentsline {figure}{\numberline {22}{\ignorespaces Zoznam z\IeC {\'a}vislot\IeC {\'\i }}}{37}{figure.22}}
+\newlabel{fig:dependencies_table}{{22}{37}{Zoznam závislotí}{figure.22}{}}
 \providecommand\NAT@force@numbers{}\NAT@force@numbers
+\@writefile{toc}{\contentsline {section}{\numberline {B}Legenda diagramov kolekci\IeC {\'\i }}{38}{appendix.B}}
+\@writefile{lof}{\contentsline {figure}{\numberline {23}{\ignorespaces Legenda diagramov kolekci\IeC {\'\i }}}{38}{figure.23}}
+\newlabel{fig:collections_legend}{{23}{38}{Legenda diagramov kolekcií}{figure.23}{}}

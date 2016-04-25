@@ -27,12 +27,12 @@ namespace nsConstants
         public const String NoteFieldName = "note";
         public const String CreatedByFieldName = "createdBy";
         public const String ArticleRefIdFieldName = "article_ref_id";
-        public const String ComparisonTypeFieldName = "comparisonType";
+        public const String ComparisonTypeFieldName = "comparison_type";
       
-        public const String TokenTypeFieldName = "tokenType";
+        public const String TokenTypeFieldName = "token_type";
         public const String AdditionalInformationFieldName = "additionalInformation";
-        public const String CreatedAtFieldName = "createdAt";
-        public const String UpdatedAtFieldName = "updatedAt";
+        public const String CreatedAtFieldName = "created_at";
+        public const String UpdatedAtFieldName = "updated_at";
         public const String IdFieldName = "_id";
         public const String AndSetPositionFieldName = "set_position";
         public const String RuleRefIdFieldName = "rule_ref_id";
