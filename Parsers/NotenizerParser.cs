@@ -13,8 +13,9 @@ namespace nsParsers
         {
         }
 
-        public virtual void Parse(NotenizerSentence sentence)
+        public virtual NotenizerNote Parse(NotenizerSentence sentence)
         {
+            return null;
         }
 
         public virtual bool IsParsableSentence(NotenizerSentence sentence)

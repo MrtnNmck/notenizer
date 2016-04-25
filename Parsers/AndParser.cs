@@ -15,10 +15,6 @@ namespace nsParsers
         {
         }
 
-        public override void Parse(NotenizerSentence sentence)
-        {
-        }
-
         /// <summary>
         /// Checks if sentence is parsable by And-Parser
         /// </summary>

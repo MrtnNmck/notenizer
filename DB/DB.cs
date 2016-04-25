@@ -23,7 +23,7 @@ namespace nsDB
         {
             IMongoCollection<BsonDocument> collection = GetCollection(collectionName);
 
-            IAsyncCursor<BsonDocument> cursor = collection.FindAsync(filter).Result;
+            IAsyncCursor<BsonDocument> cursor = await collection.FindAsync(filter);
 
             List<BsonDocument> results = cursor.ToListAsync().Result;
 

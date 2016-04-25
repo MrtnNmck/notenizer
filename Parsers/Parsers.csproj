@@ -45,6 +45,7 @@
     <Compile Include="AndParser.cs" />
     <Compile Include="NotenizerParser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StaticParser.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Constants\Constants.csproj">
