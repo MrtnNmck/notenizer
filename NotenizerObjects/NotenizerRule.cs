@@ -12,9 +12,7 @@ namespace nsNotenizerObjects
     {
         protected NotenizerDependencies _dependencies;
         protected Match _match;
-        protected CreatedBy _createdBy;
         protected String _id;
-        //protected Note _note;
         protected DateTime _createdAt;
         protected DateTime _updatedAt;
         protected NotenizerStructure _structure;
@@ -30,11 +28,10 @@ namespace nsNotenizerObjects
             _updatedAt = DateTime.Now;
         }
 
-        public NotenizerRule(CreatedBy createdBy)
+        public NotenizerRule()
         {
             _id = null;
             _dependencies = null;
-            _createdBy = createdBy;
             _createdAt = DateTime.Now;
             _updatedAt = DateTime.Now;
         }
@@ -59,12 +56,6 @@ namespace nsNotenizerObjects
             set { _match = value; }
         }
 
-        public CreatedBy CreatedBy
-        {
-            get { return _createdBy; }
-            set { _createdBy = value; }
-        }
-
         public DateTime CreatedAt
         {
             set { _createdAt = value; }
@@ -85,12 +76,6 @@ namespace nsNotenizerObjects
             get { return _id; }
             set { _id = value; }
         }
-
-        //public Note Note
-        //{
-        //    get { return _note; }
-        //    set { _note = value; }
-        //}
 
         public NotenizerStructure Structure
         {

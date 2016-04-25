@@ -276,177 +276,36 @@ namespace nsGUI
 
         private void SaveData(NotenizerNote note, List<NotePart> noteNoteParts, bool andParserEnabled, NotePart andParserNotePart, int andSetPosition)
         {
-            // UPDATE only user-created rules, not Notenizer-created!
-            // which value of originalSentence is same as value persisted in DB
-            // We do not want to update note in DB, if we processed SIMILAR but not THE SAME sentence
-
             note.Replace(noteNoteParts);
             note.Rule.SentencesTerminators = note.SentencesTerminators;
 
             this._advancedProgressBar.Start();
 
-            String andParserRuleId = String.Empty;
-
-            if (note.Rule == null)
-                throw new Exception("NotenizerNote.Rule is null!");
-
             if (note.Rule.Match.Structure < NotenizerConstants.MaxMatchValue 
                 && note.Rule.Match.Content < NotenizerConstants.MaxMatchValue
                 && note.Rule.Match.Value < NotenizerConstants.MaxMatchValue)
             {
-                // no match => we need to create new entries in all collections
-                // INSERT
-                // article is already in DB at this moment
+                InsertRule(note);
 
-                // insert new rule
-                note.Structure.Structure.Dependencies = note.Structure.Dependencies;
-                note.Structure.Structure.ID = DB.InsertToCollection(
-                    DBConstants.StructuresCollectionName,
-                    DocumentCreator.CreateStructureDocument(
-                        note.Structure,
-                        true)).Result;
-
-                note.Rule.ID = DB.InsertToCollection(
-                    DBConstants.RulesCollectionName,
-                    DocumentCreator.CreateRuleDocument(
-                        note.Rule)).Result;
-
-                // insert new and-rule
                 if (andParserEnabled)
-                {
-                    NotenizerDependencies andParserDependencies = new NotenizerDependencies();
+                    InsertAndRule(note, andParserNotePart, andSetPosition);
 
-                    foreach (NoteParticle noteParticleLoop in andParserNotePart.InitializedNoteParticles)
-                        andParserDependencies.Add(noteParticleLoop.NoteDependency);
-
-                    note.AndRule = new NotenizerAndRule(andParserDependencies, andSetPosition, andParserDependencies.Count);
-                    note.AndRule.Structure.Structure.ID = DB.InsertToCollection(
-                        DBConstants.StructuresCollectionName,
-                        DocumentCreator.CreateStructureDocument(
-                            note.AndRule.Structure,
-                            true)).Result;
-
-                    note.AndRule.ID = DB.InsertToCollection(
-                        DBConstants.AndRulesCollectionName,
-                        DocumentCreator.CreateRuleDocument(
-                            note.AndRule)).Result;
-                }
-
-                // insert new note
-                note.Note.Text = note.Text;
-                note.Note.AndRuleID = note.AndRule == null ? String.Empty : note.AndRule.ID;
-                note.Note.RuleID = note.Rule.ID;
-
-                note.Note.ID = DB.InsertToCollection(
-                    DBConstants.NotesCollectionName,
-                    DocumentCreator.CreateNoteDocument(
-                        note,
-                        note.Note.RuleID,
-                        note.Note.AndRuleID)).Result;
-
-                // insert sentence
-                note.OriginalSentence.Sentence.StructureID = DB.InsertToCollection(
-                    DBConstants.StructuresCollectionName,
-                    DocumentCreator.CreateStructureDocument(
-                        note.OriginalSentence.Structure)).Result;
-
-                note.OriginalSentence.Sentence.ID = DB.InsertToCollection(
-                    DBConstants.SentencesCollectionName,
-                    DocumentCreator.CreateSentenceDocument(
-                        note.OriginalSentence,
-                        note.OriginalSentence.Sentence.StructureID,
-                        note.Rule.Sentence.Article.ID,
-                        note.Rule.ID,
-                        note.AndRule == null ? String.Empty : note.AndRule.ID,
-                        note.Note.ID)).Result;
+                InsertNote(note);
+                note.OriginalSentence.Sentence.StructureID = InsertStructure(note.OriginalSentence.Structure);
+                InsertSentence(note);
 
                 note.Rule.Sentence = note.OriginalSentence.Sentence;
             }
             else if (note.Rule.Match.Structure == NotenizerConstants.MaxMatchValue
                      && note.Rule.Match.Value < NotenizerConstants.MaxMatchValue)
             {
-                // update rule
-                note.Structure.Structure.Dependencies = note.Structure.Dependencies;
-                note.Structure.Structure.ID = DB.ReplaceInCollection(
-                    DBConstants.StructuresCollectionName,
-                    note.Structure.Structure.ID,
-                    DocumentCreator.CreateStructureDocument(
-                        note.Structure,
-                        true)).Result;
+                UpdateRule(note);
 
-                note.Rule.ID = DB.ReplaceInCollection(
-                    DBConstants.RulesCollectionName,
-                    note.Rule.ID,
-                    DocumentCreator.CreateRuleDocument(
-                        note.Rule)).Result;
-
-                // update and-rule
                 if (andParserEnabled)
-                {
-                    NotenizerDependencies andParserDependencies = new NotenizerDependencies();
+                    UpdateAndRule(note, andParserNotePart, andSetPosition);
 
-                    foreach (NoteParticle noteParticleLoop in andParserNotePart.InitializedNoteParticles)
-                        andParserDependencies.Add(noteParticleLoop.NoteDependency);
-
-                    if (note.AndRule == null)
-                    {
-                        note.AndRule = new NotenizerAndRule(andParserDependencies, andSetPosition, andParserDependencies.Count);
-                        note.AndRule.Structure.Structure.ID = DB.InsertToCollection(
-                            DBConstants.StructuresCollectionName,
-                            DocumentCreator.CreateStructureDocument(
-                                note.AndRule.Structure,
-                                true)).Result;
-
-                        note.AndRule.ID = DB.InsertToCollection(
-                            DBConstants.AndRulesCollectionName,
-                            DocumentCreator.CreateRuleDocument(
-                                note.AndRule)).Result;
-                    }
-                    else
-                    {
-                        note.AndRule.Structure = new NotenizerStructure(andParserDependencies);
-                        note.AndRule.Structure.Structure.Dependencies = andParserDependencies;
-                        note.AndRule.SetsPosition = andSetPosition;
-                        note.AndRule.SentenceTerminator = andParserDependencies.Count;
-
-                        note.AndRule.Structure.Structure.ID = DB.ReplaceInCollection(
-                            DBConstants.StructuresCollectionName,
-                            note.AndRule.Structure.Structure.ID,
-                            DocumentCreator.CreateStructureDocument(
-                                note.AndRule.Structure,
-                                true)).Result;
-
-                        note.AndRule.ID = DB.ReplaceInCollection(
-                            DBConstants.AndRulesCollectionName,
-                            note.AndRule.ID,
-                            DocumentCreator.CreateRuleDocument(
-                                note.AndRule)).Result;
-                    }
-                }
-
-                // insert new note
-                note.Note.Text = note.Text;
-                note.Note.AndRuleID = note.AndRule == null ? String.Empty : note.AndRule.ID;
-                note.Note.RuleID = note.Rule.ID;
-
-                note.Note.ID = DB.InsertToCollection(
-                    DBConstants.NotesCollectionName,
-                    DocumentCreator.CreateNoteDocument(
-                        note,
-                        note.Note.RuleID,
-                        note.Note.AndRuleID)).Result;
-
-                // insert sentence
-
-                note.OriginalSentence.Sentence.ID = DB.InsertToCollection(
-                    DBConstants.SentencesCollectionName,
-                    DocumentCreator.CreateSentenceDocument(
-                        note.OriginalSentence,
-                        note.Rule.Sentence.StructureID,
-                        note.Rule.Sentence.Article.ID,
-                        note.Rule.ID,
-                        note.AndRule == null ? String.Empty : note.AndRule.ID,
-                        note.Note.ID)).Result;
+                InsertNote(note);
+                InsertSentence(note);
 
                 note.Rule.Sentence = note.OriginalSentence.Sentence;
             }
@@ -454,79 +313,148 @@ namespace nsGUI
                      && note.Rule.Match.Content == NotenizerConstants.MaxMatchValue
                      && note.Rule.Match.Value == NotenizerConstants.MaxMatchValue)
             {
-                // SAME SENTENCE => UPDATE ALL
-                // update rule
-                note.Structure.Structure.Dependencies = note.Structure.Dependencies;
-                note.Structure.Structure.ID = DB.ReplaceInCollection(
-                    DBConstants.StructuresCollectionName,
-                    note.Structure.Structure.ID,
-                    DocumentCreator.CreateStructureDocument(
-                        note.Structure,
-                        true)).Result;
+                UpdateRule(note);
 
-                note.Rule.ID = DB.ReplaceInCollection(
-                    DBConstants.RulesCollectionName,
-                    note.Rule.ID,
-                    DocumentCreator.CreateRuleDocument(
-                        note.Rule)).Result;
-
-                // update and-rule
                 if (andParserEnabled)
-                {
-                    NotenizerDependencies andParserDependencies = new NotenizerDependencies();
+                    UpdateAndRule(note, andParserNotePart, andSetPosition);
 
-                    foreach (NoteParticle noteParticleLoop in andParserNotePart.InitializedNoteParticles)
-                        andParserDependencies.Add(noteParticleLoop.NoteDependency);
-
-                    if (note.AndRule == null)
-                    {
-                        note.AndRule = new NotenizerAndRule(andParserDependencies, andSetPosition, andParserDependencies.Count);
-                        note.AndRule.Structure.Structure.ID = DB.InsertToCollection(
-                            DBConstants.StructuresCollectionName,
-                            DocumentCreator.CreateStructureDocument(
-                                note.AndRule.Structure,
-                                true)).Result;
-
-                        note.AndRule.ID = DB.InsertToCollection(
-                            DBConstants.AndRulesCollectionName,
-                            DocumentCreator.CreateRuleDocument(
-                                note.AndRule)).Result;
-                    }
-                    else
-                    {
-                        note.AndRule.Structure = new NotenizerStructure(andParserDependencies);
-                        note.AndRule.Structure.Structure.Dependencies = andParserDependencies;
-                        note.AndRule.SetsPosition = andSetPosition;
-                        note.AndRule.SentenceTerminator = andParserDependencies.Count;
-
-                        note.AndRule.Structure.Structure.ID = DB.ReplaceInCollection(
-                            DBConstants.StructuresCollectionName,
-                            note.AndRule.Structure.Structure.ID,
-                            DocumentCreator.CreateStructureDocument(
-                                note.AndRule.Structure,
-                                true)).Result;
-
-                        note.AndRule.ID = DB.ReplaceInCollection(
-                            DBConstants.AndRulesCollectionName,
-                            note.AndRule.ID,
-                            DocumentCreator.CreateRuleDocument(
-                                note.AndRule)).Result;
-                    }
-                }
-
-                // update note
-                note.Note.Text = note.Text;
-                note.Note.AndRuleID = note.AndRule == null ? String.Empty : note.AndRule.ID;
-                note.Note.ID = DB.ReplaceInCollection(
-                    DBConstants.NotesCollectionName,
-                    note.Note.ID,
-                    DocumentCreator.CreateNoteDocument(
-                        note,
-                        note.Note.RuleID,
-                        note.Note.AndRuleID)).Result;
+                UpdateNote(note);
             }
 
             note.Rule.Match = new Match(NotenizerConstants.MaxMatchValue);
+        }
+
+        private void UpdateNote(NotenizerNote note)
+        {
+            note.Note.Text = note.Text;
+            note.Note.AndRuleID = note.AndRule == null ? String.Empty : note.AndRule.ID;
+            note.Note.ID = DB.ReplaceInCollection(
+                DBConstants.NotesCollectionName,
+                note.Note.ID,
+                DocumentCreator.CreateNoteDocument(
+                    note,
+                    note.Note.RuleID,
+                    note.Note.AndRuleID)).Result;
+        }
+
+        private void UpdateRule(NotenizerNote note)
+        {
+            note.Structure.Structure.Dependencies = note.Structure.Dependencies;
+            note.Structure.Structure.ID = UpdateStructure(note.Structure, true);
+
+            note.Rule.ID = DB.ReplaceInCollection(
+                DBConstants.RulesCollectionName,
+                note.Rule.ID,
+                DocumentCreator.CreateRuleDocument(
+                    note.Rule)).Result;
+        }
+
+        private void UpdateAndRule(NotenizerNote note, NotePart andParserNotePart, int andSetPosition)
+        {
+            NotenizerDependencies andParserDependencies = new NotenizerDependencies();
+
+            foreach (NoteParticle noteParticleLoop in andParserNotePart.InitializedNoteParticles)
+                andParserDependencies.Add(noteParticleLoop.NoteDependency);
+
+            if (note.AndRule == null)
+            {
+                note.AndRule = new NotenizerAndRule(andParserDependencies, andSetPosition, andParserDependencies.Count);
+                note.AndRule.Structure.Structure.ID = InsertStructure(note.AndRule.Structure, true);
+
+                note.AndRule.ID = DB.InsertToCollection(
+                    DBConstants.AndRulesCollectionName,
+                    DocumentCreator.CreateRuleDocument(
+                        note.AndRule)).Result;
+            }
+            else
+            {
+                note.AndRule.Structure.Structure.Dependencies = andParserDependencies;
+                note.AndRule.Structure.Dependencies = andParserDependencies;
+                note.AndRule.Structure.CompressedDependencies = new CompressedDependencies(andParserDependencies);
+                note.AndRule.SetsPosition = andSetPosition;
+                note.AndRule.SentenceTerminator = andParserDependencies.Count;
+
+                note.AndRule.Structure.Structure.ID = UpdateStructure(note.AndRule.Structure, true);
+
+                note.AndRule.ID = DB.ReplaceInCollection(
+                    DBConstants.AndRulesCollectionName,
+                    note.AndRule.ID,
+                    DocumentCreator.CreateRuleDocument(
+                        note.AndRule)).Result;
+            }
+        }
+
+        private void InsertRule(NotenizerNote note)
+        {
+            note.Structure.Structure.Dependencies = note.Structure.Dependencies;
+            note.Structure.Structure.ID = InsertStructure(note.Structure, true);
+
+            note.Rule.ID = DB.InsertToCollection(
+                DBConstants.RulesCollectionName,
+                DocumentCreator.CreateRuleDocument(
+                    note.Rule)).Result;
+        }
+
+        private void InsertAndRule(NotenizerNote note, NotePart andParserNotePart, int andSetPosition)
+        {
+            NotenizerDependencies andParserDependencies = new NotenizerDependencies();
+
+            foreach (NoteParticle noteParticleLoop in andParserNotePart.InitializedNoteParticles)
+                andParserDependencies.Add(noteParticleLoop.NoteDependency);
+
+            note.AndRule = new NotenizerAndRule(andParserDependencies, andSetPosition, andParserDependencies.Count);
+            note.AndRule.Structure.Structure.ID = InsertStructure(note.AndRule.Structure, true);
+
+            note.AndRule.ID = DB.InsertToCollection(
+                DBConstants.AndRulesCollectionName,
+                DocumentCreator.CreateRuleDocument(
+                    note.AndRule)).Result;
+        }
+
+        private void InsertNote(NotenizerNote note)
+        {
+            note.Note.Text = note.Text;
+            note.Note.AndRuleID = note.AndRule == null ? String.Empty : note.AndRule.ID;
+            note.Note.RuleID = note.Rule.ID;
+
+            note.Note.ID = DB.InsertToCollection(
+                DBConstants.NotesCollectionName,
+                DocumentCreator.CreateNoteDocument(
+                    note,
+                    note.Note.RuleID,
+                    note.Note.AndRuleID)).Result;
+        }
+
+        private void InsertSentence(NotenizerNote note)
+        {
+            note.OriginalSentence.Sentence.ID = DB.InsertToCollection(
+                DBConstants.SentencesCollectionName,
+                DocumentCreator.CreateSentenceDocument(
+                    note.OriginalSentence,
+                    note.OriginalSentence.Sentence.StructureID,
+                    note.Rule.Sentence.Article.ID,
+                    note.Rule.ID,
+                    note.AndRule == null ? String.Empty : note.AndRule.ID,
+                    note.Note.ID)).Result;
+        }
+
+        private String InsertStructure(NotenizerStructure structure, bool additionalInfo = false)
+        {
+            return DB.InsertToCollection(
+                        DBConstants.StructuresCollectionName,
+                        DocumentCreator.CreateStructureDocument(
+                            structure,
+                            additionalInfo)).Result;
+        }
+
+        private String UpdateStructure(NotenizerStructure structure, bool additionalInfo = false)
+        {
+            return DB.ReplaceInCollection(
+                        DBConstants.StructuresCollectionName,
+                        structure.Structure.ID,
+                        DocumentCreator.CreateStructureDocument(
+                            structure,
+                            additionalInfo)).Result;
         }
 
         #endregion Methods

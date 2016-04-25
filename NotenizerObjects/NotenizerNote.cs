@@ -12,7 +12,6 @@ namespace nsNotenizerObjects
         private NotenizerSentence _originalSentence;
         private String _text;
         private List<NotePart> _noteParts;
-        private CreatedBy _createdBy = CreatedBy.Notenizer;
         private DateTime _createdAt;
         private DateTime _updatedAt;
         private NotenizerNoteRule _rule;
@@ -45,16 +44,6 @@ namespace nsNotenizerObjects
         public String Text
         {
             get { return _text.Trim(); }
-        }
-
-        /// <summary>
-        /// Indicator who created the note.
-        /// User or Notenizer.
-        /// </summary>
-        public CreatedBy CreatedBy
-        {
-            get { return _createdBy; }
-            set { _createdBy = value; }
         }
 
         public DateTime CreatedAt
@@ -233,7 +222,7 @@ namespace nsNotenizerObjects
 
         public NotenizerNoteRule CreateRule()
         {
-            this._rule = new NotenizerNoteRule(nsEnums.CreatedBy.Notenizer);
+            this._rule = new NotenizerNoteRule();
             this._rule.Match = new Match(NotenizerConstants.MaxMatchValue);
             this._rule.SentencesTerminators = new SentencesTerminators(this._noteParts.Select(x => x.InitializedNoteParticles.Count).ToList<int>());
 

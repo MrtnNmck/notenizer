@@ -14,26 +14,8 @@ namespace nsNotenizerObjects
         private String _text;
         private DateTime _createdAt;
         private DateTime _updatedAt;
-        private CreatedBy _createdBy;
         private String _andRuleId;
         private String _ruleId;
-
-        public Note(
-            String id,
-            String persistedOriginalSentence,
-            String persistedNote,
-            DateTime persistedCreatedAt,
-            DateTime persistedUpdatedAt,
-            CreatedBy persistedCreatedBy,
-            String andParserRuleRefId)
-        {
-            _id = id;
-            _text = persistedNote;
-            _createdAt = persistedCreatedAt;
-            _updatedAt = persistedUpdatedAt;
-            _createdBy = persistedCreatedBy;
-            _andRuleId = andParserRuleRefId;
-        }
 
         public Note(
             String id,
@@ -80,12 +62,6 @@ namespace nsNotenizerObjects
         {
             get { return _updatedAt; }
             set { this._updatedAt = value; }
-        }
-
-        public CreatedBy CreatedBy
-        {
-            get { return _createdBy; }
-            set { this._createdBy = value; }
         }
 
         public String AndRuleID

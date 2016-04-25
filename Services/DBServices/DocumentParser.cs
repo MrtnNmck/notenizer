@@ -132,44 +132,6 @@ namespace nsServices.DBServices
             return sentencesTerminators;
         }
 
-        /// <summary>
-        /// Makes rule for parsing the sentence from entry from database.
-        /// </summary>
-        /// <param name="dbEntry">Entry from database</param>
-        /// <returns></returns>
-        public static NotenizerNoteRule ParseNoteRule(BsonDocument dbEntry)
-        {
-            NotenizerDependencies dependencies;
-
-            CreatedBy createdBy = dbEntry[DBConstants.CreatedByFieldName].AsInt32.ToEnum<CreatedBy>();
-            String _id = dbEntry[DBConstants.IdFieldName].AsObjectId.ToString();
-
-            dependencies = ParseDependencies(dbEntry, DBConstants.NoteDependenciesFieldName);
-
-            SentencesTerminators sentencesEnds = new SentencesTerminators();
-            foreach (BsonInt32 endLoop in dbEntry[DBConstants.SentenceTerminatorsFieldName].AsBsonArray)
-                sentencesEnds.Add((int)endLoop);
-
-            return new NotenizerNoteRule(_id, dependencies, sentencesEnds, createdBy);
-        }
-
-        public static NotenizerAndRule ParseAndParserRule(BsonDocument dbEntry)
-        {
-            NotenizerDependencies dependencies;
-            int sentenceEnd;
-            CreatedBy createdBy;
-            int setsPosition;
-            String id;
-
-            createdBy = dbEntry[DBConstants.CreatedByFieldName].AsInt32.ToEnum<CreatedBy>();
-            id = dbEntry[DBConstants.IdFieldName].AsObjectId.ToString();
-            dependencies = ParseDependencies(dbEntry, DBConstants.NoteDependenciesFieldName);
-            setsPosition = dbEntry[DBConstants.AndSetPositionFieldName].AsInt32;
-            sentenceEnd = dbEntry[DBConstants.SentenceTerminatorsFieldName].AsInt32;
-
-            return new NotenizerAndRule(id, dependencies, createdBy, setsPosition, sentenceEnd);
-        }
-
         private static NotenizerDependencies ParseDependencies(BsonDocument dbEntry, String noteFieldName)
         {
             NotenizerDependencies dependencies = new NotenizerDependencies();
@@ -208,61 +170,6 @@ namespace nsServices.DBServices
 
             return dependencies;
         }
-
-        //public static Note ParseNote(BsonDocument dbEntry)
-        //{
-        //    String id;
-        //    String originalSentence;
-        //    String note;
-        //    DateTime createdAt;
-        //    DateTime updatedAt;
-        //    CreatedBy createdBy;
-        //    String andParserRuleRefId;
-
-        //    id = dbEntry[DBConstants.IdFieldName].AsObjectId.ToString();
-        //    originalSentence = dbEntry[DBConstants.OriginalSentenceFieldName].AsString;
-        //    note = dbEntry[DBConstants.NoteFieldName].AsString;
-        //    createdAt = dbEntry[DBConstants.CreatedAtFieldName].ToUniversalTime();
-        //    updatedAt = dbEntry[DBConstants.UpdatedAtFieldName].ToUniversalTime();
-        //    createdBy = dbEntry[DBConstants.CreatedByFieldName].AsInt32.ToEnum<CreatedBy>();
-        //    andParserRuleRefId = dbEntry[DBConstants.AndRuleRefIdFieldName].ToString();
-
-        //    return new Note(id, originalSentence, note, createdAt, updatedAt, createdBy, andParserRuleRefId);
-        //}
-
-        /// <summary>
-        /// Gets rule for parsing with the heighest match with original sentence.
-        /// </summary>
-        /// <param name="sentence"></param>
-        /// <param name="dbEntries"></param>
-        /// <returns></returns>
-        //public static NotenizerNoteRule GetHeighestMatch(NotenizerSentence sentence, List<BsonDocument> dbEntries)
-        //{
-        //    NotenizerNoteRule rule = null;
-
-        //    foreach (BsonDocument bsonDocLoop in dbEntries)
-        //    {
-        //        BsonDocument articleDocument = DB.GetFirst(DBConstants.ArticlesCollectionName, DocumentCreator.CreateFilterById(bsonDocLoop[DBConstants.ArticleRefIdFieldName].AsObjectId.ToString())).Result;
-        //        BsonDocument ruleDocument = DB.GetFirst(DBConstants.NoteRulesCollectionName, DocumentCreator.CreateFilterById(bsonDocLoop[DBConstants.RuleRefIdFieldName].AsObjectId.ToString())).Result;
-        //        NotenizerNoteRule r = ParseNoteRule(ruleDocument);
-
-        //        r.Article = ParseArticle(articleDocument);
-        //        r.Note = ParseNote(bsonDocLoop);
-        //        //r.Match = CalculateMatch(sentence, r.RuleDependencies, bsonDocLoop);
-
-        //        if (rule == null
-        //            || rule.Match.Structure < r.Match.Structure
-        //            || (rule.Match.Structure == r.Match.Structure
-        //                && (rule.Match.Content < r.Match.Content
-        //                    || (rule.CreatedBy == CreatedBy.Notenizer
-        //                        && r.CreatedBy == CreatedBy.User))))
-        //        {
-        //            rule = r;
-        //        }
-        //    }
-
-        //    return rule;
-        //}
 
         public static Structure GetHeighestMatch(NotenizerStructure structure, List<BsonDocument> persistedStructures, out Match m)
         {

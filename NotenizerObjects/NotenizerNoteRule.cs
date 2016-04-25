@@ -12,19 +12,13 @@ namespace nsNotenizerObjects
     {
         private SentencesTerminators _sentencesTerminators;
 
-        public NotenizerNoteRule(String id, NotenizerDependencies dependencies, SentencesTerminators sentencesEnds, CreatedBy createdBy)
-            : base(id, dependencies)
-        {
-            _sentencesTerminators = sentencesEnds;
-        }
-
         public NotenizerNoteRule(String id, String structureId, DateTime createdAt, DateTime updatedAt, SentencesTerminators sentencesTerminators)
             : base(id, structureId, createdAt, updatedAt)
         {
             this._sentencesTerminators = sentencesTerminators;
         }
 
-        public NotenizerNoteRule(CreatedBy createdBy) : base(createdBy)
+        public NotenizerNoteRule() : base()
         {
             _sentencesTerminators = null;
         }

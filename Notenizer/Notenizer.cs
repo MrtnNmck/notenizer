@@ -186,14 +186,14 @@ namespace nsNotenizer
             return matchedSentenceRule;
         }
 
-        public NotenizerAndRule GetAndRuleForSentence(NotenizerRule rule)
+        public NotenizerAndRule GetAndRuleForSentence(NotenizerRule rule, String andRuleId)
         {
             NotenizerAndRule andRule;
 
             andRule = DocumentParser.ParseAndRule(
                 DB.GetFirst(
                     DBConstants.AndRulesCollectionName,
-                    DocumentCreator.CreateFilterById(rule.Sentence.AndRuleID)).Result);
+                    DocumentCreator.CreateFilterById(andRuleId)).Result);
 
             andRule.Structure = new NotenizerStructure(
                 DocumentParser.ParseStructure(
@@ -241,7 +241,7 @@ namespace nsNotenizer
                     parsedNote.Note = matchedNote;
 
                     if (parsedNote.Note.AndRuleID != DBConstants.BsonNullValue)
-                        parsedNote.AndRule = GetAndRuleForSentence(rule);
+                        parsedNote.AndRule = GetAndRuleForSentence(rule, parsedNote.Note.AndRuleID);
 
                     Console.WriteLine("Parsed note: " + parsedNote.OriginalSentence + " ===> " + parsedNote.Text);
                     sentencesNoted.Add(parsedNote);

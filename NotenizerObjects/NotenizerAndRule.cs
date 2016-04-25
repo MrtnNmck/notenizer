@@ -12,13 +12,6 @@ namespace nsNotenizerObjects
         private int _setsPosition;
         private int _sentenceTerminator;
 
-        public NotenizerAndRule(String id, NotenizerDependencies dependencies, CreatedBy createdBy, int setsPosition, int sentenceEnd)
-            : base(id, dependencies)
-        {
-            _setsPosition = setsPosition;
-            _sentenceTerminator = sentenceEnd;
-        }
-
         public NotenizerAndRule(NotenizerDependencies dependencies, int setsPosition, int sentenceEnd)
             : base(String.Empty, dependencies)
         {

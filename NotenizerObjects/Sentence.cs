@@ -29,13 +29,6 @@ namespace nsNotenizerObjects
             this._updatedAt = DateTime.Now;
         }
 
-        public Sentence(String text, String id, DateTime createdAt, DateTime updatedAt)
-        {
-            this._id = id;
-            this._createdAt = createdAt;
-            this._updatedAt = updatedAt;
-        }
-
         public Sentence(
             String id,
             String text,
