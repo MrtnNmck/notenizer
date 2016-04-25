@@ -298,7 +298,7 @@ namespace nsServices.DBServices
         private static Match CalculateMatch(NotenizerStructure notenizerStructure, BsonDocument persistedStructure)
         {
             Double structureCompareCount = 5.0;
-            Double contentCompareCount = 12.0;
+            Double contentCompareCount = 10.0;
             Double oneStructeCompareRating = NotenizerConstants.MaxMatchValue / structureCompareCount;
             Double oneContentCompareRating = NotenizerConstants.MaxMatchValue / contentCompareCount;
             Double oneStructureCompareTypeIterRating;
@@ -412,7 +412,13 @@ namespace nsServices.DBServices
                     }
 
                     if (notenizerStructure.CompressedDependencies[depName].Where(
-                        x => x.Dependent.Lemma == depLoop[DBConstants.DependentFieldName].AsBsonDocument[DBConstants.LemmaFieldName]).FirstOrDefault() != null)
+                        x => x.Governor.NamedEntity.Value == depLoop[DBConstants.GovernorFieldName].AsBsonDocument[DBConstants.NERFieldName]).FirstOrDefault() != null)
+                    {
+                        contentCounter += oneContentComapareTypeIterRating;
+                    }
+
+                    if (notenizerStructure.CompressedDependencies[depName].Where(
+                        x => x.Dependent.NamedEntity.Value == depLoop[DBConstants.DependentFieldName].AsBsonDocument[DBConstants.NERFieldName]).FirstOrDefault() != null)
                     {
                         contentCounter += oneContentComapareTypeIterRating;
                     }
@@ -424,30 +430,8 @@ namespace nsServices.DBServices
                     }
 
                     if (notenizerStructure.CompressedDependencies[depName].Where(
-                        x => x.Governor.Lemma == depLoop[DBConstants.GovernorFieldName].AsBsonDocument[DBConstants.LemmaFieldName]).FirstOrDefault() != null)
-                    {
-                        contentCounter += oneContentComapareTypeIterRating;
-                    }
-
-                    if (notenizerStructure.CompressedDependencies[depName].Where(
                         x => x.Dependent.NamedEntity.Value == depLoop[DBConstants.DependentFieldName].AsBsonDocument[DBConstants.NERFieldName]
-                        && x.Dependent.Lemma == depLoop[DBConstants.DependentFieldName].AsBsonDocument[DBConstants.LemmaFieldName]).FirstOrDefault() != null)
-                    {
-                        contentCounter += oneContentComapareTypeIterRating;
-                    }
-
-                    if (notenizerStructure.CompressedDependencies[depName].Where(
-                        x => x.Governor.NamedEntity.Value == depLoop[DBConstants.GovernorFieldName].AsBsonDocument[DBConstants.NERFieldName]
-                        && x.Governor.Lemma == depLoop[DBConstants.GovernorFieldName].AsBsonDocument[DBConstants.LemmaFieldName]).FirstOrDefault() != null)
-                    {
-                        contentCounter += oneContentComapareTypeIterRating;
-                    }
-
-                    if (notenizerStructure.CompressedDependencies[depName].Where(
-                        x => x.Dependent.NamedEntity.Value == depLoop[DBConstants.DependentFieldName].AsBsonDocument[DBConstants.NERFieldName]
-                        && x.Dependent.Lemma == depLoop[DBConstants.DependentFieldName].AsBsonDocument[DBConstants.LemmaFieldName]
-                        && x.Governor.NamedEntity.Value == depLoop[DBConstants.GovernorFieldName].AsBsonDocument[DBConstants.NERFieldName]
-                        && x.Governor.Lemma == depLoop[DBConstants.GovernorFieldName].AsBsonDocument[DBConstants.LemmaFieldName]).FirstOrDefault() != null)
+                        && x.Governor.NamedEntity.Value == depLoop[DBConstants.GovernorFieldName].AsBsonDocument[DBConstants.NERFieldName]).FirstOrDefault() != null)
                     {
                         contentCounter += oneContentComapareTypeIterRating;
                     }

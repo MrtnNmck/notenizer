@@ -281,13 +281,11 @@ namespace nsGUI
             // We do not want to update note in DB, if we processed SIMILAR but not THE SAME sentence
 
             note.Replace(noteNoteParts);
+            note.Rule.SentencesTerminators = note.SentencesTerminators;
 
             this._advancedProgressBar.Start();
 
-            String noteId;
-            String ruleId = null;
             String andParserRuleId = String.Empty;
-            BsonDocument ruleDoc;
 
             if (note.Rule == null)
                 throw new Exception("NotenizerNote.Rule is null!");
@@ -299,8 +297,6 @@ namespace nsGUI
                 // no match => we need to create new entries in all collections
                 // INSERT
                 // article is already in DB at this moment
-
-                note.Rule.SentencesTerminators = note.SentencesTerminators;
 
                 // insert new rule
                 note.Structure.Structure.Dependencies = note.Structure.Dependencies;
@@ -369,17 +365,22 @@ namespace nsGUI
             else if (note.Rule.Match.Structure == NotenizerConstants.MaxMatchValue
                      && note.Rule.Match.Value < NotenizerConstants.MaxMatchValue)
             {
-                note.Rule.Structure = note.Structure;
-                note.Rule.SentencesTerminators = note.SentencesTerminators;
+                // update rule
+                note.Structure.Structure.Dependencies = note.Structure.Dependencies;
+                note.Structure.Structure.ID = DB.ReplaceInCollection(
+                    DBConstants.StructuresCollectionName,
+                    note.Structure.Structure.ID,
+                    DocumentCreator.CreateStructureDocument(
+                        note.Structure,
+                        true)).Result;
 
-                BsonDocument noteStructureDoc = DocumentCreator.CreateStructureDocument(note.Structure);
-                Object temp = DB.InsertToCollection(DBConstants.StructuresCollectionName, noteStructureDoc).Result;
-                note.Rule.Structure = new NotenizerStructure(DocumentParser.ParseStructure(noteStructureDoc));
+                note.Rule.ID = DB.ReplaceInCollection(
+                    DBConstants.RulesCollectionName,
+                    note.Rule.ID,
+                    DocumentCreator.CreateRuleDocument(
+                        note.Rule)).Result;
 
-                BsonDocument updateRuleDoc = DocumentCreator.CreateRuleDocument(note.Rule);
-                note.Rule.ID = DB.ReplaceInCollection(DBConstants.RulesCollectionName, note.Rule.ID, updateRuleDoc).Result;
-
-                String andRuleId = String.Empty;
+                // update and-rule
                 if (andParserEnabled)
                 {
                     NotenizerDependencies andParserDependencies = new NotenizerDependencies();
@@ -388,49 +389,72 @@ namespace nsGUI
                         andParserDependencies.Add(noteParticleLoop.NoteDependency);
 
                     if (note.AndRule == null)
+                    {
                         note.AndRule = new NotenizerAndRule(andParserDependencies, andSetPosition, andParserDependencies.Count);
+                        note.AndRule.Structure.Structure.ID = DB.InsertToCollection(
+                            DBConstants.StructuresCollectionName,
+                            DocumentCreator.CreateStructureDocument(
+                                note.AndRule.Structure,
+                                true)).Result;
+
+                        note.AndRule.ID = DB.InsertToCollection(
+                            DBConstants.AndRulesCollectionName,
+                            DocumentCreator.CreateRuleDocument(
+                                note.AndRule)).Result;
+                    }
                     else
                     {
                         note.AndRule.Structure = new NotenizerStructure(andParserDependencies);
+                        note.AndRule.Structure.Structure.Dependencies = andParserDependencies;
                         note.AndRule.SetsPosition = andSetPosition;
                         note.AndRule.SentenceTerminator = andParserDependencies.Count;
+
+                        note.AndRule.Structure.Structure.ID = DB.ReplaceInCollection(
+                            DBConstants.StructuresCollectionName,
+                            note.AndRule.Structure.Structure.ID,
+                            DocumentCreator.CreateStructureDocument(
+                                note.AndRule.Structure,
+                                true)).Result;
+
+                        note.AndRule.ID = DB.ReplaceInCollection(
+                            DBConstants.AndRulesCollectionName,
+                            note.AndRule.ID,
+                            DocumentCreator.CreateRuleDocument(
+                                note.AndRule)).Result;
                     }
-
-                    BsonDocument andRuleStructureDoc = DocumentCreator.CreateStructureDocument(note.AndRule.Structure);
-                    temp = DB.InsertToCollection(DBConstants.StructuresCollectionName, andRuleStructureDoc);
-
-                    note.AndRule.Structure.Structure = DocumentParser.ParseStructure(andRuleStructureDoc);
-                    BsonDocument andRuleDoc = DocumentCreator.CreateRuleDocument(note.AndRule);
-                    note.AndRule.ID = DB.ReplaceInCollection(DBConstants.AndRulesCollectionName, note.AndRule.ID, andRuleDoc).Result;
                 }
 
-                note.Note = new Note(note.Text);
-                BsonDocument newNoteDoc = DocumentCreator.CreateNoteDocument(note, note.Rule.ID, note.AndRule.ID);
-                temp = DB.InsertToCollection(DBConstants.NotesCollectionName, newNoteDoc);
-                note.Note = DocumentParser.ParseNote(newNoteDoc);
+                // insert new note
+                note.Note.Text = note.Text;
+                note.Note.AndRuleID = note.AndRule == null ? String.Empty : note.AndRule.ID;
+                note.Note.RuleID = note.Rule.ID;
 
-                BsonDocument sentenceStructureDoc = DocumentCreator.CreateStructureDocument(note.OriginalSentence);
-                note.OriginalSentence.Sentence.StructureID = DB.InsertToCollection(DBConstants.StructuresCollectionName, sentenceStructureDoc).Result;
-                BsonDocument newSentenceDocument = DocumentCreator.CreateSentenceDocument(note.OriginalSentence, note.OriginalSentence.Sentence.StructureID, note.OriginalSentence.Sentence.ArticleID,
-                    note.Rule.ID, note.AndRule.ID, note.Note.ID);
-                temp = DB.InsertToCollection(DBConstants.SentencesCollectionName, newSentenceDocument).Result;
-                note.OriginalSentence.Sentence = DocumentParser.ParseSentence(newSentenceDocument);
+                note.Note.ID = DB.InsertToCollection(
+                    DBConstants.NotesCollectionName,
+                    DocumentCreator.CreateNoteDocument(
+                        note,
+                        note.Note.RuleID,
+                        note.Note.AndRuleID)).Result;
 
-                //note.Rule.Note = note.Note;
-                note.Rule.Match = new Match(NotenizerConstants.MaxMatchValue);
+                // insert sentence
+
+                note.OriginalSentence.Sentence.ID = DB.InsertToCollection(
+                    DBConstants.SentencesCollectionName,
+                    DocumentCreator.CreateSentenceDocument(
+                        note.OriginalSentence,
+                        note.Rule.Sentence.StructureID,
+                        note.Rule.Sentence.Article.ID,
+                        note.Rule.ID,
+                        note.AndRule == null ? String.Empty : note.AndRule.ID,
+                        note.Note.ID)).Result;
+
                 note.Rule.Sentence = note.OriginalSentence.Sentence;
-
-                //note.AndRule.Note = note.Note;
-                note.AndRule.Match = new Match(NotenizerConstants.MaxMatchValue);
-                note.AndRule.Sentence = note.OriginalSentence.Sentence;
             }
             else if (note.Rule.Match.Structure == NotenizerConstants.MaxMatchValue
                      && note.Rule.Match.Content == NotenizerConstants.MaxMatchValue
                      && note.Rule.Match.Value == NotenizerConstants.MaxMatchValue)
             {
                 // SAME SENTENCE => UPDATE ALL
-                note.Rule.SentencesTerminators = note.SentencesTerminators;
-
                 // update rule
                 note.Structure.Structure.Dependencies = note.Structure.Dependencies;
                 note.Structure.Structure.ID = DB.ReplaceInCollection(

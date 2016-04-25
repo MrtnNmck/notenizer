@@ -160,7 +160,7 @@ namespace nsNotenizer
             article = DocumentParser.ParseArticle(
                 DB.GetFirst(
                     DBConstants.ArticlesCollectionName,
-                    DocumentCreator.CreateFilterById(matchedSentence.ArticleID)).Result);
+                    DocumentCreator.CreateFilterById(sentence.Sentence.Article.ID)).Result);
 
             matchedSentenceNote = DocumentParser.ParseNote(
                 DB.GetFirst(

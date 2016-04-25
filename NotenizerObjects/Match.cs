@@ -48,7 +48,7 @@ namespace nsNotenizerObjects
 
         public override String ToString()
         {
-            return String.Format("Structure match: {1}{0}Content match: {2}{0}Value match: {2}{0}", Environment.NewLine, this.Structure, this.Content, this.Value);
+            return String.Format("Structure match: {1}{0}Content match: {2}{0}Value match: {3}{0}", Environment.NewLine, this.Structure, this.Content, this.Value);
         }
     }
 }
