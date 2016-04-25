@@ -326,8 +326,10 @@ namespace nsGUI
 
         private void UpdateNote(NotenizerNote note)
         {
+            note.Note.UpdatedAt = DateTime.Now;
             note.Note.Text = note.Text;
             note.Note.AndRuleID = note.AndRule == null ? String.Empty : note.AndRule.ID;
+
             note.Note.ID = DB.ReplaceInCollection(
                 DBConstants.NotesCollectionName,
                 note.Note.ID,
@@ -339,8 +341,10 @@ namespace nsGUI
 
         private void UpdateRule(NotenizerNote note)
         {
+            note.Structure.Structure.UpdatedAt = DateTime.Now;
             note.Structure.Structure.Dependencies = note.Structure.Dependencies;
             note.Structure.Structure.ID = UpdateStructure(note.Structure, true);
+            note.Rule.UpdatedAt = DateTime.Now;
 
             note.Rule.ID = DB.ReplaceInCollection(
                 DBConstants.RulesCollectionName,
@@ -358,6 +362,7 @@ namespace nsGUI
 
             if (note.AndRule == null)
             {
+                note.AndRule.CreatedAt = note.AndRule.UpdatedAt = DateTime.Now;
                 note.AndRule = new NotenizerAndRule(andParserDependencies, andSetPosition, andParserDependencies.Count);
                 note.AndRule.Structure.Structure.ID = InsertStructure(note.AndRule.Structure, true);
 
@@ -368,6 +373,7 @@ namespace nsGUI
             }
             else
             {
+                note.AndRule.UpdatedAt = DateTime.Now;
                 note.AndRule.Structure.Structure.Dependencies = andParserDependencies;
                 note.AndRule.Structure.Dependencies = andParserDependencies;
                 note.AndRule.Structure.CompressedDependencies = new CompressedDependencies(andParserDependencies);
@@ -386,6 +392,8 @@ namespace nsGUI
 
         private void InsertRule(NotenizerNote note)
         {
+            note.Structure.Structure.CreatedAt = note.Structure.Structure.UpdatedAt = DateTime.Now;
+            note.Rule.CreatedAt = note.Rule.UpdatedAt = DateTime.Now;
             note.Structure.Structure.Dependencies = note.Structure.Dependencies;
             note.Structure.Structure.ID = InsertStructure(note.Structure, true);
 
@@ -402,6 +410,8 @@ namespace nsGUI
             foreach (NoteParticle noteParticleLoop in andParserNotePart.InitializedNoteParticles)
                 andParserDependencies.Add(noteParticleLoop.NoteDependency);
 
+            note.AndRule.Structure.Structure.UpdatedAt = note.AndRule.Structure.Structure.CreatedAt = DateTime.Now;
+            note.AndRule.CreatedAt = note.AndRule.UpdatedAt = DateTime.Now;
             note.AndRule = new NotenizerAndRule(andParserDependencies, andSetPosition, andParserDependencies.Count);
             note.AndRule.Structure.Structure.ID = InsertStructure(note.AndRule.Structure, true);
 
@@ -413,6 +423,7 @@ namespace nsGUI
 
         private void InsertNote(NotenizerNote note)
         {
+            note.Note.CreatedAt = note.Note.UpdatedAt = DateTime.Now;
             note.Note.Text = note.Text;
             note.Note.AndRuleID = note.AndRule == null ? String.Empty : note.AndRule.ID;
             note.Note.RuleID = note.Rule.ID;
@@ -427,6 +438,7 @@ namespace nsGUI
 
         private void InsertSentence(NotenizerNote note)
         {
+            note.OriginalSentence.Sentence.CreatedAt = note.OriginalSentence.Sentence.UpdatedAt = DateTime.Now;
             note.OriginalSentence.Sentence.ID = DB.InsertToCollection(
                 DBConstants.SentencesCollectionName,
                 DocumentCreator.CreateSentenceDocument(
@@ -440,6 +452,8 @@ namespace nsGUI
 
         private String InsertStructure(NotenizerStructure structure, bool additionalInfo = false)
         {
+            structure.Structure.CreatedAt = structure.Structure.UpdatedAt = DateTime.Now;
+
             return DB.InsertToCollection(
                         DBConstants.StructuresCollectionName,
                         DocumentCreator.CreateStructureDocument(
@@ -449,6 +463,8 @@ namespace nsGUI
 
         private String UpdateStructure(NotenizerStructure structure, bool additionalInfo = false)
         {
+            structure.Structure.UpdatedAt = DateTime.Now;
+
             return DB.ReplaceInCollection(
                         DBConstants.StructuresCollectionName,
                         structure.Structure.ID,

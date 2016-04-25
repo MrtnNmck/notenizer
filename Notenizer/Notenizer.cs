@@ -111,19 +111,15 @@ namespace nsNotenizer
 
         private NotenizerNoteRule GetRuleForSentence(NotenizerSentence sentence, out Note matchedNote)
         {
-            // vyhladat vyhovujuce struktury
-            // zistit najvacsiu zhodu so strukturou
-            // pre tu strukturu najst vetu, pravidlo a and-pravidlo
-            // pre pravidlo najst poznamku
             Match match;
-            Structure structure;
-            NotenizerStructure matchedSentenceStructure;
-            List<MongoDB.Bson.BsonDocument> sentencesWithSameStructure;
             Article article;
+            Structure structure;
             Note matchedSentenceNote;
             NotenizerNoteRule matchedSentenceRule;
-            matchedNote = null;
+            NotenizerStructure matchedSentenceStructure;
+            List<BsonDocument> sentencesWithSameStructure;
 
+            matchedNote = null;
             structure = DocumentParser.GetHeighestMatch(
                 sentence.Structure,
                 DB.GetAll(DBConstants.StructuresCollectionName, DocumentCreator.CreateFilterByStructure(sentence)).Result,
@@ -206,6 +202,22 @@ namespace nsNotenizer
             return andRule;
         }
 
+        private Article GetArticle(String text)
+        {
+            Article article;
+            List<BsonDocument> articles = DB.GetAll(DBConstants.ArticlesCollectionName, DocumentCreator.CreateFilter(DBConstants.TextFieldName, text)).Result;
+
+            if (articles.Count == 0)
+            {
+                article = new Article(String.Empty, DateTime.Now, DateTime.Now, text);
+                article.ID = DB.InsertToCollection(DBConstants.ArticlesCollectionName, DocumentCreator.CreateArticleDocument(article)).Result;
+            }
+            else
+                article = DocumentParser.ParseArticle(articles[0]);
+
+            return article;
+        }
+
         /// <summary>
         /// Parses the sentence.
         /// </summary>
@@ -216,16 +228,7 @@ namespace nsNotenizer
             List<NotenizerNote> sentencesNoted = new List<NotenizerNote>();
             List<NotenizerNote> notesToSave = new List<NotenizerNote>();
 
-            Article article;
-            List<BsonDocument> articles = DB.GetAll(DBConstants.ArticlesCollectionName, DocumentCreator.CreateFilter(DBConstants.TextFieldName, annotation.ToString().Trim())).Result;
-
-            if (articles.Count == 0)
-            {
-                article = new Article(String.Empty, DateTime.Now, DateTime.Now, annotation.ToString().Trim());
-                article.ID = DB.InsertToCollection(DBConstants.ArticlesCollectionName, DocumentCreator.CreateArticleDocument(article)).Result;
-            }
-            else
-                article = DocumentParser.ParseArticle(articles[0]);
+            Article article = GetArticle(annotation.ToString().Trim());
 
             // ================== REFACTORED PART HERE ======================
             foreach (Annotation sentenceLoop in annotation.get(typeof(CoreAnnotations.SentencesAnnotation)) as ArrayList)
