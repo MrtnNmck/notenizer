@@ -153,7 +153,7 @@ Celý model kolekcie je zobrazený na obrázku~\fullref{fig:structures_collectio
 
 Skladá sa z dvoch polí. Pole \textit{sentence\textunderscore terminators} je zoznam čísel, ktoré reprezentujú konce viet v poznámke. Referencujúce pole \textit{structure\textunderscore ref\textunderscore id} odkazuje do kolekcie \textit{structures} na štruktúru, ktorou sa má prípadná veta spracovať. Model kolekcie \textit{rules} je vyjadrený obrázkom~\fullref{fig:rules_collection_model}.
 
-Pole \textit{sentence\textunderscore terminators} zväčša obsahuje jeden záznam. Napríklad pri vete \textit{,,The president of the Slovak Republic is andrej Kiska.''} a poznámke z tejto vety v tvare \textit{,,President is Kiska.''} bude obsahovať jeden záznam: 3. Číslo 3 preto, lebo koniec vety, v tomto prípade bodka, sa nachádza na tretej pozícií spomedzi tokenov vo vete. Číslovanie pozícií začína indexom nula. V prípade ak veta je súvetie, zložené z viacerých jednoduchých viet, môže pole \textit{sentence\textunderscore terminators} obsahovať viacero záznamov, ak napríklad chceme z každej jednoduchej vety súvetia získať zjednodušenú vetu a vytvoriť tak zloženú poznámku, skladajúcu sa zo zjednodušených viet.
+Pole \textit{sentence\textunderscore terminators} zväčša obsahuje jeden záznam. Napríklad pri vete \textit{,,The president of the Slovak Republic is andrej Kiska.''} a poznámke z tejto vety v tvare \textit{,,President is Kiska.''} bude obsahovať jeden záznam: 3. Číslo 3 preto, lebo koniec vety, v tomto prípade bodka, sa nachádza na tretej pozícií spomedzi tokenov vo vete. Číslovanie pozícií začína  m nula. V prípade ak veta je súvetie, zložené z viacerých jednoduchých viet, môže pole \textit{sentence\textunderscore terminators} obsahovať viacero záznamov, ak napríklad chceme z každej jednoduchej vety súvetia získať zjednodušenú vetu a vytvoriť tak zloženú poznámku, skladajúcu sa zo zjednodušených viet.
 
 \begin{figure}[H]
 	\begin{center}\includegraphics[scale=0.60]{rules_model}\end{center}
@@ -278,30 +278,21 @@ Zhoda viet pozostáva z troch častí:
 	\myitem hodnotová zhoda.
 \end{my_itemize}
 
-Štrukturálna zhoda odzrkadľuje percentuálnu zhody dvoch štruktúr. Pri tejto zhode zisťujeme, či štruktúry obsahujú závislosti s nadradenými značkami slovných druhov a ich konkrétny počet. Štrukturálna zhoda znamená, že vety \textit{,,The president of the Slovak Republic is Andrej Kiska.''} a \textit{,,Andrej Kiska is the president of the Slovak Republic.''}, ale aj \textit{,,Miloš Zeman is the president of the Czech Republic.''} majú rovnakú štruktúru, bez ohľadu na hodnoty a pozície slov vo vete, pokiaľ obsahujú také iste závislosti s rovnakými nadradenými značkami slovných druhov. Pod nadradenou značkou slovného druhu sa chápe, že napríklad značka slovného druhu VBD (Verb, past tense - sloveso v minulom čase) patrí medzi skupinu značiek slovných druhov slovies. Z toho vyplýva, že nadradená značka slovného druhu \textit{VBD} je VB (Verb - sloveso). Určenie štrukturálnej zhody pozostáva z niekoľkých krokov. Najskôr sa separátne počíta zhoda nadradených značiek slovných druhov nadradeného a podradeného tokenu. Týmito krokmi sa určí, či veta obsahuje ľubovolnú závislosť s rovnakou nadradenou značkou slovného druhu na ľubovolnom tokene. V nasledujúcom kroku sa určí úplná zhoda závislosti s nadradenými značkami slovných druhov, to znamená zistenie, či veta obsahuje ľubovoľnú závislosť s konkrétnymi značkami slovných druhov na nadradenom a zároveň podradenom tokene. V poslednom kroku sa zisťuje zhoda počtu závislostí s rovnakými nadradenými značkami slovných druhov u nadradeného a podradeného tokenu. \\
+Štrukturálna zhoda odzrkadľuje percentuálnu zhody dvoch štruktúr. Pri tejto zhode zisťujeme, či štruktúry obsahujú závislosti s nadradenými značkami slovných druhov a ich konkrétny počet. Štrukturálna zhoda znamená, že vety \textit{,,The president of the Slovak Republic is Andrej Kiska.''} a \textit{,,Andrej Kiska is the president of the Slovak Republic.''}, ale aj \textit{,,Miloš Zeman is the president of the Czech Republic.''} majú rovnakú štruktúru, bez ohľadu na hodnoty a pozície slov vo vete, pokiaľ obsahujú také iste závislosti s rovnakými nadradenými značkami slovných druhov. Definícia nadradenej značky slovného druhu je v časti~\nameref{paragraph:superior_pos_tag} na strane~\pageref{paragraph:superior_pos_tag}. Určenie štrukturálnej zhody pozostáva z niekoľkých krokov. Najskôr sa separátne počíta zhoda nadradených značiek slovných druhov nadradeného a podradeného tokenu. Týmito krokmi sa určí, či veta obsahuje ľubovolnú závislosť s rovnakou nadradenou značkou slovného druhu na ľubovolnom tokene. V nasledujúcom kroku sa určí úplná zhoda závislosti s nadradenými značkami slovných druhov, to znamená zistenie, či veta obsahuje ľubovoľnú závislosť s konkrétnymi značkami slovných druhov na nadradenom a zároveň podradenom tokene. V poslednom kroku sa zisťuje zhoda počtu závislostí s rovnakými nadradenými značkami slovných druhov u nadradeného a podradeného tokenu. \\
 
 Obsahová zhoda zodpovedá percentuálnej zhode obsahu dvoch viet. Kontrolujú sa indexy slov, konkrétne značky slovných druhov a názvoslovné entity. Pri obsahovej zhode majú vety \textit{,,The president of the Slovak Republic is Andrej Kiska.''} a \textit{,,The president of the Czech Republic is Miloš Zeman.''} obsahovú zhodu, bez ohľadu na konkrétne slova na pozíciach vo vete, ak obsahujú rovnaké značky slovných druhov a reprezentujú ich zhodné názvoslovné entity. Výpočet obsahovej zhody sa skladá z viacerých krokov. Začína sa výpočtom zhôd značiek slovných druhov podradeného a nadradeného tokenu. Zhody indexov nadradeného a podradeného tokenu su taktiež vypočítané separátne. Tak isto sa vypočítajú zhody aj názvoslovných entít. Tieto prvé kroky určia, či veta obsahuje ľubovolnú závislosť s rovnakou značkou slovného druho alebo indexom a ľubovoľnú závislosť s rovnakou názvoslovnou entitou. V nasledujúcom kroku je určená polovičná zhoda závislostí. Polovičná zhoda závislosti je zhoda značky slovného druhu a indexu nadradeného alebo podradeného tokenu. Polovičná zhoda sa vypočíta rovnako aj pre názvoslovné entity. Nakoniec, v poslednom kroku, počítame počet úplne zhodných závislostí. Úplná zhoda závislosti je zhoda značky slovného druhu a indexu nadradeného, a zároveň podradeného tokenu. Tak isto sa vypočíta úplná zhoda závislostí aj pre názvoslovné entity. \\
 
 Posledná časť zhody, hodnotová zhoda, reprezentuje úplnú zhodu dvoch viet. Veta má hodnotovú zhodu len s totožnou vetou. \\
 
-Každý krok, pri výpočte všetkých časti zhody, má priradené ohodnotenie. Ak je podmienka v kroku vyhodnotená ako správna, ohodnotenie kroku je pripočítané do finálnej hodnoty. Finálna zhoda je percentuálne ohodnotenie zhody. Ohodnotenie krokov odzrkadľuje dôležitosť daného kroku vo výpočte presnej zhody, pričom závisí od počtu závislostí a krokov, tak že finálna zhoda nemôže presiahnuť hodnotu 100\%. Pseudokód~\ref{alg:calculating_match} zobrazuje algoritmus výpočtu zhody, konkrétny príklad je zobrazený na obrázku~\fullref{fig:calculate_match_sentences_example}
+Každý krok, pri výpočte všetkých časti zhody, má priradené ohodnotenie. Ak je podmienka v kroku vyhodnotená ako správna, ohodnotenie kroku je pripočítané do finálnej hodnoty. Finálna zhoda je percentuálne ohodnotenie zhody. Ohodnotenie krokov odzrkadľuje dôležitosť daného kroku vo výpočte presnej zhody, pričom závisí od počtu závislostí a krokov, tak že finálna zhoda nemôže presiahnuť hodnotu 100\%. Pseudokód~\ref{alg:calculating_match}~\nameref{alg:calculating_match} zobrazuje algoritmus výpočtu zhody, konkrétny príklad je zobrazený na obrázku~\fullref{fig:calculate_match_sentences_example}
 
 \begin{algorithm}[H]
 	\floatname{algorithm}{Algoritmus}
 	\footnotesize %\small, \footnotesize, \scriptsize, or \tiny
 	\begin{algorithmic}[1]
 
-		\Procedure{VypocetZhody}{$spracovávanáVeta, zavislostiPorovnávanejVety$}
+		\Procedure{VypocetZhodyViet}{$spracovávanáVeta, zavislostiPorovnávanejVety$}
 		\State $\text{vypočítaj ohodnotenia krokov}$
-		
-%		\ForAll {$originalDependencies$}
-%		\If {$\text{count(}sentence\text{, }dependency\text{) =  count(}originalDependencies\text{, }dependency\text{)}$}
-%		\State $match \gets match \text{ + } oneCompareTypeRating$
-%		\EndIf
-%		\State $counter \gets counter \text{ + } \text{count(}originalDependencies\text{, } dependency\text{)}$
-%		\EndFor
-%		
-%		\State $oneCompareTypeRating \gets oneCompareType / counter$
 		\ForAll {$závislosti\text{ } porovnávanej\text{ } vety$}
 		\ForAll {$závislosti\text{ } spracovávanej\text{ } vety$}
 		\ForAll {$porovnania$}
@@ -315,7 +306,7 @@ Každý krok, pri výpočte všetkých časti zhody, má priradené ohodnotenie.
 		\Return $zhoda$
 		\EndProcedure
 	\end{algorithmic}
-	\caption[Výpočet zhody]{Výpočet zhody}	
+	\caption[Výpočet zhody viet]{Výpočet zhody viet}	
 	\label{alg:calculating_match}
 \end{algorithm}
 
@@ -334,10 +325,23 @@ Pri určení hodnotovej časti zhody sa porovnajú texty \textit{,,The president
 
 Aplikovaním určenia zhody viet medzi vetami \textit{a} a \textit{b} zistíme, že veta \textit{b} má štrukturálnu časť zhody s vetou \textit{a} $100\%$. Tak isto má obsahovú časť zhody rovnú $100\%$. Hodnotová časť zhody je $0\%$.
 
-%\begin{figure}[H]
-%	\begin{center}\includegraphics[scale=0.6]{rule_lookup}\end{center}
-%	\caption[Vyhľadanie pravidla]{Vyhľadanie pravidla}\label{fig:rule_lookup}
-%\end{figure}
+%
+% Nadradená značka slovného druhu
+%
+\ifthenelse {\boolean{bachelor}}
+{
+	%\subsection{Subsection}
+	\paragraph{Nadradená značka slovného druhu}
+}
+{
+	%\section{Subsection}
+	\subsubsection{Nadradená značka slovného druhu}
+}
+\label{paragraph:superior_pos_tag}
+
+Pod nadradenou značkou slovného druhu sa chápe značka slovného druhu zoskupujúca množinu značiek slovných druhov, do ktorej značka slovného druhu patrí. 
+
+Napríklad značka slovného druhu VBD (Verb, past tense - sloveso v minulom čase) patrí medzi skupinu značiek slovných druhov slovies \textit{\{VB, VBD, VBG, VBN, VBP, VBZ\}}. Z toho vyplýva, že nadradená značka slovného druhu \textit{VBD} je VB (Verb - sloveso).
 
 %
 % Aplikovanie pravidla
@@ -353,9 +357,9 @@ Aplikovaním určenia zhody viet medzi vetami \textit{a} a \textit{b} zistíme, 
 }
 \label{subsubsection:rule_application}
 
-Z princípu vyhľadania pravidla (viď.~\fullref{subsubsection:rule_lookup}), spracovávaná veta musí obsahovať, nie všetky, závislostí zo \textit{zoznamu dát pôvodnej vety}, vety prepojenej s pravidlom a tým pádom aj závislostí zo \textit{zoznamu dát poznámky} pravidla.
+Procesom vyhľadania pravidla (viď.~\fullref{subsubsection:rule_lookup}) sme získali pravidlo na spracovanie vety. Aplikáciou pravidla na vetu vytvoríme poznámku.
 
-Proces aplikovania pravidla na vetu s cieľom vytvorenia poznámky sa skladá z niekoľkých krokov. Pre všetky závislosti zo \textit{zoznamu dát poznámky}, príslušná závislosť je vyhľadaná v spracovávanej vete. Pri vyhľadávaní príslušnej závislosti sa závislosti neporovnávajú, okrem iného, na základe POS značiek svojich tokenov, ale podľa nadradených POS značiek svojich tokenov. To znamená, že ak token obsahuje POS značku NNP (proper noun, singular - [SLOVENSKY EKVIVALENT]), jeho nadradaná POS značka je NN (noun - podstatné meno). Vyhľadáva sa teda podľa množiny POS značiek podstatného mena, a to konkrétne \textit{NN, NNS, NNP} a \textit{NNPS}. Tento spôsob vyhľadávania nám umožňuje [BLA BLA, blizie opisane v BLA BLA]. Avšak, môže to spôsobiť vyhľadanie viac ako jednej príslušnej závislosti. Preto zhoda závislostí musí byť vypočítaná (viď.~\nameref{paragraph:dependency_match} na strane \pageref{paragraph:dependency_match}). Po vypočítaní zhody závislosti a získanie závislosti s najväčšou zhodou, slovo korešpondujúce s tokenom, ktorý sa ma z danej závislosti vybrať, sa pridá do poznámky na pozíciu indexu tokenu. Po spracovaní všetkých závislostí, posledné minoritné úpravy su vykonané nad poznámkou, ako napríklad rozdelenie na viacero viet, ak tak určovalo pravidlo, kapitalizácia prvých písmen viet poznámky a iné. Pseudokód aplikovania pravidla na vetu s cieľom vytvoriť poznámku je zobrazený na algoritme~\ref{alg:applying_rule}.
+Proces aplikovania pravidla na vetu s cieľom vytvorenia poznámky má viacero krokov. Pre všetky závislosti zo \textit{zoznamu dát štruktúry} pravidla, príslušná závislosť je vyhľadaná v spracovávanej vete. Pri vyhľadávaní príslušnej závislosti sa závislosti neporovnávajú, okrem iného, na základe značiek slovných druhov svojich tokenov, ale podľa nadradených značiek slovných druhov (viď.~\nameref{paragraph:superior_pos_tag} na strane~\pageref{paragraph:superior_pos_tag}) svojich tokenov. Tento spôsob vyhľadávania nám umožňuje [BLA BLA, blizie opisane v BLA BLA]. Avšak, môže to spôsobiť vyhľadanie viac ako jednej príslušnej závislosti. Preto musí byť vypočítaná zhoda závislostí (viď.~\nameref{paragraph:dependency_match} na strane \pageref{paragraph:dependency_match}). Po vypočítaní zhody závislostí a získanie závislosti s najväčšou zhodou, slovo korešpondujúce s tokenom, ktorý sa ma z danej závislosti vybrať, sa pridá do poznámky na pozíciu pozície závislosti. Po spracovaní všetkých závislostí, posledné minoritné úpravy sú vykonané nad poznámkou, ako rozdelenie na viacero viet, ak tak určovalo pravidlo, kapitalizácia prvých písmen viet poznámky a iné. Pseudokód aplikovania pravidla na vetu s cieľom vytvoriť poznámku je zobrazený na algoritme~\ref{alg:applying_rule}.
 
 \begin{algorithm}
 	\floatname{algorithm}{Algoritmus}
@@ -380,7 +384,9 @@ Proces aplikovania pravidla na vetu s cieľom vytvorenia poznámky sa skladá z 
 	\end{algorithmic}
 \end{algorithm}
 
-Pre vetu ,,The president of the Slovak republic is Andrej Kiska.'' nám nástroj Stanford CoreNLP poskytne závislostí vyobrazené na obrázku~\fullref{fig:example_sentence_andrej_kiska}. Ak na túto vetu aplikujeme pravidlo v tvare zobrazené na obrázku~\fullref{fig:apply_rule_example_rule}, výsledná poznámka bude ,,President is Kiska.''. 
+Pre vetu \textit{,,The president of the Slovak republic is Andrej Kiska.''} nám nástroj Stanford CoreNLP poskytne závislostí vyobrazené na obrázku~\fullref{fig:example_sentence_andrej_kiska}. Ak na túto vetu aplikujeme pravidlo so štruktúrou v tvare zobrazenej na obrázku~\fullref{fig:apply_rule_example_rule}, výsledná poznámka bude \textit{,,President is Kiska.''}. 
+
+Aplikovanie pravidla prebieha nasledovným spôsobom. Prechádzajú sa všetky závislosti v štruktúre pravidla. Prvá závislosť v štruktúre pravidla je závislosť so vzťahom \textit{nsubj} na pozícií jedna a podradeným korešpondujúcim tokenom. Má podradený token so značkou slovného druhu \textit{NN}, typom názvoslovnej entity \textit{OTHER - ostatné}, lemou \textit{President} a indexom dva. Nadradený token má značku slovného druhu \textit{NNP}, názvoslovnú entitu \textit{PERSON - osoba}, lemu \textit{Kiska} a index deväť. Takáto závislosť sa vyhľadá v štruktúre vety medzi závislosťami na obrázku~\fullref{fig:example_sentence_andrej_kiska}. Ak pre danú závislosť vyhovuje viacero závislostí, pomocou výpočtu zhody závislostí vyberieme tú s najväčšou zhodou. V tomto prípade vidíme, že vyhovujúca závislosť je len jedna a to prvá závislosť \textit{nsubj} medzi slovom na druhej pozícií \textit{president} a posledným slovom, na deviatej pozícií \textit{Kiska}. Z tejto závislosti sa zoberie podradený token, keďže tak určuje pravidlo v stĺpci \textit{typ tokenu}. Slovo \textit{president} sa pridá do poznámky na pozíciu jedna. Rovnakým spôsobom sa prechádzajú a spracujú všetky závislosti v štruktúre pravidla a podľa nich sa extrahuje slovo z vety a pridá do poznámky.
 
 \begin{figure}[H]
 	\begin{center}\includegraphics[scale=0.32]{example_sentence_andrej_kiska}\end{center}
@@ -389,7 +395,7 @@ Pre vetu ,,The president of the Slovak republic is Andrej Kiska.'' nám nástroj
 
 \begin{figure}[H]
 	\begin{center}\includegraphics[scale=0.32]{apply_rule_example_rule}\end{center}
-	\caption[Príklad pravidla]{Príklad pravidla}\label{fig:apply_rule_example_rule}
+	\caption[Príklad štruktúry pravidla]{Príklad štruktúry pravidla}\label{fig:apply_rule_example_rule}
 \end{figure}
 
 %
@@ -406,7 +412,7 @@ Pre vetu ,,The president of the Slovak republic is Andrej Kiska.'' nám nástroj
 }
 \label{paragraph:dependency_match}
 
-Výpočet zhody závislostí pozostáva s niekoľkých krokov a princíp výpočtu je veľmi podobný s výpočtom zhody viet zo sekcie~\fullref{subsubsection:rule_lookup}. Porovnávajú sa vždy nadradené aj podradené tokeny. Porovnanie ma niekoľko krokov. Začína sa s porovnaním POS značiek. Pokračuje sa názvoslovnou entitou, indexom, lemou a nakoniec sa porovná vzdialenosť pozícií tokenov vo vetách. Každý krok je príslušne ohodnotený a ak porovnanie bolo úspešné, ohodnotenie sa pripočíta k finálnej hodnote reprezentujúca percentuálne zhodu závislostí.
+Princíp výpočtu zhody závislostí je veľmi podobný s výpočtom zhody viet zo sekcie~\fullref{subsubsection:rule_lookup}. Porovnávajú sa vždy nadradené aj podradené tokeny. Porovnanie má niekoľko krokov. Začína sa s porovnaním značiek slovných druhov. Pokračuje sa názvoslovnou entitou, indexom, lemou a nakoniec sa porovnáva vzdialenosť pozícií tokenov vo vetách. Každý krok je príslušne ohodnotený a ak porovnanie bolo úspešné, ohodnotenie sa pripočíta k finálnej hodnote reprezentujúcej percentuálnej zhody závislostí.
 
 %
 % Vytváranie pravidla
