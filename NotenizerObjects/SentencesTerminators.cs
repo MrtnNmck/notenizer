@@ -12,6 +12,19 @@ namespace nsNotenizerObjects
         {
         }
 
+        public SentencesTerminators(List<NotePart> noteParts)
+        {
+            int last = 0;
+            int particlesCount = 0;
+
+            foreach (NotePart notePartLoop in noteParts)
+            {
+                particlesCount = notePartLoop.InitializedNoteParticles.Count;
+                this.Add(last + particlesCount);
+                last = particlesCount;
+            }
+        }
+
         public SentencesTerminators(List<int> sentenceTerminators)
         {
             this.AddRange(sentenceTerminators);

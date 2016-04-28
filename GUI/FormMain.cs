@@ -254,7 +254,15 @@ namespace nsGUI
                     if (note.AndRule == null || andSetPosition == 0)
                         notePart.NoteParticles.Insert(andSetPosition, andSetLoop);
                     else
-                        notePart.NoteParticles.Insert(notePart.InitializedNoteParticles[andSetPosition - 1].NoteDependency.Position + 1, andSetLoop);
+                    {
+                        if (andSetPosition >= notePart.InitializedNoteParticles.Count)
+                            andSetPosition = notePart.InitializedNoteParticles.Count == 0 ? 0 : notePart.InitializedNoteParticles.Count - 1;
+
+                        if (andSetPosition == 0)
+                            notePart.NoteParticles.Insert(andSetPosition, andSetLoop);
+                        else
+                            notePart.NoteParticles.Insert(notePart.InitializedNoteParticles[andSetPosition - 1].NoteDependency.Position + 1, andSetLoop);
+                    }
 
                     noteParts.Add(notePart);
                 }
@@ -362,8 +370,8 @@ namespace nsGUI
 
             if (note.AndRule == null)
             {
-                note.AndRule.CreatedAt = note.AndRule.UpdatedAt = DateTime.Now;
                 note.AndRule = new NotenizerAndRule(andParserDependencies, andSetPosition, andParserDependencies.Count);
+                note.AndRule.CreatedAt = note.AndRule.UpdatedAt = DateTime.Now;
                 note.AndRule.Structure.Structure.ID = InsertStructure(note.AndRule.Structure, true);
 
                 note.AndRule.ID = DB.InsertToCollection(
@@ -410,9 +418,9 @@ namespace nsGUI
             foreach (NoteParticle noteParticleLoop in andParserNotePart.InitializedNoteParticles)
                 andParserDependencies.Add(noteParticleLoop.NoteDependency);
 
+            note.AndRule = new NotenizerAndRule(andParserDependencies, andSetPosition, andParserDependencies.Count);
             note.AndRule.Structure.Structure.UpdatedAt = note.AndRule.Structure.Structure.CreatedAt = DateTime.Now;
             note.AndRule.CreatedAt = note.AndRule.UpdatedAt = DateTime.Now;
-            note.AndRule = new NotenizerAndRule(andParserDependencies, andSetPosition, andParserDependencies.Count);
             note.AndRule.Structure.Structure.ID = InsertStructure(note.AndRule.Structure, true);
 
             note.AndRule.ID = DB.InsertToCollection(

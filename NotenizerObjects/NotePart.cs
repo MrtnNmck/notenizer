@@ -83,6 +83,9 @@ namespace nsNotenizerObjects
 
         public void Add(NoteParticle noteParticle, int position)
         {
+            if (position >= _noteParticles.Count)
+                position = _noteParticles.Count - 1;
+
             _noteParticles[position] = noteParticle;
         }
 

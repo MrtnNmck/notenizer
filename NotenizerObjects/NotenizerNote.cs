@@ -106,7 +106,7 @@ namespace nsNotenizerObjects
 
         public SentencesTerminators SentencesTerminators
         {
-            get { return new SentencesTerminators(this._noteParts.Select(x => x.InitializedNoteParticles.Count).ToList<int>()); }
+            get { return new SentencesTerminators(this._noteParts); }
         }
 
         public NotenizerDependencies Dependencies
@@ -192,10 +192,17 @@ namespace nsNotenizerObjects
                 // TODO: docasna podmienka, lebo nie je doriesene rozoznavanie medzi sadami pravidiel
                 // a vzdy sa zoberie prva, preto nemusi sediet pre niektoru vetu a tym padom by to tu
                 // padlo na ArgumentOutOfRangeException
-                if (indexLoop - lastIndex > _noteParts[0].InitializedNoteParticles.Count)
+                if (indexLoop - lastIndex >= _noteParts[0].InitializedNoteParticles.Count)
+                    return;
+
+                if (lastIndex > _noteParts[0].InitializedNoteParticles.Count)
+                    lastIndex = _noteParts[0].InitializedNoteParticles.Count - 1;
+
+                if (indexLoop < lastIndex)
                     return;
 
                 NotePart notePart = new NotePart(_originalSentence);
+
                 notePart.Add(_noteParts[0].InitializedNoteParticles.GetRange(lastIndex, indexLoop - lastIndex));
 
                 lastIndex = indexLoop;
@@ -213,6 +220,12 @@ namespace nsNotenizerObjects
             List<NotePart> parts = new List<NotePart>();
 
             NotePart notePart = new NotePart(_originalSentence);
+            if (sentenceEnd > _noteParts[0].InitializedNoteParticles.Count)
+                sentenceEnd = _noteParts[0].InitializedNoteParticles.Count - 1;
+
+            if (sentenceEnd < 0)
+                return;
+
             notePart.Add(_noteParts[0].InitializedNoteParticles.GetRange(0, sentenceEnd));
             parts.Add(notePart);
             _text = String.Empty;

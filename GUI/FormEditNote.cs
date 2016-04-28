@@ -223,8 +223,15 @@ namespace nsGUI
 
         private void InsertSentenceTerminators(List<NotenizerAdvancedLabel> labels, List<NotePart> noteParts)
         {
+            int last = 0;
+            int count = 0;
+
             foreach (NotePart notePartLoop in noteParts)
-                labels.Insert(notePartLoop.InitializedNoteParticles.Count, new NotenizerAdvancedLabel(NotenizerConstants.SentenceTerminator) { RepresentMode = RepresentMode.SentenceEnd });
+            {
+                count = notePartLoop.InitializedNoteParticles.Count;
+                labels.Insert(last + count, new NotenizerAdvancedLabel(NotenizerConstants.SentenceTerminator) { RepresentMode = RepresentMode.SentenceEnd });
+                last = count;
+            }
         }
 
         private List<NotenizerAdvancedLabel> CreateUnusedLables(NotenizerDependencies depenencies)

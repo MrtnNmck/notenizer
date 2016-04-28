@@ -223,6 +223,85 @@ Posledná kolekcia uchováva pravidlá pre spracovanie vety a vytvorenie viacná
 \label{subsubsection:collections_summary}
 Pri návrhu databázového modelu a kolekcií sme vychádzali z princípu jednoduchých kolekcií so zoskupením súvisiacich dát a oddelenia ich od zvyšku. Vďaka využívaniu viacerých, medzi sebou prepojených, kolekcií sme zabezpečili neduplikovanie dát, jednoduché vyhľadanie napríklad viet ku článku a iné. Okrem toho nám tento model umožňuje ďalšiu funkcionalitu, ako napríklad aplikovanie jedného pravidla na viacero viet so zhodnou štruktúrou. Oddelenie dát do samostatných štruktúr nám uľahčuje aj prípadne neskoršie rozšírenie databázového modelu alebo zmenu konkrétnych štruktúr. Taktiež uľahčuje prípadné klastrovanie databázy, ak by bolo nutné, keďže každá kolekcia by mohla byť na samostatnom serveri.
 
+%
+% Tvorba poznámok
+%
+\ifthenelse {\boolean{bachelor}}
+{
+	%\subsection{Subsection}
+	\subsection{Tvorba poznámok}
+}
+{
+	%\section{Subsection}
+	\section{Tvorba poznámok}
+}
+\label{subsection:notes_creation}
+Pri spracovávaní viet potrebujeme extrahovať dôležité a konkrétne informácie, v našom prípade slová, a z extrahovaných informácií vytvoriť poznámku. Poznámka bude zložená výhradne zo slov obsiahnutých vo vete, z ktorej bola vytvorená. Tým zabezpečíme, že poznámka nebude obsahovať irelevantné informácie z hľadiska vety. 
+
+Spracovávané vety sa môžu opakovať, a preto je dôležité, aby sa rovnaké a podobné vety spracovali vždy rovnakým spôsobom. Pre tento účel je vhodné si definovať pravidlo (viď.~\fullref{subsubsection:rule_for_processing}), ktoré bude určovať, ako sa má daná veta spracovať. Aplikovaním pravidla na vetu vytvoríme poznámku. Používateľ musí mať možnosť interaktívne upraviť poznámku, a tým pádom aj pravidlo, ktoré bolo použité na vytvorenie danej poznámku, v takom rozsahu, aby sa vytvorená poznámka zmenila podľa vykonaných zmien. Zmeny v pravidle sa musia prejaviť aj pri nasledujúcom aplikovaní pravidla na rovnakú alebo podobnú vetu. Používateľovi to poskytne kontrolou nad spôsobom, akým sa vytvárajú poznámky a bude si ich vedieť personalizovať.
+
+%
+% Pravidlo na spracovanie
+%
+\ifthenelse {\boolean{bachelor}}
+{
+	\subsubsection{Pravidlo na spracovanie}
+}
+{
+	\subsection{Pravidlo na spracovanie}
+}
+\label{subsubsection:rule_for_processing}
+Pravidlo na spracovanie určuje, ktorá slová sú relevantné a majú byť použité v poznámke. V časti~\fullref{subsubsection:determination_of_relevant_information} je podrobnejšie opísaný proces určenia relevantných informácií, slov. Okrem určenia relevantnosti slov pravidlo taktiež určuje, na ktorej pozícií sa má konkrétne slovo vo výslednej poznámke nachádzať. Výsledná poznámka sa nemusí skladať iba z jednej vety. Môže pozostávať z ľubovolného počtu viet. Počet viet, z ktorých bude poznámka pozostávať a miesta, na ktorých má byť pôvodná poznámka rozdelená na vety určuje pravidlo.
+
+Skladá sa primárne zo závislostí slov, ktoré sa majú nachádzať v poznámke. Pomocou závislosti vieme jednoznačne identifikovať a extrahovať konkrétne slovo z vety a pridať ho do poznámky. Okrem závislostí obsahuje aj informácie o pozícií závislostí alebo type tokenu, ktorého slovo sa ma následne pridať do poznámky a informácie o tokenoch závislostí. Pre nadradený aj podradený token pravidlo obsahuje dáta o slove korešpondujúcom s daným tokenom. Sú to značka slovného druhu, index slova vo vete, názvoslovná entita a lema tvar.
+
+Pravidlo je aplikovateľné nie len na totožné vety, ale na vety s rovnakou štruktúrou a je nezávislé od obsahovej časti vety.
+
+%
+% Určenie relevantných informácií
+%
+\ifthenelse {\boolean{bachelor}}
+{
+	\subsubsection{Určenie relevantných informácií}
+}
+{
+	\subsection{Určenie relevantných informácií}
+}
+\label{subsubsection:determination_of_relevant_information}
+Určenie relevantnosti informácií hlavne pri učebných textoch a poznámkach je subjektívna vec. Informáciu, ktorú niekto považuje za relevantnú môže byť pre iného irelevantná. Relevantnosť informácií preto určuje používateľ pomocou vytvárania nových a úpravy existujúcich pravidiel cez spracovávanie článkov a viet a úprave vytvorených poznámok. Tým si používateľ prispôsobuje tvorbu poznámok, aby zodpovedala jeho predstave relevantnosti a celkovo tvorbe poznámok. Na tento účel mu systém ponúka interaktívne a intuitívne rozhranie.
+
+%
+% Použitie závislostí pri tvorbe poznámok
+%
+\ifthenelse {\boolean{bachelor}}
+{
+	\subsection{Použitie závislostí pri tvorbe poznámok}
+}
+{
+	\section{Usage of dependencies in notes creation}
+}
+\label{subsection:use_of_dependencies_in_notes_creation}
+Závislosti majú viacero využití pri tvorbe poznámok.
+
+Jednoznačná identifikácia slova...
+
+Vytvorenie pravidla, ktoré je aplikovateľné na základe štruktúry..
+
+Menší počet potrebných pravidiel..
+
+\newpage
+%
+% Implementácia
+%
+\ifthenelse {\boolean{bachelor}}
+{
+	\section{Implementácia}
+}
+{
+	\chapter{Implementation}
+}
+\label{section:implementation}
+dummy text..
 
 %
 % Manažment dát
@@ -427,9 +506,9 @@ Princíp výpočtu zhody závislostí je veľmi podobný s výpočtom zhody viet
 	\subsection{Vytvorenie pravidla}
 }
 \label{subsubsection:rule_creation}
-Ak nám proces vyhľadania pravidla nevyhľadal žiadne pravidlo, znamená to, že sme doposiaľ nespracovávali takú istú alebo podobnú vetu. V tomto prípade sú použité statické pravidlá na spracovanie vety. Výstupom bude zjednodušená veta - poznámka.
+Ak nám proces vyhľadania pravidla nevyhľadal žiadne pravidlo, znamená to, že sme doposiaľ nespracovávali takú istú alebo podobnú vetu. V tomto prípade sú použité statické pravidlá na spracovanie vety. Výstupom bude poznámka.
 
-Vytvorí sa záznam o pôvodnej vete, ktorý okrem iného obsahuje \textit{zoznam dát o pôvodnej vete}, ktorý sa vyskladá zo závislostí vety. Následne sa vytvorí záznam o pravidle, ktorý okrem iného obsahuje \textit{zoznam dát o poznámke}, vyskladaný zo závislosti poznámky. Nakoniec sa tieto dva záznamy prepoja a tým sa vytvorí nové pravidlo na spracovanie takej istej alebo podobnej vety, akú sme práve spracovali.
+Zo závislostí pôvodnej vety a informácií o ich tokenoch sa vytvorí záznam o štruktúre pôvodnej vety. Tak isto sa vytvorí aj záznam o štruktúre poznámky. Z poznámky sa vytvorí záznam o novej poznámke a následne sa z nej vytvorí zoznam koncov viet. Tento zoznam spolu so štruktúrou poznámky vytvorí záznam nového pravidla. Z pôvodnej vety sa vytvorí záznam o vete a prepojí sa so štruktúrou pôvodnej vety, článkom, ktorý obsahoval danú vetu a pravidlo, pravidlom, ktoré bolo vytvorené a použité a s poznámkou, ktorá vznikla z vety. Týmto vznikne nové pravidlo na spracovanie takej istej alebo podobnej vety ako sme práve spracovali.
 
 %Na obrázku~\fullref{fig:rule_creation} je znázornený proces nevyhľadania pravidla, použitia parsera s následným uložením nového pravidla.
 

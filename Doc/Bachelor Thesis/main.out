@@ -34,13 +34,18 @@
 \BOOKMARK [3][-]{subsubsection.4.1.5}{Kolekcia rules}{subsection.4.1}% 34
 \BOOKMARK [3][-]{subsubsection.4.1.6}{Kolekcia and rules}{subsection.4.1}% 35
 \BOOKMARK [3][-]{subsubsection.4.1.7}{Zhrnutie}{subsection.4.1}% 36
-\BOOKMARK [2][-]{subsection.4.2}{Mana\236ment d\341t}{section.4}% 37
-\BOOKMARK [3][-]{subsubsection.4.2.1}{Vyhladanie pravidla}{subsection.4.2}% 38
-\BOOKMARK [3][-]{subsubsection.4.2.2}{Aplikovanie pravidla}{subsection.4.2}% 39
-\BOOKMARK [3][-]{subsubsection.4.2.3}{Vytvorenie pravidla}{subsection.4.2}% 40
-\BOOKMARK [1][-]{section.5}{V\375sledky}{}% 41
-\BOOKMARK [2][-]{subsection.5.1}{Podcast}{section.5}% 42
-\BOOKMARK [1][-]{section.6}{Z\341ver}{}% 43
-\BOOKMARK [1][-]{section.6}{Literat\372ra}{}% 44
-\BOOKMARK [1][-]{appendix.A}{Zoznam vztahov z\341vislost\355}{}% 45
-\BOOKMARK [1][-]{appendix.B}{Legenda diagramov kolekci\355}{}% 46
+\BOOKMARK [2][-]{subsection.4.2}{Tvorba pozn\341mok}{section.4}% 37
+\BOOKMARK [3][-]{subsubsection.4.2.1}{Pravidlo na spracovanie}{subsection.4.2}% 38
+\BOOKMARK [3][-]{subsubsection.4.2.2}{Urcenie relevantn\375ch inform\341ci\355}{subsection.4.2}% 39
+\BOOKMARK [2][-]{subsection.4.3}{Pou\236itie z\341vislost\355 pri tvorbe pozn\341mok}{section.4}% 40
+\BOOKMARK [1][-]{section.5}{Implement\341cia}{}% 41
+\BOOKMARK [2][-]{subsection.5.1}{Mana\236ment d\341t}{section.5}% 42
+\BOOKMARK [3][-]{subsubsection.5.1.1}{Vyhladanie pravidla}{subsection.5.1}% 43
+\BOOKMARK [3][-]{subsubsection.5.1.2}{Aplikovanie pravidla}{subsection.5.1}% 44
+\BOOKMARK [3][-]{subsubsection.5.1.3}{Vytvorenie pravidla}{subsection.5.1}% 45
+\BOOKMARK [1][-]{section.6}{V\375sledky}{}% 46
+\BOOKMARK [2][-]{subsection.6.1}{Podcast}{section.6}% 47
+\BOOKMARK [1][-]{section.7}{Z\341ver}{}% 48
+\BOOKMARK [1][-]{section.7}{Literat\372ra}{}% 49
+\BOOKMARK [1][-]{appendix.A}{Zoznam vztahov z\341vislost\355}{}% 50
+\BOOKMARK [1][-]{appendix.B}{Legenda diagramov kolekci\355}{}% 51
