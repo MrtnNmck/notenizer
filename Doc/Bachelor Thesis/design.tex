@@ -14,6 +14,233 @@
 \label{section:design}
 
 %
+% Uchovávanie textov v databázach
+%
+\ifthenelse {\boolean{bachelor}}
+{
+	%\subsection{Subsection}
+	\subsection{Uchovávanie textov v databázach}
+}
+{
+	%\section{Subsection}
+	\section{Uchovávanie textov v databázach}
+}
+\label{subsection:persisting_texts_in_db}
+Text je špecifický údajový model s variabilnou štruktúrou, ktorý potrebujeme efektívne ukladať v databáze. Musíme použiť vhodnú databázu, ktorá je prispôsobená na ukladanie textov. Databáza musí obsahovať vlastnosti, ktoré umožňujú jednoduché narábanie s dátami s variabilnou štruktúrou a nemajú veľkú spotrebu pamäti. Taktiež je potrebná podpora bezproblémového ukladanie, získavania, vyhľadávania a spracovania textov na úrovni databázy. Pri výbere vhodnej databázy sme prešli viacero alternatív.
+
+%
+% Relačné databázy
+%
+\ifthenelse {\boolean{bachelor}}
+{
+	%\subsection{Subsection}
+	\subsubsection{Relačné databázy}
+}
+{
+	%\section{Subsection}
+	\subsection{Relačné databázy}
+}
+\label{subsubsection:relation_dbs}
+%Relačné databázy boli dlhé roky populárnou a finančne nenáročnou voľbou pri tvorbe veľkých podnikateľských aplikácií. 
+%Momentálne sú používané vo väčšine súčasných aplikácií a 
+Relačné databázy pracujú spoľahlivo pri obmedzenom množstve dát~\cite{MongoDBvsMySQL2015}.
+%Problém s relačným modelom relačných databáz nastáva, keď vzniká potreba aplikácie s obrovským množstvom dát. Menovite rozšíriteľnosť (angl. scalability) a schéme sa stávajú najväčším problémom relačných databáz~\cite{NoSQLDBvsRealtionDB}.
+Pri potrebe aplikácie s obrovským množstvom dát sa rozšíriteľnosť (angl. scalability) a schéma stávajú problémom~\cite{NoSQLDBvsRealtionDB}.
+Tento typ databáz ukladá dáta v tabuľkách zložených z riadov a stĺpcov.
+%Každý záznam (riadok) v tabuľke predstavuje zjednodušený objekt alebo vzťah z reálneho života. 
+Výhodou relačných databáz je možnosť jednoduchého vytvorenia prispôsobeného pohľadu na dáta~\cite{Maier}. Z pohľadu ukladania textu, a celkovo dát s variabilnou štruktúrou, je nevýhoda relačných databáz v ťažko prispôsobiteľnej štruktúre.
+
+%
+% Textové databázy
+%
+\ifthenelse {\boolean{bachelor}}
+{
+	%\subsection{Subsection}
+	\subsubsection{Textové databázy}
+}
+{
+	%\section{Subsection}
+	\subsection{Textové databázy}
+}
+\label{subsubsection:text_dbs}
+%S rozmachom variácie dát v posledných rokoch sa začali objavovať a vznikať nerelačné databázy, aby pokryli požiadavky na nové aplikácie. Textové databázy sú druhom nerelačných databáz.
+Textové databázy ukladajú dáta vo forme dokumentov, vďaka čomu ponúkajú vysoký výkon, horizontálnu rozšíriteľnosť a podporu pre ukladanie dát s variabilnou štruktúrou~\cite{NoSQLDBvsRealtionDB}. Uložené dokumenty môžu nadobúdať rôzne formáty, ako napríklad JSON, BSON, XML a BLOB, ktoré poskytujú veľkú flexibilnosť pre dáta. Každý záznam v takejto databáze preto môže mať inú štruktúru, napríklad počet alebo typ polí, čo šetrí úložným priestorom, keďže neobsahuje nepotrebné prázdne polia~\cite{NoSQLDBvsRealtionDB}.
+%Dokumenty v databáze sú referencované kľúčom, ktorý môže byť reťazec, cesta, ale dokonca aj dokument~\cite{NoSQLDBvsRealtionDB}. 
+%Dokumenty majú dynamickú schému, čo umožňuje vytvárať záznamy bez toho, aby bolo potrebné predtým definovať štruktúru. 
+Dokumenty uľahčujú zmenu štruktúry záznamov jednoduchým pridaním, odstránením alebo zmenou typu poľa. Vďaka svojej štruktúre sú dokumenty ľahko namapovateľné na objekty z objektovo-orientovaných programovacích jazykov a odstraňujú tým potrebu pre použitie objektovo-relačnej mapovacej vrstvy. Dátovy typ dokument v textových databázach vyhovuje požiadavkám na databázu pre náš systém. Dokáže jednoducho narábať s dátami s variabilnou štruktúrou, bez nároku na prebytočnú pamäť a s dobrou rozšíriteľnosťou.
+
+%Primárne využitie týchto databáz je v aplikáciách, ktoré potrebujú ukladať dáta, ktorých štruktúra je vopred neznáma alebo sa mení. Predstaviteľmi sú napríklad \textit{MongoDB} alebo \textit{CouchDB} databázy.
+
+%
+% MongoDB
+%
+\ifthenelse {\boolean{bachelor}}
+{
+	%\subsection{Subsection}
+	\paragraph{MongoDB}
+}
+{
+	\%section{Subsection}
+	\subsubsection{MongoDB}
+}
+\label{subsection:mongodb}
+Pre databázovú vrstvu nášho systému sme si vybrali popredného predstaviteľa textových databáz MongoDB\footnote{www.mongodb.org}.Je to dokumentová nerelačná databáza vytvorená v C++ spustená v roku 2009~\cite{NoSQLDBvsRealtionDB}. Ukladá dáta v dokumentoch vo formáte BSON (Binary JSON), ktorých štruktúra sa môže meniť. Využíva dynamickú štruktúru schém, preto dokáže vytvárať záznamy bez preddefinovanej štruktúry dát, lebo štruktúra sa vytvára za behu, pričom môže byť veľmi jednoducho pozmenená pridaním, odstránením alebo zmenou typu polia dokumentu určujúceho štruktúru. Umožňuje jednoduché ukladanie dát s hierarchickými vzťahmi alebo komplexnejších štruktúr, ako sú napríklad polia, listy alebo vnorené polia. Spomenuté vlastnosti dokumentu databázy MongoDB sú najvhodnejšou voľbou pre prácu s variabilnými dátami nášho systému.
+
+Vlastnosti ako chybová tolerancia, perzistencia a konzistencia dát sú súčasťou MongoDB. Oproti klasickým dokumentovým databázam ponúka aj vymoženosti, ako agregácia, ad hoc dopyty, indexovanie, a pod. Taktiež má svoj vlastný plnohodnotný dopytovací jazyk \textit{mongo query language}~\cite{NoSQLDBvsRealtionDB}.
+
+Prvky poskytované databázou MongoDB sú prvky zahrnuté v relačných databázach rozšírené o ďalšiu funkcionalitu. Porovnanie poskytovaných prvkov je v tabuľke~\fullref{table:features_of_mongodb}. 
+
+\begin{table}[H]
+	\centering
+	\caption{Prvky poskytované MongoDB}
+	\label{table:features_of_mongodb}
+	\begin{tabular}{|l|l|l|}
+		\hline
+		& \textbf{MySQL} & \textbf{MongoDB} \\ \hline
+		Bohatý dátový model & Nie & Áno \\ \hline
+		Dynamická štruktúra & Nie & Áno \\ \hline
+		Dátové typy & Áno & Áno \\ \hline
+		Lokálnosť dát & Nie & Áno \\ \hline
+		Aktualizovanie polí & Áno & Áno \\ \hline
+		Ľahké pre programátorov & Nie & Áno \\ \hline
+		Komplexné transakcie & Áno & Nie \\ \hline
+		Audit & Áno & Áno \\ \hline
+		Auto-sharding & Nie & Áno \\ \hline
+	\end{tabular}
+\end{table}
+
+Bohatý dátový model (angl. Rich Data Model) znamená, že dátový model poskytuje veľa funkcionality. Princípom dynamickej štruktúry (angl. Dynamic Structure) je jednoduchá zmena štruktúru, pričom nemusí byť vôbec zadefinovaná a každý záznam môže mať odlišnú štruktúru. Lokálnosť dát (angl. Data Locality) znamená uchovávanie súvisiacich dát pokope. Aktualizovanie polí umožňuje vykonávať nad poliami operácie, ako sú inkrementácia podľa špecifikovaného množstva, vynásobenie hodnotou, premenovanie, aktualizácia iba ak je hodnota väčšia alebo menšia ako špecifická hodnota a ďalšie. Audit (angl. Auditing) je funkcionalita, ktorá umožňuje administrátorom a používateľom sledovať aktivity systému.
+Auto-sharding pri náraste dát, aby sa zabránilo poklesu priepustnosti operácií čítania a zapisovania, ukladá dáta automaticky na viacero strojov.
+
+MongoDB má vlastnú konvenciu názvov svojich častí. Tie sa v niektorých prípadoch líšia s názvami relačných databáz. Rozdiely sú zobrazene v tabuľke~\fullref{table:names_of_mongodb}. Za zástupcu relačných databáz bola vybraná MySQL databáza. 
+
+\begin{table}[H]
+	\centering
+	\caption{Porovnanie používaných pojmov~\cite{MongoDBvsMySQL2015}}
+	\label{table:names_of_mongodb}
+	\begin{tabular}{|l|l|}
+		\hline
+		\textbf{MySQL} & \textbf{MongoDB} \\ \hline
+		Databáza & Databáza \\ \hline
+		Tabuľka & Kolekcia \\ \hline
+		Index & Index \\ \hline
+		Riadok & BSON dokument \\ \hline
+		Stĺpec & BSON pole (angl. field) \\ \hline
+		Spojenie & Vnorené dokumenty a prepojenie \\ \hline
+		Primárny kľúč & Primárny kľúč \\ \hline
+		Zoskupenie & Agregácia \\ \hline
+	\end{tabular}
+\end{table}
+
+%
+% Ostatné databázové systémy
+%%
+%\ifthenelse {\boolean{bachelor}}
+%{
+%	%\subsection{Subsection}
+%	\subsubsection{Ostatné databázové systémy}
+%}
+%{
+%	\%section{Subsection}
+%	\subsection{Ostatné databázové systémy}
+%}
+%\label{subsection:types_of_norelation_dbs}
+%Okrem relačných a textových databáz existuje sme prešli ešte niekoľko druhov databáz.
+%
+%%
+%% Kľúč - hodnota databázy
+%%
+%\ifthenelse {\boolean{bachelor}}
+%{
+%	%\subsection{Subsection}
+%	\paragraph{Kľúč - hodnota databázy}
+%}
+%{
+%	\%section{Subsection}
+%	\subsubsection{Kľúč - hodnota databázy}
+%}
+%\label{subsubsection:key_value_db}
+%%Nerelačné databázy typu kľúč - hodnota sú v svojej podstate celkom jednoduché, ale zároveň efektívne. Umožňujú používateľovi ukladať dáta ľubovoľne, kedže neobsahujú schémy. 
+%Uložené dáta sa skladajú z dvoch častí. Prvá časť je kľuč a druhá časť je hodnota~\cite{NoSQLDBvsRealtionDB}, pričom kľúč je samo-generujúci string a hodnota môže byť takmer čokoľvek, od string, JSON cez BLOB až po obrázok~\cite{MongoDBvsMySQL2015}.
+%%Kľúč - hodnota databázy sú veľmi podobné hašovacím tabuľkám, kde kľúč je indexom do tabuľky, pomocou ktorého používateľ môže pristúpiť k hodnote daného kľúču. Tento typ databáz uprednostňuje rozšíriteľnosť pred konzistenciou. Ponúka vysokú konkurenčnosť (angl. concurrency), rýchle vyhľadávanie a schopnosť uloženia veľkého množstva dát za cenu spojovacích a agregačných operácií. Taktiež 
+%V tomto type databáz je veľmi náročné vytvoriť ľubovoľný pohľad na dáta z dôvodu chýbajúcej schémy~\cite{NoSQLDBvsRealtionDB}.
+%
+%%Najznámejšími predstaviteľmi tohto typu databáz sú \textit{Amazon DynamoDB} a \textit{RIAK}.
+%
+%%
+%% Stĺpcové databázy
+%%
+%\ifthenelse {\boolean{bachelor}}
+%{
+%	%\subsection{Subsection}
+%	\paragraph{Stĺpcové databázy}
+%}
+%{
+%	\%section{Subsection}
+%	\subsubsection{Stĺpcové databázy}
+%}
+%\label{subsubsection:column_db}
+%Stĺpcové databázy musia mať preddefinovanú schému, v ktorej sú jednotlivé bunky záznamov zoskupené do kolekcie stĺpcov~\cite{MongoDBvsMySQL2015}.
+%% Dáta nie sú ukladané do tabuliek, ale do masívne distribuovaných architektúr, s hlavným zámerom, aby agregácia dát mohla prebehnúť veľmi rýchlo s redukovaním I/O aktivity.
+%%Tento typ databáz taktiež poskytuje veľkú rozšíriteľnosť v ukladaní dát.
+%Najvhodnejšie je využívať stĺpcové databázy v analytických aplikáciách alebo aplikáciách, ktoré získavajú dáta pomocou metódy \textit{data mining}~\cite{NoSQLDBvsRealtionDB}.
+%
+%%
+%% Grafové databázy
+%%
+%\ifthenelse {\boolean{bachelor}}
+%{
+%	%\subsection{Subsection}
+%	\paragraph{Grafové databázy}
+%}
+%{
+%	\%section{Subsection}
+%	\subsubsection{grafové databázy}
+%}
+%\label{subsubsection:graph_db}
+%%Grafové databázy su špeciálny typ databáz, v ktorých sú 
+%Dáta sú uložené vo forme grafu. Graf pozostáva z vrcholov a hrán, pričom vrcholy predstavujú objekty a hrany reprezentujú vzťahy medzi nimi. Každý vrchol okrem iného obsahuje aj ukazovateľ na priľahlé vrcholy, čo umožňuje prechádzať obrovské množstvo dát rýchlejšie ako v relačných databázach~\cite{NoSQLDBvsRealtionDB}.
+%
+%%Údaje sa ukladajú v polo-štruktúrovanej forme, kde je kladený hlavný dôraz na prepojenia medzi dátami. Grafové databázy spĺňajú vlastnosť ACID a sú veľmi vhodné pre biometrické aplikácie alebo aplikácie sociálnych sietí. Hlavným predstaviteľom grafových databáz je \textit{Neo4j}~\cite{NoSQLDBvsRealtionDB}.
+%
+%%
+%% Objektovo orientované databázy
+%%
+%\ifthenelse {\boolean{bachelor}}
+%{
+%	%\subsection{Subsection}
+%	\paragraph{Objektovo orientované databázy}
+%}
+%{
+%	\%section{Subsection}
+%	\subsubsection{Objektovo orientované databázy databázy}
+%}
+%\label{subsubsection:object_oriented_db}
+%Objektovo orientované databázy ukladajú dáta vo forme objektov, rovnako ako sú údaje reprezentované v objektoch v objektovo orientovaných programovacích jazykoch (OOP). Tieto databázy podporujú všetky vymoženosti OOP, ako enkapsulácia, polymorfizmus, ale aj dedenie. Objektovo orientované databázy robia moderný vývoj softvéru jednoduchším~\cite{NoSQLDBvsRealtionDB}.
+
+%
+% Zhrnutie aplikácií na spracovanie prirodzeného jazyka
+%
+%\ifthenelse {\boolean{bachelor}}
+%{
+%	%\subsection{Subsection}
+%	\subsubsection{Zhrnutie}
+%}
+%{
+%	%\section{Subsection}
+%	\section{Zhrnutie}
+%}
+%\label{subsection:design_shrnutie}
+%NOSQL databáza je narozdiel do RDBMS modelu (Relation Data Base Management System)
+%navrhnutá, tak aby bola jednoducho rozšíriteľná so zväčšovaním dát. Väčšina NOSQL databáz odstránila niektoré nepotrebné prvky RDBMS modelov, čím sa stali podstatne ľahšími a efektívnejšími. Toto na druhej strane spôsobilo, že NOSQL model negarantuje vlastnosti ACID (Atomicity, Consistency, Isolation, Durability), ale naopak garantuje vlastnosti BASE (Basically Available, Soft state, Eventula Consistency)~\cite{NoSQLDBvsRealtionDB}.
+%
+%Nerelačné databázy neukladajú údaje v tabuľkách a nemajú fixnú schému. Tieto vlastnosti im umožňujú jednoducho spracovávať neštruktúrované dáta, ako sú dokumenty, e-maily a mnoho ďalších~\cite{MongoDBvsMySQL2015}. Preto majú čím ďalej, tým viac využití.
+%
+%Existuje hneď niekoľko prípadov, kedy je lepšie použiť nerelačnú databázu namiesto relačnej databázy. Keď je potrebné, aby aplikácia dokázala spracovávať rôzne typy a tvary dát alebo pri potrebe spravovať aplikáciu efektívnejšie pri rozširovaní, je rozhodne výhodnejšie použiť nerelačnú databázu. Niektoré databázy, ako napríklad textová databáza MongoDB uľahčuje vývoj aplikácií, keďže jeho dokumentová štruktúra dát je jednoducho namapovateľná na moderné, objektovo-orientované programovacie jazyky a tým pádom nie je potreba využívať komplexnú objektovo-relačnú mapovaciu vrstvu, ktorá je nutná pri použití relačných databáz na prevod objektov z programovacie jazyka na perzistentné objekty v databáze. Všeobecne je omnoho ľahšie rozšíriť schému / model nerelačnej databázy ako rozširovať schému relačnej databázy.
+%
+%V systéme potrebujeme ukladať v databáze texty a informácie o nich. Počet viet, slov, vzťahov je pre každý text odlišný a preto nedokážeme vopred definovať efektívnu schému na ukladanie týchto dát. Textové databázy, so svojou dynamickou a ľahko upraviteľnou štruktúrou, sú na tento účel ideálne, pričom ukladanie textov v tabuľkách by bolo náročne, navyše relačné databázy nemajú predvolené podporované vyhľadávania v štruktúrach ako text. MongoDB (viď.~\fullref{subsection:mongodb}) je vyspelá, dokumentová databáza zahrňajúca všetku funkcionalitu, ktorú potrebujeme.
+
+%
 % Návrh uchovávania textov v databázach
 %
 \ifthenelse {\boolean{bachelor}}
@@ -281,13 +508,19 @@ Určenie relevantnosti informácií hlavne pri učebných textoch a poznámkach 
 	\section{Usage of dependencies in notes creation}
 }
 \label{subsection:use_of_dependencies_in_notes_creation}
-Závislosti majú viacero využití pri tvorbe poznámok.
+Závislosti majú viacero využití pri tvorbe poznámok. Hlavné z nich sú:
 
-Jednoznačná identifikácia slova...
+\begin{my_itemize}
+	\myitem jednoznačná identifikácia informácie,
+	\myitem pravidlo závisle iba od štruktúry,
+	\myitem menší počet potrebných pravidiel.
+\end{my_itemize}
 
-Vytvorenie pravidla, ktoré je aplikovateľné na základe štruktúry..
+Závislosť nám zoskupuje informácie o jej tokenoch a vzťahu medzi nimi. Na základe nich vieme, bez potreby iných vstupov, jednoznačne identifikovať konkrétnu informáciu vo vete alebo poznámke.
 
-Menší počet potrebných pravidiel..
+Pravidlo, ktoré je tvorené prevažne zo závislostí, nie je viazané na konkrétnu vetu, pri spracovávaní ktorej vzniklo. Viaže sa na štruktúru vety. Táto vlastnosť nám umožňuje použiť jedno a to isté pravidlo na spracovanie viacerých viet.
+
+Keby sme vytvárali pravidla iba na základe, napríklad značiek názvoslovných druhov a ukladali by sme si v akom poradí boli značky v pôvodnej veta a v akom poradí v poznámke, potrebovali by sme pre každú obmenu vety nové pravidlo. Keďže je jedno naviazané na štruktúru vety, vieme jedným pravidlom spracovať viacero obmien jednej vety, za podmienky, že sa obmenou nezmenila štruktúra. Aplikovateľnosťou pravidla na viacero viet sa nám redukuje počet všetkých možných potrebných pravidiel.
 
 \newpage
 %
@@ -468,7 +701,7 @@ Pre vetu \textit{,,The president of the Slovak republic is Andrej Kiska.''} nám
 Aplikovanie pravidla prebieha nasledovným spôsobom. Prechádzajú sa všetky závislosti v štruktúre pravidla. Prvá závislosť v štruktúre pravidla je závislosť so vzťahom \textit{nsubj} na pozícií jedna a podradeným korešpondujúcim tokenom. Má podradený token so značkou slovného druhu \textit{NN}, typom názvoslovnej entity \textit{OTHER - ostatné}, lemou \textit{President} a indexom dva. Nadradený token má značku slovného druhu \textit{NNP}, názvoslovnú entitu \textit{PERSON - osoba}, lemu \textit{Kiska} a index deväť. Takáto závislosť sa vyhľadá v štruktúre vety medzi závislosťami na obrázku~\fullref{fig:example_sentence_andrej_kiska}. Ak pre danú závislosť vyhovuje viacero závislostí, pomocou výpočtu zhody závislostí vyberieme tú s najväčšou zhodou. V tomto prípade vidíme, že vyhovujúca závislosť je len jedna a to prvá závislosť \textit{nsubj} medzi slovom na druhej pozícií \textit{president} a posledným slovom, na deviatej pozícií \textit{Kiska}. Z tejto závislosti sa zoberie podradený token, keďže tak určuje pravidlo v stĺpci \textit{typ tokenu}. Slovo \textit{president} sa pridá do poznámky na pozíciu jedna. Rovnakým spôsobom sa prechádzajú a spracujú všetky závislosti v štruktúre pravidla a podľa nich sa extrahuje slovo z vety a pridá do poznámky.
 
 \begin{figure}[H]
-	\begin{center}\includegraphics[scale=0.32]{example_sentence_andrej_kiska}\end{center}
+	\begin{center}\includegraphics[scale=0.31]{example_sentence_andrej_kiska}\end{center}
 	\caption[Zásivlostí jednoduchej vety]{Zásivlostí jednoduchej vety}\label{fig:example_sentence_andrej_kiska}
 \end{figure}
 

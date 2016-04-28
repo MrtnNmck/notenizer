@@ -33,49 +33,6 @@ Porozumenie ľudskej reči je mnohokrát náročné aj pre samotných ľudí a n
 
 V súčastnosti najpoužívanejšie algoritmy na NLP využívajú strojové učenie. Dosiahnutie úplného porozumenia a spracovania ľudského prirodzeného jazyka by znamenalo vyriešiť \textit{AI-complete} problém, čo znamená, že obtiažnosť tohto problému je ekvivalentná s obtiažnosťou problému vytvorenia počítača inteligentného ako človek, takzvané ,,true AI''.
 
-%
-% Využitie spracovania prirodzeného jazyka
-%
-\ifthenelse {\boolean{bachelor}}
-{
-	%\subsection{Subsection}
-	\subsection{Využitie spracovania prirodzeného jazyka}
-}
-{
-	%\section{Subsection}
-	\subsection{Využitie spracovania prirodzeného jazyka}
-}
-\label{subsec:useofnlp}
-V súčastnosti má NLP niekoľko hlavných využití v aplikáciách a systémoch. Z hľadiska spracovania učebných textov je pre nás najdôležitejšie využitie z pohľadu \textit{extrakcie informácií}, ktoré je podrobnejšie popísané v sekcii \fullref{subsubsec:information_extraction}. Ďalšie využitia NLP sú napríklad~\cite{Preeti}:
-\begin{my_itemize}
-	\myitem Strojový preklad (angl. Machine Translation)
-	\myitem Rozpoznávanie reči (angl. Speech Recognition)
-	\myitem Sumarizáciu textu (angl. Text Summarization)
-	\myitem Dialógové systémy (angl. Dialogue Systems)
-	\myitem Vyhľadávanie informácií (angl. Information Retrieval)
-\end{my_itemize}
-
-%
-% Extrakcia informácií
-%
-\ifthenelse {\boolean{bachelor}}
-{
-	%\subsection{Subsection}
-	\subsubsection{Extrakcia informácií}
-}
-{
-	%\section{Subsection}
-	\subsubsection{Extrakcia informácií}
-}
-\label{subsubsec:information_extraction}
-Systémy a aplikácie zamerané na extrakciu informácií vyhľadávajú a extrahujú informácie z textov, článkov a dokumentov, pričom reagujú na používateľove informačné potreby. Výstup z takýchto systémov a aplikácií nepozostáva iba zo zoznamu kľúčových slov, ktoré by sa dali pokladať za extrahované informácie, ale naopak sú v tvare preddefinovaných šablón~\cite{Preeti}.
-
-Extrakcia informácií využíva niekoľko z hlavných úloh spracovania prirodzeného jazyka. Sú to \textit{značkovanie slovných druhov}, \textit{rozpoznávanie názvoslovných entít}, a ďalšie~\cite{Preeti}. Tieto a aj ostatné úlohy spracovania prirodzeného jazyka sú podrobnejšie opísané v sekcii \fullref{subsec:tasksofnlp}.
-
-Výber informácií a extrakcia informácií spolu úzko súvisia, ale sú to dve rozdielne využitia NLP. Prvé spomínané využitie slúži na vyhľadávanie relevantných zdrojov informácií v databázach textov, článkov a dokumentov podľa používateľových potrieb. Na vyhľadaných zdrojoch následne prebehne extrakcia informácií. 
-\\
-
-%My sa pri spracovaní textov zameriame hlavne na extrakciu informácií, aby sme dokázali z učebného textu extrahovať relevantné informácie pre študenta, a tým získali poznámky.
 
 %
 % Úlohy spracovania prirodzeného jazyka
@@ -90,7 +47,7 @@ Výber informácií a extrakcia informácií spolu úzko súvisia, ale sú to dv
 	\subsection{Úlohy spracovania prirodzeného jazyka}
 }
 \label{subsec:tasksofnlp}
-NLP ma niekoľko hlavných úloh. Podrobnejšie si opíšeme tie, ktoré sú relevantné vzhľadom na implementáciu spracovania učebných textov.
+Spracovanie prirodzeného jazyka má niekoľko hlavných úloh. Podrobnejšie si opíšeme tie, ktoré sú relevantné vzhľadom na implementáciu spracovania učebných textov.
 Úlohy spracovania prirodzeného textu:~\cite{collobert2011} 
 \begin{my_itemize}
 	\myitem Značkovanie slovných druhov (angl. Part-of-speech tagging) \ref{subsubsec:postagging}
@@ -102,7 +59,16 @@ NLP ma niekoľko hlavných úloh. Podrobnejšie si opíšeme tie, ktoré sú rel
 	\myitem Generovanie prirodzeného jazyka (angl. Natural Language Generation)
 	\myitem Optické rozoznávanie textu (angl. Optical Character Recognition)
 	\myitem Rozloženie vzťahov (angl. Dependency parsing) \ref{subsubsec:dependencyparsing}
-	\myitem a ďalšie
+	\myitem a ďalšie.
+\end{my_itemize}
+
+Hlavné úlohy spracovania prirodzeného jazyka sú implementované a využívané vo viacerých smeroch. Z hľadiska spracovania učebných textov je pre nás najdôležitejšie využitie z pohľadu \textit{extrakcie informácií}, ktoré je podrobnejšie popísané v sekcii \fullref{subsubsec:information_extraction}. Ďalšie využitia spracovania prirodzeného jazyka sú napríklad~\cite{Preeti}:
+\begin{my_itemize}
+	\myitem Strojový preklad (angl. Machine Translation),
+	\myitem Rozpoznávanie reči (angl. Speech Recognition),
+	\myitem Sumarizáciu textu (angl. Text Summarization),
+	\myitem Dialógové systémy (angl. Dialogue Systems),
+	\myitem Vyhľadávanie informácií (angl. Information Retrieval).
 \end{my_itemize}
 
 %
@@ -138,7 +104,6 @@ Problémom pri značkovaní slovných druhov je mnohoznačnosť. Mnohoznačnosť
 Rozpoznávanie názvoslovných entít (angl. Named Entity Recognition) označuje mená a názvy (entity), ktoré sa vyskytujú v texte. Tie následne rozdeľuje do kategórií, ako sú napríklad \textit{osoby}, \textit{organizácie} alebo \textit{lokácie}~\cite{collobert2011}.
 
 Ťažkosti pri rozpoznávaní názvoslovných entít spôsobuje kapitalizácia slov, takzvané písanie entít s veľkým začiatočným písmenom. V anglickom jazyku je to jednoduché, keďže v angličtine sa entity píšu s veľkým začiatočným písmenom.
-\\
 
 Príklad je \textit{Slovak University of Technology}. Avšak v iných jazykoch to neplatí a entity sa nemusia písať s veľkým začiatočným písmenom.
 
@@ -156,7 +121,6 @@ Príklad je \textit{Slovak University of Technology}. Avšak v iných jazykoch t
 }
 \label{subsubsec:corefparsing}
 Nájdenie, identifikácia a rozpoznanie koreferencií v texte je úlohou rozpoznávania koreferencií (angl. Coreference resolution). V texte sa často používajú zámena (angl. pronouns) \textit{to}, \textit{tí}, \textit{on}, anglicky \textit{it}, \textit{those}, \textit{he} alebo menné frázy (angl. noun phrase). Tieto zámena a menné frázy sa odkazujú na iné podstatné mená alebo mená a názvy. Je úlohou rozpoznávania koreferencií identifikovať referenciu na podstatné meno alebo meno, alebo názov, väčšinou entity z reálneho sveta, na ktoré sa odkazujú. Táto úloha spracovania prirodzeného jazyka sa využíva v aplikáciách NLP ako sú extrakcia informácií (viď. ~\fullref{subsubsec:information_extraction}) a odpovedanie na otázky~\cite{Bryl}.
-\\
 
 Príklad:
 \textbf{Martin Nemček} napísal túto bakalársku prácu. \textbf{On} študuje na FIIT STU BA.
@@ -195,6 +159,27 @@ V tomto orientovanom stromovom grafe jednotlivé slová vety predstavujú vrchol
 \end{figure}
 
 Celá závislosť sa skladá primárne z nadradeného tokenu, podradeného tokenu a vzťahu medzi nimi. Na obrázku~\fullref{fig:dependencies_in_sentence} vidno, okrem iných aj závislosť, ktorej nadradený token je slovo \textit{looks}, podradený token je slovo \textit{She} a vzťah je \textit{nsubj}.
+
+%
+% Extrakcia informácií
+%
+\ifthenelse {\boolean{bachelor}}
+{
+	%\subsection{Subsection}
+	\subsubsection{Extrakcia informácií}
+}
+{
+	%\section{Subsection}
+	\subsubsection{Extrakcia informácií}
+}
+\label{subsubsec:information_extraction}
+Systémy a aplikácie zamerané na extrakciu informácií vyhľadávajú a extrahujú informácie z textov, článkov a dokumentov, pričom reagujú na používateľove informačné potreby. Výstup z takýchto systémov a aplikácií nepozostáva iba zo zoznamu kľúčových slov, ktoré by sa dali pokladať za extrahované informácie, ale naopak sú v tvare preddefinovaných šablón~\cite{Preeti}.
+
+Extrakcia informácií využíva niekoľko z hlavných úloh spracovania prirodzeného jazyka. Sú to \textit{značkovanie slovných druhov}, \textit{rozpoznávanie názvoslovných entít}, a ďalšie~\cite{Preeti}. Tieto a aj ostatné úlohy spracovania prirodzeného jazyka sú podrobnejšie opísané v sekcii \fullref{subsec:tasksofnlp}.
+
+Výber informácií a extrakcia informácií spolu úzko súvisia, ale sú to dve rozdielne využitia NLP. Prvé spomínané využitie slúži na vyhľadávanie relevantných zdrojov informácií v databázach textov, článkov a dokumentov podľa používateľových potrieb. Na vyhľadaných zdrojoch následne prebehne extrakcia informácií. 
+
+%My sa pri spracovaní textov zameriame hlavne na extrakciu informácií, aby sme dokázali z učebného textu extrahovať relevantné informácie pre študenta, a tým získali poznámky.
 
 %
 % Nástroje na spracovanie prirodzeného jazyka
