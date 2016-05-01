@@ -14,6 +14,166 @@
 \label{section:design}
 
 %
+% Tvorba poznámok
+%
+\ifthenelse {\boolean{bachelor}}
+{
+	%\subsection{Subsection}
+	\subsection{Tvorba poznámok}
+}
+{
+	%\section{Subsection}
+	\section{Tvorba poznámok}
+}
+\label{subsection:notes_creation}
+Pri spracovávaní viet je potreba extrahovať dôležité a konkrétne informácie, v našom prípade slová, a z extrahovaných informácií vytvoriť poznámku. Poznámka je zložená výhradne zo slov obsiahnutých vo vete, z ktorej bola vytvorená. Tým zabezpečíme, že poznámka nebude obsahovať irelevantné informácie z hľadiska vzťahu ku vete. 
+
+Spracovávané vety sa môžu opakovať, a preto je dôležité, aby sa rovnaké a podobné vety spracovali vždy takým istým spôsobom. Pre tento účel je vhodné mať definované pravidlo (viď.~\fullref{subsubsection:rule_for_processing}), ktoré bude určovať, ako sa má daná veta spracovať. Aplikovaním pravidla na vetu vytvoríme poznámku. Používateľ má možnosť interaktívne upraviť poznámku, a tým pádom aj pravidlo, ktoré bolo použité na vytvorenie danej poznámku, v takom rozsahu, že sa vytvorená poznámka zmení podľa vykonaných zmien. Zmeny v pravidle sa musia prejaviť aj pri nasledujúcom aplikovaní pravidla na rovnakú alebo podobnú vetu. Používateľovi to poskytne kontrolou nad spôsobom, akým sa vytvárajú poznámky a bude si ich vedieť prispôsobiť - personalizovať.
+
+%
+% Pravidlo na spracovanie
+%
+\ifthenelse {\boolean{bachelor}}
+{
+	\subsubsection{Pravidlo na spracovanie}
+}
+{
+	\subsection{Pravidlo na spracovanie}
+}
+\label{subsubsection:rule_for_processing}
+Pravidlo na spracovanie určuje, ktorá informácie vo vete sú relevantné a majú byť použité v poznámke. V časti~\fullref{subsubsection:determination_of_relevant_information} je podrobnejšie opísaný proces určenia relevantných informácií. Okrem určenia relevantnosti slov pravidlo taktiež určuje, na ktorej pozícií sa má konkrétna informácia vo výslednej poznámke nachádzať. Výsledná poznámka sa nemusí skladať iba z jednej vety, ale môže pozostávať z ľubovolného počtu viet. Počet viet, z ktorých bude poznámka pozostávať a miesta, na ktorých má byť pôvodná poznámka rozdelená na vety určuje pravidlo.
+
+Skladá sa primárne zo štruktúry, ktorá je zložená hlavne zo závislostí. Viac informácií o štruktúre je v časti~\fullref{subsection:structure_of_sentences_and_rules}. Okrem štruktúry obsahuje aj informácie o pozíciach, na ktorých sa má výsledná poznámka rozdeliť na menšie časti - vety.
+%zo závislostí slov, ktoré sa majú nachádzať v poznámke. Pomocou závislosti vieme jednoznačne identifikovať a extrahovať konkrétne slovo z vety a pridať ho do poznámky. Okrem závislostí obsahuje aj informácie o pozícií závislostí alebo type tokenu, ktorého slovo sa ma následne pridať do poznámky a informácie o tokenoch závislostí. Pre nadradený aj podradený token pravidlo obsahuje dáta o slove korešpondujúcom s daným tokenom. Sú to značka slovného druhu, index slova vo vete, názvoslovná entita a lema tvar.
+
+Pravidlo je aplikovateľné nie len na totožné vety, ale na vety s rovnakou štruktúrou a je nezávislé od obsahovej časti vety.
+
+%
+% Určenie relevantných informácií
+%
+\ifthenelse {\boolean{bachelor}}
+{
+	\subsubsection{Určenie relevantných informácií}
+}
+{
+	\subsection{Určenie relevantných informácií}
+}
+\label{subsubsection:determination_of_relevant_information}
+Určenie relevantnosti informácií hlavne pri učebných textoch a poznámkach je subjektívna vec. Informáciu, ktorú niekto považuje za relevantnú môže byť pre iného irelevantná. Relevantnosť informácií preto určuje používateľ pomocou vytvárania nových a úpravy existujúcich pravidiel cez spracovávanie článkov, viet a úpravou vytvorených poznámok. Tým si používateľ prispôsobuje tvorbu poznámok, aby zodpovedala jeho predstave relevantnosti a celkovo tvorbe poznámok. Na tento účel mu systém ponúka interaktívne a intuitívne rozhranie.
+
+%
+% Viacnásobné poznámky
+%
+\ifthenelse {\boolean{bachelor}}
+{
+	\subsubsection{Viacnásobné poznámky}
+}
+{
+	\subsection{Viacnásobné poznámky}
+}
+Viacnásobná poznámka je poznámka, ktorá sa skladá z viacerých viet, ktoré majú rovnaký základ a sú doplnené o prvok z množiny spojky \textit{a} (angl. and). V praxi to vyzerá tak, že z vety \textit{,,It is bordered by Austria in the southwest, Hungary in the south, Ukraine in the east, Poland in the north and Czech Republic in the northwest.''} sa dá vytvoriť viacnásobná poznámka v tvare zobrazenej v tabuľke~\fullref{system:table:multinote}.
+
+\begin{table}[H]
+	\centering
+	\caption{Viacnásobná poznámka}
+	\label{system:table:multinote}
+	\begin{tabular}{|l|}
+		\hline
+		It is bordered by Austria in the southwest. \\ \hline
+		It is bordered by Hungary in the south. \\ \hline
+		It is bordered by Ukraine in the east. \\ \hline
+		It is bordered by Poland in the north.\\ \hline
+		It is bordered by Czech Republic in the northwest. \\ \hline
+	\end{tabular}
+\end{table}
+
+Z tabuľky vidno, že rovnaký základ viet vo viacnásobnej poznámke je \textit{It is border by}, ktoré je rozšírené o prvky z množiny \textit{\{Austria in the southwest, Hungary in the south, Ukraine in the east, Poland in the north, Czech Republic in the northwest\}}.
+
+Množina sa určuje pomocou dvoch závislostí. Prvá je závislosť so vzťahom \textit{conjuction} a špecifikom \textit{and}, ktorá nám určuje, ktoré slová sú prepojené spojkou \textit{a}. Druhá využívaná závislosť, je závislosť so vzťahom \textit{appositional modifier}, ktorá určuje slova prepojené čiarkou, keďže spojka \textit{a} môže byť nahradená čiarkou. Pomocou týchto závislostí vieme extrahovať z vety jednotlivé prvky množiny a množinu vytvoriť.
+
+Základ viet vo viacnásobnej poznámke je relevantná informácia z pôvodnej vety určená pravidlom, okrem prvkov množín. Po aplikovaní pravidla a získaní základu viet sa následne namnoží a spojí s jednotlivými prvkami množiny a vytvoria tak viacnásobnú poznámku.
+
+%
+% Použitie závislostí pri tvorbe poznámok
+%
+\ifthenelse {\boolean{bachelor}}
+{
+	\subsection{Použitie závislostí pri tvorbe poznámok}
+}
+{
+	\section{Usage of dependencies in notes creation}
+}
+\label{subsection:use_of_dependencies_in_notes_creation}
+Závislosti majú viacero využití pri tvorbe poznámok. Hlavné z nich sú:
+
+\begin{my_itemize}
+	\myitem jednoznačná identifikácia informácie,
+	\myitem pravidlo závisle iba od štruktúry,
+	\myitem menší počet potrebných pravidiel.
+\end{my_itemize}
+
+Závislosť nám zoskupuje informácie o jej tokenoch a vzťahu medzi nimi. Na základe nich vieme, bez potreby iných vstupov, jednoznačne identifikovať konkrétnu informáciu vo vete alebo poznámke.
+
+Pravidlo, ktoré je tvorené prevažne zo závislostí, nie je viazané na konkrétnu vetu, pri spracovávaní ktorej vzniklo. Viaže sa na štruktúru vety (viď.~\fullref{subsection:structure_of_sentences_and_rules}). Táto vlastnosť nám umožňuje použiť jedno a to isté pravidlo na spracovanie viacerých viet.
+
+Keby sme vytvárali pravidla iba na základe, napríklad značiek názvoslovných druhov a ukladali by sme si v akom poradí boli značky v pôvodnej vete a v akom poradí v poznámke, potrebovali by sme pre každú obmenu vety nové pravidlo. Keďže je pravidlo naviazané na štruktúru vety a nie na obsahovú časť, teda aj poradie slov, vieme jedným pravidlom spracovať viacero obmien jednej vety, za podmienky, že sa obmenou nezmenila štruktúra. Aplikovateľnosťou pravidla na viacero viet sa nám redukuje počet všetkých možných potrebných pravidiel.
+
+%
+% Štruktúra viet a pravidiel
+%
+\ifthenelse {\boolean{bachelor}}
+{
+	\subsection{Štruktúra viet a pravidiel}
+}
+{
+	\section{Structure of sentences and rules}
+}
+\label{subsection:structure_of_sentences_and_rules}
+Všeobecná štruktúra je definovaná závislosťami, vzťahmi závislostí, pozíciami závislostí, a informáciami o nadradenom tokene a podradenom tokene závislostí. Tieto informácie sa skladajú zo značky slovného druhu, indexu, názvoslovnej entity a lemy. Štruktúra pravidla je oproti všeobecnej štruktúre, ktorú využíva veta, rozšírená a doplňujúce informácie. Sú to informácie potrebné pre správny chod systému. Skladajú sa z typu porovnania a typu tokenu. V náčrtoch sa nezobrazujú keďže sú využívané interne a nie sú nevyhnutné na pochopenie danej časti.
+
+Štruktúru viet prezentujeme dvoma spôsobmi:
+\begin{my_itemize}
+	\myitem stromom (viď.~\fullref{subsubsection:structure_tree_representation}),
+	\myitem vo vete (viď.~\fullref{subsubsection:structure_representation_in_sentence})
+\end{my_itemize}
+
+%
+% Reprezentácia stromom
+%
+\ifthenelse {\boolean{bachelor}}
+{
+	\subsubsection{Reprezentácia stromom}
+}
+{
+	\subsection{Tree representation}
+}
+\label{subsubsection:structure_tree_representation}
+Stromová reprezentácia uľahčuje reprezentáciu vzťahov a prepojení jednotlivých slov vo vete. Táto reprezentácia môže byť pre vetu \textit{,,The president of the Slovak Republic is Andrej Kiska.''} vyjadrená obrázkom~\fullref{fig:tree_structure}. Reprezentácie je podobná reprezentácií na obrázku~\fullref{fig:dependency_tree} z kapitoly~\fullref{subsubsec:dependencyparsing}, avšak je ešte rozšírená o značky slovných druhov, indexy, názvoslovné entity a lemy. V tomto poradí sú tieto informácie zobrazene v stromovej reprezentácia pod príslušným slovom.
+
+\begin{figure}[H]
+	\begin{center}\includegraphics[scale=0.35]{tree_structure}\end{center}
+	\caption[Stromová reprezentácia štruktúry]{Stromová reprezentácia štruktúry}\label{fig:tree_structure}
+\end{figure}
+
+%
+% Reprezentácia vo vete
+%
+\ifthenelse {\boolean{bachelor}}
+{
+	\subsubsection{Reprezentácia vo vete}
+}
+{
+	\subsection{Representation in sentence}
+}
+\label{subsubsection:structure_representation_in_sentence}
+Reprezentácia vo vete taktiež reprezentuje vzťahy a prepojenia slov vo vete. Zobrazenie tejto reprezentácie lepšie opisuje reálne uloženie štruktúry v databáze. Pre vetu \textit{,,The president of the Slovak Republic is Andrej Kiska.''} vyzerá \textit{reprezentácia vo vete} ako na obrázku~\fullref{fig:sentence_representation}.
+
+\begin{figure}[H]
+	\begin{center}\includegraphics[scale=0.4]{kiska_full_sentence}\end{center}
+	\caption[Reprezentácia štruktúry vo vete]{Reprezentácia štruktúry vo vete}\label{fig:sentence_representation}
+\end{figure}
+
+%
 % Uchovávanie textov v databázach
 %
 \ifthenelse {\boolean{bachelor}}
@@ -26,7 +186,7 @@
 	\section{Uchovávanie textov v databázach}
 }
 \label{subsection:persisting_texts_in_db}
-Text je špecifický údajový model s variabilnou štruktúrou, ktorý potrebujeme efektívne ukladať v databáze. Musíme použiť vhodnú databázu, ktorá je prispôsobená na ukladanie textov. Databáza musí obsahovať vlastnosti, ktoré umožňujú jednoduché narábanie s dátami s variabilnou štruktúrou a nemajú veľkú spotrebu pamäti. Taktiež je potrebná podpora bezproblémového ukladanie, získavania, vyhľadávania a spracovania textov na úrovni databázy. Pri výbere vhodnej databázy sme prešli viacero alternatív.
+Text je špecifický údajový model s variabilnou štruktúrou, ktorý potrebujeme efektívne ukladať v databáze. Je nevyhnutné použiť vhodnú databázu, ktorá je prispôsobená na ukladanie textov. Databáza musí obsahovať vlastnosti, ktoré umožňujú jednoduché narábanie s dátami s variabilnou štruktúrou a nemajú prebytočnú spotrebu pamäti pri ich uchovávaní. Taktiež je potrebná podpora bezproblémového ukladanie, získavania, vyhľadávania a spracovania textov na úrovni databázy. Pri výbere vhodnej databázy sme prešli viacero alternatív.
 
 %
 % Relačné databázy
@@ -46,7 +206,7 @@ Text je špecifický údajový model s variabilnou štruktúrou, ktorý potrebuj
 Relačné databázy pracujú spoľahlivo pri obmedzenom množstve dát~\cite{MongoDBvsMySQL2015}.
 %Problém s relačným modelom relačných databáz nastáva, keď vzniká potreba aplikácie s obrovským množstvom dát. Menovite rozšíriteľnosť (angl. scalability) a schéme sa stávajú najväčším problémom relačných databáz~\cite{NoSQLDBvsRealtionDB}.
 Pri potrebe aplikácie s obrovským množstvom dát sa rozšíriteľnosť (angl. scalability) a schéma stávajú problémom~\cite{NoSQLDBvsRealtionDB}.
-Tento typ databáz ukladá dáta v tabuľkách zložených z riadov a stĺpcov.
+Tento typ databáz ukladá dáta v tabuľkách zložených z riadkov a stĺpcov.
 %Každý záznam (riadok) v tabuľke predstavuje zjednodušený objekt alebo vzťah z reálneho života. 
 Výhodou relačných databáz je možnosť jednoduchého vytvorenia prispôsobeného pohľadu na dáta~\cite{Maier}. Z pohľadu ukladania textu, a celkovo dát s variabilnou štruktúrou, je nevýhoda relačných databáz v ťažko prispôsobiteľnej štruktúre.
 
@@ -72,27 +232,24 @@ Dokumenty uľahčujú zmenu štruktúry záznamov jednoduchým pridaním, odstr�
 %Primárne využitie týchto databáz je v aplikáciách, ktoré potrebujú ukladať dáta, ktorých štruktúra je vopred neznáma alebo sa mení. Predstaviteľmi sú napríklad \textit{MongoDB} alebo \textit{CouchDB} databázy.
 
 %
-% MongoDB
+% Porovnanie a výber typu databázy
 %
 \ifthenelse {\boolean{bachelor}}
 {
 	%\subsection{Subsection}
-	\paragraph{MongoDB}
+	\subsubsection{Porovnanie a výber typu databázy}
 }
 {
-	\%section{Subsection}
-	\subsubsection{MongoDB}
+	%\section{Subsection}
+	\subsection{Porovnanie a výber typu databázy}
 }
-\label{subsection:mongodb}
-Pre databázovú vrstvu nášho systému sme si vybrali popredného predstaviteľa textových databáz MongoDB\footnote{www.mongodb.org}.Je to dokumentová nerelačná databáza vytvorená v C++ spustená v roku 2009~\cite{NoSQLDBvsRealtionDB}. Ukladá dáta v dokumentoch vo formáte BSON (Binary JSON), ktorých štruktúra sa môže meniť. Využíva dynamickú štruktúru schém, preto dokáže vytvárať záznamy bez preddefinovanej štruktúry dát, lebo štruktúra sa vytvára za behu, pričom môže byť veľmi jednoducho pozmenená pridaním, odstránením alebo zmenou typu polia dokumentu určujúceho štruktúru. Umožňuje jednoduché ukladanie dát s hierarchickými vzťahmi alebo komplexnejších štruktúr, ako sú napríklad polia, listy alebo vnorené polia. Spomenuté vlastnosti dokumentu databázy MongoDB sú najvhodnejšou voľbou pre prácu s variabilnými dátami nášho systému.
+\label{subsubsection:compare_dbs}
 
-Vlastnosti ako chybová tolerancia, perzistencia a konzistencia dát sú súčasťou MongoDB. Oproti klasickým dokumentovým databázam ponúka aj vymoženosti, ako agregácia, ad hoc dopyty, indexovanie, a pod. Taktiež má svoj vlastný plnohodnotný dopytovací jazyk \textit{mongo query language}~\cite{NoSQLDBvsRealtionDB}.
-
-Prvky poskytované databázou MongoDB sú prvky zahrnuté v relačných databázach rozšírené o ďalšiu funkcionalitu. Porovnanie poskytovaných prvkov je v tabuľke~\fullref{table:features_of_mongodb}. 
+Porovnávame textové a relačné databázy. V oboch kategóriách sme vybrali jedného z najväčších predstaviteľov danej kategórie. Za relačné databázy to je \textit{MySQL} a za textové databázy \textit{MongoDB}. Porovnanie poskytovaných prvkov porovnávaných databáz je v tabuľke~\fullref{table:features_of_mongodb}. 
 
 \begin{table}[H]
 	\centering
-	\caption{Prvky poskytované MongoDB}
+	\caption{Porovnanie poskytovaných prvkov}
 	\label{table:features_of_mongodb}
 	\begin{tabular}{|l|l|l|}
 		\hline
@@ -109,10 +266,9 @@ Prvky poskytované databázou MongoDB sú prvky zahrnuté v relačných databáz
 	\end{tabular}
 \end{table}
 
-Bohatý dátový model (angl. Rich Data Model) znamená, že dátový model poskytuje veľa funkcionality. Princípom dynamickej štruktúry (angl. Dynamic Structure) je jednoduchá zmena štruktúru, pričom nemusí byť vôbec zadefinovaná a každý záznam môže mať odlišnú štruktúru. Lokálnosť dát (angl. Data Locality) znamená uchovávanie súvisiacich dát pokope. Aktualizovanie polí umožňuje vykonávať nad poliami operácie, ako sú inkrementácia podľa špecifikovaného množstva, vynásobenie hodnotou, premenovanie, aktualizácia iba ak je hodnota väčšia alebo menšia ako špecifická hodnota a ďalšie. Audit (angl. Auditing) je funkcionalita, ktorá umožňuje administrátorom a používateľom sledovať aktivity systému.
-Auto-sharding pri náraste dát, aby sa zabránilo poklesu priepustnosti operácií čítania a zapisovania, ukladá dáta automaticky na viacero strojov.
+\textit{Bohatý dátový model} (angl. Rich Data Model) je poskytovanie rozšírenej funkcionality dátovým modelom. Princípom \textit{dynamickej štruktúry} (angl. Dynamic Structure) je jednoduchá zmena štruktúru, pričom nemusí byť vôbec zadefinovaná, a každý záznam môže mať odlišnú štruktúru. \textit{Lokálnosť dát} (angl. Data Locality) znamená uchovávanie súvisiacich dát pokope. \textit{Aktualizovanie polí} umožňuje vykonávať nad poliami operácie, ako sú inkrementácia podľa špecifikovaného množstva, vynásobenie hodnotou, premenovanie, aktualizácia iba ak je hodnota väčšia alebo menšia ako špecifická hodnota a ďalšie. \textit{Audit} (angl. Auditing) je funkcionalita, ktorá umožňuje administrátorom a používateľom sledovať aktivity systému. \textit{Auto-sharding} zabezpečuje zabránenie poklesu priepustnosti operácií čítania a zapisovania pri náraste dát ukladaním dát automaticky na viacero strojov.
 
-MongoDB má vlastnú konvenciu názvov svojich častí. Tie sa v niektorých prípadoch líšia s názvami relačných databáz. Rozdiely sú zobrazene v tabuľke~\fullref{table:names_of_mongodb}. Za zástupcu relačných databáz bola vybraná MySQL databáza. 
+MongoDB má vlastnú konvenciu názvov svojich častí. Tie sa v niektorých prípadoch líšia s názvami relačných databáz. Rozdiely sú zobrazene v tabuľke~\fullref{table:names_of_mongodb}.
 
 \begin{table}[H]
 	\centering
@@ -131,6 +287,8 @@ MongoDB má vlastnú konvenciu názvov svojich častí. Tie sa v niektorých pr�
 		Zoskupenie & Agregácia \\ \hline
 	\end{tabular}
 \end{table}
+
+Pri ukladaní textov a iných časti systému v databáze potrebujeme dynamickú štruktúru z dôvodu variability štruktúry ukladaných dát. Namapovanie dát na pevne stanovenú štruktúru a vzťahy relačných databáz by bolo veľmi náročné. Preto je výhodnejšie uchovávať dáta pokope v dynamickej štruktúre. Z bodov \textit{dynamická štruktúra} a \textit{lokálnosť dát} z tabuľky~\fullref{table:features_of_mongodb} jasne vidno, že pre tento účel je textová databáza vhodnejšia. \textit{Bohatý dátový model} je rovnako veľkou výhodou. V neposlednom rade \textit{MongoDB} automaticky podporuje \textit{sharding}, ktorý sa dá spraviť aj v databáze \textit{MySQL}, ale za cenu výkonnosti. Z týchto dôvodov sme sa rozhodli pre použitie textovej databázy v našom systéme.
 
 %
 % Ostatné databázové systémy
@@ -253,7 +411,7 @@ MongoDB má vlastnú konvenciu názvov svojich častí. Tie sa v niektorých pr�
 	\section{Návrh uchovávania textov v databázach}
 }
 \label{subsection:our_design_persisting_data}
-Na uchovávanie dát sme zvolili dokumentovú databázu MongoDB. Ukladané dáta sa dajú rozdeliť do niekoľkých samostatných kolekcií. Sú to:
+Ukladané dáta sa dajú rozdeliť do niekoľkých samostatných kolekcií. Sú to:
 
 \begin{my_itemize}
 	\myitem rules,
@@ -284,7 +442,7 @@ Prepojenia medzi jednotlivými kolekciami sú zobrazené na obrázku~\fullref{fi
 	\subsection{Kolekcia articles}
 }
 \label{subsubsection:collection_articles}
-V kolekcií \textit{articles} sa ukladajú spracovávané texty. 
+V kolekcii \textit{articles} sa ukladajú spracovávané texty. 
 
 Kolekcia obsahuje textové pole \textit{text} na uloženie textu v pôvodnom tvare. Model kolekcie \textit{articles} je zobrazený na obrázku~\fullref{fig:articles_collection_model}.
 
@@ -328,9 +486,9 @@ Obsahuje textové pole \textit{text} s hodnotou poznámky a dve referencujúce p
 	\subsection{Kolekcia sentences}
 }
 \label{subsubsection:collection_sentences}
-V následujúcej kolekcií \textit{sentences} sa ukladajú spracované vety aj s informáciami o článku, pravidlách a poznámke.
+V následujúcej kolekcii \textit{sentences} sa ukladajú spracované vety aj s informáciami o článku, pravidlách a poznámke.
 
-Kolekcia sa skladá z textového polia \textit{text} uchovávajúce hodnotu vety a piatich referencujúcich polí \textit{article\textunderscore ref\textunderscore id}, \textit{structure\textunderscore ref\textunderscore id}, \textit{rule\textunderscore id}, \textit{rule\textunderscore ref\textunderscore id}, \textit{and \textunderscore rule\textunderscore ref\textunderscore id} a \textit{note\textunderscore id}. \textit{Article\textunderscore ref\textunderscore id} odkazuje na článok z kolekcie \textit{articles}, ktorého súčasťou je daná veta. Pole \textit{structure\textunderscore ref\textunderscore id} odkazuje do kolekcie \textit{structures}, ktoré reprezentuje štruktúru vety. Nasledujúce polia \textit{rule\textunderscore ref\textunderscore id} a \textit{and\textunderscore rule\textunderscore ref\textunderscore id} odkazujú na použité pravidlo a and\hyph pravidlo pri spracovávaní vety, v tomto poradí. Pole \textit{note\textunderscore ref\textunderscore id} odkazuje na poznámku z kolekcie \textit{notes}, ktorá bola vytvorená z vety.
+Kolekcia sa skladá z textového polia \textit{text} uchovávajúce hodnotu vety a piatich referencujúcich polí \textit{article\textunderscore ref\textunderscore id}, \textit{structure\textunderscore ref\textunderscore id}, \textit{rule\textunderscore ref\textunderscore id}, \textit{and \textunderscore rule\textunderscore ref\textunderscore id} a \textit{note\textunderscore id}. \textit{Article\textunderscore ref\textunderscore id} odkazuje na článok z kolekcie \textit{articles}, ktorého súčasťou je daná veta. Pole \textit{structure\textunderscore ref\textunderscore id} odkazuje do kolekcie \textit{structures}, ktoré reprezentuje štruktúru vety. Nasledujúce polia \textit{rule\textunderscore ref\textunderscore id} a \textit{and\textunderscore rule\textunderscore ref\textunderscore id} odkazujú na použité pravidlo a and\hyph pravidlo pri spracovávaní vety, v tomto poradí. Pole \textit{note\textunderscore ref\textunderscore id} odkazuje na poznámku z kolekcie \textit{notes}, ktorá bola vytvorená z vety.
 
 Model tejto kolekcie je načrtnutý na obrázku~\fullref{fig:sentences_collection_model}.
 
@@ -354,7 +512,7 @@ Model tejto kolekcie je načrtnutý na obrázku~\fullref{fig:sentences_collectio
 \label{subsubsection:collection_structures}
 V kolekcií \textit{structures} sú uložené štruktúry viet a pravidiel. Štruktúra je zložená hlavne zo závislostí, tokenov, názvoslovných značiek, indexov a iné.
 
-Kolekcia sa skladá z jedného pola \textit{structure\textunderscore data}. Toto pole je zoznam dokumentov, obsahujúcich vyššie spomenuté údaje. Dokument v tomto zozname obsahuje textové pole \textit{relation\textunderscore name} s názvom vzťahu závislosti a zoznam dokumentov závislostí \textit{dependencies} s týmto názvom vzťahu. Dokument v zozname \textit{dependencies} sa skladá z polí \textit{governor} a \textit{dependent} typu dokument, celočíselného pola \textit{position} uchovávajúceho pozíciu závislosti vo vete alebo poznámke, \textit{comparison\textunderscore type}, ktoré je celočíselnou reprezentáciou typu porovnania a poľa \textit{token\textunderscore type}, ktoré je taktiež celočíselnou reprezentáciou typu tokenu. Dokumenty polí \textit{governor} a \textit{depdendent} obsahujú údaje o prislúchajúcich tokenoch závislosti. V textovom poli \textit{POS} sa ukladá značka slovného druhu, pole \textit{index} uchováva index tokenu vo vete, \textit{ner} je textové pole reprezentujúce názvoslovnú entitu tokenu a v poli \textit{lemma} je textová reprezentácia lemy tokenu.
+Kolekcia sa skladá z jedného pola \textit{structure\textunderscore data}. Toto pole je zoznam dokumentov, obsahujúcich vyššie spomenuté údaje. Dokument v tomto zozname obsahuje textové pole \textit{relation\textunderscore name} s názvom vzťahu závislosti a zoznam dokumentov závislostí \textit{dependencies} s týmto názvom vzťahu. Dokument v zozname \textit{dependencies} sa skladá z polí \textit{governor} a \textit{dependent} typu dokument, celočíselného pola \textit{position} uchovávajúceho pozíciu závislosti vo vete alebo poznámke, \textit{comparison\textunderscore type}, ktoré je celočíselnou reprezentáciou typu porovnania a poľa \textit{token\textunderscore type}, ktoré je taktiež celočíselnou reprezentáciou typu tokenu. Dokumenty polí \textit{governor} a \textit{dependent} obsahujú údaje o prislúchajúcich tokenoch závislosti. V textovom poli \textit{POS} sa ukladá značka slovného druhu, pole \textit{index} uchováva index tokenu vo vete, \textit{ner} je textové pole reprezentujúce názvoslovnú entitu tokenu a v poli \textit{lemma} je textová reprezentácia lemy tokenu.
 
 Celý model kolekcie je zobrazený na obrázku~\fullref{fig:structures_collection_model}.
 
@@ -380,7 +538,7 @@ Celý model kolekcie je zobrazený na obrázku~\fullref{fig:structures_collectio
 
 Skladá sa z dvoch polí. Pole \textit{sentence\textunderscore terminators} je zoznam čísel, ktoré reprezentujú konce viet v poznámke. Referencujúce pole \textit{structure\textunderscore ref\textunderscore id} odkazuje do kolekcie \textit{structures} na štruktúru, ktorou sa má prípadná veta spracovať. Model kolekcie \textit{rules} je vyjadrený obrázkom~\fullref{fig:rules_collection_model}.
 
-Pole \textit{sentence\textunderscore terminators} zväčša obsahuje jeden záznam. Napríklad pri vete \textit{,,The president of the Slovak Republic is andrej Kiska.''} a poznámke z tejto vety v tvare \textit{,,President is Kiska.''} bude obsahovať jeden záznam: 3. Číslo 3 preto, lebo koniec vety, v tomto prípade bodka, sa nachádza na tretej pozícií spomedzi tokenov vo vete. Číslovanie pozícií začína  m nula. V prípade ak veta je súvetie, zložené z viacerých jednoduchých viet, môže pole \textit{sentence\textunderscore terminators} obsahovať viacero záznamov, ak napríklad chceme z každej jednoduchej vety súvetia získať zjednodušenú vetu a vytvoriť tak zloženú poznámku, skladajúcu sa zo zjednodušených viet.
+Pole \textit{sentence\textunderscore terminators} zväčša obsahuje jeden záznam. Napríklad pri vete \textit{,,The president of the Slovak Republic is Andrej Kiska.''} a poznámke z tejto vety v tvare \textit{,,President is Kiska.''} bude obsahovať jeden záznam: 3. Číslo 3, lebo koniec vety, v tomto prípade bodka, sa nachádza na tretej pozícií spomedzi tokenov vo vete. Číslovanie pozícií začína od nuly. V prípade ak veta je súvetie, zložené z viacerých jednoduchých viet, môže pole \textit{sentence\textunderscore terminators} obsahovať viacero záznamov, ak napríklad chceme z každej jednoduchej vety súvetia získať zjednodušenú vetu a vytvoriť tak zloženú poznámku, skladajúcu sa zo zjednodušených viet.
 
 \begin{figure}[H]
 	\begin{center}\includegraphics[scale=0.60]{rules_model}\end{center}
@@ -402,7 +560,7 @@ Pole \textit{sentence\textunderscore terminators} zväčša obsahuje jeden zázn
 \label{subsubsection:collection_and_rules}
 Posledná kolekcia uchováva pravidlá pre spracovanie vety a vytvorenie viacnásobnej poznámky z vety. Táto kolekcia je veľmi podobná kolekcií \textit{rules} a obsahuje rovnaké polia doplnené o ďalšie špecifické pole.
 
-Špecifické pole, o ktoré je kolekcia rozšírená oproti kolekcií \textit{rules} je celočíselné pole \textit{set\textunderscore position}. Toto pole uchováva pozíciu množiny v viacnásobnej poznámke. Model kolekcie je vyobrazený na obrázku~\fullref{fig:and_rules_collection_model}.
+Špecifické pole, o ktoré je kolekcia rozšírená oproti kolekcií \textit{rules} je celočíselné pole \textit{set\textunderscore position}. Toto pole uchováva pozíciu množiny vo viacnásobnej poznámke. Model kolekcie je vyobrazený na obrázku~\fullref{fig:and_rules_collection_model}.
 
 \begin{figure}[H]
 	\begin{center}\includegraphics[scale=0.60]{and_rules_model}\end{center}
@@ -451,301 +609,16 @@ Posledná kolekcia uchováva pravidlá pre spracovanie vety a vytvorenie viacná
 Pri návrhu databázového modelu a kolekcií sme vychádzali z princípu jednoduchých kolekcií so zoskupením súvisiacich dát a oddelenia ich od zvyšku. Vďaka využívaniu viacerých, medzi sebou prepojených, kolekcií sme zabezpečili neduplikovanie dát, jednoduché vyhľadanie napríklad viet ku článku a iné. Okrem toho nám tento model umožňuje ďalšiu funkcionalitu, ako napríklad aplikovanie jedného pravidla na viacero viet so zhodnou štruktúrou. Oddelenie dát do samostatných štruktúr nám uľahčuje aj prípadne neskoršie rozšírenie databázového modelu alebo zmenu konkrétnych štruktúr. Taktiež uľahčuje prípadné klastrovanie databázy, ak by bolo nutné, keďže každá kolekcia by mohla byť na samostatnom serveri.
 
 %
-% Tvorba poznámok
+% Zhrnutie
 %
 \ifthenelse {\boolean{bachelor}}
 {
 	%\subsection{Subsection}
-	\subsection{Tvorba poznámok}
+	\subsection{Zhrnutie}
 }
 {
 	%\section{Subsection}
-	\section{Tvorba poznámok}
+	\section{Summary}
 }
-\label{subsection:notes_creation}
-Pri spracovávaní viet potrebujeme extrahovať dôležité a konkrétne informácie, v našom prípade slová, a z extrahovaných informácií vytvoriť poznámku. Poznámka bude zložená výhradne zo slov obsiahnutých vo vete, z ktorej bola vytvorená. Tým zabezpečíme, že poznámka nebude obsahovať irelevantné informácie z hľadiska vety. 
-
-Spracovávané vety sa môžu opakovať, a preto je dôležité, aby sa rovnaké a podobné vety spracovali vždy rovnakým spôsobom. Pre tento účel je vhodné si definovať pravidlo (viď.~\fullref{subsubsection:rule_for_processing}), ktoré bude určovať, ako sa má daná veta spracovať. Aplikovaním pravidla na vetu vytvoríme poznámku. Používateľ musí mať možnosť interaktívne upraviť poznámku, a tým pádom aj pravidlo, ktoré bolo použité na vytvorenie danej poznámku, v takom rozsahu, aby sa vytvorená poznámka zmenila podľa vykonaných zmien. Zmeny v pravidle sa musia prejaviť aj pri nasledujúcom aplikovaní pravidla na rovnakú alebo podobnú vetu. Používateľovi to poskytne kontrolou nad spôsobom, akým sa vytvárajú poznámky a bude si ich vedieť personalizovať.
-
-%
-% Pravidlo na spracovanie
-%
-\ifthenelse {\boolean{bachelor}}
-{
-	\subsubsection{Pravidlo na spracovanie}
-}
-{
-	\subsection{Pravidlo na spracovanie}
-}
-\label{subsubsection:rule_for_processing}
-Pravidlo na spracovanie určuje, ktorá slová sú relevantné a majú byť použité v poznámke. V časti~\fullref{subsubsection:determination_of_relevant_information} je podrobnejšie opísaný proces určenia relevantných informácií, slov. Okrem určenia relevantnosti slov pravidlo taktiež určuje, na ktorej pozícií sa má konkrétne slovo vo výslednej poznámke nachádzať. Výsledná poznámka sa nemusí skladať iba z jednej vety. Môže pozostávať z ľubovolného počtu viet. Počet viet, z ktorých bude poznámka pozostávať a miesta, na ktorých má byť pôvodná poznámka rozdelená na vety určuje pravidlo.
-
-Skladá sa primárne zo závislostí slov, ktoré sa majú nachádzať v poznámke. Pomocou závislosti vieme jednoznačne identifikovať a extrahovať konkrétne slovo z vety a pridať ho do poznámky. Okrem závislostí obsahuje aj informácie o pozícií závislostí alebo type tokenu, ktorého slovo sa ma následne pridať do poznámky a informácie o tokenoch závislostí. Pre nadradený aj podradený token pravidlo obsahuje dáta o slove korešpondujúcom s daným tokenom. Sú to značka slovného druhu, index slova vo vete, názvoslovná entita a lema tvar.
-
-Pravidlo je aplikovateľné nie len na totožné vety, ale na vety s rovnakou štruktúrou a je nezávislé od obsahovej časti vety.
-
-%
-% Určenie relevantných informácií
-%
-\ifthenelse {\boolean{bachelor}}
-{
-	\subsubsection{Určenie relevantných informácií}
-}
-{
-	\subsection{Určenie relevantných informácií}
-}
-\label{subsubsection:determination_of_relevant_information}
-Určenie relevantnosti informácií hlavne pri učebných textoch a poznámkach je subjektívna vec. Informáciu, ktorú niekto považuje za relevantnú môže byť pre iného irelevantná. Relevantnosť informácií preto určuje používateľ pomocou vytvárania nových a úpravy existujúcich pravidiel cez spracovávanie článkov a viet a úprave vytvorených poznámok. Tým si používateľ prispôsobuje tvorbu poznámok, aby zodpovedala jeho predstave relevantnosti a celkovo tvorbe poznámok. Na tento účel mu systém ponúka interaktívne a intuitívne rozhranie.
-
-%
-% Použitie závislostí pri tvorbe poznámok
-%
-\ifthenelse {\boolean{bachelor}}
-{
-	\subsection{Použitie závislostí pri tvorbe poznámok}
-}
-{
-	\section{Usage of dependencies in notes creation}
-}
-\label{subsection:use_of_dependencies_in_notes_creation}
-Závislosti majú viacero využití pri tvorbe poznámok. Hlavné z nich sú:
-
-\begin{my_itemize}
-	\myitem jednoznačná identifikácia informácie,
-	\myitem pravidlo závisle iba od štruktúry,
-	\myitem menší počet potrebných pravidiel.
-\end{my_itemize}
-
-Závislosť nám zoskupuje informácie o jej tokenoch a vzťahu medzi nimi. Na základe nich vieme, bez potreby iných vstupov, jednoznačne identifikovať konkrétnu informáciu vo vete alebo poznámke.
-
-Pravidlo, ktoré je tvorené prevažne zo závislostí, nie je viazané na konkrétnu vetu, pri spracovávaní ktorej vzniklo. Viaže sa na štruktúru vety. Táto vlastnosť nám umožňuje použiť jedno a to isté pravidlo na spracovanie viacerých viet.
-
-Keby sme vytvárali pravidla iba na základe, napríklad značiek názvoslovných druhov a ukladali by sme si v akom poradí boli značky v pôvodnej veta a v akom poradí v poznámke, potrebovali by sme pre každú obmenu vety nové pravidlo. Keďže je jedno naviazané na štruktúru vety, vieme jedným pravidlom spracovať viacero obmien jednej vety, za podmienky, že sa obmenou nezmenila štruktúra. Aplikovateľnosťou pravidla na viacero viet sa nám redukuje počet všetkých možných potrebných pravidiel.
-
-\newpage
-%
-% Implementácia
-%
-\ifthenelse {\boolean{bachelor}}
-{
-	\section{Implementácia}
-}
-{
-	\chapter{Implementation}
-}
-\label{section:implementation}
-dummy text..
-
-%
-% Manažment dát
-%
-\ifthenelse {\boolean{bachelor}}
-{
-	%\subsection{Subsection}
-	\subsection{Manažment dát}
-}
-{
-	%\section{Subsection}
-	\section{Manažment dát}
-}
-\label{subsection:data_management}
-Pre vytvorenie poznámky z vety potrebujeme hlavne vetu a pravidlo, ktoré sa na vetu aplikuje. Aby sa vytvorila zodpovedajúca poznámka z vety, je nutné použiť vhodné pravidlo. Ak spracovávame doposiaľ nespracovanú vetu, je potrebné nájsť vhodné pravidlo na základe podobnosti spracovávanej vety so spracovanými vetami. Pri extrakcií informácií z vety dané pravidlom, s cieľom vytvorenia poznámky sa musia vybrať správne informácie. Extrakcia musí fungovať pri udržaní dostatočnej všeobecnosti, aby sa dané pravidlo dalo aplikovať na viacero viet s rovnakou štruktúrou, ale odlišným obsahom.
-
-%
-% Vyhľadávanie pravidla
-%
-\ifthenelse {\boolean{bachelor}}
-{
-	%\subsection{Subsection}
-	\subsubsection{Vyhľadanie pravidla}
-}
-{
-	%\section{Subsection}
-	\subsection{Vyhľadanie pravidla}
-}
-
-\label{subsubsection:rule_lookup}
-Pri spracovávaní vety, pred vytvorením poznámky, aplikovateľné pravidlo musí byť vyhľadané v databáze. Vyhľadá sa v databáze veta, ktorej štruktúra korešponduje so štruktúrou spracovávanej vety. Štruktúry oboch alebo viacerých viet musia obsahovať rovnakú množinu závislostí. To znamená rovnaký počet záznamov a záznamy s rovnakými názvami vzťahov závislostí v \textit{zozname dát štruktúry}.
-
-Podobná alebo zhodná veta je vyhľadaná, ak hlavná podmienka je splnená. Avšak, splnenie tejto podmienky nezaručí vyhľadanie len jednej, najpodobnejšej vety, ale môže vyhľadať viacero viet. V takom prípade sa vypočíta zhoda viet. Po určení zhody sa extrahuje pravidlo vety, s ktorou má spracovávaná veta najväčšiu zhodu.
-
-%
-% Výpočet zhody viet
-%
-\ifthenelse {\boolean{bachelor}}
-{
-	%\subsection{Subsection}
-	\paragraph{Výpočet zhody viet}
-}
-{
-	%\section{Subsection}
-	\subsubsection{Výpočet zhody viet}
-}
-\label{paragraph:sentences_match}
-
-Zhoda viet pozostáva z troch častí:
-\begin{my_itemize}
-	\myitem štrukturálna zhoda,
-	\myitem obsahová zhoda,
-	\myitem hodnotová zhoda.
-\end{my_itemize}
-
-Štrukturálna zhoda odzrkadľuje percentuálnu zhody dvoch štruktúr. Pri tejto zhode zisťujeme, či štruktúry obsahujú závislosti s nadradenými značkami slovných druhov a ich konkrétny počet. Štrukturálna zhoda znamená, že vety \textit{,,The president of the Slovak Republic is Andrej Kiska.''} a \textit{,,Andrej Kiska is the president of the Slovak Republic.''}, ale aj \textit{,,Miloš Zeman is the president of the Czech Republic.''} majú rovnakú štruktúru, bez ohľadu na hodnoty a pozície slov vo vete, pokiaľ obsahujú také iste závislosti s rovnakými nadradenými značkami slovných druhov. Definícia nadradenej značky slovného druhu je v časti~\nameref{paragraph:superior_pos_tag} na strane~\pageref{paragraph:superior_pos_tag}. Určenie štrukturálnej zhody pozostáva z niekoľkých krokov. Najskôr sa separátne počíta zhoda nadradených značiek slovných druhov nadradeného a podradeného tokenu. Týmito krokmi sa určí, či veta obsahuje ľubovolnú závislosť s rovnakou nadradenou značkou slovného druhu na ľubovolnom tokene. V nasledujúcom kroku sa určí úplná zhoda závislosti s nadradenými značkami slovných druhov, to znamená zistenie, či veta obsahuje ľubovoľnú závislosť s konkrétnymi značkami slovných druhov na nadradenom a zároveň podradenom tokene. V poslednom kroku sa zisťuje zhoda počtu závislostí s rovnakými nadradenými značkami slovných druhov u nadradeného a podradeného tokenu. \\
-
-Obsahová zhoda zodpovedá percentuálnej zhode obsahu dvoch viet. Kontrolujú sa indexy slov, konkrétne značky slovných druhov a názvoslovné entity. Pri obsahovej zhode majú vety \textit{,,The president of the Slovak Republic is Andrej Kiska.''} a \textit{,,The president of the Czech Republic is Miloš Zeman.''} obsahovú zhodu, bez ohľadu na konkrétne slova na pozíciach vo vete, ak obsahujú rovnaké značky slovných druhov a reprezentujú ich zhodné názvoslovné entity. Výpočet obsahovej zhody sa skladá z viacerých krokov. Začína sa výpočtom zhôd značiek slovných druhov podradeného a nadradeného tokenu. Zhody indexov nadradeného a podradeného tokenu su taktiež vypočítané separátne. Tak isto sa vypočítajú zhody aj názvoslovných entít. Tieto prvé kroky určia, či veta obsahuje ľubovolnú závislosť s rovnakou značkou slovného druho alebo indexom a ľubovoľnú závislosť s rovnakou názvoslovnou entitou. V nasledujúcom kroku je určená polovičná zhoda závislostí. Polovičná zhoda závislosti je zhoda značky slovného druhu a indexu nadradeného alebo podradeného tokenu. Polovičná zhoda sa vypočíta rovnako aj pre názvoslovné entity. Nakoniec, v poslednom kroku, počítame počet úplne zhodných závislostí. Úplná zhoda závislosti je zhoda značky slovného druhu a indexu nadradeného, a zároveň podradeného tokenu. Tak isto sa vypočíta úplná zhoda závislostí aj pre názvoslovné entity. \\
-
-Posledná časť zhody, hodnotová zhoda, reprezentuje úplnú zhodu dvoch viet. Veta má hodnotovú zhodu len s totožnou vetou. \\
-
-Každý krok, pri výpočte všetkých časti zhody, má priradené ohodnotenie. Ak je podmienka v kroku vyhodnotená ako správna, ohodnotenie kroku je pripočítané do finálnej hodnoty. Finálna zhoda je percentuálne ohodnotenie zhody. Ohodnotenie krokov odzrkadľuje dôležitosť daného kroku vo výpočte presnej zhody, pričom závisí od počtu závislostí a krokov, tak že finálna zhoda nemôže presiahnuť hodnotu 100\%. Pseudokód~\ref{alg:calculating_match}~\nameref{alg:calculating_match} zobrazuje algoritmus výpočtu zhody, konkrétny príklad je zobrazený na obrázku~\fullref{fig:calculate_match_sentences_example}
-
-\begin{algorithm}[H]
-	\floatname{algorithm}{Algoritmus}
-	\footnotesize %\small, \footnotesize, \scriptsize, or \tiny
-	\begin{algorithmic}[1]
-
-		\Procedure{VypocetZhodyViet}{$spracovávanáVeta, zavislostiPorovnávanejVety$}
-		\State $\text{vypočítaj ohodnotenia krokov}$
-		\ForAll {$závislosti\text{ } porovnávanej\text{ } vety$}
-		\ForAll {$závislosti\text{ } spracovávanej\text{ } vety$}
-		\ForAll {$porovnania$}
-		\If {$\text{aplikujPorovnanie(}spracovávanáVeta, porovnanie, závislosť\text{)}$}
-		\State $\text{ do zhody na type porovnania pripočítaj ohodnotenie kroku}$
-		\EndIf
-		\EndFor
-		\EndFor
-		\EndFor
-		
-		\Return $zhoda$
-		\EndProcedure
-	\end{algorithmic}
-	\caption[Výpočet zhody viet]{Výpočet zhody viet}	
-	\label{alg:calculating_match}
-\end{algorithm}
-
-\begin{figure}[H]
-	\begin{center}\includegraphics[scale=0.33]{calculate_sentences_match_example}\end{center}
-	\caption[Príklad určenia zhody viet]{Príklad určenia zhody viet}\label{fig:calculate_match_sentences_example}
-\end{figure}
-
-Predpokladajme situáciu z obrázka~\fullref{fig:calculate_match_sentences_example}. V databáze máme uloženú spracovanú vetu \textit{a} aj s pravidlom pre túto vetu. Spracovávame vetu \textit{b}. Na časti \textit{a1} obrázka~\fullref{fig:calculate_match_sentences_example} sú znázornené závislostí a na časti \textit{a2} názvoslovné entity vety \textit{a}. Na časti \textit{b1} sú znázornené závislostí a na časti \textit{b2} názvoslovné entity vety \textit{b}. V tejto situácií potrebujeme vypočítať zhodu medzi vetami \textit{a} a \textit{b}. 
-
-Pri štrukturálnej časti zhody sa prechádza cez všetky závislosti vety \textit{a}. Prvá závislosť je závislosť so vzťahom \textit{DET} a nadradeným tokenom s nadradenou značkou slovného druhu \textit{NN} a podradeným tokenom s nadradenou značkou slovného druhu \textit{DT}. V prom kroku sa pozrie, či veta \textit{b} obsahuje ľubovoľnú závislosť s podradeným tokenom s nadradenou značkou slovného druhu \textit{DT}. V ďalšom kroku, sa zistí, či veta \textit{b} obsahuje ľubovoľnú závislosť s nadradeným tokenom s nadradenou značkou sloveného druhu \textit{NN}. Môže to byť aj iná závislosť, ako tá z prvého kroku. Pokračuje sa zistením úplnej zhody závislosti. Určí sa , či veta \textbf{b} obsahuje ľubovoľnú závislosť s podradeným tokenom s nadradenou značkou slovného druhu práve \textit{DT} a zároveň s nadradeným tokenom s nadradenou značkou slovného druhu \textit{NN}. Takto sa iteruje cez všetky závislosti vety \textit{a}. Na záver sa určí zhoda počtu závislostí s rovnakou štruktúrou. Napríklad veta \textit{a} obsahuje práve dve závislosti, ktoré majú na podradenom tokene nadradenú značku slového druhu \textit{DT} a na nadradenom tokene nadradenú značku slovného druhu \textit{NN}. Zistí sa, či aj veta \textit{b} obsahuje práve dve takéto závislosti. \\
-
-Prvá závislosť vo vete \textit{b} je so vzťahom \textit{det}, nadradeným tokenom so značkou slovného druhu \textit{NN} a indexom 1 a podradeným tokenom so značkou slovného druhu \textit{DT} a indexom 0. Token slova \textit{Slovak} má názvoslovnú entity typu \textit{LOCATION - lokácia}. Ak slovo nemá vyobrazený typ názvoslovnej entity, znamená to, že má názvoslovnú entity typu \textit{OTHER - ostatné}. V prvok kroku pri určovaní obsahovej časti zhody zisťujeme, či veta \textit{b} obsahuje závislosť so vzťahom \textit{det} a tokenmi so značkou slovného druhu \textit{NN} alebo \textit{DT} a indexmi rovnými 0 alebo 1. Toto je separátny výpočet značiek slovných druhov a indexov. V tomto isto kroku sa tiež pozrie, či veta \textit{b} obsahuje ľubovoľnú závislosť s podradeným tokenon s názvoslovnou entitou typu \textit{ostatné} (názvoslovná entita tokenu \textit{THE} vo vete \textit{a}) a ľubovoľnú závislosť s nadradeným tokenom s názvoslovnou entitou typu \textit{ostatné} (názvoslovná entita tokenu \textit{president} vo vete \textit{a}). V nasledujúcom kroku zisťujeme, či veta \textit{b} obsahuje závislosť so vzťahom \textit{det} a nadradeným alebo podradeným tokenom so značkou slovného druhu \textit{NN} a indexom 1 alebo značkou slovného druhu \textit{DT} a indexom 0. Toto je polovičná zhoda. V poslednom kroku hľadáme vo vete \textit{b} závislosť so vzťahom \textit{det} a nadradeným tokenom práve so značkou slovného druhu \textit{NN} a indexom 1 a zároveň podradeným tokenom práve so značkou slovného druhu \textit{DT} a indexom 0. Zároveň v tomto kroku sa zisťuje, či veta \textit{b} obsahuje závislosť s podradeným tokenom s názvoslovnou entitou typu \textit{ostatné} a zároveň s nadradeným tokenom s názvoslovnou entitou typy \textit{ostatné}. Iterácia pokračuje s nasledujúcou závislosťou, pokým sa nevyhodnotia všetky. \\
-
-Pri určení hodnotovej časti zhody sa porovnajú texty \textit{,,The president of the Slovak Republic is Andrej Kiska.''} a \textit{,,The president of the Czech Republic is Miloš Zeman.''} a určí sa, či su zhodné. \\
-
-Aplikovaním určenia zhody viet medzi vetami \textit{a} a \textit{b} zistíme, že veta \textit{b} má štrukturálnu časť zhody s vetou \textit{a} $100\%$. Tak isto má obsahovú časť zhody rovnú $100\%$. Hodnotová časť zhody je $0\%$.
-
-%
-% Nadradená značka slovného druhu
-%
-\ifthenelse {\boolean{bachelor}}
-{
-	%\subsection{Subsection}
-	\paragraph{Nadradená značka slovného druhu}
-}
-{
-	%\section{Subsection}
-	\subsubsection{Nadradená značka slovného druhu}
-}
-\label{paragraph:superior_pos_tag}
-
-Pod nadradenou značkou slovného druhu sa chápe značka slovného druhu zoskupujúca množinu značiek slovných druhov, do ktorej značka slovného druhu patrí. 
-
-Napríklad značka slovného druhu VBD (Verb, past tense - sloveso v minulom čase) patrí medzi skupinu značiek slovných druhov slovies \textit{\{VB, VBD, VBG, VBN, VBP, VBZ\}}. Z toho vyplýva, že nadradená značka slovného druhu \textit{VBD} je VB (Verb - sloveso).
-
-%
-% Aplikovanie pravidla
-%
-\ifthenelse {\boolean{bachelor}}
-{
-	%\subsection{Subsection}
-	\subsubsection{Aplikovanie pravidla}
-}
-{
-	%\section{Subsection}
-	\subsection{Aplikovanie pravidla}
-}
-\label{subsubsection:rule_application}
-
-Procesom vyhľadania pravidla (viď.~\fullref{subsubsection:rule_lookup}) sme získali pravidlo na spracovanie vety. Aplikáciou pravidla na vetu vytvoríme poznámku.
-
-Proces aplikovania pravidla na vetu s cieľom vytvorenia poznámky má viacero krokov. Pre všetky závislosti zo \textit{zoznamu dát štruktúry} pravidla, príslušná závislosť je vyhľadaná v spracovávanej vete. Pri vyhľadávaní príslušnej závislosti sa závislosti neporovnávajú, okrem iného, na základe značiek slovných druhov svojich tokenov, ale podľa nadradených značiek slovných druhov (viď.~\nameref{paragraph:superior_pos_tag} na strane~\pageref{paragraph:superior_pos_tag}) svojich tokenov. Tento spôsob vyhľadávania nám umožňuje [BLA BLA, blizie opisane v BLA BLA]. Avšak, môže to spôsobiť vyhľadanie viac ako jednej príslušnej závislosti. Preto musí byť vypočítaná zhoda závislostí (viď.~\nameref{paragraph:dependency_match} na strane \pageref{paragraph:dependency_match}). Po vypočítaní zhody závislostí a získanie závislosti s najväčšou zhodou, slovo korešpondujúce s tokenom, ktorý sa ma z danej závislosti vybrať, sa pridá do poznámky na pozíciu pozície závislosti. Po spracovaní všetkých závislostí, posledné minoritné úpravy sú vykonané nad poznámkou, ako rozdelenie na viacero viet, ak tak určovalo pravidlo, kapitalizácia prvých písmen viet poznámky a iné. Pseudokód aplikovania pravidla na vetu s cieľom vytvoriť poznámku je zobrazený na algoritme~\ref{alg:applying_rule}.
-
-\begin{algorithm}
-	\floatname{algorithm}{Algoritmus}
-	\caption[Aplikovanie pravidla]{Aplikovanie pravidla}\label{alg:applying_rule}
-	\begin{algorithmic}[1]
-		\Procedure{ApplyRule}{$sentence, rule$}
-		\State $note \gets \text{new Note}$
-		\ForAll {$ruleDependencies$}
-		\State $dependency \gets \text{findDependency(} sentence \text{, } ruleDependency \text{)}$
-		\If {$\text{isFound(}dependency\text{)}$}
-		\State $\text{add(} note \text{, getDependent(} dependency \text{))}$
-		\If {$\text{isNominalSubject(relation(}dependency \text{))}$}
-		\State $\text{add(} note \text{, getGovernor(} dependency \text{))}$
-		\EndIf
-		\EndIf
-		\EndFor
-		
-		\State $\text{splitToSentences(} note \text{, sentencesEnds(} rule \text{))}$	
-		
-		\Return $note$
-		\EndProcedure
-	\end{algorithmic}
-\end{algorithm}
-
-Pre vetu \textit{,,The president of the Slovak republic is Andrej Kiska.''} nám nástroj Stanford CoreNLP poskytne závislostí vyobrazené na obrázku~\fullref{fig:example_sentence_andrej_kiska}. Ak na túto vetu aplikujeme pravidlo so štruktúrou v tvare zobrazenej na obrázku~\fullref{fig:apply_rule_example_rule}, výsledná poznámka bude \textit{,,President is Kiska.''}. 
-
-Aplikovanie pravidla prebieha nasledovným spôsobom. Prechádzajú sa všetky závislosti v štruktúre pravidla. Prvá závislosť v štruktúre pravidla je závislosť so vzťahom \textit{nsubj} na pozícií jedna a podradeným korešpondujúcim tokenom. Má podradený token so značkou slovného druhu \textit{NN}, typom názvoslovnej entity \textit{OTHER - ostatné}, lemou \textit{President} a indexom dva. Nadradený token má značku slovného druhu \textit{NNP}, názvoslovnú entitu \textit{PERSON - osoba}, lemu \textit{Kiska} a index deväť. Takáto závislosť sa vyhľadá v štruktúre vety medzi závislosťami na obrázku~\fullref{fig:example_sentence_andrej_kiska}. Ak pre danú závislosť vyhovuje viacero závislostí, pomocou výpočtu zhody závislostí vyberieme tú s najväčšou zhodou. V tomto prípade vidíme, že vyhovujúca závislosť je len jedna a to prvá závislosť \textit{nsubj} medzi slovom na druhej pozícií \textit{president} a posledným slovom, na deviatej pozícií \textit{Kiska}. Z tejto závislosti sa zoberie podradený token, keďže tak určuje pravidlo v stĺpci \textit{typ tokenu}. Slovo \textit{president} sa pridá do poznámky na pozíciu jedna. Rovnakým spôsobom sa prechádzajú a spracujú všetky závislosti v štruktúre pravidla a podľa nich sa extrahuje slovo z vety a pridá do poznámky.
-
-\begin{figure}[H]
-	\begin{center}\includegraphics[scale=0.31]{example_sentence_andrej_kiska}\end{center}
-	\caption[Zásivlostí jednoduchej vety]{Zásivlostí jednoduchej vety}\label{fig:example_sentence_andrej_kiska}
-\end{figure}
-
-\begin{figure}[H]
-	\begin{center}\includegraphics[scale=0.32]{apply_rule_example_rule}\end{center}
-	\caption[Príklad štruktúry pravidla]{Príklad štruktúry pravidla}\label{fig:apply_rule_example_rule}
-\end{figure}
-
-%
-% Výpočet zhody závislostí
-%
-\ifthenelse {\boolean{bachelor}}
-{
-	%\subsection{Subsection}
-	\paragraph{Výpočet zhody závislostí}
-}
-{
-	%\section{Subsection}
-	\subsubsection{Výpočet zhody závislostí}
-}
-\label{paragraph:dependency_match}
-
-Princíp výpočtu zhody závislostí je veľmi podobný s výpočtom zhody viet zo sekcie~\fullref{subsubsection:rule_lookup}. Porovnávajú sa vždy nadradené aj podradené tokeny. Porovnanie má niekoľko krokov. Začína sa s porovnaním značiek slovných druhov. Pokračuje sa názvoslovnou entitou, indexom, lemou a nakoniec sa porovnáva vzdialenosť pozícií tokenov vo vetách. Každý krok je príslušne ohodnotený a ak porovnanie bolo úspešné, ohodnotenie sa pripočíta k finálnej hodnote reprezentujúcej percentuálnej zhody závislostí.
-
-%
-% Vytváranie pravidla
-%
-\ifthenelse {\boolean{bachelor}}
-{
-	%\subsection{Subsection}
-	\subsubsection{Vytvorenie pravidla}
-}
-{
-	%\section{Subsection}
-	\subsection{Vytvorenie pravidla}
-}
-\label{subsubsection:rule_creation}
-Ak nám proces vyhľadania pravidla nevyhľadal žiadne pravidlo, znamená to, že sme doposiaľ nespracovávali takú istú alebo podobnú vetu. V tomto prípade sú použité statické pravidlá na spracovanie vety. Výstupom bude poznámka.
-
-Zo závislostí pôvodnej vety a informácií o ich tokenoch sa vytvorí záznam o štruktúre pôvodnej vety. Tak isto sa vytvorí aj záznam o štruktúre poznámky. Z poznámky sa vytvorí záznam o novej poznámke a následne sa z nej vytvorí zoznam koncov viet. Tento zoznam spolu so štruktúrou poznámky vytvorí záznam nového pravidla. Z pôvodnej vety sa vytvorí záznam o vete a prepojí sa so štruktúrou pôvodnej vety, článkom, ktorý obsahoval danú vetu a pravidlo, pravidlom, ktoré bolo vytvorené a použité a s poznámkou, ktorá vznikla z vety. Týmto vznikne nové pravidlo na spracovanie takej istej alebo podobnej vety ako sme práve spracovali.
-
-%Na obrázku~\fullref{fig:rule_creation} je znázornený proces nevyhľadania pravidla, použitia parsera s následným uložením nového pravidla.
-
-%\begin{figure}[H]
-%	\begin{center}\includegraphics[scale=0.5]{rule_creation}\end{center}
-%	\caption[Vytvorenie pravidla]{Vytvorenie pravidla}\label{fig:rule_creation}
-%\end{figure}
+\label{subsection:design_summary}
+Dummy text..

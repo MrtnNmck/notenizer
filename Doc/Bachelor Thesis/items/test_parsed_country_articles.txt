@@ -3,13 +3,21 @@
 3. Hungary
 4. Poland
 5. Germany
-6. France
-7. United Kingdom
-8. Italy
-9. France
+6. Italy
+7. France
+8. United Kingdom
+9. Spain
 10. Ukraine
 11. Austria
 12. Sweden
 13. Netherlands
 14. Croatia
 15. Portugal
+16. Russia
+17. Turkey
+18. Belgium
+19. Greece
+20. Bulgaria
+21. Serbia
+22. Luxembourg
+23. Slovenia

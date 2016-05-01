@@ -32,4 +32,10 @@ Slovensko hranici s krajinami {madarsko, rusko, }
 Slovensko hranici s krajinou madarsko.
 Slovensko hranici s krajinou rusko.
 Slovensko hranici s krajinou rakusko.
+
+
+
+
+- uvod v buducom alebo pritomnom case?
+
 	

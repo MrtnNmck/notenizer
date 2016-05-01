@@ -255,7 +255,7 @@ namespace nsGUI
                         notePart.NoteParticles.Insert(andSetPosition, andSetLoop);
                     else
                     {
-                        if (andSetPosition >= notePart.InitializedNoteParticles.Count)
+                        if (andSetPosition > notePart.InitializedNoteParticles.Count)
                             andSetPosition = notePart.InitializedNoteParticles.Count == 0 ? 0 : notePart.InitializedNoteParticles.Count - 1;
 
                         if (andSetPosition == 0)
