@@ -1,62 +1,63 @@
 \BOOKMARK [1][-]{section.1}{\332vod}{}% 1
 \BOOKMARK [2][-]{subsection.1.1}{Motiv\341cia}{section.1}% 2
-\BOOKMARK [1][-]{section.2}{Spracovanie prirodzen\351ho jazyka}{}% 3
-\BOOKMARK [2][-]{subsection.2.1}{Spracovanie prirodzen\351ho jazyka}{section.2}% 4
-\BOOKMARK [2][-]{subsection.2.2}{\332lohy spracovania prirodzen\351ho jazyka}{section.2}% 5
-\BOOKMARK [3][-]{subsubsection.2.2.1}{Znackovanie slovn\375ch druhov}{subsection.2.2}% 6
-\BOOKMARK [3][-]{subsubsection.2.2.2}{Rozpozn\341vanie n\341zvoslovn\375ch ent\355t}{subsection.2.2}% 7
-\BOOKMARK [3][-]{subsubsection.2.2.3}{Identifik\341cia koreferenci\355}{subsection.2.2}% 8
-\BOOKMARK [3][-]{subsubsection.2.2.4}{Identifik\341cia gramatick\375ch z\341vislost\355}{subsection.2.2}% 9
-\BOOKMARK [3][-]{subsubsection.2.2.5}{Extrakcia inform\341ci\355}{subsection.2.2}% 10
-\BOOKMARK [2][-]{subsection.2.3}{N\341stroje na spracovanie prirodzen\351ho jazyka}{section.2}% 11
-\BOOKMARK [3][-]{subsubsection.2.3.1}{WordNet}{subsection.2.3}% 12
-\BOOKMARK [3][-]{subsubsection.2.3.2}{StanfordNLP}{subsection.2.3}% 13
-\BOOKMARK [3][-]{subsubsection.2.3.3}{CambridgeAPI}{subsection.2.3}% 14
-\BOOKMARK [3][-]{subsubsection.2.3.4}{Google Ngram}{subsection.2.3}% 15
-\BOOKMARK [3][-]{subsubsection.2.3.5}{AlchemyAPI}{subsection.2.3}% 16
-\BOOKMARK [2][-]{subsection.2.4}{Zhrnutie}{section.2}% 17
-\BOOKMARK [1][-]{section.3}{Anal\375za n\341strojov na spr\341vu paraleln\375ch textov}{}% 18
-\BOOKMARK [2][-]{subsection.3.1}{InterText}{section.3}% 19
-\BOOKMARK [2][-]{subsection.3.2}{NOVA Text Aligner}{section.3}% 20
-\BOOKMARK [2][-]{subsection.3.3}{LF Aligner}{section.3}% 21
-\BOOKMARK [2][-]{subsection.3.4}{Google Translate}{section.3}% 22
-\BOOKMARK [2][-]{subsection.3.5}{Zhrnutie}{section.3}% 23
-\BOOKMARK [1][-]{section.4}{N\341vrh}{}% 24
-\BOOKMARK [2][-]{subsection.4.1}{Tvorba pozn\341mok}{section.4}% 25
-\BOOKMARK [3][-]{subsubsection.4.1.1}{Pravidlo na spracovanie}{subsection.4.1}% 26
-\BOOKMARK [3][-]{subsubsection.4.1.2}{Urcenie relevantn\375ch inform\341ci\355}{subsection.4.1}% 27
-\BOOKMARK [3][-]{subsubsection.4.1.3}{Viacn\341sobn\351 pozn\341mky}{subsection.4.1}% 28
-\BOOKMARK [2][-]{subsection.4.2}{Pou\236itie z\341vislost\355 pri tvorbe pozn\341mok}{section.4}% 29
-\BOOKMARK [2][-]{subsection.4.3}{\227trukt\372ra viet a pravidiel}{section.4}% 30
-\BOOKMARK [3][-]{subsubsection.4.3.1}{Reprezent\341cia stromom}{subsection.4.3}% 31
-\BOOKMARK [3][-]{subsubsection.4.3.2}{Reprezent\341cia vo vete}{subsection.4.3}% 32
-\BOOKMARK [2][-]{subsection.4.4}{Uchov\341vanie textov v datab\341zach}{section.4}% 33
-\BOOKMARK [3][-]{subsubsection.4.4.1}{Relacn\351 datab\341zy}{subsection.4.4}% 34
-\BOOKMARK [3][-]{subsubsection.4.4.2}{Textov\351 datab\341zy}{subsection.4.4}% 35
-\BOOKMARK [3][-]{subsubsection.4.4.3}{Porovnanie a v\375ber typu datab\341zy}{subsection.4.4}% 36
-\BOOKMARK [2][-]{subsection.4.5}{N\341vrh uchov\341vania textov v datab\341zach}{section.4}% 37
-\BOOKMARK [3][-]{subsubsection.4.5.1}{Kolekcia articles}{subsection.4.5}% 38
-\BOOKMARK [3][-]{subsubsection.4.5.2}{Kolekcia notes}{subsection.4.5}% 39
-\BOOKMARK [3][-]{subsubsection.4.5.3}{Kolekcia sentences}{subsection.4.5}% 40
-\BOOKMARK [3][-]{subsubsection.4.5.4}{Kolekcia structures}{subsection.4.5}% 41
-\BOOKMARK [3][-]{subsubsection.4.5.5}{Kolekcia rules}{subsection.4.5}% 42
-\BOOKMARK [3][-]{subsubsection.4.5.6}{Kolekcia and rules}{subsection.4.5}% 43
-\BOOKMARK [3][-]{subsubsection.4.5.7}{Zhrnutie}{subsection.4.5}% 44
-\BOOKMARK [2][-]{subsection.4.6}{Zhrnutie}{section.4}% 45
-\BOOKMARK [1][-]{section.5}{Syst\351m}{}% 46
-\BOOKMARK [2][-]{subsection.5.1}{Vybran\351 n\341stroje}{section.5}% 47
-\BOOKMARK [3][-]{subsubsection.5.1.1}{MongoDB}{subsection.5.1}% 48
-\BOOKMARK [3][-]{subsubsection.5.1.2}{StanfordNLP}{subsection.5.1}% 49
-\BOOKMARK [2][-]{subsection.5.2}{Mana\236ment d\341t}{section.5}% 50
-\BOOKMARK [3][-]{subsubsection.5.2.1}{Vyhladanie pravidla}{subsection.5.2}% 51
-\BOOKMARK [3][-]{subsubsection.5.2.2}{Aplikovanie pravidla}{subsection.5.2}% 52
-\BOOKMARK [3][-]{subsubsection.5.2.3}{Vytvorenie pravidla}{subsection.5.2}% 53
-\BOOKMARK [3][-]{subsubsection.5.2.4}{\332prava pravidla}{subsection.5.2}% 54
-\BOOKMARK [2][-]{subsection.5.3}{Priestor na rozvoj}{section.5}% 55
-\BOOKMARK [2][-]{subsection.5.4}{Zhrnutie}{section.5}% 56
-\BOOKMARK [1][-]{section.6}{V\375sledky}{}% 57
-\BOOKMARK [2][-]{subsection.6.1}{Podcast}{section.6}% 58
-\BOOKMARK [1][-]{section.7}{Z\341ver}{}% 59
-\BOOKMARK [1][-]{section.7}{Literat\372ra}{}% 60
-\BOOKMARK [1][-]{appendix.A}{Zoznam vztahov z\341vislost\355}{}% 61
-\BOOKMARK [1][-]{appendix.B}{Legenda diagramov kolekci\355}{}% 62
+\BOOKMARK [2][-]{subsection.1.2}{Prehlad pr\341ce}{section.1}% 3
+\BOOKMARK [1][-]{section.2}{Spracovanie prirodzen\351ho jazyka}{}% 4
+\BOOKMARK [2][-]{subsection.2.1}{\332lohy spracovania prirodzen\351ho jazyka}{section.2}% 5
+\BOOKMARK [3][-]{subsubsection.2.1.1}{Znackovanie slovn\375ch druhov}{subsection.2.1}% 6
+\BOOKMARK [3][-]{subsubsection.2.1.2}{Rozpozn\341vanie n\341zvoslovn\375ch ent\355t}{subsection.2.1}% 7
+\BOOKMARK [3][-]{subsubsection.2.1.3}{Identifik\341cia koreferenci\355}{subsection.2.1}% 8
+\BOOKMARK [3][-]{subsubsection.2.1.4}{Identifik\341cia gramatick\375ch z\341vislost\355}{subsection.2.1}% 9
+\BOOKMARK [3][-]{subsubsection.2.1.5}{Extrakcia inform\341ci\355}{subsection.2.1}% 10
+\BOOKMARK [2][-]{subsection.2.2}{N\341stroje na spracovanie prirodzen\351ho jazyka}{section.2}% 11
+\BOOKMARK [3][-]{subsubsection.2.2.1}{WordNet}{subsection.2.2}% 12
+\BOOKMARK [3][-]{subsubsection.2.2.2}{StanfordNLP}{subsection.2.2}% 13
+\BOOKMARK [3][-]{subsubsection.2.2.3}{Google Ngram}{subsection.2.2}% 14
+\BOOKMARK [3][-]{subsubsection.2.2.4}{AlchemyAPI}{subsection.2.2}% 15
+\BOOKMARK [2][-]{subsection.2.3}{Zhrnutie}{section.2}% 16
+\BOOKMARK [1][-]{section.3}{Anal\375za n\341strojov na spr\341vu paraleln\375ch textov}{}% 17
+\BOOKMARK [2][-]{subsection.3.1}{InterText}{section.3}% 18
+\BOOKMARK [2][-]{subsection.3.2}{NOVA Text Aligner}{section.3}% 19
+\BOOKMARK [2][-]{subsection.3.3}{LF Aligner}{section.3}% 20
+\BOOKMARK [2][-]{subsection.3.4}{Google Translate}{section.3}% 21
+\BOOKMARK [2][-]{subsection.3.5}{Zhrnutie}{section.3}% 22
+\BOOKMARK [1][-]{section.4}{N\341vrh syst\351mu na tvorbu pozn\341mok}{}% 23
+\BOOKMARK [2][-]{subsection.4.1}{Tvorba pozn\341mok}{section.4}% 24
+\BOOKMARK [3][-]{subsubsection.4.1.1}{Pravidlo na spracovanie}{subsection.4.1}% 25
+\BOOKMARK [3][-]{subsubsection.4.1.2}{Urcenie relevantn\375ch inform\341ci\355}{subsection.4.1}% 26
+\BOOKMARK [3][-]{subsubsection.4.1.3}{Viacn\341sobn\351 pozn\341mky}{subsection.4.1}% 27
+\BOOKMARK [2][-]{subsection.4.2}{Pou\236itie z\341vislost\355 pri tvorbe pozn\341mok}{section.4}% 28
+\BOOKMARK [2][-]{subsection.4.3}{\227trukt\372ra viet a pravidiel}{section.4}% 29
+\BOOKMARK [3][-]{subsubsection.4.3.1}{Reprezent\341cia stromom}{subsection.4.3}% 30
+\BOOKMARK [3][-]{subsubsection.4.3.2}{Reprezent\341cia vo vete}{subsection.4.3}% 31
+\BOOKMARK [2][-]{subsection.4.4}{Uchov\341vanie textov v datab\341zach}{section.4}% 32
+\BOOKMARK [3][-]{subsubsection.4.4.1}{Relacn\351 datab\341zy}{subsection.4.4}% 33
+\BOOKMARK [3][-]{subsubsection.4.4.2}{Textov\351 datab\341zy}{subsection.4.4}% 34
+\BOOKMARK [3][-]{subsubsection.4.4.3}{Porovnanie a v\375ber typu datab\341zy}{subsection.4.4}% 35
+\BOOKMARK [2][-]{subsection.4.5}{N\341vrh uchov\341vania textov v datab\341zach}{section.4}% 36
+\BOOKMARK [3][-]{subsubsection.4.5.1}{Kolekcia articles}{subsection.4.5}% 37
+\BOOKMARK [3][-]{subsubsection.4.5.2}{Kolekcia notes}{subsection.4.5}% 38
+\BOOKMARK [3][-]{subsubsection.4.5.3}{Kolekcia sentences}{subsection.4.5}% 39
+\BOOKMARK [3][-]{subsubsection.4.5.4}{Kolekcia structures}{subsection.4.5}% 40
+\BOOKMARK [3][-]{subsubsection.4.5.5}{Kolekcia rules}{subsection.4.5}% 41
+\BOOKMARK [3][-]{subsubsection.4.5.6}{Kolekcia and rules}{subsection.4.5}% 42
+\BOOKMARK [3][-]{subsubsection.4.5.7}{Zhrnutie kolekci\355}{subsection.4.5}% 43
+\BOOKMARK [2][-]{subsection.4.6}{Zhrnutie}{section.4}% 44
+\BOOKMARK [1][-]{section.5}{Syst\351m na tvorbu pozn\341mok}{}% 45
+\BOOKMARK [2][-]{subsection.5.1}{Pou\236it\351 technol\363gie}{section.5}% 46
+\BOOKMARK [2][-]{subsection.5.2}{Mana\236ment d\341t}{section.5}% 47
+\BOOKMARK [3][-]{subsubsection.5.2.1}{Vyhladanie pravidla}{subsection.5.2}% 48
+\BOOKMARK [3][-]{subsubsection.5.2.2}{Aplikovanie pravidla}{subsection.5.2}% 49
+\BOOKMARK [3][-]{subsubsection.5.2.3}{Vytvorenie pravidla}{subsection.5.2}% 50
+\BOOKMARK [3][-]{subsubsection.5.2.4}{\332prava pravidla}{subsection.5.2}% 51
+\BOOKMARK [2][-]{subsection.5.3}{Mo\236nosti roz\235\355renia syst\351mu}{section.5}% 52
+\BOOKMARK [2][-]{subsection.5.4}{Zhrnutie}{section.5}% 53
+\BOOKMARK [1][-]{section.6}{Experimenty}{}% 54
+\BOOKMARK [1][-]{section.7}{Zhodnotenie}{}% 55
+\BOOKMARK [1][-]{section.7}{Zoznam pou\236itej literat\372ry}{}% 56
+\BOOKMARK [1][-]{appendix.A}{Pou\236\355vatelsk\341 pr\355rucka}{}% 57
+\BOOKMARK [2][-]{subsection.A.1}{In\235tal\341cia}{appendix.A}% 58
+\BOOKMARK [2][-]{subsection.A.2}{Spustenie aplik\341cie}{appendix.A}% 59
+\BOOKMARK [1][-]{appendix.B}{Zoznam vztahov z\341vislost\355}{}% 60
+\BOOKMARK [1][-]{appendix.C}{Legenda diagramov kolekci\355}{}% 61
+\BOOKMARK [1][-]{appendix.D}{Uk\341\236ka cl\341nkov pou\236it\375ch v experimente}{}% 62
+\BOOKMARK [1][-]{appendix.E}{IIT.SRC cl\341nok}{}% 63

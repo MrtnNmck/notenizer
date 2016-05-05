@@ -1,63 +1,65 @@
 \newpage
 %
-% Systém
+% Systém na tvorbu poznámok
 %
 \ifthenelse {\boolean{bachelor}}
 {
-	\section{Systém}
+	\section{Systém na tvorbu poznámok}
 }
 {
-	\chapter{System}
+	\chapter{Systém na tvorbu poznámok}
 }
-\label{section:implementation}
-dummy text..
+\label{implementation}
+Pri implementácií systému na tvorbu poznámok vyberáme konkrétnu textovú databázu a hlavný nástroj na podporu spracovania prirodzeného jazyka. Riešime fundamentálne princípy používania pravidiel na tvorbu poznámok, ako vyhľadanie, aplikovanie, vytvorenie a úprava pravidla.
 
 %
-% Vybrané nástroje
+% Použité technológie
 %
 \ifthenelse {\boolean{bachelor}}
 {
 	%\subsection{Subsection}
-	\subsection{Vybrané nástroje}
+	\subsection{Použité technológie}
 }
 {
 	%\section{Subsection}
 	\section{Vybrané nástroje}
 }
 \label{system:tools_chosen}
-Do nášho systému sme zakomponovali nástroje, ktoré sú jedným z najlepších vo svojej kategórií a najviac vyhovujú potrebám systému. Pre databázovú vrstvu sme zvolili databázu MongoDB (viď.~\fullref{system:mongodb}) a nástroj na spracovanie prirodzeného jazyka sme vybrali StanfordNLP (viď.~\fullref{system:stanfordnlp}).
+Systém je implementovaný v programovacom jazyku C\# a na grafické rozhranie je použitý framework WinForms. Postavený je nad nástrojom StanfordNLP (bližšie opísaný v časti~\fullref{subsubsec:stanfordnlp}), ktorý umožňuje jednoduchým spôsobom získať esenciálne informácie pre náš systém ohľadne textov, ako závislostí slov vo vetách, značky slovných druhov, názvoslovné entity, indexy a lemy slov. StanfordNLP je pomocou knižnice IKVM sprístupnený z jazyka Java do balíka Stanford.NLP.CoreNLP v jazyku C\#. V systéme je použitá verzia 3.5.2 tohto nástroja aj knižnice Stanford.NLP.CoreNLP, spolu so zdrojovými kódmi modelov z originálneho nástroja. Databázová vrstva systému je implementovaná pomocou textovej databázy MongoDB, ktorá uľahčuje narábanie s textom a využíva vlastný dopytovací jazyk~\cite{NoSQLDBvsRealtionDB}. Na komunikáciu medzi databázou a systémom sa používa knižnica MongoDB.Driver a na prácu s databázovými štruktúrami, ako sú dokumenty, je potrebná knižnica MongoDB.Bson. Knižnica HtmlAgilityPack je využívaná na spracovávanie HTML kódu pri získavaní vstupných článkov priamo z webovej stránky.
 
+%Do nášho systému sme zakomponovali nástroje, ktoré sú jedným z najlepších vo svojej kategórií a najviac vyhovujú potrebám systému. Pre databázovú vrstvu sme zvolili databázu MongoDB (viď.~\fullref{system:mongodb}) a nástroj na spracovanie prirodzeného jazyka sme vybrali StanfordNLP (viď.~\fullref{system:stanfordnlp}).
 %
-% MongoDB
+%%
+%% MongoDB
+%%
+%\ifthenelse {\boolean{bachelor}}
+%{
+%	%\subsection{Subsection}
+%	\subsubsection{MongoDB}
+%}
+%{
+%	\%section{Subsection}
+%	\subsection{MongoDB}
+%}
+%\label{system:mongodb}
+%Pre databázovú vrstvu nášho systému používame popredného predstaviteľa textových databáz MongoDB\footnote{www.mongodb.org}. Ukladá dáta v dokumentoch vo formáte BSON (Binary JSON), ktorých štruktúra sa môže meniť. Využíva dynamickú štruktúru, preto dokáže vytvárať záznamy bez preddefinovanej štruktúry dát, lebo štruktúra sa vytvára za behu, pričom môže byť veľmi jednoducho pozmenená pridaním, odstránením alebo zmenou typu polia dokumentu určujúceho štruktúru. Umožňuje jednoduché ukladanie dát s hierarchickými vzťahmi alebo komplexnejších štruktúr, ako sú napríklad polia, listy alebo vnorené polia.
 %
-\ifthenelse {\boolean{bachelor}}
-{
-	%\subsection{Subsection}
-	\subsubsection{MongoDB}
-}
-{
-	\%section{Subsection}
-	\subsection{MongoDB}
-}
-\label{system:mongodb}
-Pre databázovú vrstvu nášho systému používame popredného predstaviteľa textových databáz MongoDB\footnote{www.mongodb.org}. Ukladá dáta v dokumentoch vo formáte BSON (Binary JSON), ktorých štruktúra sa môže meniť. Využíva dynamickú štruktúru, preto dokáže vytvárať záznamy bez preddefinovanej štruktúry dát, lebo štruktúra sa vytvára za behu, pričom môže byť veľmi jednoducho pozmenená pridaním, odstránením alebo zmenou typu polia dokumentu určujúceho štruktúru. Umožňuje jednoduché ukladanie dát s hierarchickými vzťahmi alebo komplexnejších štruktúr, ako sú napríklad polia, listy alebo vnorené polia.
-
-Vlastnosti ako chybová tolerancia, perzistencia a konzistencia dát sú súčasťou MongoDB. Oproti klasickým dokumentovým databázam ponúka aj vymoženosti, ako agregácia, ad hoc dopyty, indexovanie, a pod. Taktiež má svoj vlastný plnohodnotný dopytovací jazyk \textit{mongo query language}~\cite{NoSQLDBvsRealtionDB}.
-
+%Vlastnosti ako chybová tolerancia, perzistencia a konzistencia dát sú súčasťou MongoDB. Oproti klasickým dokumentovým databázam ponúka aj vymoženosti, ako agregácia, ad hoc dopyty, indexovanie, a pod. Taktiež má svoj vlastný plnohodnotný dopytovací jazyk \textit{mongo query language}~\cite{NoSQLDBvsRealtionDB}.
 %
-% StanfordNLP
-%
-\ifthenelse {\boolean{bachelor}}
-{
-	%\subsection{Subsection}
-	\subsubsection{StanfordNLP}
-}
-{
-	\%section{Subsection}
-	\subsection{StanfordNLP}
-}
-\label{system:stanfordnlp}
-Nástroj StanfordNLP je všeobecne popísaný v časti~\fullref{subsubsec:stanfordnlp}. Vybrali sme ho, lebo umožňuje jednoduchým spôsobom získať esenciálne informácie pre náš systém ohľadne textov. Sú to závislostí slov vo vetách, značky slovných druhov, názvoslovné entity, indexy a lemy slov. 
+%%
+%% StanfordNLP
+%%
+%\ifthenelse {\boolean{bachelor}}
+%{
+%	%\subsection{Subsection}
+%	\subsubsection{StanfordNLP}
+%}
+%{
+%	\%section{Subsection}
+%	\subsection{StanfordNLP}
+%}
+%\label{system:stanfordnlp}
+%Nástroj StanfordNLP je všeobecne popísaný v časti~\fullref{subsubsec:stanfordnlp}. Vybrali sme ho, lebo umožňuje jednoduchým spôsobom získať esenciálne informácie pre náš systém ohľadne textov. Sú to závislostí slov vo vetách, značky slovných druhov, názvoslovné entity, indexy a lemy slov. 
 
 %
 % Manažment dát
@@ -72,7 +74,7 @@ Nástroj StanfordNLP je všeobecne popísaný v časti~\fullref{subsubsec:stanfo
 	\section{Manažment dát}
 }
 \label{subsection:data_management}
-Pre vytvorenie poznámky z vety potrebujeme hlavne vetu a pravidlo, ktoré sa na vetu aplikuje. Aby sa vytvorila zodpovedajúca poznámka z vety, je nutné použiť vhodné pravidlo. Ak spracovávame doposiaľ nespracovanú vetu, je potrebné nájsť vhodné pravidlo na základe podobnosti spracovávanej vety so spracovanými vetami. Pri extrakcií informácií z vety daným pravidlom, s cieľom vytvorenia poznámky, sa musia vybrať správne informácie. Extrakcia musí fungovať pri udržaní dostatočnej všeobecnosti, aby sa dané pravidlo dalo aplikovať na viacero viet s rovnakou štruktúrou, ale odlišným obsahom.
+Pre vytvorenie poznámky z vety potrebujeme pravidlo, ktoré sa na vetu aplikuje. Aby sa vytvorila zodpovedajúca poznámka z vety, je nutné použiť vhodné pravidlo. Ak spracovávame doposiaľ nespracovanú vetu, je potrebné nájsť vhodné pravidlo na základe podobnosti spracovávanej vety so spracovanými vetami. Pri extrakcií informácií z vety daným pravidlom, s cieľom vytvorenia poznámky, sa musia vybrať správne informácie. Extrakcia musí fungovať pri udržaní dostatočnej všeobecnosti, aby sa dané pravidlo dalo aplikovať na viacero viet s rovnakou štruktúrou, ale odlišným obsahom.
 
 %
 % Vyhľadávanie pravidla
@@ -299,12 +301,10 @@ Pri $100\%$ štrukturálnej, obsahovej aj hodnotovej časti zhody, systém sprac
 %
 \ifthenelse {\boolean{bachelor}}
 {
-	%\subsection{Subsection}
-	\subsection{Priestor na rozvoj}
+	\subsection{Možnosti rozšírenia systému}
 }
 {
-	%\section{Subsection}
-	\section{Priestor na rozvoj}
+	\section{Možnosti rozšírenia systému}
 }
 \label{subsection:system_continue}
 Systém ponúka priestor na jeho ďalší vývoj. Dostupných je niekoľko oblastí, v ktorých by sa dal ďalej rozvíjať.
@@ -326,4 +326,4 @@ Aby bolo vytváranie poznámok čo najefektívnejšie, je potrebné vstupný tex
 	\section{Summary}
 }
 \label{subsection:system_summary}
-Dummy text..
+Databázová vrstva nášho systému je implementovaná pomocou textovej databázy \textit{MongoDB}. Ako hlavný nástroj na podporu spracovania prirodzeného jazyka využíva nástroj \textit{StanfordNLP}, pre jednoduché získanie esenciálnych informácií o textoch. V procese vyhľadania pravidla je potrebné určiť zhodu štruktúry spracovávanej vety so štruktúrami viet v databáze, z dôvodu vyhľadania najvyhovujúcejšieho pravidla. Určenie zhody sa delí na tri časti, a to štrukturálna, obsahová a hodnotová. Pri aplikovaní pravidla sa počíta zhoda závislostí, kvôli udržaniu dostatočnej všeobecnosti pravidla. Po vytvorení poznámky je používateľ schopný si danú poznámku upraviť podľa vlastných predstáv a systém sa naučí nové, alebo upraví existujúce pravidlo, ako spracovávať vetu, z ktorej poznámka vznikla. Systém má priestor na rozšírenie a to najmä v predspracovaní textu v zmysle eliminácie nepodstatných viet. 

@@ -1,66 +1,67 @@
 \select@language {slovak}
 \contentsline {section}{\numberline {1}\IeC {\'U}vod}{1}{section.1}
 \contentsline {subsection}{\numberline {1.1}Motiv\IeC {\'a}cia}{1}{subsection.1.1}
-\contentsline {section}{\numberline {2}Spracovanie prirodzen\IeC {\'e}ho jazyka}{2}{section.2}
-\contentsline {subsection}{\numberline {2.1}Spracovanie prirodzen\IeC {\'e}ho jazyka}{2}{subsection.2.1}
-\contentsline {subsection}{\numberline {2.2}\IeC {\'U}lohy spracovania prirodzen\IeC {\'e}ho jazyka}{2}{subsection.2.2}
-\contentsline {subsubsection}{\numberline {2.2.1}Zna\IeC {\v c}kovanie slovn\IeC {\'y}ch druhov}{3}{subsubsection.2.2.1}
-\contentsline {subsubsection}{\numberline {2.2.2}Rozpozn\IeC {\'a}vanie n\IeC {\'a}zvoslovn\IeC {\'y}ch ent\IeC {\'\i }t}{4}{subsubsection.2.2.2}
-\contentsline {subsubsection}{\numberline {2.2.3}Identifik\IeC {\'a}cia koreferenci\IeC {\'\i }}{4}{subsubsection.2.2.3}
-\contentsline {subsubsection}{\numberline {2.2.4}Identifik\IeC {\'a}cia gramatick\IeC {\'y}ch z\IeC {\'a}vislost\IeC {\'\i }}{4}{subsubsection.2.2.4}
-\contentsline {subsubsection}{\numberline {2.2.5}Extrakcia inform\IeC {\'a}ci\IeC {\'\i }}{6}{subsubsection.2.2.5}
-\contentsline {subsection}{\numberline {2.3}N\IeC {\'a}stroje na spracovanie prirodzen\IeC {\'e}ho jazyka}{6}{subsection.2.3}
-\contentsline {subsubsection}{\numberline {2.3.1}WordNet}{6}{subsubsection.2.3.1}
-\contentsline {subsubsection}{\numberline {2.3.2}StanfordNLP}{8}{subsubsection.2.3.2}
-\contentsline {subsubsection}{\numberline {2.3.3}CambridgeAPI}{9}{subsubsection.2.3.3}
-\contentsline {subsubsection}{\numberline {2.3.4}Google Ngram}{9}{subsubsection.2.3.4}
-\contentsline {subsubsection}{\numberline {2.3.5}AlchemyAPI}{10}{subsubsection.2.3.5}
-\contentsline {subsection}{\numberline {2.4}Zhrnutie}{11}{subsection.2.4}
-\contentsline {section}{\numberline {3}Anal\IeC {\'y}za n\IeC {\'a}strojov na spr\IeC {\'a}vu paraleln\IeC {\'y}ch textov}{12}{section.3}
-\contentsline {subsection}{\numberline {3.1}InterText}{12}{subsection.3.1}
-\contentsline {subsection}{\numberline {3.2}NOVA Text Aligner}{13}{subsection.3.2}
-\contentsline {subsection}{\numberline {3.3}LF Aligner}{14}{subsection.3.3}
-\contentsline {subsection}{\numberline {3.4}Google Translate}{15}{subsection.3.4}
-\contentsline {subsection}{\numberline {3.5}Zhrnutie}{16}{subsection.3.5}
-\contentsline {section}{\numberline {4}N\IeC {\'a}vrh}{17}{section.4}
-\contentsline {subsection}{\numberline {4.1}Tvorba pozn\IeC {\'a}mok}{17}{subsection.4.1}
-\contentsline {subsubsection}{\numberline {4.1.1}Pravidlo na spracovanie}{17}{subsubsection.4.1.1}
-\contentsline {subsubsection}{\numberline {4.1.2}Ur\IeC {\v c}enie relevantn\IeC {\'y}ch inform\IeC {\'a}ci\IeC {\'\i }}{18}{subsubsection.4.1.2}
-\contentsline {subsubsection}{\numberline {4.1.3}Viacn\IeC {\'a}sobn\IeC {\'e} pozn\IeC {\'a}mky}{18}{subsubsection.4.1.3}
-\contentsline {subsection}{\numberline {4.2}Pou\IeC {\v z}itie z\IeC {\'a}vislost\IeC {\'\i } pri tvorbe pozn\IeC {\'a}mok}{19}{subsection.4.2}
-\contentsline {subsection}{\numberline {4.3}\IeC {\v S}trukt\IeC {\'u}ra viet a pravidiel}{20}{subsection.4.3}
-\contentsline {subsubsection}{\numberline {4.3.1}Reprezent\IeC {\'a}cia stromom}{20}{subsubsection.4.3.1}
-\contentsline {subsubsection}{\numberline {4.3.2}Reprezent\IeC {\'a}cia vo vete}{21}{subsubsection.4.3.2}
-\contentsline {subsection}{\numberline {4.4}Uchov\IeC {\'a}vanie textov v datab\IeC {\'a}zach}{22}{subsection.4.4}
-\contentsline {subsubsection}{\numberline {4.4.1}Rela\IeC {\v c}n\IeC {\'e} datab\IeC {\'a}zy}{22}{subsubsection.4.4.1}
-\contentsline {subsubsection}{\numberline {4.4.2}Textov\IeC {\'e} datab\IeC {\'a}zy}{22}{subsubsection.4.4.2}
-\contentsline {subsubsection}{\numberline {4.4.3}Porovnanie a v\IeC {\'y}ber typu datab\IeC {\'a}zy}{23}{subsubsection.4.4.3}
-\contentsline {subsection}{\numberline {4.5}N\IeC {\'a}vrh uchov\IeC {\'a}vania textov v datab\IeC {\'a}zach}{24}{subsection.4.5}
-\contentsline {subsubsection}{\numberline {4.5.1}Kolekcia articles}{25}{subsubsection.4.5.1}
-\contentsline {subsubsection}{\numberline {4.5.2}Kolekcia notes}{26}{subsubsection.4.5.2}
-\contentsline {subsubsection}{\numberline {4.5.3}Kolekcia sentences}{26}{subsubsection.4.5.3}
-\contentsline {subsubsection}{\numberline {4.5.4}Kolekcia structures}{27}{subsubsection.4.5.4}
-\contentsline {subsubsection}{\numberline {4.5.5}Kolekcia rules}{28}{subsubsection.4.5.5}
-\contentsline {subsubsection}{\numberline {4.5.6}Kolekcia and rules}{29}{subsubsection.4.5.6}
-\contentsline {subsubsection}{\numberline {4.5.7}Zhrnutie}{30}{subsubsection.4.5.7}
-\contentsline {subsection}{\numberline {4.6}Zhrnutie}{30}{subsection.4.6}
-\contentsline {section}{\numberline {5}Syst\IeC {\'e}m}{31}{section.5}
-\contentsline {subsection}{\numberline {5.1}Vybran\IeC {\'e} n\IeC {\'a}stroje}{31}{subsection.5.1}
-\contentsline {subsubsection}{\numberline {5.1.1}MongoDB}{31}{subsubsection.5.1.1}
-\contentsline {subsubsection}{\numberline {5.1.2}StanfordNLP}{31}{subsubsection.5.1.2}
-\contentsline {subsection}{\numberline {5.2}Mana\IeC {\v z}ment d\IeC {\'a}t}{32}{subsection.5.2}
-\contentsline {subsubsection}{\numberline {5.2.1}Vyh\IeC {\v l}adanie pravidla}{32}{subsubsection.5.2.1}
-\contentsline {paragraph}{V\IeC {\'y}po\IeC {\v c}et zhody viet}{32}{section*.5}
-\contentsline {paragraph}{Nadraden\IeC {\'a} zna\IeC {\v c}ka slovn\IeC {\'e}ho druhu}{37}{section*.6}
-\contentsline {subsubsection}{\numberline {5.2.2}Aplikovanie pravidla}{37}{subsubsection.5.2.2}
-\contentsline {paragraph}{V\IeC {\'y}po\IeC {\v c}et zhody z\IeC {\'a}vislost\IeC {\'\i }}{39}{section*.7}
-\contentsline {subsubsection}{\numberline {5.2.3}Vytvorenie pravidla}{39}{subsubsection.5.2.3}
-\contentsline {subsubsection}{\numberline {5.2.4}\IeC {\'U}prava pravidla}{40}{subsubsection.5.2.4}
-\contentsline {subsection}{\numberline {5.3}Priestor na rozvoj}{40}{subsection.5.3}
-\contentsline {subsection}{\numberline {5.4}Zhrnutie}{41}{subsection.5.4}
-\contentsline {section}{\numberline {6}V\IeC {\'y}sledky}{42}{section.6}
-\contentsline {subsection}{\numberline {6.1}Pod\IeC {\v c}as\IeC {\v t}}{42}{subsection.6.1}
-\contentsline {section}{\numberline {7}Z\IeC {\'a}ver}{43}{section.7}
-\contentsline {section}{Literat\'ura}{44}{section.7}
-\contentsline {section}{\numberline {A}Zoznam vz\IeC {\v t}ahov z\IeC {\'a}vislost\IeC {\'\i }}{45}{appendix.A}
-\contentsline {section}{\numberline {B}Legenda diagramov kolekci\IeC {\'\i }}{46}{appendix.B}
+\contentsline {subsection}{\numberline {1.2}Preh\IeC {\v l}ad pr\IeC {\'a}ce}{1}{subsection.1.2}
+\contentsline {section}{\numberline {2}Spracovanie prirodzen\IeC {\'e}ho jazyka}{3}{section.2}
+\contentsline {subsection}{\numberline {2.1}\IeC {\'U}lohy spracovania prirodzen\IeC {\'e}ho jazyka}{3}{subsection.2.1}
+\contentsline {subsubsection}{\numberline {2.1.1}Zna\IeC {\v c}kovanie slovn\IeC {\'y}ch druhov}{4}{subsubsection.2.1.1}
+\contentsline {subsubsection}{\numberline {2.1.2}Rozpozn\IeC {\'a}vanie n\IeC {\'a}zvoslovn\IeC {\'y}ch ent\IeC {\'\i }t}{5}{subsubsection.2.1.2}
+\contentsline {subsubsection}{\numberline {2.1.3}Identifik\IeC {\'a}cia koreferenci\IeC {\'\i }}{5}{subsubsection.2.1.3}
+\contentsline {subsubsection}{\numberline {2.1.4}Identifik\IeC {\'a}cia gramatick\IeC {\'y}ch z\IeC {\'a}vislost\IeC {\'\i }}{5}{subsubsection.2.1.4}
+\contentsline {subsubsection}{\numberline {2.1.5}Extrakcia inform\IeC {\'a}ci\IeC {\'\i }}{6}{subsubsection.2.1.5}
+\contentsline {subsection}{\numberline {2.2}N\IeC {\'a}stroje na spracovanie prirodzen\IeC {\'e}ho jazyka}{7}{subsection.2.2}
+\contentsline {subsubsection}{\numberline {2.2.1}WordNet}{7}{subsubsection.2.2.1}
+\contentsline {subsubsection}{\numberline {2.2.2}StanfordNLP}{8}{subsubsection.2.2.2}
+\contentsline {subsubsection}{\numberline {2.2.3}Google Ngram}{9}{subsubsection.2.2.3}
+\contentsline {subsubsection}{\numberline {2.2.4}AlchemyAPI}{10}{subsubsection.2.2.4}
+\contentsline {subsection}{\numberline {2.3}Zhrnutie}{10}{subsection.2.3}
+\contentsline {section}{\numberline {3}Anal\IeC {\'y}za n\IeC {\'a}strojov na spr\IeC {\'a}vu paraleln\IeC {\'y}ch textov}{11}{section.3}
+\contentsline {subsection}{\numberline {3.1}InterText}{11}{subsection.3.1}
+\contentsline {subsection}{\numberline {3.2}NOVA Text Aligner}{12}{subsection.3.2}
+\contentsline {subsection}{\numberline {3.3}LF Aligner}{13}{subsection.3.3}
+\contentsline {subsection}{\numberline {3.4}Google Translate}{14}{subsection.3.4}
+\contentsline {subsection}{\numberline {3.5}Zhrnutie}{15}{subsection.3.5}
+\contentsline {section}{\numberline {4}N\IeC {\'a}vrh syst\IeC {\'e}mu na tvorbu pozn\IeC {\'a}mok}{16}{section.4}
+\contentsline {subsection}{\numberline {4.1}Tvorba pozn\IeC {\'a}mok}{16}{subsection.4.1}
+\contentsline {subsubsection}{\numberline {4.1.1}Pravidlo na spracovanie}{16}{subsubsection.4.1.1}
+\contentsline {subsubsection}{\numberline {4.1.2}Ur\IeC {\v c}enie relevantn\IeC {\'y}ch inform\IeC {\'a}ci\IeC {\'\i }}{17}{subsubsection.4.1.2}
+\contentsline {subsubsection}{\numberline {4.1.3}Viacn\IeC {\'a}sobn\IeC {\'e} pozn\IeC {\'a}mky}{17}{subsubsection.4.1.3}
+\contentsline {subsection}{\numberline {4.2}Pou\IeC {\v z}itie z\IeC {\'a}vislost\IeC {\'\i } pri tvorbe pozn\IeC {\'a}mok}{18}{subsection.4.2}
+\contentsline {subsection}{\numberline {4.3}\IeC {\v S}trukt\IeC {\'u}ra viet a pravidiel}{19}{subsection.4.3}
+\contentsline {subsubsection}{\numberline {4.3.1}Reprezent\IeC {\'a}cia stromom}{19}{subsubsection.4.3.1}
+\contentsline {subsubsection}{\numberline {4.3.2}Reprezent\IeC {\'a}cia vo vete}{20}{subsubsection.4.3.2}
+\contentsline {subsection}{\numberline {4.4}Uchov\IeC {\'a}vanie textov v datab\IeC {\'a}zach}{21}{subsection.4.4}
+\contentsline {subsubsection}{\numberline {4.4.1}Rela\IeC {\v c}n\IeC {\'e} datab\IeC {\'a}zy}{21}{subsubsection.4.4.1}
+\contentsline {subsubsection}{\numberline {4.4.2}Textov\IeC {\'e} datab\IeC {\'a}zy}{21}{subsubsection.4.4.2}
+\contentsline {subsubsection}{\numberline {4.4.3}Porovnanie a v\IeC {\'y}ber typu datab\IeC {\'a}zy}{22}{subsubsection.4.4.3}
+\contentsline {subsection}{\numberline {4.5}N\IeC {\'a}vrh uchov\IeC {\'a}vania textov v datab\IeC {\'a}zach}{23}{subsection.4.5}
+\contentsline {subsubsection}{\numberline {4.5.1}Kolekcia articles}{24}{subsubsection.4.5.1}
+\contentsline {subsubsection}{\numberline {4.5.2}Kolekcia notes}{25}{subsubsection.4.5.2}
+\contentsline {subsubsection}{\numberline {4.5.3}Kolekcia sentences}{25}{subsubsection.4.5.3}
+\contentsline {subsubsection}{\numberline {4.5.4}Kolekcia structures}{26}{subsubsection.4.5.4}
+\contentsline {subsubsection}{\numberline {4.5.5}Kolekcia rules}{27}{subsubsection.4.5.5}
+\contentsline {subsubsection}{\numberline {4.5.6}Kolekcia and rules}{28}{subsubsection.4.5.6}
+\contentsline {subsubsection}{\numberline {4.5.7}Zhrnutie kolekci\IeC {\'\i }}{29}{subsubsection.4.5.7}
+\contentsline {subsection}{\numberline {4.6}Zhrnutie}{29}{subsection.4.6}
+\contentsline {section}{\numberline {5}Syst\IeC {\'e}m na tvorbu pozn\IeC {\'a}mok}{30}{section.5}
+\contentsline {subsection}{\numberline {5.1}Pou\IeC {\v z}it\IeC {\'e} technol\IeC {\'o}gie}{30}{subsection.5.1}
+\contentsline {subsection}{\numberline {5.2}Mana\IeC {\v z}ment d\IeC {\'a}t}{30}{subsection.5.2}
+\contentsline {subsubsection}{\numberline {5.2.1}Vyh\IeC {\v l}adanie pravidla}{31}{subsubsection.5.2.1}
+\contentsline {paragraph}{V\IeC {\'y}po\IeC {\v c}et zhody viet}{31}{section*.5}
+\contentsline {paragraph}{Nadraden\IeC {\'a} zna\IeC {\v c}ka slovn\IeC {\'e}ho druhu}{35}{section*.6}
+\contentsline {subsubsection}{\numberline {5.2.2}Aplikovanie pravidla}{35}{subsubsection.5.2.2}
+\contentsline {paragraph}{V\IeC {\'y}po\IeC {\v c}et zhody z\IeC {\'a}vislost\IeC {\'\i }}{37}{section*.7}
+\contentsline {subsubsection}{\numberline {5.2.3}Vytvorenie pravidla}{38}{subsubsection.5.2.3}
+\contentsline {subsubsection}{\numberline {5.2.4}\IeC {\'U}prava pravidla}{38}{subsubsection.5.2.4}
+\contentsline {subsection}{\numberline {5.3}Mo\IeC {\v z}nosti roz\IeC {\v s}\IeC {\'\i }renia syst\IeC {\'e}mu}{39}{subsection.5.3}
+\contentsline {subsection}{\numberline {5.4}Zhrnutie}{39}{subsection.5.4}
+\contentsline {section}{\numberline {6}Experimenty}{41}{section.6}
+\contentsline {section}{\numberline {7}Zhodnotenie}{42}{section.7}
+\contentsline {section}{Zoznam pou\IeC {\v z}itej literat\IeC {\'u}ry}{43}{section.7}
+\contentsline {section}{\numberline {A}Pou\IeC {\v z}\IeC {\'\i }vate\IeC {\v l}sk\IeC {\'a} pr\IeC {\'\i }ru\IeC {\v c}ka}{44}{appendix.A}
+\contentsline {subsection}{\numberline {A.1}In\IeC {\v s}tal\IeC {\'a}cia}{44}{subsection.A.1}
+\contentsline {subsection}{\numberline {A.2}Spustenie aplik\IeC {\'a}cie}{44}{subsection.A.2}
+\contentsline {section}{\numberline {B}Zoznam vz\IeC {\v t}ahov z\IeC {\'a}vislost\IeC {\'\i }}{45}{appendix.B}
+\contentsline {section}{\numberline {C}Legenda diagramov kolekci\IeC {\'\i }}{46}{appendix.C}
+\contentsline {section}{\numberline {D}Uk\IeC {\'a}\IeC {\v z}ka \IeC {\v c}l\IeC {\'a}nkov pou\IeC {\v z}it\IeC {\'y}ch v experimente}{50}{appendix.D}
+\contentsline {section}{\numberline {E}IIT.SRC \IeC {\v c}l\IeC {\'a}nok}{55}{appendix.E}

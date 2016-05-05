@@ -1,17 +1,18 @@
 \newpage
 %
-% Návrh
+% Návrh systému na tvorbu poznámok
 %
 \ifthenelse {\boolean{bachelor}}
 {
 	%\section{Design}
-	\section{Návrh}
+	\section{Návrh systému na tvorbu poznámok}
 }
 {
 	%\chapter{Design}
-	\chapter{Návrh}
+	\chapter{Návrh systému na tvorbu poznámok}
 }
-\label{section:design}
+\label{design}
+Systém na tvorbu poznámok vyžaduje splnenie viacerých požiadaviek. Hlavné z nich sú vytvorenie poznámky a možnosť jej následnej interaktívnej úpravy. Ďalej sú to tvorba viacnásobných poznámok, vytváranie poznámok na základe pravidiel s využitím závislostí slov, ktoré môžu byť aplikované na viacero viet, výber vhodnej databázy s adekvátne vytvoreným databázovým modelom. Spomenuté požiadavky sú opísané v nasledujúcich častiach.
 
 %
 % Tvorba poznámok
@@ -26,7 +27,7 @@
 	\section{Tvorba poznámok}
 }
 \label{subsection:notes_creation}
-Pri spracovávaní viet je potreba extrahovať dôležité a konkrétne informácie, v našom prípade slová, a z extrahovaných informácií vytvoriť poznámku. Poznámka je zložená výhradne zo slov obsiahnutých vo vete, z ktorej bola vytvorená. Tým zabezpečíme, že poznámka nebude obsahovať irelevantné informácie z hľadiska vzťahu ku vete. 
+Pri spracovávaní viet potrebné extrahovať dôležité a konkrétne informácie, v našom prípade slová, a z extrahovaných informácií vytvoriť poznámku. Poznámka je zložená výhradne zo slov obsiahnutých vo vete, z ktorej bola vytvorená. Tým zabezpečíme, že poznámka nebude obsahovať irelevantné informácie z hľadiska vzťahu ku vete. 
 
 Spracovávané vety sa môžu opakovať, a preto je dôležité, aby sa rovnaké a podobné vety spracovali vždy takým istým spôsobom. Pre tento účel je vhodné mať definované pravidlo (viď.~\fullref{subsubsection:rule_for_processing}), ktoré bude určovať, ako sa má daná veta spracovať. Aplikovaním pravidla na vetu vytvoríme poznámku. Používateľ má možnosť interaktívne upraviť poznámku, a tým pádom aj pravidlo, ktoré bolo použité na vytvorenie danej poznámku, v takom rozsahu, že sa vytvorená poznámka zmení podľa vykonaných zmien. Zmeny v pravidle sa musia prejaviť aj pri nasledujúcom aplikovaní pravidla na rovnakú alebo podobnú vetu. Používateľovi to poskytne kontrolou nad spôsobom, akým sa vytvárajú poznámky a bude si ich vedieť prispôsobiť - personalizovať.
 
@@ -41,12 +42,12 @@ Spracovávané vety sa môžu opakovať, a preto je dôležité, aby sa rovnaké
 	\subsection{Pravidlo na spracovanie}
 }
 \label{subsubsection:rule_for_processing}
-Pravidlo na spracovanie určuje, ktorá informácie vo vete sú relevantné a majú byť použité v poznámke. V časti~\fullref{subsubsection:determination_of_relevant_information} je podrobnejšie opísaný proces určenia relevantných informácií. Okrem určenia relevantnosti slov pravidlo taktiež určuje, na ktorej pozícií sa má konkrétna informácia vo výslednej poznámke nachádzať. Výsledná poznámka sa nemusí skladať iba z jednej vety, ale môže pozostávať z ľubovolného počtu viet. Počet viet, z ktorých bude poznámka pozostávať a miesta, na ktorých má byť pôvodná poznámka rozdelená na vety určuje pravidlo.
+Pravidlo na spracovanie určuje, ktoré informácie vo vete sú relevantné a majú byť použité v poznámke. Okrem určenia relevantnosti slov pravidlo taktiež určuje, na ktorej pozícií sa má konkrétna informácia vo výslednej poznámke nachádzať. Výsledná poznámka sa nemusí skladať iba z jednej vety, ale môže pozostávať z ľubovolného počtu viet. Počet viet, z ktorých bude poznámka pozostávať a miesta, na ktorých má byť pôvodná poznámka rozdelená na vety určuje pravidlo.
 
-Skladá sa primárne zo štruktúry, ktorá je zložená hlavne zo závislostí. Viac informácií o štruktúre je v časti~\fullref{subsection:structure_of_sentences_and_rules}. Okrem štruktúry obsahuje aj informácie o pozíciach, na ktorých sa má výsledná poznámka rozdeliť na menšie časti - vety.
+Skladá sa primárne zo štruktúry, ktorá je zložená najmä zo závislostí. Viac informácií o štruktúre je v časti~\fullref{subsection:structure_of_sentences_and_rules}. Okrem štruktúry obsahuje aj informácie o pozíciách, na ktorých sa má výsledná poznámka rozdeliť na menšie časti - vety.
 %zo závislostí slov, ktoré sa majú nachádzať v poznámke. Pomocou závislosti vieme jednoznačne identifikovať a extrahovať konkrétne slovo z vety a pridať ho do poznámky. Okrem závislostí obsahuje aj informácie o pozícií závislostí alebo type tokenu, ktorého slovo sa ma následne pridať do poznámky a informácie o tokenoch závislostí. Pre nadradený aj podradený token pravidlo obsahuje dáta o slove korešpondujúcom s daným tokenom. Sú to značka slovného druhu, index slova vo vete, názvoslovná entita a lema tvar.
 
-Pravidlo je aplikovateľné nie len na totožné vety, ale na vety s rovnakou štruktúrou a je nezávislé od obsahovej časti vety.
+Pravidlo je aplikovateľné nielen na totožné vety, ale aj na vety s rovnakou štruktúrou a je nezávislé od obsahovej časti vety.
 
 %
 % Určenie relevantných informácií
@@ -59,7 +60,7 @@ Pravidlo je aplikovateľné nie len na totožné vety, ale na vety s rovnakou š
 	\subsection{Určenie relevantných informácií}
 }
 \label{subsubsection:determination_of_relevant_information}
-Určenie relevantnosti informácií hlavne pri učebných textoch a poznámkach je subjektívna vec. Informáciu, ktorú niekto považuje za relevantnú môže byť pre iného irelevantná. Relevantnosť informácií preto určuje používateľ pomocou vytvárania nových a úpravy existujúcich pravidiel cez spracovávanie článkov, viet a úpravou vytvorených poznámok. Tým si používateľ prispôsobuje tvorbu poznámok, aby zodpovedala jeho predstave relevantnosti a celkovo tvorbe poznámok. Na tento účel mu systém ponúka interaktívne a intuitívne rozhranie.
+Určenie relevantnosti informácií pri učebných textoch a poznámkach je subjektívne. Informáciu, ktorú niekto považuje za relevantnú, môže byť pre iného irelevantná. Relevantnosť informácií preto určuje používateľ pomocou vytvárania nových a úpravy existujúcich pravidiel cez spracovávanie článkov, viet a úpravou vytvorených poznámok. Tým si používateľ prispôsobuje tvorbu poznámok, aby zodpovedala jeho predstave relevantnosti a celkovo tvorbe poznámok. Na tento účel mu systém ponúka interaktívne a intuitívne rozhranie.
 
 %
 % Viacnásobné poznámky
@@ -108,7 +109,7 @@ Závislosti majú viacero využití pri tvorbe poznámok. Hlavné z nich sú:
 
 \begin{my_itemize}
 	\myitem jednoznačná identifikácia informácie,
-	\myitem pravidlo závisle iba od štruktúry,
+	\myitem pravidlo závislé iba od štruktúry,
 	\myitem menší počet potrebných pravidiel.
 \end{my_itemize}
 
@@ -116,7 +117,7 @@ Závislosť nám zoskupuje informácie o jej tokenoch a vzťahu medzi nimi. Na z
 
 Pravidlo, ktoré je tvorené prevažne zo závislostí, nie je viazané na konkrétnu vetu, pri spracovávaní ktorej vzniklo. Viaže sa na štruktúru vety (viď.~\fullref{subsection:structure_of_sentences_and_rules}). Táto vlastnosť nám umožňuje použiť jedno a to isté pravidlo na spracovanie viacerých viet.
 
-Keby sme vytvárali pravidla iba na základe, napríklad značiek názvoslovných druhov a ukladali by sme si v akom poradí boli značky v pôvodnej vete a v akom poradí v poznámke, potrebovali by sme pre každú obmenu vety nové pravidlo. Keďže je pravidlo naviazané na štruktúru vety a nie na obsahovú časť, teda aj poradie slov, vieme jedným pravidlom spracovať viacero obmien jednej vety, za podmienky, že sa obmenou nezmenila štruktúra. Aplikovateľnosťou pravidla na viacero viet sa nám redukuje počet všetkých možných potrebných pravidiel.
+Keby sme vytvárali pravidlá napríklad, iba na základe značiek názvoslovných druhov a ukladali by sme si v akom poradí boli značky v pôvodnej vete a v akom poradí v poznámke, potrebovali by sme pre každú obmenu vety nové pravidlo. Keďže je pravidlo naviazané na štruktúru vety a nie na obsahovú časť, teda aj poradie slov, vieme jedným pravidlom spracovať viacero obmien jednej vety, za podmienky, že sa obmenou nezmenila štruktúra. Aplikovateľnosťou pravidla na viacero viet sa nám redukuje počet všetkých možných potrebných pravidiel.
 
 %
 % Štruktúra viet a pravidiel
@@ -129,7 +130,7 @@ Keby sme vytvárali pravidla iba na základe, napríklad značiek názvoslovnýc
 	\section{Structure of sentences and rules}
 }
 \label{subsection:structure_of_sentences_and_rules}
-Všeobecná štruktúra je definovaná závislosťami, vzťahmi závislostí, pozíciami závislostí, a informáciami o nadradenom tokene a podradenom tokene závislostí. Tieto informácie sa skladajú zo značky slovného druhu, indexu, názvoslovnej entity a lemy. Štruktúra pravidla je oproti všeobecnej štruktúre, ktorú využíva veta, rozšírená a doplňujúce informácie. Sú to informácie potrebné pre správny chod systému. Skladajú sa z typu porovnania a typu tokenu. V náčrtoch sa nezobrazujú keďže sú využívané interne a nie sú nevyhnutné na pochopenie danej časti.
+Všeobecná štruktúra je definovaná závislosťami, vzťahmi závislostí, pozíciami závislostí, a informáciami o nadradenom tokene a podradenom tokene závislostí. Tieto informácie sa skladajú zo značky slovného druhu, indexu, názvoslovnej entity a lemy. Štruktúra pravidla je oproti všeobecnej štruktúre, ktorú využíva veta, rozšírená o doplňujúce informácie. Sú to informácie potrebné pre správny chod systému. Skladajú sa z typu porovnania a typu tokenu. V náčrtoch sa nezobrazujú keďže sú využívané interne a nie sú nevyhnutné na pochopenie danej časti.
 
 Štruktúru viet prezentujeme dvoma spôsobmi:
 \begin{my_itemize}
@@ -148,7 +149,7 @@ Všeobecná štruktúra je definovaná závislosťami, vzťahmi závislostí, po
 	\subsection{Tree representation}
 }
 \label{subsubsection:structure_tree_representation}
-Stromová reprezentácia uľahčuje reprezentáciu vzťahov a prepojení jednotlivých slov vo vete. Táto reprezentácia môže byť pre vetu \textit{,,The president of the Slovak Republic is Andrej Kiska.''} vyjadrená obrázkom~\fullref{fig:tree_structure}. Reprezentácie je podobná reprezentácií na obrázku~\fullref{fig:dependency_tree} z kapitoly~\fullref{subsubsec:dependencyparsing}, avšak je ešte rozšírená o značky slovných druhov, indexy, názvoslovné entity a lemy. V tomto poradí sú tieto informácie zobrazene v stromovej reprezentácia pod príslušným slovom.
+Stromová reprezentácia uľahčuje reprezentáciu vzťahov a prepojení jednotlivých slov vo vete. Táto reprezentácia môže byť pre vetu \textit{,,The president of the Slovak Republic is Andrej Kiska.''} vyjadrená~\imgref{fig:tree_structure}. Reprezentácie je podobná reprezentácií na~\imgref{fig:dependency_tree} z časti~\fullref{subsubsec:dependencyparsing}, avšak je ešte rozšírená o značky slovných druhov, indexy, názvoslovné entity a lemy. V tomto poradí sú tieto informácie zobrazene v stromovej reprezentácia pod príslušným slovom.
 
 \begin{figure}[H]
 	\begin{center}\includegraphics[scale=0.35]{tree_structure}\end{center}
@@ -166,7 +167,7 @@ Stromová reprezentácia uľahčuje reprezentáciu vzťahov a prepojení jednotl
 	\subsection{Representation in sentence}
 }
 \label{subsubsection:structure_representation_in_sentence}
-Reprezentácia vo vete taktiež reprezentuje vzťahy a prepojenia slov vo vete. Zobrazenie tejto reprezentácie lepšie opisuje reálne uloženie štruktúry v databáze. Pre vetu \textit{,,The president of the Slovak Republic is Andrej Kiska.''} vyzerá \textit{reprezentácia vo vete} ako na obrázku~\fullref{fig:sentence_representation}.
+Reprezentácia vo vete taktiež reprezentuje vzťahy a prepojenia slov vo vete. Zo zobrazenia tejto reprezentácie sa dá jednoduchšie pochopiť celá štruktúra, keďže zobrazuje slová v pôvodnom poradí a celkovo vetu v originálnom formátovaní. Pre vetu \textit{,,The president of the Slovak Republic is Andrej Kiska.''} vyzerá \textit{reprezentácia vo vete} ako na~\imgref{fig:sentence_representation}.
 
 \begin{figure}[H]
 	\begin{center}\includegraphics[scale=0.4]{kiska_full_sentence}\end{center}
@@ -422,7 +423,7 @@ Ukladané dáta sa dajú rozdeliť do niekoľkých samostatných kolekcií. Sú 
 	\myitem and rules.
 \end{my_itemize}
 	
-Prepojenia medzi jednotlivými kolekciami sú zobrazené na obrázku~\fullref{fig:db_schema}. Nasledujúcich časti opisujú stručne každú kolekciu. Všetky kolekcie obsahujú okrem polí špecifických pre danú kolekciu, aj polia časových značiek označujúcich vytvorenie a aktualizáciu záznamu.
+Prepojenia medzi jednotlivými kolekciami sú zobrazené na~\imgref{fig:db_schema}. Nasledujúcich časti opisujú stručne každú kolekciu. Všetky kolekcie obsahujú okrem polí špecifických pre danú kolekciu, aj polia časových značiek označujúcich vytvorenie a aktualizáciu záznamu.
 
 \begin{figure}[H]
 	\begin{center}\includegraphics[scale=0.60]{db_schema}\end{center}
@@ -444,7 +445,7 @@ Prepojenia medzi jednotlivými kolekciami sú zobrazené na obrázku~\fullref{fi
 \label{subsubsection:collection_articles}
 V kolekcii \textit{articles} sa ukladajú spracovávané texty. 
 
-Kolekcia obsahuje textové pole \textit{text} na uloženie textu v pôvodnom tvare. Model kolekcie \textit{articles} je zobrazený na obrázku~\fullref{fig:articles_collection_model}.
+Kolekcia obsahuje textové pole \textit{text} na uloženie textu v pôvodnom tvare. Model kolekcie \textit{articles} je zobrazený na~\imgref{fig:articles_collection_model}.
 
 \begin{figure}[H]
 	\begin{center}\includegraphics[scale=0.60]{articles_model}\end{center}
@@ -466,7 +467,7 @@ Kolekcia obsahuje textové pole \textit{text} na uloženie textu v pôvodnom tva
 \label{subsubsection:collection_notes}
 Kolekcia \textit{notes} uchováva vytvorené poznámky z viet.
 
-Obsahuje textové pole \textit{text} s hodnotou poznámky a dve referencujúce polia. Jedno sa odkazuje do kolekcie \textit{rules} na pravidlo, ktoré bolo použité na vytvorenie poznámky. Druhé referencuje použité and\hyph pravidlo v kolekcií \textit{and\textunderscore rules}. Toto pole môže byť prázdne, ak sa and\hyph pravidlo pri vytváraní poznámky nepoužilo. Na obrázku~\fullref{fig:notes_collection_model} je vyobrazený model kolekcie \textit{notes}.
+Obsahuje textové pole \textit{text} s hodnotou poznámky a dve referencujúce polia. Jedno sa odkazuje do kolekcie \textit{rules} na pravidlo, ktoré bolo použité na vytvorenie poznámky. Druhé referencuje použité and\hyph pravidlo v kolekcií \textit{and\textunderscore rules}. Toto pole môže byť prázdne, ak sa and\hyph pravidlo pri vytváraní poznámky nepoužilo. Na~\imgref{fig:notes_collection_model} je vyobrazený model kolekcie \textit{notes}.
 
 \begin{figure}[H]
 	\begin{center}\includegraphics[scale=0.60]{notes_model}\end{center}
@@ -490,7 +491,7 @@ V následujúcej kolekcii \textit{sentences} sa ukladajú spracované vety aj s 
 
 Kolekcia sa skladá z textového polia \textit{text} uchovávajúce hodnotu vety a piatich referencujúcich polí \textit{article\textunderscore ref\textunderscore id}, \textit{structure\textunderscore ref\textunderscore id}, \textit{rule\textunderscore ref\textunderscore id}, \textit{and \textunderscore rule\textunderscore ref\textunderscore id} a \textit{note\textunderscore id}. \textit{Article\textunderscore ref\textunderscore id} odkazuje na článok z kolekcie \textit{articles}, ktorého súčasťou je daná veta. Pole \textit{structure\textunderscore ref\textunderscore id} odkazuje do kolekcie \textit{structures}, ktoré reprezentuje štruktúru vety. Nasledujúce polia \textit{rule\textunderscore ref\textunderscore id} a \textit{and\textunderscore rule\textunderscore ref\textunderscore id} odkazujú na použité pravidlo a and\hyph pravidlo pri spracovávaní vety, v tomto poradí. Pole \textit{note\textunderscore ref\textunderscore id} odkazuje na poznámku z kolekcie \textit{notes}, ktorá bola vytvorená z vety.
 
-Model tejto kolekcie je načrtnutý na obrázku~\fullref{fig:sentences_collection_model}.
+Model tejto kolekcie je načrtnutý na~\imgref{fig:sentences_collection_model}.
 
 \begin{figure}[H]
 	\begin{center}\includegraphics[scale=0.60]{sentences_model}\end{center}
@@ -514,7 +515,7 @@ V kolekcií \textit{structures} sú uložené štruktúry viet a pravidiel. Štr
 
 Kolekcia sa skladá z jedného pola \textit{structure\textunderscore data}. Toto pole je zoznam dokumentov, obsahujúcich vyššie spomenuté údaje. Dokument v tomto zozname obsahuje textové pole \textit{relation\textunderscore name} s názvom vzťahu závislosti a zoznam dokumentov závislostí \textit{dependencies} s týmto názvom vzťahu. Dokument v zozname \textit{dependencies} sa skladá z polí \textit{governor} a \textit{dependent} typu dokument, celočíselného pola \textit{position} uchovávajúceho pozíciu závislosti vo vete alebo poznámke, \textit{comparison\textunderscore type}, ktoré je celočíselnou reprezentáciou typu porovnania a poľa \textit{token\textunderscore type}, ktoré je taktiež celočíselnou reprezentáciou typu tokenu. Dokumenty polí \textit{governor} a \textit{dependent} obsahujú údaje o prislúchajúcich tokenoch závislosti. V textovom poli \textit{POS} sa ukladá značka slovného druhu, pole \textit{index} uchováva index tokenu vo vete, \textit{ner} je textové pole reprezentujúce názvoslovnú entitu tokenu a v poli \textit{lemma} je textová reprezentácia lemy tokenu.
 
-Celý model kolekcie je zobrazený na obrázku~\fullref{fig:structures_collection_model}.
+Celý model kolekcie je zobrazený na~\imgref{fig:structures_collection_model}.
 
 \begin{figure}[H]
 	\begin{center}\includegraphics[scale=0.53]{structure_model}\end{center}
@@ -534,9 +535,9 @@ Celý model kolekcie je zobrazený na obrázku~\fullref{fig:structures_collectio
 	\subsection{Kolekcia rules}
 }
 \label{subsubsection:collection_rules}
-\textit{Rules} je kolekcia, do ktorej sa ukladajú pravidla na vytvorenie poznámok z viet. Vďaka databázovému modelu na obrázku~\fullref{fig:db_schema} a prepojeniam medzi kolekciami je táto kolekcia minimalistická.
+\textit{Rules} je kolekcia, do ktorej sa ukladajú pravidla na vytvorenie poznámok z viet. Vďaka databázovému modelu na~\imgref{fig:db_schema} a prepojeniam medzi kolekciami je táto kolekcia minimalistická.
 
-Skladá sa z dvoch polí. Pole \textit{sentence\textunderscore terminators} je zoznam čísel, ktoré reprezentujú konce viet v poznámke. Referencujúce pole \textit{structure\textunderscore ref\textunderscore id} odkazuje do kolekcie \textit{structures} na štruktúru, ktorou sa má prípadná veta spracovať. Model kolekcie \textit{rules} je vyjadrený obrázkom~\fullref{fig:rules_collection_model}.
+Skladá sa z dvoch polí. Pole \textit{sentence\textunderscore terminators} je zoznam čísel, ktoré reprezentujú konce viet v poznámke. Referencujúce pole \textit{structure\textunderscore ref\textunderscore id} odkazuje do kolekcie \textit{structures} na štruktúru, ktorou sa má prípadná veta spracovať. Model kolekcie \textit{rules} je vyjadrený~\imgref{fig:rules_collection_model}.
 
 Pole \textit{sentence\textunderscore terminators} zväčša obsahuje jeden záznam. Napríklad pri vete \textit{,,The president of the Slovak Republic is Andrej Kiska.''} a poznámke z tejto vety v tvare \textit{,,President is Kiska.''} bude obsahovať jeden záznam: 3. Číslo 3, lebo koniec vety, v tomto prípade bodka, sa nachádza na tretej pozícií spomedzi tokenov vo vete. Číslovanie pozícií začína od nuly. V prípade ak veta je súvetie, zložené z viacerých jednoduchých viet, môže pole \textit{sentence\textunderscore terminators} obsahovať viacero záznamov, ak napríklad chceme z každej jednoduchej vety súvetia získať zjednodušenú vetu a vytvoriť tak zloženú poznámku, skladajúcu sa zo zjednodušených viet.
 
@@ -560,7 +561,7 @@ Pole \textit{sentence\textunderscore terminators} zväčša obsahuje jeden zázn
 \label{subsubsection:collection_and_rules}
 Posledná kolekcia uchováva pravidlá pre spracovanie vety a vytvorenie viacnásobnej poznámky z vety. Táto kolekcia je veľmi podobná kolekcií \textit{rules} a obsahuje rovnaké polia doplnené o ďalšie špecifické pole.
 
-Špecifické pole, o ktoré je kolekcia rozšírená oproti kolekcií \textit{rules} je celočíselné pole \textit{set\textunderscore position}. Toto pole uchováva pozíciu množiny vo viacnásobnej poznámke. Model kolekcie je vyobrazený na obrázku~\fullref{fig:and_rules_collection_model}.
+Špecifické pole, o ktoré je kolekcia rozšírená oproti kolekcií \textit{rules} je celočíselné pole \textit{set\textunderscore position}. Toto pole uchováva pozíciu množiny vo viacnásobnej poznámke. Model kolekcie je vyobrazený na~\imgref{fig:and_rules_collection_model}.
 
 \begin{figure}[H]
 	\begin{center}\includegraphics[scale=0.60]{and_rules_model}\end{center}
@@ -598,15 +599,13 @@ Posledná kolekcia uchováva pravidlá pre spracovanie vety a vytvorenie viacná
 %
 \ifthenelse {\boolean{bachelor}}
 {
-	%\subsection{Subsection}
-	\subsubsection{Zhrnutie}
+	\subsubsection{Zhrnutie kolekcií}
 }
 {
-	%\section{Subsection}
-	\subsection{Zhrnutie}
+	\subsection{Zhrnutie kolekcií}
 }
 \label{subsubsection:collections_summary}
-Pri návrhu databázového modelu a kolekcií sme vychádzali z princípu jednoduchých kolekcií so zoskupením súvisiacich dát a oddelenia ich od zvyšku. Vďaka využívaniu viacerých, medzi sebou prepojených, kolekcií sme zabezpečili neduplikovanie dát, jednoduché vyhľadanie napríklad viet ku článku a iné. Okrem toho nám tento model umožňuje ďalšiu funkcionalitu, ako napríklad aplikovanie jedného pravidla na viacero viet so zhodnou štruktúrou. Oddelenie dát do samostatných štruktúr nám uľahčuje aj prípadne neskoršie rozšírenie databázového modelu alebo zmenu konkrétnych štruktúr. Taktiež uľahčuje prípadné klastrovanie databázy, ak by bolo nutné, keďže každá kolekcia by mohla byť na samostatnom serveri.
+Pri návrhu databázového modelu a kolekcií sme vychádzali z princípu jednoduchých kolekcií so zoskupením súvisiacich dát a oddelenia ich od zvyšku. Vďaka využívaniu viacerých, medzi sebou prepojených, kolekcií sme zabezpečili neduplikovanie dát, jednoduché vyhľadanie, napríklad viet ku článku a iné. Okrem toho nám tento model umožňuje ďalšiu funkcionalitu, ako napríklad aplikovanie jedného pravidla na viacero viet so zhodnou štruktúrou. Oddelenie dát do samostatných kolekcií nám uľahčuje aj prípadne neskoršie rozšírenie databázového modelu alebo zmenu konkrétnych kolekcií. Taktiež uľahčuje prípadné klastrovanie databázy, ak by bolo nutné, keďže každá kolekcia by mohla byť na samostatnom serveri.
 
 %
 % Zhrnutie
@@ -621,4 +620,4 @@ Pri návrhu databázového modelu a kolekcií sme vychádzali z princípu jednod
 	\section{Summary}
 }
 \label{subsection:design_summary}
-Dummy text..
+Systém dokáže vytvoriť poznámku z viet na základe pravidla. Pravidlo je tvorené primárne zo závislostí, značiek slovných druhov a typov názvoslovných entít. Závislostí majú viacero využití pri tvorbe poznámok, hlavné z nich sú jednoznačná identifikácia informácie a pravidlo závisle od štruktúry vety. Z toho vyplýva, že pravidlo je aplikovateľné na viacero viet s rovnakou štruktúrou. Štruktúru si vieme reprezentovať stromom alebo priamo vo vete. Informácie o spracovaných článkoch, vetách a vytvorených poznámkach a pravidlách sa ukladajú do textovej databázy s dôkladne navrhnutým modelom.
