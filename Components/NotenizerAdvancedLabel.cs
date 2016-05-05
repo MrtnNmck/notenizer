@@ -14,6 +14,9 @@ using System.Threading.Tasks;
 
 namespace nsComponents
 {
+    /// <summary>
+    /// AdvancedLabel with Notenizer data.
+    /// </summary>
     public partial class NotenizerAdvancedLabel : AdvancedLabel, INotenizerComponent
     {
         #region Variables
@@ -56,11 +59,17 @@ namespace nsComponents
 
         #region Properties
 
+        /// <summary>
+        /// Notenizer dependency.
+        /// </summary>
         public NotenizerDependency Dependency
         {
             get { return this._dependency; }
         }
 
+        /// <summary>
+        /// Flag if component is deletable.
+        /// </summary>
         public Boolean IsDeletable
         {
             get
@@ -74,6 +83,9 @@ namespace nsComponents
             }
         }
 
+        /// <summary>
+        /// Representation mode of component.
+        /// </summary>
         public RepresentMode RepresentMode
         {
             set { _representMode = value; }
@@ -88,6 +100,9 @@ namespace nsComponents
 
         #region Methods
 
+        /// <summary>
+        /// Initializes NotenizerAdvancedLabel.
+        /// </summary>
         public void Init()
         {
             this.Text = this._dependency.CorrespondingWord.Word;
@@ -101,6 +116,9 @@ namespace nsComponents
             }
         }
 
+        /// <summary>
+        /// Resets tooltip.
+        /// </summary>
         public void ResetToolTip()
         {
             this.SetToolTip(this._toolTip);

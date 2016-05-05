@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace nsEnums
 {
+    /// <summary>
+    /// Representation mode of components.
+    /// </summary>
     public enum RepresentMode
     {
         Dependency,

@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace nsNotenizerObjects
 {
+    /// <summary>
+    /// And-Ruel
+    /// </summary>
     public class NotenizerAndRule : NotenizerRule
     {
         #region Variables
@@ -36,12 +39,18 @@ namespace nsNotenizerObjects
 
         #region Properties
 
+        /// <summary>
+        /// Position of set.
+        /// </summary>
         public int SetsPosition
         {
             get { return _setsPosition; }
             set { _setsPosition = value; }
         }
 
+        /// <summary>
+        /// Position of sentence terminator.
+        /// </summary>
         public int SentenceTerminator
         {
             get { return _sentenceTerminator; }

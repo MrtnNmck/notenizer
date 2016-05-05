@@ -10,20 +10,40 @@ using System.Threading.Tasks;
 
 namespace nsExtensions
 {
+    /// <summary>
+    /// Extension methods for the StanfordCoreNLP and the Notenizer objects.
+    /// </summary>
     public static class NotenizerExtensions
     {
         #region Methods
 
+        /// <summary>
+        /// Created Comaprison type from two token types.
+        /// </summary>
+        /// <param name="leftSide"></param>
+        /// <param name="rigthSide"></param>
+        /// <returns></returns>
         public static ComparisonType CreateComperisonType(this TokenType leftSide, TokenType rigthSide)
         {
             return (ComparisonType)Enum.Parse(typeof(ComparisonType), leftSide.ToString() + "To" + rigthSide.ToString());
         }
 
+        /// <summary>
+        /// Compares grammatical relations.
+        /// </summary>
+        /// <param name="gr1"></param>
+        /// <param name="gr2"></param>
+        /// <returns></returns>
         public static bool IsGrammaticalRelation(this GrammaticalRelation gr1, GrammaticalRelation gr2)
         {
             return gr1.getLongName() == gr2.getLongName();
         }
 
+        /// <summary>
+        /// Gets unique identifier of IndexedWord
+        /// </summary>
+        /// <param name="idxWord"></param>
+        /// <returns></returns>
         public static String GetUniqueIdentifier(this IndexedWord idxWord)
         {
             return idxWord.word()
@@ -35,6 +55,12 @@ namespace nsExtensions
                 + idxWord.endPosition();
         }
 
+        /// <summary>
+        /// Filter TypedDepenencies byt Part-of-Speech tags.
+        /// </summary>
+        /// <param name="dependencies">List of TypeDependency</param>
+        /// <param name="poses">Part-of-speech tags</param>
+        /// <returns></returns>
         public static List<TypedDependency> FilterByPOS(this List<TypedDependency> dependencies, String[] poses)
         {
             List<TypedDependency> filteredDependencies = new List<TypedDependency>();
@@ -48,11 +74,21 @@ namespace nsExtensions
             return filteredDependencies;
         }
 
+        /// <summary>
+        /// Adjusts speciic of GrammaticalRelation.
+        /// </summary>
+        /// <param name="relation"></param>
+        /// <returns></returns>
         public static String GetAdjustedSpecific(this GrammaticalRelation relation)
         {
             return relation.getSpecific().AdjustSpecific();
         }
 
+        /// <summary>
+        /// Adjusts speciic of GrammaticalRelation.
+        /// </summary>
+        /// <param name="specific"></param>
+        /// <returns></returns>
         public static String AdjustSpecific(this String specific)
         {
             if (specific == "agent")
@@ -61,6 +97,11 @@ namespace nsExtensions
             return specific;
         }
 
+        /// <summary>
+        /// Converts string to Bson ObjectId.
+        /// </summary>
+        /// <param name="objectIdString"></param>
+        /// <returns></returns>
         public static BsonValue ToObjectId(this String objectIdString)
         {
             try

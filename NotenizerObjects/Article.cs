@@ -8,6 +8,9 @@ using nsEnums;
 
 namespace nsNotenizerObjects
 {
+    /// <summary>
+    /// Processed Article.
+    /// </summary>
     public class Article : IPersistable
     {
         #region Variables
@@ -37,6 +40,9 @@ namespace nsNotenizerObjects
 
         #region Properties
 
+        /// <summary>
+        /// Created at timestamp.
+        /// </summary>
         public DateTime CreatedAt
         {
             get
@@ -50,6 +56,9 @@ namespace nsNotenizerObjects
             }
         }
 
+        /// <summary>
+        /// ID of document in database.
+        /// </summary>
         public String ID
         {
             get
@@ -62,6 +71,9 @@ namespace nsNotenizerObjects
             }
         }
 
+        /// <summary>
+        /// Updated at timestamp
+        /// </summary>
         public DateTime UpdatedAt
         {
             get
@@ -75,7 +87,10 @@ namespace nsNotenizerObjects
             }
         }
 
-        public String Value
+        /// <summary>
+        /// Text.
+        /// </summary>
+        public String Text
         {
             get
             {

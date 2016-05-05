@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace nsEnums
 {
+    /// <summary>
+    /// Types of named entities.
+    /// </summary>
     public enum NamedEntityType
     {
         Location,

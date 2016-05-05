@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace nsConstants
 {
+    /// <summary>
+    /// Specific constans for the Notenizer.
+    /// </summary>
     public class NotenizerConstants
     {
         public const String WordDelimeter = " ";

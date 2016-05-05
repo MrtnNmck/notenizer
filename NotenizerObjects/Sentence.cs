@@ -8,6 +8,9 @@ using nsEnums;
 
 namespace nsNotenizerObjects
 {
+    /// <summary>
+    /// persistable sentence.
+    /// </summary>
     public class Sentence : IPersistable
     {
         #region Variables
@@ -61,6 +64,9 @@ namespace nsNotenizerObjects
 
         #region Properties
 
+        /// <summary>
+        /// Created at timestamp.
+        /// </summary>
         public DateTime CreatedAt
         {
             get
@@ -74,19 +80,9 @@ namespace nsNotenizerObjects
             }
         }
 
-        public CreatedBy CreatedBy
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
-
+        /// <summary>
+        /// ID of document in database.
+        /// </summary>
         public String ID
         {
             get
@@ -100,6 +96,9 @@ namespace nsNotenizerObjects
             }
         }
 
+        /// <summary>
+        /// Updated at timestamp.
+        /// </summary>
         public DateTime UpdatedAt
         {
             get
@@ -113,6 +112,9 @@ namespace nsNotenizerObjects
             }
         }
 
+        /// <summary>
+        /// Text of sentence.
+        /// </summary>
         public String Text
         {
             get
@@ -126,6 +128,9 @@ namespace nsNotenizerObjects
             }
         }
 
+        /// <summary>
+        /// ID of struncture document.
+        /// </summary>
         public String StructureID
         {
             get
@@ -139,6 +144,9 @@ namespace nsNotenizerObjects
             }
         }
 
+        /// <summary>
+        /// ID of rule document.
+        /// </summary>
         public String RuleID
         {
             get
@@ -152,6 +160,9 @@ namespace nsNotenizerObjects
             }
         }
 
+        /// <summary>
+        /// ID of and-rule document.
+        /// </summary>
         public String AndRuleID
         {
             get
@@ -165,6 +176,9 @@ namespace nsNotenizerObjects
             }
         }
 
+        /// <summary>
+        /// ID of article document.
+        /// </summary>
         public String ArticleID
         {
             get
@@ -178,6 +192,9 @@ namespace nsNotenizerObjects
             }
         }
 
+        /// <summary>
+        /// ID of note document.
+        /// </summary>
         public String NoteID
         {
             get
@@ -191,6 +208,9 @@ namespace nsNotenizerObjects
             }
         }
 
+        /// <summary>
+        /// Article.
+        /// </summary>
         public Article Article
         {
             get

@@ -14,6 +14,11 @@ using System.Windows.Forms;
 
 namespace nsComponents
 {
+    /// <summary>
+    /// Advanced Label.
+    /// Allows drag and drop event.
+    /// Allows border color and width change.
+    /// </summary>
     public partial class AdvancedLabel : Label
     {
         #region Variables
@@ -44,12 +49,18 @@ namespace nsComponents
 
         #region Properties
 
+        /// <summary>
+        /// Border's color.
+        /// </summary>
         public Color? BorderColor
         {
             get { return _borderColor; }
             set { _borderColor = value; }
         }
 
+        /// <summary>
+        /// Border's width
+        /// </summary>
         public int BorderWidth
         {
             get { return _borderWidth; }
@@ -60,6 +71,10 @@ namespace nsComponents
 
         #region Event Handlers
 
+        /// <summary>
+        /// Event handler for mouse move event.
+        /// </summary>
+        /// <param name="e"></param>
         protected override void OnMouseMove(MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
@@ -72,11 +87,19 @@ namespace nsComponents
             base.OnMouseMove(e);
         }
 
+        /// <summary>
+        /// Event handler on mouse up event.
+        /// </summary>
+        /// <param name="e"></param>
         protected override void OnMouseUp(MouseEventArgs e)
         {
             base.OnMouseUp(e);
         }
 
+        /// <summary>
+        /// Event handler for mouse down event.
+        /// </summary>
+        /// <param name="e"></param>
         protected override void OnMouseDown(MouseEventArgs e)
         {
             base.OnMouseDown(e);
@@ -88,16 +111,28 @@ namespace nsComponents
             }
         }
 
+        /// <summary>
+        /// Event handler to handle paint event.
+        /// Changes border color and width.
+        /// </summary>
+        /// <param name="e"></param>
         protected override void OnPaint(PaintEventArgs e)
         {
-            base.OnPaint(e);
-
-            if (_borderColor.HasValue)
+            try
             {
-                using (Pen pen = new Pen(this._borderColor.Value, this._borderWidth))
+                base.OnPaint(e);
+
+                if (_borderColor.HasValue)
                 {
-                    e.Graphics.DrawRectangle(pen, new Rectangle(0, 0, this.Width - _borderWidth, this.Height - _borderWidth));
+                    using (Pen pen = new Pen(this._borderColor.Value, this._borderWidth))
+                    {
+                        e.Graphics.DrawRectangle(pen, new Rectangle(0, 0, this.Width - _borderWidth, this.Height - _borderWidth));
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Failed OnPaint event." + Environment.NewLine + Environment.NewLine + ex.Message);
             }
         }
 
@@ -105,6 +140,9 @@ namespace nsComponents
 
         #region Methods
 
+        /// <summary>
+        /// Initializes AdvancedLabel
+        /// </summary>
         private void Init()
         {
             this.Cursor = Cursors.Hand;

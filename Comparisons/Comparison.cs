@@ -7,6 +7,10 @@ using System.Threading.Tasks;
 
 namespace nsComparsions
 {
+    /// <summary>
+    /// Generic class for comparsion.
+    /// </summary>
+    /// <typeparam name="T">Return type of comparsion</typeparam>
     public class Comparsion<T>
     {
         #region Variables
@@ -45,27 +49,51 @@ namespace nsComparsions
 
         #endregion Properties
 
-        #region Event Handlers
-
-        #endregion Event Handlers
-
         #region Methods
 
+        /// <summary>
+        /// Runs words comparsion.
+        /// </summary>
+        /// <param name="source">Source word</param>
+        /// <param name="destination">Destination word</param>
+        /// <returns></returns>
         public T Run(NotenizerWord source, NotenizerWord destination)
         {
             return _wordsComparisonFunction(source, destination);
         }
 
+        /// <summary>
+        /// Runs words comparsion.
+        /// </summary>
+        /// <param name="source">Source word</param>
+        /// <param name="dest">Destination wors</param>
+        /// <param name="rating">Rating of comparsion</param>
+        /// <param name="count">Count</param>
+        /// <returns></returns>
         public T Run(NotenizerWord source, NotenizerWord dest, double rating, int count)
         {
             return _wordsClosenessFunction(source, dest, rating, count);
         }
 
+        /// <summary>
+        /// Runs dependencies comparsion.
+        /// </summary>
+        /// <param name="source">Source dependency</param>
+        /// <param name="dest">Destination dependency</param>
+        /// <returns></returns>
         public T Run(NotenizerDependency source, NotenizerDependency dest)
         {
             return _dependenciesComparsionFunction(source, dest);
         }
 
+        /// <summary>
+        /// Runs dependencies comparsion.
+        /// </summary>
+        /// <param name="source">Source dependency</param>
+        /// <param name="dest">Destination dependency</param>
+        /// <param name="rating">rating of comparsion</param>
+        /// <param name="count">Count</param>
+        /// <returns></returns>
         public T Run(NotenizerDependency source, NotenizerDependency dest, double rating, int count)
         {
             return _dependenciesClosenessFunction(source, dest, rating, count);

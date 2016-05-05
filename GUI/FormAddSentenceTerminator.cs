@@ -10,6 +10,9 @@ using System.Windows.Forms;
 
 namespace nsGUI
 {
+    /// <summary>
+    /// Form to add sentence terminator.
+    /// </summary>
     public partial class FormAddSentenceTerminator : Form
     {
         #region Variables
@@ -50,6 +53,9 @@ namespace nsGUI
 
         #region Properties
 
+        /// <summary>
+        /// Selected sentence terminator.
+        /// </summary>
         public String SelectedSentenceTerminator
         {
             get { return _selectedSentenceTerminator; }
@@ -59,6 +65,11 @@ namespace nsGUI
 
         #region Event Handlers
 
+        /// <summary>
+        /// Event handler for event of clicking Accept button.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void AcceptButton_Click(Object sender, EventArgs e)
         {
             this._selectedSentenceTerminator = this._comboBoxSentenceTerminator.SelectedValue.ToString();
@@ -66,6 +77,11 @@ namespace nsGUI
             this.DialogResult = DialogResult.OK;
         }
 
+        /// <summary>
+        /// Cancle button click event handler.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void CancelButton_Click(Object sender, EventArgs e)
         {
             this.DialogResult = DialogResult.Cancel;

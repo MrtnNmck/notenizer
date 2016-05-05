@@ -11,6 +11,9 @@ using System.Windows.Forms;
 
 namespace nsComponents
 {
+    /// <summary>
+    /// Advanced TextBox.
+    /// </summary>
     public partial class AdvancedTextBox : Panel
     {
         #region Variables
@@ -38,6 +41,9 @@ namespace nsComponents
 
         #region Properties
 
+        /// <summary>
+        /// Main TextBox.
+        /// </summary>
         public RichTextBox TextBox
         {
             get { return this._richTextBox; }
@@ -47,6 +53,10 @@ namespace nsComponents
 
         #region Event Handlers
 
+        /// <summary>
+        /// Event handler for mouse wheel event.
+        /// </summary>
+        /// <param name="e"></param>
         protected override void OnMouseWheel(MouseEventArgs e)
         {
             base.OnMouseWheel(e);
@@ -59,6 +69,9 @@ namespace nsComponents
 
         #region Methods
 
+        /// <summary>
+        /// Initializes AdvancedTextBox.
+        /// </summary>
         private void Init()
         {
             this._richTextBox = new RichTextBox();

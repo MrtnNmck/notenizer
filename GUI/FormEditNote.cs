@@ -14,6 +14,9 @@ using System.Windows.Forms;
 
 namespace nsGUI
 {
+    /// <summary>
+    /// Form for editing note.
+    /// </summary>
     public partial class FormEditNote : Form
     {
         #region Variables
@@ -61,21 +64,33 @@ namespace nsGUI
 
         #region Properties
 
+        /// <summary>
+        /// Note Parts of note.
+        /// </summary>
         public List<NotePart> NoteNoteParts
         {
             get { return this._noteParts; }
         }
 
+        /// <summary>
+        /// Note Part of and-note.
+        /// </summary>
         public NotePart AndParserNotePart
         {
             get { return this._andParserNotePart; }
         }
 
+        /// <summary>
+        /// And-note set position.
+        /// </summary>
         public int AndSetPosition
         {
             get { return this._andSetsPosition; }
         }
 
+        /// <summary>
+        /// Flag if And-Parser is enabled.
+        /// </summary>
         public bool AndParserEnabled
         {
             get { return this._andParserEnabled; }
@@ -85,6 +100,11 @@ namespace nsGUI
 
         #region Event Handlers
 
+        /// <summary>
+        /// Apply button click event handler.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ApplyButton_Click(Object sender, EventArgs e)
         {
             this._noteParts = CreateNoteParts();
@@ -93,11 +113,21 @@ namespace nsGUI
             this.DialogResult = DialogResult.OK;
         }
 
+        /// <summary>
+        /// Cancel button click event handler.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void CancelButton_Click(Object sender, EventArgs e)
         {
             this.DialogResult = DialogResult.Cancel;
         }
 
+        /// <summary>
+        /// Add sentencte terminator menu item click event handler.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void AddSentenceMenuItem_Click(Object sender, EventArgs e)
         {
             FormAddSentenceTerminator frmAddSentenceTerminator = new FormAddSentenceTerminator();
@@ -112,18 +142,27 @@ namespace nsGUI
 
         #region Methods
 
+        /// <summary>
+        /// Initializes form for editing of notes.
+        /// </summary>
         private void Init()
         {
             this.Icon = Properties.Resources.AppIcon;
             this.CenterToParent();
         }
 
+        /// <summary>
+        /// Initializes universal child controls.
+        /// </summary>
         private void InitUniversalControls()
         {
             this._textBoxNote.Text = _note.Text;
             this._textBoxOriginalSentence.Text = _note.OriginalSentence.ToString();
         }
 
+        /// <summary>
+        /// Initializes child controls for note edit.
+        /// </summary>
         private void InitControlsForNoteEdit()
         {
             List<NotenizerAdvancedLabel> activeLabels = CreateLabels(this._note.NoteDependencies); ;
@@ -135,6 +174,9 @@ namespace nsGUI
             this._flowLayoutPanelDeleted.Controls.AddRange(unusedLabels.ToArray<Control>());
         }
 
+        /// <summary>
+        /// Initializes specific child controls for And-Parser
+        /// </summary>
         private void InitControlsForAndParser()
         {
             List<NotenizerAdvancedLabel> activeLabels = CreateLabels(this._andParserNote.NoteDependencies);
@@ -148,12 +190,20 @@ namespace nsGUI
             InitializeAndParserGrid();
         }
 
+        /// <summary>
+        /// Disables tab page.
+        /// </summary>
+        /// <param name="tabPage">Tab page to disable</param>
         private void DisableTabPage(TabPage tabPage)
         {
             foreach (Control controlLoop in tabPage.Controls)
                 controlLoop.Enabled = false;
         }
 
+        /// <summary>
+        /// Creates note parts from edited note.
+        /// </summary>
+        /// <returns></returns>
         private List<NotePart> CreateNoteParts()
         {
             NotenizerAdvancedLabel label;
@@ -182,6 +232,10 @@ namespace nsGUI
             return noteParts;
         }
 
+        /// <summary>
+        /// Create Note Part from edited and-note.
+        /// </summary>
+        /// <returns></returns>
         private NotePart CreateAndParserNotePart()
         {
             int depCounter = 0;
@@ -205,12 +259,23 @@ namespace nsGUI
             return notePart;
         }
 
+        /// <summary>
+        /// Sets position of dependnecy and adds it to note part.
+        /// </summary>
+        /// <param name="dep"></param>
+        /// <param name="position"></param>
+        /// <param name="destionationNotePart"></param>
         private void SetPositionAddToNotePart(NotenizerDependency dep, int position, NotePart destionationNotePart)
         {
             dep.Position = position;
             destionationNotePart.Add(new NoteParticle(dep));
         }
 
+        /// <summary>
+        /// Create labels from dependencies.
+        /// </summary>
+        /// <param name="dependencies"></param>
+        /// <returns></returns>
         private List<NotenizerAdvancedLabel> CreateLabels(NotenizerDependencies dependencies)
         {
             List<NotenizerAdvancedLabel> labels = new List<NotenizerAdvancedLabel>();
@@ -221,6 +286,11 @@ namespace nsGUI
             return labels;
         }
 
+        /// <summary>
+        /// Inserts sentence terminator.
+        /// </summary>
+        /// <param name="labels"></param>
+        /// <param name="noteParts"></param>
         private void InsertSentenceTerminators(List<NotenizerAdvancedLabel> labels, List<NotePart> noteParts)
         {
             int last = 0;
@@ -234,6 +304,11 @@ namespace nsGUI
             }
         }
 
+        /// <summary>
+        /// Create labels from unused dependencies.
+        /// </summary>
+        /// <param name="depenencies"></param>
+        /// <returns></returns>
         private List<NotenizerAdvancedLabel> CreateUnusedLables(NotenizerDependencies depenencies)
         {
             NotenizerDependency clonedDependency;
@@ -252,6 +327,9 @@ namespace nsGUI
             return labels;
         }
 
+        /// <summary>
+        /// Initializes grid for And-Parser.
+        /// </summary>
         private void InitializeAndParserGrid()
         {
             DataRow row;

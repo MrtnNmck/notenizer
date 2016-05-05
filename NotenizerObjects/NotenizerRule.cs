@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace nsNotenizerObjects
 {
+    /// <summary>
+    /// Persistable rule
+    /// </summary>
     public class NotenizerRule : IPersistable
     {
         #region Variables
@@ -54,24 +57,36 @@ namespace nsNotenizerObjects
 
         #region Properties
 
+        /// <summary>
+        /// Dependencies of rule.
+        /// </summary>
         public NotenizerDependencies RuleDependencies
         {
             get { return _dependencies; }
             set { _dependencies = value; }
         }
 
+        /// <summary>
+        /// Match of structures.
+        /// </summary>
         public Match Match
         {
             get { return _match; }
             set { _match = value; }
         }
 
+        /// <summary>
+        /// Created at timestamp.
+        /// </summary>
         public DateTime CreatedAt
         {
             set { _createdAt = value; }
             get { return _createdAt; }
         }
 
+        /// <summary>
+        /// Updated at timestamp.
+        /// </summary>
         public DateTime UpdatedAt
         {
             set { _updatedAt = value; }
@@ -79,7 +94,7 @@ namespace nsNotenizerObjects
         }
 
         /// <summary>
-        /// ID of corresponding entry in DB, from which this rule is.
+        /// ID of corresponding entry document in DB.
         /// </summary>
         public String ID
         {
@@ -87,12 +102,18 @@ namespace nsNotenizerObjects
             set { _id = value; }
         }
 
+        /// <summary>
+        /// Structure of rule.
+        /// </summary>
         public NotenizerStructure Structure
         {
             get { return this._structure; }
             set { this._structure = value; }
         }
 
+        /// <summary>
+        /// ID of structure.
+        /// </summary>
         public String StructureID
         {
             get
@@ -106,6 +127,9 @@ namespace nsNotenizerObjects
             }
         }
 
+        /// <summary>
+        /// Sentence of rule.
+        /// </summary>
         public Sentence Sentence
         {
             get

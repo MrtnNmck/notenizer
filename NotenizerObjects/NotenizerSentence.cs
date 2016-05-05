@@ -11,6 +11,9 @@ using nsInterfaces;
 
 namespace nsNotenizerObjects
 {
+    /// <summary>
+    /// Sentence of article.
+    /// </summary>
     public class NotenizerSentence
     {
         #region Variables
@@ -34,12 +37,18 @@ namespace nsNotenizerObjects
 
         #region Properties
 
+        /// <summary>
+        /// Persistable sentence.
+        /// </summary>
         public Sentence Sentence
         {
             get { return this._sentence; }
             set { this._sentence = value; }
         }
 
+        /// <summary>
+        /// Structure of sentence.
+        /// </summary>
         public NotenizerStructure Structure
         {
             get
@@ -57,41 +66,43 @@ namespace nsNotenizerObjects
 
         #region Methods
 
+        /// <summary>
+        /// Gets depeendencies from sentence.
+        /// </summary>
+        /// <param name="annotation"></param>
+        /// <returns></returns>
         private NotenizerDependencies GetDepencencies(Annotation annotation)
         {
-            Tree tree = annotation.get(typeof(TreeCoreAnnotations.TreeAnnotation)) as Tree;
-            TreebankLanguagePack treeBankLangPack = new PennTreebankLanguagePack();
-            GrammaticalStructureFactory gramStructFact = treeBankLangPack.grammaticalStructureFactory();
-            GrammaticalStructure gramStruct = gramStructFact.newGrammaticalStructure(tree);
-            java.util.Collection typedDependencies = gramStruct.typedDependenciesCollapsed();
-
-            NotenizerDependencies dependencies = new NotenizerDependencies();
+            Tree tree;
             NotenizerDependency dep;
+            GrammaticalStructure gramStruct;
+            NotenizerDependencies dependencies;
+            NotenizerDependency nsubjComplement;
+            TreebankLanguagePack treeBankLangPack;
+            java.util.Collection typedDependencies;
+            GrammaticalStructureFactory gramStructFact;
+
+            tree = annotation.get(typeof(TreeCoreAnnotations.TreeAnnotation)) as Tree;
+            treeBankLangPack = new PennTreebankLanguagePack();
+            gramStructFact = treeBankLangPack.grammaticalStructureFactory();
+            gramStruct = gramStructFact.newGrammaticalStructure(tree);
+            typedDependencies = gramStruct.typedDependenciesCollapsed();
+            dependencies = new NotenizerDependencies();
 
             foreach (TypedDependency typedDependencyLoop in (typedDependencies as java.util.ArrayList))
             {
                 dep = new NotenizerDependency(typedDependencyLoop);
-
                 dependencies.Add(dep);
 
                 if (dep.Relation.IsNominalSubject())
                 {
-                    NotenizerDependency nsubjComplement = new NotenizerDependency(typedDependencyLoop);
-
+                    nsubjComplement = new NotenizerDependency(typedDependencyLoop);
                     nsubjComplement.TokenType = dep.TokenType == TokenType.Dependent ? TokenType.Governor : TokenType.Dependent;
                     dependencies.Add(nsubjComplement);
                 }
             }
 
             return dependencies;
-        }
-
-        private void AddToCompressedDependencies(NotenizerDependency dep, ref Dictionary<String, List<NotenizerDependency>> map)
-        {
-            if (!map.ContainsKey(dep.Relation.ShortName))
-                map.Add(dep.Relation.ShortName, new List<NotenizerDependency>() { dep });
-            else
-                map[dep.Relation.ShortName].Add(dep);
         }
 
         public override String ToString()

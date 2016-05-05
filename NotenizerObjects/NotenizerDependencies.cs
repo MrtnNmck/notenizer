@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace nsNotenizerObjects
 {
+    /// <summary>
+    /// List of the Notenizer Dependencies.
+    /// </summary>
     public class NotenizerDependencies : List<NotenizerDependency>
     {
         #region Variables
@@ -27,6 +30,12 @@ namespace nsNotenizerObjects
 
         #region Methods
 
+        /// <summary>
+        /// Gets complement of the Notenizer Dependencies.
+        /// </summary>
+        /// <param name="sourceDependencies"></param>
+        /// <param name="sourceCompressedDependencies"></param>
+        /// <returns></returns>
         public NotenizerDependencies Complement(NotenizerDependencies sourceDependencies, CompressedDependencies sourceCompressedDependencies)
         {
             NotenizerDependencies unusedDependencies = new NotenizerDependencies();

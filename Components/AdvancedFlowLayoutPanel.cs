@@ -10,6 +10,10 @@ using System.Windows.Forms;
 
 namespace nsComponents
 {
+    /// <summary>
+    /// Advanced FlowLayoutPanel.
+    /// Allows drag and drop events.
+    /// </summary>
     public partial class AdvancedFlowLayoutPanel : FlowLayoutPanel
     {
         #region Variables
@@ -43,6 +47,10 @@ namespace nsComponents
 
         #region Event Handlers
 
+        /// <summary>
+        /// Handler for drop event.
+        /// </summary>
+        /// <param name="e"></param>
         protected override void OnControlAdded(ControlEventArgs e)
         {
             this.SetFont(e.Control, this._controlsFont);
@@ -53,18 +61,32 @@ namespace nsComponents
             base.OnControlAdded(e);
         }
 
-
+        /// <summary>
+        /// Event handler for drag enter event.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void AdvancedFlowLayoutPanelActive_DragEnter(object sender, DragEventArgs e)
         {
             e.Effect = DragDropEffects.All;
         }
 
+        /// <summary>
+        /// Event handler for drag drop event.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void AdvancedFlowLayoutPanelActive_DragDrop(object sender, DragEventArgs e)
         {
-            NotenizerAdvancedLabel data = (NotenizerAdvancedLabel)e.Data.GetData(typeof(NotenizerAdvancedLabel));
-            AdvancedFlowLayoutPanel destinationPanel = (AdvancedFlowLayoutPanel)sender;
-            AdvancedFlowLayoutPanel sourcePanel = (AdvancedFlowLayoutPanel)data.Parent;
-            Point p = destinationPanel.PointToClient(new Point(e.X, e.Y));
+            Point p;
+            NotenizerAdvancedLabel data;
+            AdvancedFlowLayoutPanel sourcePanel;
+            AdvancedFlowLayoutPanel destinationPanel;
+
+            data = (NotenizerAdvancedLabel)e.Data.GetData(typeof(NotenizerAdvancedLabel));
+            destinationPanel = (AdvancedFlowLayoutPanel)sender;
+            sourcePanel = (AdvancedFlowLayoutPanel)data.Parent;
+            p = destinationPanel.PointToClient(new Point(e.X, e.Y));
 
             this.DoDragDrop(data, sourcePanel, destinationPanel, p);
         }
@@ -73,6 +95,9 @@ namespace nsComponents
 
         #region Methods
 
+        /// <summary>
+        /// Initializes AdvnacedFlowLayoutPanel.
+        /// </summary>
         private void Init()
         {
             DragEnter += new DragEventHandler(AdvancedFlowLayoutPanelActive_DragEnter);
@@ -80,36 +105,55 @@ namespace nsComponents
             AllowDrop = true;
         }
 
+        /// <summary>
+        /// Sets font to control.
+        /// </summary>
+        /// <param name="control"></param>
+        /// <param name="font"></param>
         private void SetFont(Control control, Font font)
         {
             control.Font = font;
         }
 
+        /// <summary>
+        /// Does drag and drop from one AvancedFlowLayoutPanel to another.
+        /// </summary>
+        /// <param name="data">NotenizerAdvancedLabel that is being drag and droped</param>
+        /// <param name="sourcePanel">Source panel of drag and drop event</param>
+        /// <param name="destinationPanel">Destination panel of drag and drop event</param>
+        /// <param name="destPanelPointToClient">Point on destination panel where drag and drop event finished</param>
         private void DoDragDrop(NotenizerAdvancedLabel data, AdvancedFlowLayoutPanel sourcePanel, AdvancedFlowLayoutPanel destinationPanel, Point destPanelPointToClient)
         {
-            var item = destinationPanel.GetChildAtPoint(destPanelPointToClient);
-
-            int index = -1;
-            if (item == null)
+            try
             {
-                for (int i = 0; i < destinationPanel.Controls.Count; i++)
+                var item = destinationPanel.GetChildAtPoint(destPanelPointToClient);
+
+                int index = -1;
+                if (item == null)
                 {
-                    if (i + 1 < destinationPanel.Controls.Count)
-                        if (destinationPanel.Controls[i].Bounds.Right < destPanelPointToClient.X && destinationPanel.Controls[i + 1].Bounds.Left > destPanelPointToClient.X)
-                            index = i + 1;
+                    for (int i = 0; i < destinationPanel.Controls.Count; i++)
+                    {
+                        if (i + 1 < destinationPanel.Controls.Count)
+                            if (destinationPanel.Controls[i].Bounds.Right < destPanelPointToClient.X && destinationPanel.Controls[i + 1].Bounds.Left > destPanelPointToClient.X)
+                                index = i + 1;
+                    }
                 }
+                else
+                    index = destinationPanel.Controls.GetChildIndex(item, false);
+
+                if (!destinationPanel.Controls.Contains(data) && data.IsDeletable)
+                    destinationPanel.Controls.Add(data);
+
+                destinationPanel.Controls.SetChildIndex(data, index);
+                destinationPanel.Invalidate();
+                sourcePanel.Invalidate();
+
+                this._isDirty = true;
             }
-            else
-                index = destinationPanel.Controls.GetChildIndex(item, false);
-
-            if (!destinationPanel.Controls.Contains(data) && data.IsDeletable)
-                destinationPanel.Controls.Add(data);
-
-            destinationPanel.Controls.SetChildIndex(data, index);
-            destinationPanel.Invalidate();
-            sourcePanel.Invalidate();
-
-            this._isDirty = true;
+            catch (Exception ex)
+            {
+                throw new Exception("Error performing drag and drop." + Environment.NewLine + Environment.NewLine + ex.Message);
+            }
         }
 
         #endregion Methods

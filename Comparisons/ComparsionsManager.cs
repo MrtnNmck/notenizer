@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace nsComparsions
 {
+    /// <summary>
+    /// Manages comparsions.
+    /// </summary>
     public class ComparsionsManager
     {
         #region Variables
@@ -28,6 +31,10 @@ namespace nsComparsions
         #endregion Constuctors
 
         #region Properties
+
+        /// <summary>
+        /// Number of comarsions.
+        /// </summary>
         private int Count
         {
             get
@@ -38,17 +45,19 @@ namespace nsComparsions
 
         #endregion Properties
 
-        #region Event Handlers
-
-        #endregion Event Handlers
-
         #region Methods
 
+        /// <summary>
+        /// Initializes ComparisonManager.
+        /// </summary>
         private void Init()
         {
             InitWordsComparsions();
         }
 
+        /// <summary>
+        /// Initializes words comparsions.
+        /// </summary>
         private void InitWordsComparsions()
         {
             _boolWordsComparsions = new Comparsions<bool>();
@@ -61,27 +70,41 @@ namespace nsComparsions
             _doubleWordsComparsions.Add(new Comparsion<double>(nsComparsions.Functions.ComparsionFunctions.CalculateClosenessWords));
         }
 
+        /// <summary>
+        /// Compares dependencies.
+        /// </summary>
+        /// <param name="source">Source dependency</param>
+        /// <param name="dest">Destination depenedency</param>
+        /// <param name="dependeciesAndWordsCount">Number of dependencies and words</param>
+        /// <returns></returns>
         public double Compare(NotenizerDependency source, NotenizerDependency dest, int dependeciesAndWordsCount)
         {
-            _matchRating = 0;
-            _oneComparisonRating = NotenizerConstants.MaxMatchValue / Count;
-
-            foreach (Comparsion<bool> boolWordComparsionLoop in _boolWordsComparsions)
+            try
             {
-                if (boolWordComparsionLoop.Run(source.Governor, dest.Governor))
-                    _matchRating += _oneComparisonRating;
+                _matchRating = 0;
+                _oneComparisonRating = NotenizerConstants.MaxMatchValue / Count;
 
-                if (boolWordComparsionLoop.Run(source.Dependent, dest.Dependent))
-                    _matchRating += _oneComparisonRating;
+                foreach (Comparsion<bool> boolWordComparsionLoop in _boolWordsComparsions)
+                {
+                    if (boolWordComparsionLoop.Run(source.Governor, dest.Governor))
+                        _matchRating += _oneComparisonRating;
+
+                    if (boolWordComparsionLoop.Run(source.Dependent, dest.Dependent))
+                        _matchRating += _oneComparisonRating;
+                }
+
+                foreach (Comparsion<double> doubleWordsComparsionLoop in _doubleWordsComparsions)
+                {
+                    _matchRating += doubleWordsComparsionLoop.Run(source.Governor, dest.Governor, _oneComparisonRating, dependeciesAndWordsCount);
+                    _matchRating += doubleWordsComparsionLoop.Run(source.Dependent, dest.Dependent, _oneComparisonRating, dependeciesAndWordsCount);
+                }
+
+                return _matchRating;
             }
-
-            foreach (Comparsion<double> doubleWordsComparsionLoop in _doubleWordsComparsions)
+            catch (Exception ex)
             {
-                _matchRating += doubleWordsComparsionLoop.Run(source.Governor, dest.Governor, _oneComparisonRating, dependeciesAndWordsCount);
-                _matchRating += doubleWordsComparsionLoop.Run(source.Dependent, dest.Dependent, _oneComparisonRating, dependeciesAndWordsCount);
+                throw new Exception("Error comnparing two dependencies." + Environment.NewLine + Environment.NewLine + ex.Message);
             }
-
-            return _matchRating;
         }
 
         #endregion Methods

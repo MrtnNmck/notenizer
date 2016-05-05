@@ -8,6 +8,9 @@ using nsEnums;
 
 namespace nsNotenizerObjects
 {
+    /// <summary>
+    /// Persistable structure.
+    /// </summary>
     public class Structure : IPersistable
     {
         #region Variables
@@ -16,7 +19,6 @@ namespace nsNotenizerObjects
         private DateTime _updatedAt;
         private String _id;
         private NotenizerDependencies _dependencies;
-
 
         #endregion Variables
 
@@ -46,6 +48,9 @@ namespace nsNotenizerObjects
 
         #region Properties
 
+        /// <summary>
+        /// Created at timestamp.
+        /// </summary>
         public DateTime CreatedAt
         {
             get
@@ -59,19 +64,9 @@ namespace nsNotenizerObjects
             }
         }
 
-        public CreatedBy CreatedBy
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
-
+        /// <summary>
+        /// ID of document.
+        /// </summary>
         public String ID
         {
             get
@@ -85,6 +80,9 @@ namespace nsNotenizerObjects
             }
         }
 
+        /// <summary>
+        /// Updated at timestamp.
+        /// </summary>
         public DateTime UpdatedAt
         {
             get
@@ -98,6 +96,9 @@ namespace nsNotenizerObjects
             }
         }
 
+        /// <summary>
+        /// Dependencies of structure.
+        /// </summary>
         public NotenizerDependencies Dependencies
         {
             get

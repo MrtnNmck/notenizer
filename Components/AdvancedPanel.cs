@@ -10,6 +10,10 @@ using System.Windows.Forms;
 
 namespace nsComponents
 {
+    /// <summary>
+    /// Advnaced Label.
+    /// Allows change of border width and color.
+    /// </summary>
     public partial class AdvancedPanel : Panel
     {
         #region Variables
@@ -33,12 +37,18 @@ namespace nsComponents
 
         #region Properties
 
+        /// <summary>
+        /// Border's width.
+        /// </summary>
         public int BorderWidth
         {
             get { return _borderWidth; }
             set { _borderWidth = value; }
         }
 
+        /// <summary>
+        /// Border's color.
+        /// </summary>
         public Color BorderColor
         {
             get { return _borderColor; }
@@ -49,16 +59,28 @@ namespace nsComponents
 
         #region Event Handlers
 
-        private void On_Paint(object sender, PaintEventArgs e)
+        /// <summary>
+        /// Handles on paint event.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OnPaint(object sender, PaintEventArgs e)
         {
-            if (this.BorderStyle == BorderStyle.FixedSingle)
+            try
             {
-                int halfThickness = _borderWidth / 2;
-
-                using (Pen pen = new Pen(_borderColor, halfThickness))
+                if (this.BorderStyle == BorderStyle.FixedSingle)
                 {
-                    e.Graphics.DrawRectangle(pen, new Rectangle(halfThickness, halfThickness, this.ClientSize.Width - this._borderWidth, this.ClientSize.Height - this._borderWidth));
+                    int halfThickness = _borderWidth / 2;
+
+                    using (Pen pen = new Pen(_borderColor, halfThickness))
+                    {
+                        e.Graphics.DrawRectangle(pen, new Rectangle(halfThickness, halfThickness, this.ClientSize.Width - this._borderWidth, this.ClientSize.Height - this._borderWidth));
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Failed OnPaint event." + Environment.NewLine + Environment.NewLine + ex.Message);
             }
         }
 

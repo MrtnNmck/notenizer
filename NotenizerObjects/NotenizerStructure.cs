@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace nsNotenizerObjects
 {
+    /// <summary>
+    /// Structer of sentence and rule.
+    /// </summary>
     public class NotenizerStructure
     {
         #region Variables
@@ -44,23 +47,35 @@ namespace nsNotenizerObjects
 
         #region Properties
 
+        /// <summary>
+        /// Persistable structure.
+        /// </summary>
         public Structure Structure
         {
             get { return this._structure; }
             set { this._structure = value; }
         }
 
+        /// <summary>
+        /// Dependencies of strucutre.
+        /// </summary>
         public NotenizerDependencies Dependencies
         {
             get { return _dependencies; }
             set { this._dependencies = value; }
         }
 
+        /// <summary>
+        /// Number of distinct dependncies in structure.
+        /// </summary>
         public int DistinctDependenciesCount
         {
             get { return _compressedDependencies.Keys.Count; }
         }
 
+        /// <summary>
+        /// Compressed dependencies of structure.
+        /// </summary>
         public CompressedDependencies CompressedDependencies
         {
             get { return _compressedDependencies; }
@@ -97,6 +112,13 @@ namespace nsNotenizerObjects
             return null;
         }
 
+        /// <summary>
+        /// Get all dependencies by short name
+        /// </summary>
+        /// <param name="mainDependency">Dependency to compare with</param>
+        /// <param name="comparisonType">Comparison type</param>
+        /// <param name="dependencyShortNames">Short names</param>
+        /// <returns></returns>
         public List<NotenizerDependency> GetDependenciesByShortName(NotenizerDependency mainDependency, ComparisonType comparisonType, params String[] dependencyShortNames)
         {
             List<NotenizerDependency> dependencies = new List<NotenizerDependency>();
@@ -119,6 +141,13 @@ namespace nsNotenizerObjects
             return dependencies;
         }
 
+        /// <summary>
+        /// Compares two dependencies
+        /// </summary>
+        /// <param name="mainDependency">Main dependency</param>
+        /// <param name="secondaryDependency">Second dependency</param>
+        /// <param name="comparisonType">Comparison type</param>
+        /// <returns></returns>
         private bool CompareDependencies(NotenizerDependency mainDependency, NotenizerDependency secondaryDependency, ComparisonType comparisonType)
         {
             switch (comparisonType)
@@ -139,16 +168,17 @@ namespace nsNotenizerObjects
             throw new Exception("Error in CompareDependencies. Unidentified Comparison type.");
         }
 
+        /// <summary>
+        /// Finds depdendcy by rule's dependency.
+        /// </summary>
+        /// <param name="ruleDependency"></param>
+        /// <returns></returns>
         public NotenizerDependency FindDependency(NotenizerDependency ruleDependency)
         {
             if (_compressedDependencies.ContainsKey(ruleDependency.Relation.ShortName))
             {
                 foreach (NotenizerDependency dependencyLoop in _compressedDependencies[ruleDependency.Relation.ShortName])
                 {
-                    //if (dependencyLoop.Governor.POS.Tag == ruleDependency.Governor.POS.Tag
-                    //    && dependencyLoop.Governor.Index == ruleDependency.Governor.Index
-                    //    && dependencyLoop.Dependent.POS.Tag == ruleDependency.Dependent.POS.Tag
-                    //    && dependencyLoop.Dependent.Index == ruleDependency.Dependent.Index)
                     if (dependencyLoop.Governor.POS.Type == ruleDependency.Governor.POS.Type
                         && dependencyLoop.Dependent.POS.Type == ruleDependency.Dependent.POS.Type)
                         return dependencyLoop;
@@ -158,6 +188,11 @@ namespace nsNotenizerObjects
             return null;
         }
 
+        /// <summary>
+        /// Find depdendencies by rule's dependency.
+        /// </summary>
+        /// <param name="ruleDependency"></param>
+        /// <returns></returns>
         public IEnumerable<NotenizerDependency> FindDependencies(NotenizerDependency ruleDependency)
         {
             if (_compressedDependencies.ContainsKey(ruleDependency.Relation.ShortName))
@@ -171,6 +206,10 @@ namespace nsNotenizerObjects
             }
         }
 
+        /// <summary>
+        /// Number of words in sentence.
+        /// </summary>
+        /// <returns></returns>
         public int DependencyWordsInSentenceCount()
         {
             int dependentMax = _dependencies.Max(x => x.Dependent.Index);
@@ -179,6 +218,11 @@ namespace nsNotenizerObjects
             return dependentMax > governorMax ? dependentMax : governorMax;
         }
 
+        /// <summary>
+        /// Index of dependnecy.
+        /// </summary>
+        /// <param name="dependency"></param>
+        /// <returns></returns>
         public int DependencyIndex(NotenizerDependency dependency)
         {
             for (int i = 0; i < _dependencies.Count; i++)

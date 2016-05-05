@@ -5,6 +5,9 @@ using nsExtensions;
 
 namespace nsDB
 {
+    /// <summary>
+    /// Manages connections to database.
+    /// </summary>
     public static class ConnectionManager
     {
         #region Variables
@@ -16,6 +19,10 @@ namespace nsDB
         #endregion Variables
 
         #region Properties
+
+        /// <summary>
+        /// Mongo client.
+        /// </summary>
         public static IMongoClient Client
         {
             get
@@ -27,17 +34,30 @@ namespace nsDB
             }
         }
 
+        /// <summary>
+        /// Mongo database which is the Notenizer connected to.
+        /// </summary>
         public static IMongoDatabase Database
         {
             get
             {
-                if (_database == null)
-                    _database = Client.GetDatabase(DatabaseName.IsNullOrEmpty() ? DBConstants.DatabaseName : DatabaseName);
+                try
+                {
+                    if (_database == null)
+                        _database = Client.GetDatabase(DatabaseName.IsNullOrEmpty() ? DBConstants.DatabaseName : DatabaseName);
 
-                return _database;
+                    return _database;
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception("Failed getting database." + Environment.NewLine + Environment.NewLine + ex.Message);
+                }
             }
         }
 
+        /// <summary>
+        /// Name of database to connect to.
+        /// </summary>
         public static String DatabaseName
         {
             get { return _databaseName; }

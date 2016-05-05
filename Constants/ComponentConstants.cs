@@ -8,6 +8,9 @@ using System.Drawing;
 
 namespace nsConstants
 {
+    /// <summary>
+    /// Constants for components.
+    /// </summary>
     public class ComponentConstants
     {
         public const int ProgressBarEnabledSpeed = 20;

@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace nsCLI
 {
+    /// <summary>
+    /// Handles command line arguments.
+    /// </summary>
     class Options
     {
         [Option("gui", Required = false, HelpText = "Run application with GUI.", DefaultValue = false)]
@@ -25,6 +28,10 @@ namespace nsCLI
         [Option('d', "db", Required = false, HelpText = "Name of database to connect to.", DefaultValue = null)]
         public string DatabaseName { get; set; }
 
+        /// <summary>
+        /// Get's help command's text.
+        /// </summary>
+        /// <returns></returns>
         public string GetUsage()
         {
             return HelpText.AutoBuild(this, (HelpText current) => HelpText.DefaultParsingErrorsHandler(this, current));

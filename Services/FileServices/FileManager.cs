@@ -8,14 +8,19 @@ using System.Windows.Forms;
 
 namespace nsServices.FileServices
 {
+    /// <summary>
+    /// Managing files.
+    /// </summary>
     public static class FileManager
     {
-        #region Properties
-
-        #endregion Properties
 
         #region Methods
 
+        /// <summary>
+        /// Gets loction to save file to.
+        /// </summary>
+        /// <param name="filter"></param>
+        /// <returns></returns>
         public static String GetSaveFileLocation(String filter)
         {
             SaveFileDialog dialog = new SaveFileDialog();
@@ -29,6 +34,11 @@ namespace nsServices.FileServices
             return null;
         }
 
+        /// <summary>
+        /// Gets location to open file from.
+        /// </summary>
+        /// <param name="filter"></param>
+        /// <returns></returns>
         public static String GetOpenFileLocation(String filter)
         {
             OpenFileDialog dialog = new OpenFileDialog();
@@ -42,6 +52,11 @@ namespace nsServices.FileServices
             return null;
         }
 
+        /// <summary>
+        /// Saves text to file.
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <param name="values"></param>
         public static void SaveTextToFile(String filePath, IEnumerable<String> values)
         {
             File.WriteAllLines(filePath, values);
@@ -54,6 +69,11 @@ namespace nsServices.FileServices
                 System.Diagnostics.Process.Start(filePath);
         }
 
+        /// <summary>
+        /// Gets text from file.
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <returns></returns>
         public static String GetTextFromFile(String filePath)
         {
             return File.ReadAllText(filePath);

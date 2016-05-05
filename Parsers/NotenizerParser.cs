@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace nsParsers
 {
+    /// <summary>
+    /// Universal parser.
+    /// </summary>
     public class NotenizerParser
     {
         #region Variables
@@ -27,11 +30,21 @@ namespace nsParsers
 
         #region Methods
 
+        /// <summary>
+        /// Parses sentence.
+        /// </summary>
+        /// <param name="sentence"></param>
+        /// <returns></returns>
         public virtual NotenizerNote Parse(NotenizerSentence sentence)
         {
             return null;
         }
 
+        /// <summary>
+        /// Checks if sentence is parsable.
+        /// </summary>
+        /// <param name="sentence"></param>
+        /// <returns></returns>
         public virtual bool IsParsableSentence(NotenizerSentence sentence)
         {
             return false;

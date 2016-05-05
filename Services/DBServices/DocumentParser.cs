@@ -18,6 +18,11 @@ namespace nsServices.DBServices
 
         #region Methods
 
+        /// <summary>
+        /// Create structure from document.
+        /// </summary>
+        /// <param name="persistedStructure"></param>
+        /// <returns></returns>
         public static Structure ParseStructure(BsonDocument persistedStructure)
         {
             String id;
@@ -33,6 +38,11 @@ namespace nsServices.DBServices
             return new Structure(dependencies, id, createdAt, updatedAt);
         }
 
+        /// <summary>
+        /// Creates sentence from document.
+        /// </summary>
+        /// <param name="persistedSentnece"></param>
+        /// <returns></returns>
         public static Sentence ParseSentence(BsonDocument persistedSentnece)
         {
             String id;
@@ -58,6 +68,11 @@ namespace nsServices.DBServices
             return new Sentence(id, text, articleID, structureID, ruleID, andRuleID, noteID, createdAt, updatedAt);
         }
 
+        /// <summary>
+        /// Creates article from document.
+        /// </summary>
+        /// <param name="persistedArticle"></param>
+        /// <returns></returns>
         public static Article ParseArticle(BsonDocument persistedArticle)
         {
             String id;
@@ -73,6 +88,11 @@ namespace nsServices.DBServices
             return new Article(id, createdAt, updatedAt, text);
         }
 
+        /// <summary>
+        /// Creates note from document.
+        /// </summary>
+        /// <param name="persistedNote"></param>
+        /// <returns></returns>
         public static Note ParseNote(BsonDocument persistedNote)
         {
             String id;
@@ -92,6 +112,11 @@ namespace nsServices.DBServices
             return new Note(id, text, ruleID, andRuleID, createdAt, updatedAt);
         }
 
+        /// <summary>
+        /// Creates rule from document.
+        /// </summary>
+        /// <param name="persistedRule"></param>
+        /// <returns></returns>
         public static NotenizerNoteRule ParseRule(BsonDocument persistedRule)
         {
             String id;
@@ -109,6 +134,11 @@ namespace nsServices.DBServices
             return new NotenizerNoteRule(id, structureId, createdAt, updatedAt, sentencesTerminators);
         }
 
+        /// <summary>
+        /// Creates And-Rule from deocument.
+        /// </summary>
+        /// <param name="persistedAndRule"></param>
+        /// <returns></returns>
         public static NotenizerAndRule ParseAndRule(BsonDocument persistedAndRule)
         {
             String id;
@@ -128,6 +158,11 @@ namespace nsServices.DBServices
             return new NotenizerAndRule(id, structureId, createdAt, updatedAt, setsPosition, sentenceTerminator);
         }
 
+        /// <summary>
+        /// Gets sentence terminators from array.
+        /// </summary>
+        /// <param name="persistedSentencesTerminators"></param>
+        /// <returns></returns>
         public static SentencesTerminators ParseSentencesTerminators(BsonArray persistedSentencesTerminators)
         {
             SentencesTerminators sentencesTerminators = new SentencesTerminators();
@@ -138,37 +173,51 @@ namespace nsServices.DBServices
             return sentencesTerminators;
         }
 
+        /// <summary>
+        /// Create dependencies from deocument.
+        /// </summary>
+        /// <param name="dbEntry"></param>
+        /// <param name="noteFieldName"></param>
+        /// <returns></returns>
         private static NotenizerDependencies ParseDependencies(BsonDocument dbEntry, String noteFieldName)
         {
+            int position;
+            TokenType tokenType;
+            NotenizerWord governor;
+            NotenizerWord dependent;
+            BsonDocument governorDoc;
+            BsonDocument dependantDoc;
+            NotenizerRelation relation;
+            ComparisonType comparisonType;
+            NotenizerDependency dependency;
             NotenizerDependencies dependencies = new NotenizerDependencies();
-
             // foreach note dependency
             foreach (BsonDocument documentLoop in dbEntry[noteFieldName].AsBsonArray)
             {
-                NotenizerRelation relation = new NotenizerRelation(documentLoop[DBConstants.RelationNameFieldName].AsString);
+                relation = new NotenizerRelation(documentLoop[DBConstants.RelationNameFieldName].AsString);
 
                 // foreach dependency in array of dependencies with same relation name
                 foreach (BsonDocument dependencyDocLoop in documentLoop[DBConstants.DependenciesFieldName].AsBsonArray)
                 {
-                    BsonDocument governorDoc = dependencyDocLoop[DBConstants.GovernorFieldName].AsBsonDocument;
-                    BsonDocument dependantDoc = dependencyDocLoop[DBConstants.DependentFieldName].AsBsonDocument;
-                    int position = dependencyDocLoop[DBConstants.PositionFieldName].AsInt32;
-                    ComparisonType comparisonType = dependencyDocLoop.GetValue(DBConstants.ComparisonTypeFieldName, ComparisonType.Unidentified).AsInt32.ToEnum<ComparisonType>();
-                    TokenType tokenType = dependencyDocLoop.GetValue(DBConstants.TokenTypeFieldName, TokenType.Unidentified).AsInt32.ToEnum<TokenType>();
+                    governorDoc = dependencyDocLoop[DBConstants.GovernorFieldName].AsBsonDocument;
+                    dependantDoc = dependencyDocLoop[DBConstants.DependentFieldName].AsBsonDocument;
+                    position = dependencyDocLoop[DBConstants.PositionFieldName].AsInt32;
+                    comparisonType = dependencyDocLoop.GetValue(DBConstants.ComparisonTypeFieldName, ComparisonType.Unidentified).AsInt32.ToEnum<ComparisonType>();
+                    tokenType = dependencyDocLoop.GetValue(DBConstants.TokenTypeFieldName, TokenType.Unidentified).AsInt32.ToEnum<TokenType>();
 
-                    NotenizerWord governor = new NotenizerWord(
+                    governor = new NotenizerWord(
                         governorDoc[DBConstants.POSFieldName].AsString, 
                         governorDoc[DBConstants.IndexFieldName].AsInt32,
                         governorDoc[DBConstants.LemmaFieldName].AsString,
                         governorDoc[DBConstants.NERFieldName].AsString);
 
-                    NotenizerWord dependent = new NotenizerWord(
+                    dependent = new NotenizerWord(
                         dependantDoc[DBConstants.POSFieldName].AsString, 
                         dependantDoc[DBConstants.IndexFieldName].AsInt32,
                         dependantDoc[DBConstants.LemmaFieldName].AsString,
                         dependantDoc[DBConstants.NERFieldName].AsString);
 
-                    NotenizerDependency dependency = new NotenizerDependency(governor, dependent, relation, position, comparisonType, tokenType);
+                    dependency = new NotenizerDependency(governor, dependent, relation, position, comparisonType, tokenType);
 
                     dependencies.Add(dependency);
                 }
@@ -177,6 +226,13 @@ namespace nsServices.DBServices
             return dependencies;
         }
 
+        /// <summary>
+        /// Gets structure of heighest match.
+        /// </summary>
+        /// <param name="structure"></param>
+        /// <param name="persistedStructures"></param>
+        /// <param name="m"></param>
+        /// <returns></returns>
         public static Structure GetHeighestMatch(NotenizerStructure structure, List<BsonDocument> persistedStructures, out Match m)
         {
             Structure struc = null;

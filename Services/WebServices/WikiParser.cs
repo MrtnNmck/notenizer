@@ -10,6 +10,9 @@ using System.Threading.Tasks;
 
 namespace nsServices.WebServices
 {
+    /// <summary>
+    /// Parser for wikipadia's articles.
+    /// </summary>
     public static class WikiParser
     {
         #region Properties
@@ -18,11 +21,21 @@ namespace nsServices.WebServices
 
         #region Methods
 
+        /// <summary>
+        /// Parses country from wikipedia.
+        /// </summary>
+        /// <param name="countryName"></param>
+        /// <returns></returns>
         public static String ParseCountry(String countryName)
         {
             return WikiParser.Parse(WikiParser.CreateUrl(countryName).ToString());
         }
 
+        /// <summary>
+        /// Parser article from URL.
+        /// </summary>
+        /// <param name="url">URL</param>
+        /// <returns></returns>
         public static String Parse(String url)
         {
             String source;
@@ -58,6 +71,11 @@ namespace nsServices.WebServices
             return String.Join(NotenizerConstants.WordDelimeter, sentences);
         }
 
+        /// <summary>
+        /// Creates URL from country.
+        /// </summary>
+        /// <param name="countryName"></param>
+        /// <returns></returns>
         private static Uri CreateUrl(String countryName)
         {
             return new Uri(new Uri(NotenizerConstants.SimpleWikiUrl), countryName.Replace(" ", "_"));

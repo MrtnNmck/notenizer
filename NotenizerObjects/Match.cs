@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace nsNotenizerObjects
 {
+    /// <summary>
+    /// Match of structures.
+    /// </summary>
     public class Match
     {
         #region Variables
@@ -34,18 +37,27 @@ namespace nsNotenizerObjects
 
         #region Properties
 
+        /// <summary>
+        /// Structure part of match.
+        /// </summary>
         public double Structure
         {
             get { return Math.Round(_structure); }
             set { _structure = value; }
         }
 
+        /// <summary>
+        /// Content part of match.
+        /// </summary>
         public double Content
         {
             get { return Math.Round(_content); }
             set { _content = value; }
         }
 
+        /// <summary>
+        /// Value part of match.
+        /// </summary>
         public double Value
         {
             get { return Math.Round(_value); }

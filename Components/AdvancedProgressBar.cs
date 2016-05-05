@@ -11,6 +11,9 @@ using System.Windows.Forms;
 
 namespace nsComponents
 {
+    /// <summary>
+    /// Advanced progress bar of marquee style.
+    /// </summary>
     public partial class AdvancedProgressBar : ProgressBar
     {
         #region Variables
@@ -44,21 +47,33 @@ namespace nsComponents
 
         #region Methods
 
+        /// <summary>
+        /// Starts infinite marquee progress bar.
+        /// </summary>
         public void Start()
         {
             this.PerformSafely(() => base.MarqueeAnimationSpeed = ComponentConstants.ProgressBarEnabledSpeed);
         }
 
+        /// <summary>
+        /// Stops progress bar.
+        /// </summary>
         public void Stop()
         {
             this.PerformSafely(() => base.MarqueeAnimationSpeed = ComponentConstants.ProgressBarDisabledSpeed);
         }
 
+        /// <summary>
+        /// Reset's progress bar.
+        /// </summary>
         public void Reset()
         {
             this.PerformSafely(() => base.Refresh());
         }
 
+        /// <summary>
+        /// Stops and resets progress bar.
+        /// </summary>
         public void StopAndReset()
         {
             this.Stop();

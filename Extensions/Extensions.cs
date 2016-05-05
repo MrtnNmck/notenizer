@@ -12,10 +12,19 @@ using System.Windows.Forms;
 
 namespace nsExtensions
 {
+    /// <summary>
+    /// Extension methods on C# objects.
+    /// </summary>
     public static class Extensions
     {
         #region Methods
 
+        /// <summary>
+        /// COnverts Java's ArrayList to C# List.
+        /// </summary>
+        /// <typeparam name="T">Type of items in list</typeparam>
+        /// <param name="javaArrayList">Java's ArrayList to convert</param>
+        /// <returns></returns>
         public static List<T> ToList<T>(this java.util.ArrayList javaArrayList)
 		{
 			List<T> list = new List<T>();
@@ -31,6 +40,12 @@ namespace nsExtensions
 			return list;
 		}
 
+        /// <summary>
+        /// Preppends text to string.
+        /// </summary>
+        /// <param name="source">Source string</param>
+        /// <param name="preppendingText">String to preppend</param>
+        /// <returns>Newly created string</returns>
 		public static String Preppend(this String source, String preppendingText)
 		{
             if (source.IsNullOrEmpty())
@@ -39,21 +54,45 @@ namespace nsExtensions
 			return source.Preppend(preppendingText, true);
 		}
 
+        /// <summary>
+        /// Preppends text to string.
+        /// </summary>
+        /// <param name="source">Source string</param>
+        /// <param name="preppendingText">String to preppend</param>
+        /// <param name="bSeparate">Flag indicating if strings should be separated</param>
+        /// <returns>Newly created string</returns>
 		public static String Preppend(this String source, String preppendingText, bool bSeparate)
 		{
 			return source.Preppend(preppendingText, bSeparate ? NotenizerConstants.WordDelimeter : String.Empty);
 		}
 
+        /// <summary>
+        /// Preppends text to string.
+        /// </summary>
+        /// <param name="source">Source string</param>
+        /// <param name="preppendingText">String to preppend</param>
+        /// <param name="separator">Separator to separate strings</param>
+        /// <returns>Newly created string</returns>
 		public static String Preppend(this String source, String preppendingText, String separator)
 		{
 			return source = preppendingText + separator + source;
 		}
 
+        /// <summary>
+        /// Checks if string is null or empty.
+        /// </summary>
+        /// <param name="source">String to check</param>
+        /// <returns></returns>
         public static bool IsNullOrEmpty(this String source)
         {
             return String.IsNullOrEmpty(source);
         }
 
+        /// <summary>
+        /// Cpaitalizes sentence. Changed first letter to capital.
+        /// </summary>
+        /// <param name="sentence">Sentence to capitalize</param>
+        /// <returns></returns>
         public static String CapitalizeSentence(this String sentence)
         {
             if (sentence == String.Empty)
@@ -62,6 +101,12 @@ namespace nsExtensions
             return sentence.First().ToString().ToUpper() + sentence.Substring(1);
         }
 
+        /// <summary>
+        /// Terminates sentence. Adds sentence terminator to the end.
+        /// </summary>
+        /// <param name="sentence"></param>
+        /// <param name="terminator"></param>
+        /// <returns></returns>
         public static String TerminateSentence(this String sentence, String terminator)
         {
             if (sentence.EndsWith(terminator))
@@ -70,6 +115,11 @@ namespace nsExtensions
             return sentence + terminator;
         }
 
+        /// <summary>
+        /// Converts object to integer.
+        /// </summary>
+        /// <param name="source"></param>
+        /// <returns></returns>
         public static int ToInt(this Object source)
         {
             int i;
@@ -80,6 +130,12 @@ namespace nsExtensions
                 throw new Exception(source.ToString() + " is not an integer.");
         }
 
+        /// <summary>
+        /// Converts int to enum.
+        /// </summary>
+        /// <typeparam name="T">Enum type</typeparam>
+        /// <param name="value">Integer value of enum</param>
+        /// <returns></returns>
         public static T ToEnum<T>(this int value) where T : struct, IConvertible, IComparable, IFormattable
         {
             if (Enum.IsDefined(typeof(T), value))
@@ -90,6 +146,11 @@ namespace nsExtensions
                 throw new Exception(value + " is not a value in enum!");
         }
 
+        /// <summary>
+        /// Sets tooltip to control.
+        /// </summary>
+        /// <param name="c">Control to set tooltip to</param>
+        /// <param name="toolTipText">Tooltip text</param>
         public static void SetToolTip(this Control c, String toolTipText)
         {
             ToolTip tooltip = new ToolTip();
@@ -99,6 +160,12 @@ namespace nsExtensions
             tooltip.SetToolTip(c, toolTipText);
         }
 
+
+        /// <summary>
+        /// Normalizes whitespaces in string.
+        /// </summary>
+        /// <param name="source"></param>
+        /// <returns></returns>
         public static string NormalizeWhiteSpaces(this String source)
         {
             StringBuilder sb = new StringBuilder();

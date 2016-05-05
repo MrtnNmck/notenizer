@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace nsNotenizerObjects
 {
+    /// <summary>
+    /// Word of sentence.
+    /// </summary>
 	public class NotenizerWord
 	{
         #region Variables
@@ -67,36 +70,57 @@ namespace nsNotenizerObjects
 
         #region Properties
 
+        /// <summary>
+        /// Value of word.
+        /// </summary>
         public String Word
         {
             get { return _wordString; }
         }
 
+        /// <summary>
+        /// Starting posisiton of word.
+        /// </summary>
         public int StartingPosition
         {
             get { return _startingPosition; }
         }
 
+        /// <summary>
+        /// End position of word.
+        /// </summary>
         public int EndPosition
         {
             get { return _endPosition; }
         }
 
+        /// <summary>
+        /// Lemma of word.
+        /// </summary>
         public String Lemma
         {
             get { return _lemma; }
         }
 
+        /// <summary>
+        /// Word's named entity.
+        /// </summary>
         public NamedEntity NamedEntity
         {
             get { return _namedEntity; }
         }
 
+        /// <summary>
+        /// Part-of-Speech tag of word.
+        /// </summary>
         public PartOfSpeech POS
         {
             get { return _pos; }
         }
 
+        /// <summary>
+        /// Word's index.
+        /// </summary>
         public int Index
         {
             get { return _index; }
@@ -111,16 +135,33 @@ namespace nsNotenizerObjects
             return _wordString;
         }
 
+        /// <summary>
+        /// Operator to compare two words.
+        /// </summary>
+        /// <param name="w1"></param>
+        /// <param name="w2"></param>
+        /// <returns></returns>
         public static bool operator ==(NotenizerWord w1, NotenizerWord w2)
         {
             return (w1.GetUniqueIdentifier() == w2.GetUniqueIdentifier());
         }
 
+        /// <summary>
+        /// Operator to compare two words.
+        /// </summary>
+        /// <param name="w1"></param>
+        /// <param name="w2"></param>
+        /// <returns></returns>
         public static bool operator !=(NotenizerWord w1, NotenizerWord w2)
         {
             return !(w1 == w2);
         }
 
+        /// <summary>
+        /// Checks words is equal with another word.
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
         public override Boolean Equals(Object obj)
         {
             if (!(obj is NotenizerWord))
@@ -129,11 +170,19 @@ namespace nsNotenizerObjects
             return (this.GetUniqueIdentifier() == (obj as NotenizerWord).GetUniqueIdentifier());
         }
 
+        /// <summary>
+        /// Gets hash code of object.
+        /// </summary>
+        /// <returns></returns>
         public override Int32 GetHashCode()
         {
             return base.GetHashCode();
         }
 
+        /// <summary>
+        /// Gets unique identifier.
+        /// </summary>
+        /// <returns></returns>
         private String GetUniqueIdentifier()
         {
             return _wordString

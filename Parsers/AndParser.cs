@@ -9,6 +9,9 @@ using System.Threading.Tasks;
 
 namespace nsParsers
 {
+    /// <summary>
+    /// And-Parser.
+    /// </summary>
     public class AndParser : NotenizerParser
     {
         #region Variables
@@ -137,6 +140,14 @@ namespace nsParsers
             return CreateAndSet(sentence, setDependency, ComparisonType.DependentToGovernor, TokenType.Dependent);
         }
 
+        /// <summary>
+        /// Creates and set.
+        /// </summary>
+        /// <param name="sentence"></param>
+        /// <param name="setDependency"></param>
+        /// <param name="comparisonType"></param>
+        /// <param name="tokenType"></param>
+        /// <returns></returns>
         private NoteParticle CreateAndSet(NotenizerSentence sentence, NotenizerDependency setDependency, ComparisonType comparisonType, TokenType tokenType)
         {
             NotePart notePart = new NotePart(sentence);

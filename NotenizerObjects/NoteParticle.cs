@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace nsNotenizerObjects
 {
+    /// <summary>
+    /// Part of note part.
+    /// </summary>
     public class NoteParticle
     {
         #region Variables
@@ -75,16 +78,25 @@ namespace nsNotenizerObjects
 
         #region Properties
 
+        /// <summary>
+        /// Corresponding word.
+        /// </summary>
         public NotenizerWord NoteWord
         {
             get { return _noteWord; }
         }
 
+        /// <summary>
+        /// Corresponding dependency.
+        /// </summary>
         public NotenizerDependency NoteDependency
         {
             get { return _noteDependency; }
         }
 
+        /// <summary>
+        /// String represetntation of corresponding word.
+        /// </summary>
         public String NoteWordValue
         {
             get { return _noteWordValue; }
@@ -94,6 +106,12 @@ namespace nsNotenizerObjects
 
         #region Methods
 
+        /// <summary>
+        /// Create word with considering special relations.
+        /// </summary>
+        /// <param name="noteWord"></param>
+        /// <param name="relation"></param>
+        /// <returns></returns>
         private String MakeWordConsiderRelation(NotenizerWord noteWord, NotenizerRelation relation)
         {
             String word = String.Empty;

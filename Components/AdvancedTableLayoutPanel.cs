@@ -12,6 +12,10 @@ using System.Windows.Forms;
 
 namespace nsComponents
 {
+    /// <summary>
+    /// Advanced TableLayoutPanel.
+    /// Handles Mousable events.
+    /// </summary>
     public partial class AdvancedTableLayoutPanel : TableLayoutPanel, IMousable
     {
         #region Variables
@@ -33,6 +37,10 @@ namespace nsComponents
 
         #region Event Handlers
 
+        /// <summary>
+        /// Event handler for mouse wheel event.
+        /// </summary>
+        /// <param name="e"></param>
         public void DoMouseWheel(EventArgs e)
         {
             base.OnMouseWheel((MouseEventArgs)e);
@@ -42,15 +50,25 @@ namespace nsComponents
 
         #region Methods
 
+        /// <summary>
+        /// Resizes control to its original size.
+        /// </summary>
         public void ResizeToOriginal()
         {
-            this.RowStyles.Clear();
-            this.RowCount = 1;
-            this.RowStyles.Add(new RowStyle(SizeType.Absolute, ComponentConstants.TableLayoutMainRowSize));
-            this.AutoScroll = false;
-            this.ResumeLayout(true);
-            this.AutoScroll = true;
-            this.ResumeLayout(true);
+            try
+            {
+                this.RowStyles.Clear();
+                this.RowCount = 1;
+                this.RowStyles.Add(new RowStyle(SizeType.Absolute, ComponentConstants.TableLayoutMainRowSize));
+                this.AutoScroll = false;
+                this.ResumeLayout(true);
+                this.AutoScroll = true;
+                this.ResumeLayout(true);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error resing table layout to original size" + Environment.NewLine + Environment.NewLine + ex.Message);
+            }
         }
 
         #endregion Methods

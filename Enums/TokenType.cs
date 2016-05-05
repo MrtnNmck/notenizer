@@ -6,11 +6,13 @@ using System.Threading.Tasks;
 
 namespace nsEnums
 {
+    /// <summary>
+    /// Type of token.
+    /// </summary>
     public enum TokenType
     {
         Governor,
         Dependent,
-        NotenizerSpecial,
         Unidentified
     }
 }

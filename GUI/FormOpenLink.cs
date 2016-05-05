@@ -10,6 +10,9 @@ using System.Windows.Forms;
 
 namespace nsGUI
 {
+    /// <summary>
+    /// Window to get text from URL or wikipedia.
+    /// </summary>
     public partial class FormOpenLink : Form
     {
         #region Variables
@@ -31,11 +34,17 @@ namespace nsGUI
 
         #region Properties
 
+        /// <summary>
+        /// Url of wikipedia page.
+        /// </summary>
         public String Url
         {
             get { return this._url; }
         }
 
+        /// <summary>
+        /// Country name on wikipedia.
+        /// </summary>
         public String Country
         {
             get { return this._country; }
@@ -45,6 +54,11 @@ namespace nsGUI
 
         #region Event Handlers
 
+        /// <summary>
+        /// Url chacked changed event handler.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void RadioButtonUrl_CheckedChanged(Object sender, EventArgs e)
         {
             if (this.radioButtonUrl.Checked)
@@ -53,11 +67,21 @@ namespace nsGUI
                 this.labelUrl.Text = "Country";
         }
 
+        /// <summary>
+        /// Country checked changed event handler.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void radioButtonCountry_CheckedChanged(Object sender, EventArgs e)
         {
 
         }
 
+        /// <summary>
+        /// Confirm button click event handler.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ButtonConfirm_Click(Object sender, EventArgs e)
         {
             if (this.radioButtonUrl.Checked)
@@ -68,6 +92,11 @@ namespace nsGUI
             this.DialogResult = DialogResult.OK;
         }
 
+        /// <summary>
+        /// Cancel button click event handler.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ButtonCancel_Click(Object sender, EventArgs e)
         {
             this.DialogResult = DialogResult.Cancel;

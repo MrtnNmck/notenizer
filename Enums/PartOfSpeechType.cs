@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace nsEnums
 {
+    /// <summary>
+    /// Types of part of speech tags.
+    /// </summary>
     public enum PartOfSpeechType
     {
         CoordinatingConujction,

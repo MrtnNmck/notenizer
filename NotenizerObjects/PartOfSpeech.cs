@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace nsNotenizerObjects
 {
+    /// <summary>
+    /// Part-of-Speech
+    /// </summary>
     public class PartOfSpeech
     {
         #region Variables
@@ -28,11 +31,17 @@ namespace nsNotenizerObjects
 
         #region Properties
 
+        /// <summary>
+        /// Part-of-Speech tag.
+        /// </summary>
         public String Tag
         {
             get { return _tag; }
         }
 
+        /// <summary>
+        /// Part-of-Speech type.
+        /// </summary>
         public PartOfSpeechType Type
         {
             get { return _posType; }
@@ -42,6 +51,11 @@ namespace nsNotenizerObjects
 
         #region Methods
 
+        /// <summary>
+        /// Gets Part-of-Speech type from Part-of-Speech tag.
+        /// </summary>
+        /// <param name="posTag"></param>
+        /// <returns></returns>
         public static PartOfSpeechType GetTypeFromTag(String posTag)
         {
             switch (posTag)
@@ -109,13 +123,5 @@ namespace nsNotenizerObjects
         }
 
         #endregion Methods
-
-
-
-
-
-
-
-
     }
 }

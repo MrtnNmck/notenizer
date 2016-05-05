@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace nsInterfaces
 {
+    /// <summary>
+    /// Interface for objects, which are persistable into database.
+    /// </summary>
     public interface IPersistable
     {
         String ID { get; }

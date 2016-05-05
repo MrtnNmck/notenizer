@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace nsServices.WebServices
 {
+    /// <summary>
+    /// Parser for web pages.
+    /// </summary>
     public static class WebParser
     {
         #region Properties
@@ -15,11 +18,21 @@ namespace nsServices.WebServices
 
         #region Methods
 
+        /// <summary>
+        /// Checks if URL exists.
+        /// </summary>
+        /// <param name="uri"></param>
+        /// <returns></returns>
         public static bool UrlExists(Uri uri)
         {
             return WebParser.UrlExists(uri.ToString());
         }
 
+        /// <summary>
+        /// Checks if URL exists.
+        /// </summary>
+        /// <param name="url"></param>
+        /// <returns></returns>
         public static bool UrlExists(String url)
         {
             HttpWebRequest request;

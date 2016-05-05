@@ -29,6 +29,11 @@ namespace nsParsers
 
         #region Methods
 
+        /// <summary>
+        /// Parses sentence.
+        /// </summary>
+        /// <param name="sentence"></param>
+        /// <returns></returns>
         public override NotenizerNote Parse(NotenizerSentence sentence)
         {
             NotenizerNote note = new NotenizerNote(sentence);

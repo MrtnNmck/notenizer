@@ -7,6 +7,9 @@ using System.Linq;
 
 namespace nsNotenizerObjects
 {
+    /// <summary>
+    /// Notenizer note.
+    /// </summary>
     public class NotenizerNote
     {
         #region Variables
@@ -56,12 +59,18 @@ namespace nsNotenizerObjects
             get { return _text.Trim(); }
         }
 
+        /// <summary>
+        /// Created at timestamp.
+        /// </summary>
         public DateTime CreatedAt
         {
             set { _createdAt = value; }
             get { return _createdAt; }
         }
 
+        /// <summary>
+        /// Updated at timestamp.
+        /// </summary>
         public DateTime UpdatedAt
         {
             set { _updatedAt = value; }
@@ -76,6 +85,9 @@ namespace nsNotenizerObjects
             get { return _noteParts; }
         }
 
+        /// <summary>
+        /// Dependencies of note.
+        /// </summary>
         public NotenizerDependencies NoteDependencies
         {
             get
@@ -94,6 +106,9 @@ namespace nsNotenizerObjects
             }
         }
 
+        /// <summary>
+        /// Unused dependencies from original sentence.
+        /// </summary>
         public NotenizerDependencies UnusedDependencies
         {
             get
@@ -102,23 +117,35 @@ namespace nsNotenizerObjects
             }
         }
 
+        /// <summary>
+        /// Rule of note.
+        /// </summary>
         public NotenizerNoteRule Rule
         {
             get { return _rule; }
             set { _rule = value; }
         }
 
+        /// <summary>
+        /// And-rule of note.
+        /// </summary>
         public NotenizerAndRule AndRule
         {
             get { return _andParserRule; }
             set { _andParserRule = value; }
         }
 
+        /// <summary>
+        /// List of sentence terminators.
+        /// </summary>
         public SentencesTerminators SentencesTerminators
         {
             get { return new SentencesTerminators(this._noteParts); }
         }
 
+        /// <summary>
+        /// Dependencies of note.
+        /// </summary>
         public NotenizerDependencies Dependencies
         {
             get
@@ -140,12 +167,18 @@ namespace nsNotenizerObjects
             }
         }
 
+        /// <summary>
+        /// Structure of note.
+        /// </summary>
         public NotenizerStructure Structure
         {
             get { return this._structure; }
             set { this._structure = value; }
         }
 
+        /// <summary>
+        /// Persistable note.
+        /// </summary>
         public Note Note
         {
             get { return this._note; }
@@ -156,6 +189,10 @@ namespace nsNotenizerObjects
 
         #region Methods
 
+        /// <summary>
+        /// Replaces note parts with other note parts.
+        /// </summary>
+        /// <param name="noteParts"></param>
         public void Replace(List<NotePart> noteParts)
         {
             _text = String.Empty;
@@ -229,6 +266,10 @@ namespace nsNotenizerObjects
             Add(parts);
         }
 
+        /// <summary>
+        /// Splits note into sentences.
+        /// </summary>
+        /// <param name="sentenceEnd"></param>
         public void SplitToSentences(int sentenceEnd)
         {
             List<NotePart> parts = new List<NotePart>();
@@ -247,6 +288,10 @@ namespace nsNotenizerObjects
             Add(parts);
         }
 
+        /// <summary>
+        /// Creates rule for note.
+        /// </summary>
+        /// <returns></returns>
         public NotenizerNoteRule CreateRule()
         {
             this._rule = new NotenizerNoteRule();
@@ -256,6 +301,10 @@ namespace nsNotenizerObjects
             return this._rule;
         }
 
+        /// <summary>
+        /// Create structure of note.
+        /// </summary>
+        /// <returns></returns>
         public NotenizerStructure CreateStructure()
         {
             this._structure = new NotenizerStructure(this.Dependencies);
@@ -264,6 +313,10 @@ namespace nsNotenizerObjects
             return this._structure;
         }
 
+        /// <summary>
+        /// Create persistable note from note.
+        /// </summary>
+        /// <returns></returns>
         public Note CreateNote()
         {
             this._note = new Note(this._text);

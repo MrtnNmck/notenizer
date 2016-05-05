@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace nsConstants
 {
+    /// <summary>
+    /// Constants to handle the work with database.
+    /// </summary>
     public class DBConstants
     {
         public const String DatabaseName = "notenizer";

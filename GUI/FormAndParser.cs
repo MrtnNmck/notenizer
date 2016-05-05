@@ -14,6 +14,10 @@ using System.Windows.Forms;
 
 namespace nsGUI
 {
+    /// <summary>
+    /// DEPRECTED.
+    /// Form for And-Parser.
+    /// </summary>
     public partial class FormAndParser : Form
     {
         #region Variables
@@ -43,11 +47,17 @@ namespace nsGUI
 
         #region Properties
 
+        /// <summary>
+        /// Position of set.
+        /// </summary>
         public int AndSetsPosition
         {
             get { return _andSetsPosition; }
         }
 
+        /// <summary>
+        /// Note part of and-note.
+        /// </summary>
         public NotePart ActiveNotePart
         {
             get { return _activeNotePart; }
@@ -56,8 +66,16 @@ namespace nsGUI
         #endregion Properties
 
         #region Event Handlers
+
+        /// <summary>
+        /// Apply button click event handler.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ApplyButton_Click(object sender, EventArgs e)
         {
+            NotenizerDependency dep;
+            NoteParticle noteParticle;
             int depCounter = 0;
             _activeNotePart = new NotePart(_note.OriginalSentence);
 
@@ -71,10 +89,10 @@ namespace nsGUI
                     continue;
                 }
 
-                NotenizerDependency dep = label.Dependency;
+                dep = label.Dependency;
                 dep.Position = depCounter;
 
-                NoteParticle noteParticle = new NoteParticle(dep);
+                noteParticle = new NoteParticle(dep);
                 _activeNotePart.Add(noteParticle);
 
                 depCounter++;
@@ -83,6 +101,11 @@ namespace nsGUI
             this.DialogResult = DialogResult.OK;
         }
 
+        /// <summary>
+        /// Cancel button event handler click.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void CancelButton_Click(object sender, EventArgs e)
         {
             this.DialogResult = DialogResult.Cancel;
@@ -92,6 +115,9 @@ namespace nsGUI
 
         #region Methods
 
+        /// <summary>
+        /// Initializes Form for And-Parser
+        /// </summary>
         private void Init()
         {
             this.Icon = Properties.Resources.AppIcon;

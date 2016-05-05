@@ -8,6 +8,9 @@ using nsConstants;
 
 namespace nsNotenizerObjects
 {
+    /// <summary>
+    /// Relation in dependecy between tokens.
+    /// </summary>
 	public class NotenizerRelation
 	{
         #region Variables
@@ -36,21 +39,33 @@ namespace nsNotenizerObjects
 
         #region Properties
 
+        /// <summary>
+        /// Long name of relation.
+        /// </summary>
         public String LongName
         {
             get { return _longName; }
         }
 
+        /// <summary>
+        /// Short name of relation.
+        /// </summary>
         public String ShortName
         {
             get { return _shortName; }
         }
 
+        /// <summary>
+        /// Specific of relation.
+        /// </summary>
         public String Specific
         {
             get { return _specific; }
         }
 
+        /// <summary>
+        /// Adjusted specific.
+        /// </summary>
         public String AdjustedSpecific
         {
             get
@@ -81,6 +96,10 @@ namespace nsNotenizerObjects
             return _shortName;
         }
 
+        /// <summary>
+        /// Checks if realtion is nominal subject relation.
+        /// </summary>
+        /// <returns></returns>
         public bool IsNominalSubject()
         {
             return IsRelation(GrammaticalConstants.NominalSubject) || IsRelation(GrammaticalConstants.NominalSubjectPassive);

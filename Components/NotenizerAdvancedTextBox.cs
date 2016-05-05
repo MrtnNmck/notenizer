@@ -13,6 +13,9 @@ using System.Windows.Forms;
 
 namespace nsComponents
 {
+    /// <summary>
+    /// AdvancedTextBox with Notenizer data.
+    /// </summary>
     public partial class NotenizerAdvancedTextBox : TableLayoutPanel, INotenizerComponent
     {
         #region Variables
@@ -56,21 +59,33 @@ namespace nsComponents
 
         #region Properties
 
+        /// <summary>
+        /// TextBox.
+        /// </summary>
         public AdvancedTextBox AdvancedTextBox
         {
             get { return this._advancedTextBox; }
         }
 
+        /// <summary>
+        /// Edit button.
+        /// </summary>
         public Button EditButton
         {
             get { return this._editButton; }
         }
 
+        /// <summary>
+        /// Nonizer note.
+        /// </summary>
         public NotenizerNote Note
         {
             get { return this._note; }
         }
 
+        /// <summary>
+        /// Flag if component is deletable.
+        /// </summary>
         public Boolean IsDeletable
         {
             get
@@ -88,12 +103,21 @@ namespace nsComponents
 
         #region Event Handlers
 
+        /// <summary>
+        /// Fires edit button clicked event.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void EditButton_Click(object sender, EventArgs e)
         {
             if (EditButtonClicked != null)
                 EditButtonClicked(this, e);
         }
 
+        /// <summary>
+        /// Fires do mouse wheel event.
+        /// </summary>
+        /// <param name="e"></param>
         protected override void OnMouseWheel(MouseEventArgs e)
         {
             base.OnMouseWheel(e);
@@ -106,6 +130,9 @@ namespace nsComponents
 
         #region Methods
 
+        /// <summary>
+        /// Initializes NotenizerAdvancedTextBox.
+        /// </summary>
         public void Init()
         {
             InitializeComponent();
@@ -128,19 +155,38 @@ namespace nsComponents
             this.Padding = new Padding(0);
         }
 
+        /// <summary>
+        /// Adds new row with control into table layout.
+        /// </summary>
+        /// <param name="control"></param>
+        /// <param name="sizeType"></param>
+        /// <param name="size"></param>
         private void AddRowWithComponent(Control control, SizeType sizeType, float size)
         {
-            this.RowCount += 1;
-            this.RowStyles.Add(new RowStyle(sizeType, size));
-            this.Controls.Add(control, 0, this.RowCount - 1);
+            try
+            {
+                this.RowCount += 1;
+                this.RowStyles.Add(new RowStyle(sizeType, size));
+                this.Controls.Add(control, 0, this.RowCount - 1);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error adding component to row in table layout." + Environment.NewLine + Environment.NewLine + ex.Message);
+            }
         }
 
+        /// <summary>
+        /// Initilizes Edit button.
+        /// </summary>
         private void InitEditButton()
         {
             this._editButton.Text = "Edit";
             this._editButton.Click += EditButton_Click;
         }
 
+        /// <summary>
+        /// Initializes child controls.
+        /// </summary>
         private void InitControls()
         {
             this._advancedTextBox = new AdvancedTextBox();

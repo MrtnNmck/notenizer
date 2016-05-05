@@ -20,6 +20,9 @@ using nsServices.FileServices;
 
 namespace nsGUI
 {
+    /// <summary>
+    /// Main window of application.
+    /// </summary>
     public partial class FormMain : Form
     {
         #region Variables
@@ -52,22 +55,42 @@ namespace nsGUI
 
         #region Event Handlers
 
+        /// <summary>
+        /// Menu quit item click event handler.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Menu_Quit(object sender, EventArgs e)
         {
             if (MessageBox.Show("Do you really want to quit?", "Quit confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 this.Dispose();
         }
 
+        /// <summary>
+        /// Menu open item click event handler.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Menu_Open(object sender, EventArgs e)
         {
             ProcessText(new FormTextInputer());
         }
 
+        /// <summary>
+        /// Menu clear item event handler.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Menu_Clear(object sender, EventArgs e)
         {
             Clear();
         }
 
+        /// <summary>
+        /// Menu export item click event handler.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Menu_Export(Object sender, EventArgs e)
         {
             String fileToSavePath = FileManager.GetSaveFileLocation("txt files (*.txt)|*.txt");
@@ -78,6 +101,11 @@ namespace nsGUI
             FileManager.SaveTextToFile(fileToSavePath, this._noteTextBoxes.Select(x => x.AdvancedTextBox.TextBox.Text));
         }
 
+        /// <summary>
+        /// Menu open file item click event handler.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Menu_OpenFile(Object sender, EventArgs e)
         {
             String fileToOpenPath = FileManager.GetOpenFileLocation("txt files (*.txt)|*.txt");
@@ -88,6 +116,11 @@ namespace nsGUI
             ProcessText(new FormTextInputer(FileManager.GetTextFromFile(fileToOpenPath)));
         }
 
+        /// <summary>
+        /// Menu open link item click event handler.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Menu_OpenLink(Object sender, EventArgs e)
         {
             FormOpenLink formOpenLink = new FormOpenLink();
@@ -107,6 +140,11 @@ namespace nsGUI
                 
         }
 
+        /// <summary>
+        /// Edit note click event handler.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void NoteEditButton_Click(object sender, EventArgs e)
         {
             NotenizerNote notenizerNote = (sender as NotenizerAdvancedTextBox).Note;
@@ -131,6 +169,9 @@ namespace nsGUI
 
         #region Methods
 
+        /// <summary>
+        /// Initializes main window of application.
+        /// </summary>
         private void Init()
         {
             this.Icon = Properties.Resources.AppIcon;
@@ -145,6 +186,10 @@ namespace nsGUI
             this.menuStrip1.BackColor = Color.FromArgb(255, 106, 77);
         }
 
+        /// <summary>
+        /// Shows notes on main window.
+        /// </summary>
+        /// <param name="notes"></param>
         private void ShowNotes(List<NotenizerNote> notes)
         {
             NotenizerAdvancedTextBox nAdvTextBox;
@@ -171,6 +216,9 @@ namespace nsGUI
             }
         }
 
+        /// <summary>
+        /// Clears notes from window.
+        /// </summary>
         private void Clear()
         {
             int row;
@@ -199,12 +247,20 @@ namespace nsGUI
             this._tableLayoutPanelMain.ResizeToOriginal();
         }
 
+        /// <summary>
+        /// Processes text.
+        /// </summary>
+        /// <param name="formTextInputer"></param>
         private void ProcessText(FormTextInputer formTextInputer)
         {
             if (formTextInputer.ShowDialog() == DialogResult.OK)
                 ProcessText(formTextInputer.TextForProcessing);
         }
 
+        /// <summary>
+        /// Processes text.
+        /// </summary>
+        /// <param name="text"></param>
         private void ProcessText(String text)
         {
             this._article = text;
@@ -222,6 +278,11 @@ namespace nsGUI
             .ContinueWith(TaskExceptionHandler.Handle, TaskContinuationOptions.OnlyOnFaulted);
         }
 
+        /// <summary>
+        /// Create window for editing of note.
+        /// </summary>
+        /// <param name="note"></param>
+        /// <returns></returns>
         private FormEditNote CreateFormEditNote(NotenizerNote note)
         {
             NotenizerNote parsedAndNote;
@@ -277,11 +338,24 @@ namespace nsGUI
             return formEditNote;
         }
 
+        /// <summary>
+        /// Saves data to database.
+        /// </summary>
+        /// <param name="note"></param>
+        /// <param name="formEditNote"></param>
         private void SaveData(NotenizerNote note, FormEditNote formEditNote)
         {
             SaveData(note, formEditNote.NoteNoteParts, formEditNote.AndParserEnabled, formEditNote.AndParserNotePart, formEditNote.AndSetPosition);
         }
 
+        /// <summary>
+        /// Saves data to database.
+        /// </summary>
+        /// <param name="note">Note to save</param>
+        /// <param name="noteNoteParts">Note's note parts</param>
+        /// <param name="andParserEnabled">Flag if And-Parser is eneabled</param>
+        /// <param name="andParserNotePart">Note part of and-note</param>
+        /// <param name="andSetPosition">Posotion of set of and-note</param>
         private void SaveData(NotenizerNote note, List<NotePart> noteNoteParts, bool andParserEnabled, NotePart andParserNotePart, int andSetPosition)
         {
             note.Replace(noteNoteParts);
@@ -332,6 +406,10 @@ namespace nsGUI
             note.Rule.Match = new Match(NotenizerConstants.MaxMatchValue);
         }
 
+        /// <summary>
+        /// Updates note in database.
+        /// </summary>
+        /// <param name="note"></param>
         private void UpdateNote(NotenizerNote note)
         {
             note.Note.UpdatedAt = DateTime.Now;
@@ -347,6 +425,10 @@ namespace nsGUI
                     note.Note.AndRuleID)).Result;
         }
 
+        /// <summary>
+        /// Updates rules in database.
+        /// </summary>
+        /// <param name="note"></param>
         private void UpdateRule(NotenizerNote note)
         {
             note.Structure.Structure.UpdatedAt = DateTime.Now;
@@ -361,6 +443,12 @@ namespace nsGUI
                     note.Rule)).Result;
         }
 
+        /// <summary>
+        /// Updates And-Rule in database.
+        /// </summary>
+        /// <param name="note"></param>
+        /// <param name="andParserNotePart"></param>
+        /// <param name="andSetPosition"></param>
         private void UpdateAndRule(NotenizerNote note, NotePart andParserNotePart, int andSetPosition)
         {
             NotenizerDependencies andParserDependencies = new NotenizerDependencies();
@@ -398,6 +486,10 @@ namespace nsGUI
             }
         }
 
+        /// <summary>
+        /// Insert new rule into database.
+        /// </summary>
+        /// <param name="note"></param>
         private void InsertRule(NotenizerNote note)
         {
             note.Structure.Structure.CreatedAt = note.Structure.Structure.UpdatedAt = DateTime.Now;
@@ -411,6 +503,12 @@ namespace nsGUI
                     note.Rule)).Result;
         }
 
+        /// <summary>
+        /// Insert new And-Rule to database.
+        /// </summary>
+        /// <param name="note"></param>
+        /// <param name="andParserNotePart"></param>
+        /// <param name="andSetPosition"></param>
         private void InsertAndRule(NotenizerNote note, NotePart andParserNotePart, int andSetPosition)
         {
             NotenizerDependencies andParserDependencies = new NotenizerDependencies();
@@ -429,6 +527,10 @@ namespace nsGUI
                     note.AndRule)).Result;
         }
 
+        /// <summary>
+        /// Inserts new note into database.
+        /// </summary>
+        /// <param name="note"></param>
         private void InsertNote(NotenizerNote note)
         {
             note.Note.CreatedAt = note.Note.UpdatedAt = DateTime.Now;
@@ -444,6 +546,10 @@ namespace nsGUI
                     note.Note.AndRuleID)).Result;
         }
 
+        /// <summary>
+        /// Inserts new sentence into database.
+        /// </summary>
+        /// <param name="note"></param>
         private void InsertSentence(NotenizerNote note)
         {
             note.OriginalSentence.Sentence.CreatedAt = note.OriginalSentence.Sentence.UpdatedAt = DateTime.Now;
@@ -458,6 +564,12 @@ namespace nsGUI
                     note.Note.ID)).Result;
         }
 
+        /// <summary>
+        /// Inserts new structure into database.
+        /// </summary>
+        /// <param name="structure"></param>
+        /// <param name="additionalInfo"></param>
+        /// <returns></returns>
         private String InsertStructure(NotenizerStructure structure, bool additionalInfo = false)
         {
             structure.Structure.CreatedAt = structure.Structure.UpdatedAt = DateTime.Now;
@@ -469,6 +581,12 @@ namespace nsGUI
                             additionalInfo)).Result;
         }
 
+        /// <summary>
+        /// Updates structure in database.
+        /// </summary>
+        /// <param name="structure"></param>
+        /// <param name="additionalInfo"></param>
+        /// <returns></returns>
         private String UpdateStructure(NotenizerStructure structure, bool additionalInfo = false)
         {
             structure.Structure.UpdatedAt = DateTime.Now;

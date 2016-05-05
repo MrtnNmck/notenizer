@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace nsConstants
 {
+    /// <summary>
+    /// Part of speech constants.
+    /// </summary>
     public class POSConstants
     {
         public static readonly String[] NounLikePOS = { "NN", "NNP", "JJR", "JJ", "CD" };

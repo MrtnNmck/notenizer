@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace nsNotenizerObjects
 {
+    /// <summary>
+    /// Rule.
+    /// </summary>
     public class NotenizerNoteRule : NotenizerRule
     {
         #region Variables
@@ -33,6 +36,9 @@ namespace nsNotenizerObjects
 
         #region Properties
 
+        /// <summary>
+        /// List of sentence terminators.
+        /// </summary>
         public SentencesTerminators SentencesTerminators
         {
             get { return _sentencesTerminators; }

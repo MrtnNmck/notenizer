@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace nsNotenizerObjects
 {
+    /// <summary>
+    /// Sentence's termiantors.
+    /// </summary>
     public class SentencesTerminators : List<int>
     {
         #region Variables
@@ -18,13 +21,6 @@ namespace nsNotenizerObjects
         {
         }
 
-        #endregion Constuctors
-
-        #region Properties
-
-        #endregion Properties
-
-        #region Methods
         public SentencesTerminators(List<NotePart> noteParts)
         {
             int last = 0;
@@ -42,6 +38,14 @@ namespace nsNotenizerObjects
         {
             this.AddRange(sentenceTerminators);
         }
+
+        #endregion Constuctors
+
+        #region Properties
+
+        #endregion Properties
+
+        #region Methods
 
         #endregion Methods
     }

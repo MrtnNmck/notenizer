@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace nsNotenizerObjects
 {
+    /// <summary>
+    /// Named enitity.
+    /// </summary>
     public class NamedEntity
     {
         #region Variables
@@ -28,11 +31,17 @@ namespace nsNotenizerObjects
 
         #region Properties
 
+        /// <summary>
+        /// Text representation of named entity.
+        /// </summary>
         public String Value
         {
             get { return _value; }
         }
 
+        /// <summary>
+        /// Type of named entity.
+        /// </summary>
         public NamedEntityType Type
         {
             get { return _neType; }
@@ -42,6 +51,11 @@ namespace nsNotenizerObjects
 
         #region Methods
 
+        /// <summary>
+        /// Gets type of named entity from string.
+        /// </summary>
+        /// <param name="namedEntity"></param>
+        /// <returns></returns>
         private NamedEntityType Parse(String namedEntity)
         {
             switch (namedEntity)

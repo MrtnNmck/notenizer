@@ -24,6 +24,9 @@ using MongoDB.Bson;
 
 namespace nsNotenizer
 {
+    /// <summary>
+    /// Main class for application.
+    /// </summary>
     public class Notenizer
     {
         #region Variables
@@ -56,35 +59,46 @@ namespace nsNotenizer
         }
 
         /// <summary>
-        /// Singleton.
+        /// Pipeline to StanfordCoreNLP project.
         /// </summary>
         private StanfordCoreNLP Pipeline
         {
             get
             {
-                if (_pipeline == null)
+                Properties properties;
+                CultureInfo cultureInfo;
+                String currentDirectory;
+
+                try
                 {
-                    String jarRoot = @"stanford-corenlp-3.5.2-models";
+                    if (_pipeline == null)
+                    {
+                        String jarRoot = @"stanford-corenlp-3.5.2-models";
 
-                    // Annotation pipeline configuration
-                    Properties properties = new Properties();
-                    properties.setProperty("annotators", "tokenize, ssplit, pos, lemma, ner, parse");
-                    properties.setProperty("sutime.binders", "0");
-                    properties.setProperty("ner.useSUTime", "false");
+                        // Annotation pipeline configuration
+                        properties = new Properties();
+                        properties.setProperty("annotators", "tokenize, ssplit, pos, lemma, ner, parse");
+                        properties.setProperty("sutime.binders", "0");
+                        properties.setProperty("ner.useSUTime", "false");
 
-                    // prevent time exception
-                    CultureInfo cultureInfo = new CultureInfo("en-US");
-                    Thread.CurrentThread.CurrentCulture = cultureInfo;
-                    Thread.CurrentThread.CurrentUICulture = cultureInfo;
+                        // prevents time exception
+                        cultureInfo = new CultureInfo("en-US");
+                        Thread.CurrentThread.CurrentCulture = cultureInfo;
+                        Thread.CurrentThread.CurrentUICulture = cultureInfo;
 
-                    // We should change current directory, so StanfordCoreNLP could find all the model files automatically
-                    String currentDirectory = Environment.CurrentDirectory;
-                    Directory.SetCurrentDirectory(jarRoot);
-                    _pipeline = new StanfordCoreNLP(properties);
-                    Directory.SetCurrentDirectory(currentDirectory);
+                        // We should change current directory, so StanfordCoreNLP could find all the model files automatically
+                        currentDirectory = Environment.CurrentDirectory;
+                        Directory.SetCurrentDirectory(jarRoot);
+                        _pipeline = new StanfordCoreNLP(properties);
+                        Directory.SetCurrentDirectory(currentDirectory);
+                    }
+
+                    return _pipeline;
                 }
-
-                return _pipeline;
+                catch (Exception ex)
+                {
+                    throw new Exception("Error creating pipelint to StanfordCoreNLP project." + Environment.NewLine + Environment.NewLine + ex.Message);
+                }
             }
         }
 
@@ -92,6 +106,10 @@ namespace nsNotenizer
 
         #region Methods
 
+        /// <summary>
+        /// Runs text processing using StanfordCoreNLP procject.
+        /// </summary>
+        /// <param name="text">Text to process</param>
         public void RunCoreNLP(String text)
         {
             // needs to be before Annotation(text)
@@ -121,6 +139,12 @@ namespace nsNotenizer
             PrintNotes(_notes);
         }
 
+        /// <summary>
+        /// Gets rule for sentence
+        /// </summary>
+        /// <param name="sentence">Sentence to get rule for</param>
+        /// <param name="matchedNote">Out matched note of sentence</param>
+        /// <returns></returns>
         private NotenizerNoteRule GetRuleForSentence(NotenizerSentence sentence, out Note matchedNote)
         {
             Match match;
@@ -194,6 +218,12 @@ namespace nsNotenizer
             return matchedSentenceRule;
         }
 
+        /// <summary>
+        /// Gets and-rule for sentence.
+        /// </summary>
+        /// <param name="rule"></param>
+        /// <param name="andRuleId"></param>
+        /// <returns></returns>
         public NotenizerAndRule GetAndRuleForSentence(NotenizerRule rule, String andRuleId)
         {
             NotenizerAndRule andRule;
@@ -214,6 +244,11 @@ namespace nsNotenizer
             return andRule;
         }
 
+        /// <summary>
+        /// Gets article from database or creates a new one, if not found.
+        /// </summary>
+        /// <param name="text">Text of article</param>
+        /// <returns></returns>
         private Article GetArticle(String text)
         {
             Article article;
@@ -350,12 +385,22 @@ namespace nsNotenizer
             return note;
         }
 
+        /// <summary>
+        /// Aplies rule.
+        /// </summary>
+        /// <param name="note"></param>
+        /// <param name="noteRule"></param>
         private void ApplyRule(NotenizerNote note, NotenizerNoteRule noteRule)
         {
             note.SplitToSentences(noteRule.SentencesTerminators);
             note.Rule = noteRule;
         }
 
+        /// <summary>
+        /// Applies rule.
+        /// </summary>
+        /// <param name="note"></param>
+        /// <param name="andParserRule"></param>
         private void ApplyRule(NotenizerNote note, NotenizerAndRule andParserRule)
         {
             note.SplitToSentences(andParserRule.SentenceTerminator);

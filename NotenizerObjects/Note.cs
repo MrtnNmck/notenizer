@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace nsNotenizerObjects
 {
+    /// <summary>
+    /// Persistable note.
+    /// </summary>
     public class Note : IPersistable
     {
         #region Variables
@@ -50,36 +53,54 @@ namespace nsNotenizerObjects
 
         #region Properties
 
+        /// <summary>
+        /// ID of note document.
+        /// </summary>
         public String ID
         {
             get { return _id; }
             set { this._id = value; }
         }
 
+        /// <summary>
+        /// Text of note.
+        /// </summary>
         public String Text
         {
             get { return _text; }
             set { this._text = value; }
         }
 
+        /// <summary>
+        /// Created at timestamp.
+        /// </summary>
         public DateTime CreatedAt
         {
             get { return _createdAt; }
             set { this._createdAt = value; }
         }
 
+        /// <summary>
+        /// Updated at timestamp.
+        /// </summary>
         public DateTime UpdatedAt
         {
             get { return _updatedAt; }
             set { this._updatedAt = value; }
         }
 
+        /// <summary>
+        /// ID of and-rule.
+        /// </summary>
         public String AndRuleID
         {
             get { return _andRuleId; }
             set { this._andRuleId = value; }
         }
 
+        /// <summary>
+        /// ID of rule
+        /// </summary>
         public String RuleID
         {
             get { return this._ruleId; }

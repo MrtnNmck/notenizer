@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace nsComparsions
 {
+    /// <summary>
+    /// List of generic comparsions.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public class Comparsions<T> : List<Comparsion<T>>
     {
         public Comparsions()

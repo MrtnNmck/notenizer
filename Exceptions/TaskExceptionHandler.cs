@@ -7,6 +7,9 @@ using System.Windows.Forms;
 
 namespace nsExceptions
 {
+    /// <summary>
+    /// Handles exception inside tasks.
+    /// </summary>
     public static class TaskExceptionHandler
     {
         public static void Handle(Task task)

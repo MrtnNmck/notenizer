@@ -40,6 +40,9 @@ namespace nsGUI
 
         #region Properties
 
+        /// <summary>
+        /// Text for processing.
+        /// </summary>
         public string TextForProcessing
         {
             get { return this._textForProcessing; }
@@ -49,12 +52,22 @@ namespace nsGUI
 
         #region Event Handlers
 
+        /// <summary>
+        /// Confirm button click event handler.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ButtonConfirm_Click(Object sender, EventArgs e)
         {
             this._textForProcessing = this._notenizerTextBoxText.TextBox.Text.Trim().NormalizeWhiteSpaces();
             this.DialogResult = DialogResult.OK;
         }
 
+        /// <summary>
+        /// Cancel button click event handler.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ButtonCancel_Click(Object sender, EventArgs e)
         {
             this.DialogResult = DialogResult.Cancel;

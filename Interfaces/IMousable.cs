@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace nsInterfaces
 {
+    /// <summary>
+    /// Interface for mousable events.
+    /// </summary>
     public interface IMousable
     {
         void DoMouseWheel(EventArgs e);

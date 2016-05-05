@@ -9,6 +9,9 @@ using System.Threading.Tasks;
 
 namespace nsNotenizerObjects
 {
+    /// <summary>
+    /// Notenizer Dependency.
+    /// </summary>
     public class NotenizerDependency
     {
         #region Variables
@@ -53,49 +56,76 @@ namespace nsNotenizerObjects
 
         #region Properties
 
+        /// <summary>
+        /// Dependent token of dependency.
+        /// </summary>
         public NotenizerWord Dependent
         {
             get { return _dependent; }
         }
 
+        /// <summary>
+        /// Governor token of dependency.
+        /// </summary>
         public NotenizerWord Governor
         {
             get { return _governor; }
         }
 
+        /// <summary>
+        /// Relation between tokens.
+        /// </summary>
         public NotenizerRelation Relation
         {
             get { return _relation; }
         }
 
+        /// <summary>
+        /// Origindal TypeDependency dependency.
+        /// </summary>
         public TypedDependency OriginalDependency
         {
             get { return _originalDependency; }
         }
 
+        /// <summary>
+        /// Comparison type.
+        /// </summary>
         public ComparisonType ComparisonType
         {
             get { return _comparisonType; }
             set { _comparisonType = value; }
         }
 
+        /// <summary>
+        /// Unique key.
+        /// </summary>
         public String Key
         {
             get { return _relation.ShortName + Governor.Word + Governor.Index + Dependent.Word + Dependent.Index; }
         }
 
+        /// <summary>
+        /// Position of dependency.
+        /// </summary>
         public int Position
         {
             get { return _position == NotenizerConstants.UninitializedDependencyPositionValue ? CorrespondingWord.Index - 1 : _position; }
             set { this._position = value; }
         }
 
+        /// <summary>
+        /// Corresponding token.
+        /// </summary>
         public TokenType TokenType
         {
             get { return _tokenType; }
             set { this._tokenType = value; }
         }
 
+        /// <summary>
+        /// Corresponsding word.
+        /// </summary>
         public NotenizerWord CorrespondingWord
         {
             get { return GetWordByTokenType(this._tokenType); }
@@ -105,11 +135,20 @@ namespace nsNotenizerObjects
 
         #region Methods
 
+        /// <summary>
+        /// Gets word by token type.
+        /// </summary>
+        /// <param name="tokenType"></param>
+        /// <returns></returns>
         public NotenizerWord GetWordByTokenType(TokenType tokenType)
         {
             return tokenType == TokenType.Dependent ? _dependent : _governor;
         }
 
+        /// <summary>
+        /// Fully clones dependency.
+        /// </summary>
+        /// <returns></returns>
         public NotenizerDependency Clone()
         {
             NotenizerDependency clonedDep;
