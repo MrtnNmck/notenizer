@@ -8,6 +8,12 @@ namespace nsNotenizerObjects
 {
     public class CompressedDependencies : Dictionary<String, NotenizerDependencies>
     {
+        #region Variables
+
+        #endregion Variables
+
+        #region Constructors
+
         public CompressedDependencies()
         {
         }
@@ -16,6 +22,14 @@ namespace nsNotenizerObjects
         {
             Convert(dependencies);
         }
+
+        #endregion Constuctors
+
+        #region Properties
+
+        #endregion Properties
+
+        #region Methods
 
         public void Add(NotenizerDependency dependency)
         {
@@ -30,5 +44,7 @@ namespace nsNotenizerObjects
             foreach (NotenizerDependency dependencyLoop in dependencies)
                 this.Add(dependencyLoop);
         }
+
+        #endregion Methods
     }
 }

@@ -9,14 +9,38 @@ namespace nsNotenizerObjects
 {
     public class PartOfSpeech
     {
+        #region Variables
+
         private String _tag;
         private PartOfSpeechType _posType;
+
+        #endregion Variables
+
+        #region Constructors
 
         public PartOfSpeech(String tag)
         {
             _tag = tag;
             _posType = GetTypeFromTag(tag);
         }
+
+        #endregion Constuctors
+
+        #region Properties
+
+        public String Tag
+        {
+            get { return _tag; }
+        }
+
+        public PartOfSpeechType Type
+        {
+            get { return _posType; }
+        }
+
+        #endregion Properties
+
+        #region Methods
 
         public static PartOfSpeechType GetTypeFromTag(String posTag)
         {
@@ -84,14 +108,14 @@ namespace nsNotenizerObjects
             }
         }
 
-        public String Tag
-        {
-            get { return _tag; }
-        }
+        #endregion Methods
 
-        public PartOfSpeechType Type
-        {
-            get { return _posType; }
-        }
+
+
+
+
+
+
+
     }
 }

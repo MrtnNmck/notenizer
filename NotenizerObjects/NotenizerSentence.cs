@@ -13,16 +13,26 @@ namespace nsNotenizerObjects
 {
     public class NotenizerSentence
     {
-		private Annotation _annotation;
+        #region Variables
+
+        private Annotation _annotation;
         private Sentence _sentence;
         private NotenizerStructure _structure;
 
-		public NotenizerSentence(Annotation annotation, Article article)
-		{
-			_annotation = annotation;
+        #endregion Variables
+
+        #region Constructors
+
+        public NotenizerSentence(Annotation annotation, Article article)
+        {
+            _annotation = annotation;
             _sentence = new Sentence(this.ToString(), article);
             _structure = new NotenizerStructure(GetDepencencies(annotation));
-		}
+        }
+
+        #endregion Constuctors
+
+        #region Properties
 
         public Sentence Sentence
         {
@@ -43,13 +53,17 @@ namespace nsNotenizerObjects
             }
         }
 
+        #endregion Properties
+
+        #region Methods
+
         private NotenizerDependencies GetDepencencies(Annotation annotation)
-		{
-			Tree tree = annotation.get(typeof(TreeCoreAnnotations.TreeAnnotation)) as Tree;
-			TreebankLanguagePack treeBankLangPack = new PennTreebankLanguagePack();
-			GrammaticalStructureFactory gramStructFact = treeBankLangPack.grammaticalStructureFactory();
-			GrammaticalStructure gramStruct = gramStructFact.newGrammaticalStructure(tree);
-			java.util.Collection typedDependencies = gramStruct.typedDependenciesCollapsed();
+        {
+            Tree tree = annotation.get(typeof(TreeCoreAnnotations.TreeAnnotation)) as Tree;
+            TreebankLanguagePack treeBankLangPack = new PennTreebankLanguagePack();
+            GrammaticalStructureFactory gramStructFact = treeBankLangPack.grammaticalStructureFactory();
+            GrammaticalStructure gramStruct = gramStructFact.newGrammaticalStructure(tree);
+            java.util.Collection typedDependencies = gramStruct.typedDependenciesCollapsed();
 
             NotenizerDependencies dependencies = new NotenizerDependencies();
             NotenizerDependency dep;
@@ -70,7 +84,7 @@ namespace nsNotenizerObjects
             }
 
             return dependencies;
-		}
+        }
 
         private void AddToCompressedDependencies(NotenizerDependency dep, ref Dictionary<String, List<NotenizerDependency>> map)
         {
@@ -84,5 +98,7 @@ namespace nsNotenizerObjects
         {
             return _annotation.toString();
         }
+
+        #endregion Methods
     }
 }

@@ -26,6 +26,8 @@ namespace nsNotenizer
 {
     public class Notenizer
     {
+        #region Variables
+
         private bool _redirectOutputToFile = false;
         private String _redirectOutputToFileFileName = @"./out.txt";
 
@@ -34,11 +36,19 @@ namespace nsNotenizer
         private StaticParser _staticParser;
         private ComparsionsManager _comparsionManager;
 
-		public Notenizer()
-		{
+        #endregion Variables
+
+        #region Constructors
+
+        public Notenizer()
+        {
             _staticParser = new StaticParser();
             _comparsionManager = new ComparsionsManager();
         }
+
+        #endregion Constuctors
+
+        #region Properties
 
         public List<NotenizerNote> Notes
         {
@@ -77,6 +87,10 @@ namespace nsNotenizer
                 return _pipeline;
             }
         }
+
+        #endregion Properties
+
+        #region Methods
 
         public void RunCoreNLP(String text)
         {
@@ -273,16 +287,16 @@ namespace nsNotenizer
                 // save note
                 Note note = sentenceNotedLoop.CreateNote();
                 note.ID = DB.InsertToCollection(DBConstants.NotesCollectionName, DocumentCreator.CreateNoteDocument(
-                    sentenceNotedLoop, 
-                    rule.ID, 
+                    sentenceNotedLoop,
+                    rule.ID,
                     String.Empty)).Result;
 
                 // save sentence
                 sentenceNotedLoop.OriginalSentence.Sentence.ID = DB.InsertToCollection(DBConstants.SentencesCollectionName, DocumentCreator.CreateSentenceDocument(
-                    sentenceNotedLoop.OriginalSentence, 
+                    sentenceNotedLoop.OriginalSentence,
                     sentenceStructure.Structure.ID,
-                    article.ID, 
-                    rule.ID, 
+                    article.ID,
+                    rule.ID,
                     String.Empty,
                     note.ID)).Result;
 
@@ -379,5 +393,7 @@ namespace nsNotenizer
                 notePart.Add(dependencyObj);
             }
         }
+
+        #endregion Methods
     }
 }

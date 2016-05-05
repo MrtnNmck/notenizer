@@ -9,6 +9,8 @@ namespace nsExtensions
 {
     public static class ThreadExtensions
     {
+        #region Methods
+
         public static void PerformSafely(this Control target, Action action)
         {
             if (target.InvokeRequired)
@@ -44,5 +46,7 @@ namespace nsExtensions
                 action(p1, p2);
             }
         }
+
+        #endregion Methods
     }
 }

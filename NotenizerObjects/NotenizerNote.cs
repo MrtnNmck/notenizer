@@ -9,6 +9,8 @@ namespace nsNotenizerObjects
 {
     public class NotenizerNote
     {
+        #region Variables
+
         private NotenizerSentence _originalSentence;
         private String _text;
         private List<NotePart> _noteParts;
@@ -19,6 +21,10 @@ namespace nsNotenizerObjects
         private NotenizerStructure _structure;
         private Note _note;
 
+        #endregion Variables
+
+        #region Constructors
+
         public NotenizerNote(NotenizerSentence originalSentence)
         {
             _text = String.Empty;
@@ -28,6 +34,10 @@ namespace nsNotenizerObjects
             _updatedAt = DateTime.Now;
             _structure = new NotenizerStructure();
         }
+
+        #endregion Constuctors
+
+        #region Properties
 
         /// <summary>
         /// Original sentence that is being parsed.
@@ -141,6 +151,10 @@ namespace nsNotenizerObjects
             get { return this._note; }
             set { this._note = value; }
         }
+
+        #endregion Properties
+
+        #region Methods
 
         public void Replace(List<NotePart> noteParts)
         {
@@ -256,5 +270,7 @@ namespace nsNotenizerObjects
 
             return this._note;
         }
+
+        #endregion Methods
     }
 }

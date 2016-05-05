@@ -12,11 +12,21 @@ namespace nsDB
 {
     public static class DB
     {
+        #region Variables
+
+        #endregion Variables
+
+        #region Properties
+
+        #endregion Properties
+
+        #region Methods
+
         public static async Task<List<BsonDocument>> GetAll(String collectionName)
         {
             FilterDefinition<BsonDocument> filter = Builders<BsonDocument>.Filter.Empty;
 
-           return await GetAll(collectionName, filter);
+            return await GetAll(collectionName, filter);
         }
 
         public static async Task<List<BsonDocument>> GetAll(String collectionName, FilterDefinition<BsonDocument> filter)
@@ -80,26 +90,6 @@ namespace nsDB
             return result.UpsertedId.ToString();
         }
 
-        public static async void UpdateNoteDependencies(
-            String collectionName, 
-            BsonObjectId id, 
-            String noteDependenciesFieldName, 
-            BsonArray noteDependenciesArray,
-            String sentencesEndFieldName,
-            BsonArray sentencesEndsArray)
-        {
-            IMongoCollection<BsonDocument> collection = GetCollection(collectionName);
-
-            FilterDefinition<BsonDocument> filter = Builders<BsonDocument>.Filter.Eq(DBConstants.IdFieldName, id);
-
-            UpdateDefinition<BsonDocument> update = Builders<BsonDocument>.Update
-                .Set(noteDependenciesFieldName, noteDependenciesArray)
-                .Set(sentencesEndFieldName, sentencesEndsArray)
-                .Set(DBConstants.UpdatedAtFieldName, DateTime.Now);
-
-            await collection.UpdateOneAsync(filter, update);
-
-            //return id;
-        }
+        #endregion Methods
     }
 }

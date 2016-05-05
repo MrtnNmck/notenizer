@@ -10,13 +10,14 @@ namespace nsNotenizerObjects
 {
     public class NotePart
     {
+        #region Variables
+
         private List<NoteParticle> _noteParticles;
         private NotenizerSentence _originalSentence;
 
-        public NotePart()
-        {
-            _noteParticles = new List<NoteParticle>();
-        }
+        #endregion Variables
+
+        #region Constructors
 
         public NotePart(NotenizerSentence originalSentence)
         {
@@ -24,7 +25,11 @@ namespace nsNotenizerObjects
             _originalSentence = originalSentence;
             InitializeStructure(originalSentence.Structure.DependencyWordsInSentenceCount());
         }
-        
+
+        #endregion Constuctors
+
+        #region Properties
+
         public String Value
         {
             get
@@ -57,6 +62,10 @@ namespace nsNotenizerObjects
                 return _noteParticles.Where(x => x != null).ToList();
             }
         }
+
+        #endregion Properties
+
+        #region Methods
 
         private void InitializeStructure(List<String> structureParts)
         {
@@ -98,5 +107,7 @@ namespace nsNotenizerObjects
 
             return clonedNotePart;
         }
+
+        #endregion Methods
     }
 }

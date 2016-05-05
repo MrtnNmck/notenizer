@@ -10,21 +10,31 @@ namespace nsNotenizerObjects
 {
 	public class NotenizerRelation
 	{
+        #region Variables
+
         private String _longName;
         private String _shortName;
         private String _specific;
 
-		public NotenizerRelation(GrammaticalRelation grammaticalRelation)
-		{
+        #endregion Variables
+
+        #region Constructors
+
+        public NotenizerRelation(GrammaticalRelation grammaticalRelation)
+        {
             _longName = grammaticalRelation.getLongName();
             _shortName = grammaticalRelation.getShortName();
             _specific = grammaticalRelation.getSpecific();
-		}
+        }
 
         public NotenizerRelation(String shortName)
         {
             _shortName = shortName;
         }
+
+        #endregion Constuctors
+
+        #region Properties
 
         public String LongName
         {
@@ -52,6 +62,10 @@ namespace nsNotenizerObjects
             }
         }
 
+        #endregion Properties
+
+        #region Methods
+
         /// <summary>
         /// Compares if this relation is grammaticalRelation.
         /// </summary>
@@ -71,5 +85,7 @@ namespace nsNotenizerObjects
         {
             return IsRelation(GrammaticalConstants.NominalSubject) || IsRelation(GrammaticalConstants.NominalSubjectPassive);
         }
+
+        #endregion Methods
     }
 }

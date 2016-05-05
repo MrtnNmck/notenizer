@@ -10,6 +10,8 @@ namespace nsNotenizerObjects
 {
     public class Note : IPersistable
     {
+        #region Variables
+
         private String _id;
         private String _text;
         private DateTime _createdAt;
@@ -17,13 +19,17 @@ namespace nsNotenizerObjects
         private String _andRuleId;
         private String _ruleId;
 
+        #endregion Variables
+
+        #region Constructors
+
         public Note(
-            String id,
-            String text,
-            String ruleID,
-            String andRuleID,
-            DateTime createdAt,
-            DateTime updatedAt)
+           String id,
+           String text,
+           String ruleID,
+           String andRuleID,
+           DateTime createdAt,
+           DateTime updatedAt)
         {
             this._id = id;
             this._text = text;
@@ -39,6 +45,10 @@ namespace nsNotenizerObjects
             this._createdAt = DateTime.Now;
             this._updatedAt = DateTime.Now;
         }
+
+        #endregion Constuctors
+
+        #region Properties
 
         public String ID
         {
@@ -69,11 +79,17 @@ namespace nsNotenizerObjects
             get { return _andRuleId; }
             set { this._andRuleId = value; }
         }
-        
+
         public String RuleID
         {
             get { return this._ruleId; }
             set { this._ruleId = value; }
         }
+
+        #endregion Properties
+
+        #region Methods
+
+        #endregion Methods
     }
 }

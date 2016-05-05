@@ -11,6 +11,8 @@ namespace nsNotenizerObjects
 {
     public class NotenizerDependency
     {
+        #region Variables
+
         private NotenizerWord _dependent;
         private NotenizerWord _governor;
         private NotenizerRelation _relation;
@@ -18,6 +20,10 @@ namespace nsNotenizerObjects
         private int _position = NotenizerConstants.UninitializedDependencyPositionValue;
         private ComparisonType _comparisonType;
         private TokenType _tokenType;
+
+        #endregion Variables
+
+        #region Constructors
 
         public NotenizerDependency(TypedDependency typedDependency)
         {
@@ -42,6 +48,10 @@ namespace nsNotenizerObjects
             _comparisonType = comparisonType;
             _tokenType = tokenType;
         }
+
+        #endregion Constuctors
+
+        #region Properties
 
         public NotenizerWord Dependent
         {
@@ -91,6 +101,10 @@ namespace nsNotenizerObjects
             get { return GetWordByTokenType(this._tokenType); }
         }
 
+        #endregion Properties
+
+        #region Methods
+
         public NotenizerWord GetWordByTokenType(TokenType tokenType)
         {
             return tokenType == TokenType.Dependent ? _dependent : _governor;
@@ -111,5 +125,7 @@ namespace nsNotenizerObjects
 
             return clonedDep;
         }
-	}
+
+        #endregion Methods
+    }
 }

@@ -9,11 +9,16 @@ namespace nsComparsions
 {
     public class Comparsion<T>
     {
+        #region Variables
+
         private Func<NotenizerWord, NotenizerWord, T> _wordsComparisonFunction;
         private Func<NotenizerDependency, NotenizerDependency, T> _dependenciesComparsionFunction;
         private Func<NotenizerWord, NotenizerWord, double, int, T> _wordsClosenessFunction;
         private Func<NotenizerDependency, NotenizerDependency, double, int, T> _dependenciesClosenessFunction;
 
+        #endregion Variables
+
+        #region Constructors
         public Comparsion(Func<NotenizerWord, NotenizerWord, T> comparsionFunction)
         {
             _wordsComparisonFunction = comparsionFunction;
@@ -34,6 +39,18 @@ namespace nsComparsions
             _dependenciesClosenessFunction = comparsionFunction;
         }
 
+        #endregion Constuctors
+
+        #region Properties
+
+        #endregion Properties
+
+        #region Event Handlers
+
+        #endregion Event Handlers
+
+        #region Methods
+
         public T Run(NotenizerWord source, NotenizerWord destination)
         {
             return _wordsComparisonFunction(source, destination);
@@ -53,5 +70,7 @@ namespace nsComparsions
         {
             return _dependenciesClosenessFunction(source, dest, rating, count);
         }
+
+        #endregion Methods
     }
 }

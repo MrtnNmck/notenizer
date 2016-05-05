@@ -14,7 +14,9 @@ namespace nsExtensions
 {
     public static class Extensions
     {
-		public static List<T> ToList<T>(this java.util.ArrayList javaArrayList)
+        #region Methods
+
+        public static List<T> ToList<T>(this java.util.ArrayList javaArrayList)
 		{
 			List<T> list = new List<T>();
 
@@ -126,5 +128,7 @@ namespace nsExtensions
 
             return sb.ToString();
         }
+
+        #endregion Methods
     }
 }

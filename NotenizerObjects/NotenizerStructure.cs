@@ -9,9 +9,15 @@ namespace nsNotenizerObjects
 {
     public class NotenizerStructure
     {
+        #region Variables
+
         private CompressedDependencies _compressedDependencies;
         private NotenizerDependencies _dependencies;
         private Structure _structure;
+
+        #endregion Variables
+
+        #region Constructors
 
         public NotenizerStructure()
         {
@@ -33,6 +39,10 @@ namespace nsNotenizerObjects
             this._dependencies = structure.Dependencies;
             this._compressedDependencies = new CompressedDependencies(this._dependencies);
         }
+
+        #endregion Constuctors
+
+        #region Properties
 
         public Structure Structure
         {
@@ -56,6 +66,10 @@ namespace nsNotenizerObjects
             get { return _compressedDependencies; }
             set { this._compressedDependencies = value; }
         }
+
+        #endregion Properties
+
+        #region Methods
 
         /// <summary>
         /// Gets first or null dependency by short name.
@@ -179,5 +193,7 @@ namespace nsNotenizerObjects
 
             throw new Exception("Sentence doesn't contain dependency: " + dependency.ToString());
         }
+
+        #endregion Methods
     }
 }

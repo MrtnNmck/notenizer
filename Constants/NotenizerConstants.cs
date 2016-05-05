@@ -15,7 +15,5 @@ namespace nsConstants
         public const double MaxMatchValue = 100.0;
         public const double MinMatchValue = 0.0;
         public const String SimpleWikiUrl = "https://simple.wikipedia.org/wiki/";
-        public const String NotenizerDepenendecyPrefix = "nd_";
-        public const String NotenizerSentenceTermanatorDependencyName = NotenizerDepenendecyPrefix + "sentenceTerminator";
     }
 }

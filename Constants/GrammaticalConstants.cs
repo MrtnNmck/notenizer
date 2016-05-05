@@ -30,7 +30,6 @@ namespace nsConstants
         public const String CoordinatingConjuction = "cc";
         public const String AppositionalModifier = "appos";
         public const String Root = "root";
-
         public const String AndConjuction = "and";
         public static readonly Char[] SentenceTerminators = { '.', '!', '?' };
     }

@@ -8,10 +8,23 @@ namespace nsNotenizerObjects
 {
     public class SentencesTerminators : List<int>
     {
+        #region Variables
+
+        #endregion Variables
+
+        #region Constructors
+
         public SentencesTerminators()
         {
         }
 
+        #endregion Constuctors
+
+        #region Properties
+
+        #endregion Properties
+
+        #region Methods
         public SentencesTerminators(List<NotePart> noteParts)
         {
             int last = 0;
@@ -29,5 +42,7 @@ namespace nsNotenizerObjects
         {
             this.AddRange(sentenceTerminators);
         }
+
+        #endregion Methods
     }
 }

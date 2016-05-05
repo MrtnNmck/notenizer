@@ -9,10 +9,23 @@ namespace nsNotenizerObjects
 {
     public class NotenizerDependencies : List<NotenizerDependency>
     {
+        #region Variables
+
+        #endregion Variables
+
+        #region Constructors
+
         public NotenizerDependencies()
         {
-
         }
+
+        #endregion Constuctors
+
+        #region Properties
+
+        #endregion Properties
+
+        #region Methods
 
         public NotenizerDependencies Complement(NotenizerDependencies sourceDependencies, CompressedDependencies sourceCompressedDependencies)
         {
@@ -43,5 +56,7 @@ namespace nsNotenizerObjects
 
             return unusedDependencies;
         }
+
+        #endregion Methods
     }
 }

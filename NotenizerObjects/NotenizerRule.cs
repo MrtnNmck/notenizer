@@ -10,6 +10,8 @@ namespace nsNotenizerObjects
 {
     public class NotenizerRule : IPersistable
     {
+        #region Variables
+
         protected NotenizerDependencies _dependencies;
         protected Match _match;
         protected String _id;
@@ -18,6 +20,10 @@ namespace nsNotenizerObjects
         protected NotenizerStructure _structure;
         protected String _structureID;
         protected Sentence _sentence;
+
+        #endregion Variables
+
+        #region Constructors
 
         public NotenizerRule(String id, NotenizerDependencies dependencies)
         {
@@ -43,6 +49,10 @@ namespace nsNotenizerObjects
             this._createdAt = createdAt;
             this._updatedAt = updatedAt;
         }
+
+        #endregion Constuctors
+
+        #region Properties
 
         public NotenizerDependencies RuleDependencies
         {
@@ -108,5 +118,11 @@ namespace nsNotenizerObjects
                 _sentence = value;
             }
         }
+
+        #endregion Properties
+
+        #region Methods
+
+        #endregion Methods
     }
 }

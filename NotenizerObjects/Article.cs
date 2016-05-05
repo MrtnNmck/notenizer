@@ -10,10 +10,16 @@ namespace nsNotenizerObjects
 {
     public class Article : IPersistable
     {
+        #region Variables
+
         private String _id;
         private DateTime _createdAt;
         private DateTime _updatedAt;
         private String _text;
+
+        #endregion Variables
+
+        #region Constructors
 
         public Article(
             String id,
@@ -26,6 +32,10 @@ namespace nsNotenizerObjects
             this._updatedAt = updatedAt;
             this._text = value;
         }
+
+        #endregion Constuctors
+
+        #region Properties
 
         public DateTime CreatedAt
         {
@@ -72,5 +82,11 @@ namespace nsNotenizerObjects
                 return this._text;
             }
         }
+
+        #endregion Properties
+
+        #region Methods
+
+        #endregion Methods
     }
 }

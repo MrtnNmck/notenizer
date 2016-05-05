@@ -12,6 +12,12 @@ namespace nsServices.DBServices
 {
     public static class DocumentParser
     {
+        #region Properties
+
+        #endregion Properties
+
+        #region Methods
+
         public static Structure ParseStructure(BsonDocument persistedStructure)
         {
             String id;
@@ -354,5 +360,7 @@ namespace nsServices.DBServices
 
             return new Match(structureCounter, contentCounter, valueCounter);
         }
+
+        #endregion Methods
     }
 }

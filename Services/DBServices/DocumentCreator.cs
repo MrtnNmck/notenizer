@@ -15,6 +15,12 @@ namespace nsServices.DBServices
 {
     public static class DocumentCreator
     {
+        #region Properties
+
+        #endregion Properties
+
+        #region Methods
+
         public static BsonDocument CreateNoteDocument(NotenizerNote note, String noteRuleId, String andParseRuleId)
         {
             BsonDocument doc = new BsonDocument();
@@ -258,5 +264,6 @@ namespace nsServices.DBServices
             return doc;
         }
 
+        #endregion Methods
     }
 }

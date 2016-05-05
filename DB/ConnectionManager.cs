@@ -7,10 +7,15 @@ namespace nsDB
 {
     public static class ConnectionManager
     {
+        #region Variables
+
         private static IMongoClient _client;
         private static IMongoDatabase _database;
         private static String _databaseName = null;
 
+        #endregion Variables
+
+        #region Properties
         public static IMongoClient Client
         {
             get
@@ -38,5 +43,11 @@ namespace nsDB
             get { return _databaseName; }
             set { _databaseName = value; }
         }
+
+        #endregion Properties
+
+        #region Methods
+
+        #endregion Methods
     }
 }

@@ -10,6 +10,12 @@ namespace nsServices.FileServices
 {
     public static class FileManager
     {
+        #region Properties
+
+        #endregion Properties
+
+        #region Methods
+
         public static String GetSaveFileLocation(String filter)
         {
             SaveFileDialog dialog = new SaveFileDialog();
@@ -52,5 +58,8 @@ namespace nsServices.FileServices
         {
             return File.ReadAllText(filePath);
         }
+
+        #endregion Methods
+
     }
 }

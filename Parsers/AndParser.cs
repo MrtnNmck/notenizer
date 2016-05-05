@@ -11,9 +11,23 @@ namespace nsParsers
 {
     public class AndParser : NotenizerParser
     {
+        #region Variables
+
+        #endregion Variables
+
+        #region Constructors
+
         public AndParser()
         {
         }
+
+        #endregion Constuctors
+
+        #region Properties
+
+        #endregion Properties
+
+        #region Methods
 
         /// <summary>
         /// Checks if sentence is parsable by And-Parser
@@ -133,5 +147,7 @@ namespace nsParsers
 
             return new NoteParticle(notePart.Value, setDependency.Dependent, setDependency);
         }
+
+        #endregion Methods
     }
 }

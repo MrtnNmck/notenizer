@@ -11,9 +11,23 @@ namespace nsParsers
 {
     public class StaticParser : NotenizerParser
     {
+        #region Variables
+
+        #endregion Variables
+
+        #region Constructors
+
         public StaticParser()
         {
         }
+
+        #endregion Constuctors
+
+        #region Properties
+
+        #endregion Properties
+
+        #region Methods
 
         public override NotenizerNote Parse(NotenizerSentence sentence)
         {
@@ -293,5 +307,7 @@ namespace nsParsers
 
             return filteredDependencies;
         }
+
+        #endregion Methods
     }
 }

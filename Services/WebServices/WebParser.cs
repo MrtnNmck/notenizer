@@ -9,6 +9,12 @@ namespace nsServices.WebServices
 {
     public static class WebParser
     {
+        #region Properties
+
+        #endregion Properties
+
+        #region Methods
+
         public static bool UrlExists(Uri uri)
         {
             return WebParser.UrlExists(uri.ToString());
@@ -25,5 +31,7 @@ namespace nsServices.WebServices
 
             return response.StatusCode == HttpStatusCode.OK;
         }
+
+        #endregion Methods
     }
 }

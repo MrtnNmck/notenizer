@@ -12,6 +12,8 @@ namespace nsExtensions
 {
     public static class NotenizerExtensions
     {
+        #region Methods
+
         public static ComparisonType CreateComperisonType(this TokenType leftSide, TokenType rigthSide)
         {
             return (ComparisonType)Enum.Parse(typeof(ComparisonType), leftSide.ToString() + "To" + rigthSide.ToString());
@@ -73,5 +75,7 @@ namespace nsExtensions
                 throw new Exception("Error parsing ObjectId from string " + objectIdString + Environment.NewLine + Environment.NewLine + ex.Message);
             }
         }
+
+        #endregion Methods
     }
 }

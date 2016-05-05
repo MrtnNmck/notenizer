@@ -10,10 +10,17 @@ namespace nsNotenizerObjects
 {
     public class Structure : IPersistable
     {
+        #region Variables
+
         private DateTime _createdAt;
         private DateTime _updatedAt;
         private String _id;
         private NotenizerDependencies _dependencies;
+
+
+        #endregion Variables
+
+        #region Constructors
 
         public Structure()
         {
@@ -34,6 +41,10 @@ namespace nsNotenizerObjects
             _createdAt = createdAt;
             _updatedAt = updatedAt;
         }
+
+        #endregion Constuctors
+
+        #region Properties
 
         public DateTime CreatedAt
         {
@@ -99,5 +110,11 @@ namespace nsNotenizerObjects
                 _dependencies = value;
             }
         }
+
+        #endregion Properties
+
+        #region Methods
+
+        #endregion Methods
     }
 }

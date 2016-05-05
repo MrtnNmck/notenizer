@@ -10,22 +10,43 @@ namespace nsComparsions
 {
     public class ComparsionsManager
     {
+        #region Variables
+
         private Comparsions<bool> _boolWordsComparsions;
         private Comparsions<double> _doubleWordsComparsions;
-        //private Comparsions<bool> _boolDependenciesComparsions;
-        //private Comparsions<double> _doubleDependenciesComparsions;
         private double _oneComparisonRating;
         private double _matchRating;
 
+        #endregion Variables
+
+        #region Constructors
         public ComparsionsManager()
         {
             Init();
         }
 
+        #endregion Constuctors
+
+        #region Properties
+        private int Count
+        {
+            get
+            {
+                return 10;
+            }
+        }
+
+        #endregion Properties
+
+        #region Event Handlers
+
+        #endregion Event Handlers
+
+        #region Methods
+
         private void Init()
         {
             InitWordsComparsions();
-            //InitDependenicesComparsions();
         }
 
         private void InitWordsComparsions()
@@ -39,15 +60,6 @@ namespace nsComparsions
             _doubleWordsComparsions = new Comparsions<double>();
             _doubleWordsComparsions.Add(new Comparsion<double>(nsComparsions.Functions.ComparsionFunctions.CalculateClosenessWords));
         }
-
-        //private void InitDependenicesComparsions()
-        //{
-        //    _boolDependenciesComparsions = new Comparsions<bool>();
-        //    _boolDependenciesComparsions.Add(new Comparsion<bool>(nsComparsions.Functions.ComparsionFunctions.SamePosition));
-
-        //    _doubleDependenciesComparsions = new Comparsions<double>();
-        //    _doubleDependenciesComparsions.Add(new Comparsion<double>(nsComparsions.Functions.ComparsionFunctions.CalculateClosenessDependencies));
-        //}
 
         public double Compare(NotenizerDependency source, NotenizerDependency dest, int dependeciesAndWordsCount)
         {
@@ -69,26 +81,9 @@ namespace nsComparsions
                 _matchRating += doubleWordsComparsionLoop.Run(source.Dependent, dest.Dependent, _oneComparisonRating, dependeciesAndWordsCount);
             }
 
-            //foreach (Comparsion<bool> boolDependenciesComparsionLoop in _boolDependenciesComparsions)
-            //{
-            //    if (boolDependenciesComparsionLoop.Run(source, dest))
-            //        _matchRating += _oneComparisonRating;
-            //}
-
-            //foreach (Comparsion<double> doubleDependenciesComparsionLoop in _doubleDependenciesComparsions)
-            //{
-            //    _matchRating += doubleDependenciesComparsionLoop.Run(source, dest, _oneComparisonRating, dependeciesAndWordsCount);
-            //}
-
             return _matchRating;
         }
 
-        private int Count
-        {
-            get
-            {
-                return 10;
-            }
-        }
+        #endregion Methods
     }
 }

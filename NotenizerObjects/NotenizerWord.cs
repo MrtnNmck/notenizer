@@ -10,22 +10,28 @@ namespace nsNotenizerObjects
 {
 	public class NotenizerWord
 	{
-		private IndexedWord _indexedWord;
-		private String _wordString;
-		private int _startingPosition;
-		private int _endPosition;
-		private String _lemma;
+        #region Variables
+
+        private IndexedWord _indexedWord;
+        private String _wordString;
+        private int _startingPosition;
+        private int _endPosition;
+        private String _lemma;
         private PartOfSpeech _pos;
         private int _index;
         private NamedEntity _namedEntity;
 
-		public NotenizerWord(IndexedWord indexedWord)
-		{
-			_indexedWord = indexedWord;
-			_wordString = indexedWord.word();
-			_startingPosition = indexedWord.beginPosition();
-			_endPosition = indexedWord.endPosition();
-			_namedEntity = new NamedEntity(indexedWord.ner());
+        #endregion Variables
+
+        #region Constructors
+
+        public NotenizerWord(IndexedWord indexedWord)
+        {
+            _indexedWord = indexedWord;
+            _wordString = indexedWord.word();
+            _startingPosition = indexedWord.beginPosition();
+            _endPosition = indexedWord.endPosition();
+            _namedEntity = new NamedEntity(indexedWord.ner());
 
             Object temp = indexedWord.get(typeof(CoreAnnotations.EndIndexAnnotation));
 
@@ -57,36 +63,34 @@ namespace nsNotenizerObjects
             _namedEntity = new NamedEntity(ner);
         }
 
-        public NotenizerWord(String value, String POS)
+        #endregion Constuctors
+
+        #region Properties
+
+        public String Word
         {
-            _wordString = value;
-            _pos = new PartOfSpeech(POS);
+            get { return _wordString; }
         }
 
-		public String Word
-		{
-			get { return _wordString; }
-		}
+        public int StartingPosition
+        {
+            get { return _startingPosition; }
+        }
 
-		public int StartingPosition
-		{
-			get { return _startingPosition; }
-		}
+        public int EndPosition
+        {
+            get { return _endPosition; }
+        }
 
-		public int EndPosition
-		{
-			get { return _endPosition; }
-		}
+        public String Lemma
+        {
+            get { return _lemma; }
+        }
 
-		public String Lemma
-		{
-			get { return _lemma; }
-		}
-
-		public NamedEntity NamedEntity
-		{
-			get { return _namedEntity; }
-		}
+        public NamedEntity NamedEntity
+        {
+            get { return _namedEntity; }
+        }
 
         public PartOfSpeech POS
         {
@@ -97,6 +101,10 @@ namespace nsNotenizerObjects
         {
             get { return _index; }
         }
+
+        #endregion Properties
+
+        #region Methods
 
         public override string ToString()
         {
@@ -134,5 +142,7 @@ namespace nsNotenizerObjects
                 + "/"
                 + _index;
         }
+
+        #endregion Methods
     }
 }

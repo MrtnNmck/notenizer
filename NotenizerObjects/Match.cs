@@ -8,13 +8,15 @@ namespace nsNotenizerObjects
 {
     public class Match
     {
+        #region Variables
+
         private double _structure;
         private double _content;
         private double _value;
 
-        public Match()
-        {
-        }
+        #endregion Variables
+
+        #region Constructors
 
         public Match(double all)
         {
@@ -27,6 +29,10 @@ namespace nsNotenizerObjects
             _content = content;
             _value = value;
         }
+
+        #endregion Constuctors
+
+        #region Properties
 
         public double Structure
         {
@@ -46,9 +52,15 @@ namespace nsNotenizerObjects
             set { _value = value; }
         }
 
+        #endregion Properties
+
+        #region Methods
+
         public override String ToString()
         {
             return String.Format("Structure match: {1}{0}Content match: {2}{0}Value match: {3}{0}", Environment.NewLine, this.Structure, this.Content, this.Value);
         }
+
+        #endregion Methods
     }
 }

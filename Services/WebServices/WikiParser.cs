@@ -12,6 +12,12 @@ namespace nsServices.WebServices
 {
     public static class WikiParser
     {
+        #region Properties
+
+        #endregion Properties
+
+        #region Methods
+
         public static String ParseCountry(String countryName)
         {
             return WikiParser.Parse(WikiParser.CreateUrl(countryName).ToString());
@@ -56,5 +62,7 @@ namespace nsServices.WebServices
         {
             return new Uri(new Uri(NotenizerConstants.SimpleWikiUrl), countryName.Replace(" ", "_"));
         }
+
+        #endregion Methods
     }
 }

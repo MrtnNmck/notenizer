@@ -9,14 +9,38 @@ namespace nsNotenizerObjects
 {
     public class NamedEntity
     {
+        #region Variables
+
         private String _value;
         private NamedEntityType _neType;
+
+        #endregion Variables
+
+        #region Constructors
 
         public NamedEntity(String namedEntity)
         {
             _value = namedEntity == null ? String.Empty : namedEntity;
             _neType = Parse(namedEntity);
         }
+
+        #endregion Constuctors
+
+        #region Properties
+
+        public String Value
+        {
+            get { return _value; }
+        }
+
+        public NamedEntityType Type
+        {
+            get { return _neType; }
+        }
+
+        #endregion Properties
+
+        #region Methods
 
         private NamedEntityType Parse(String namedEntity)
         {
@@ -44,14 +68,7 @@ namespace nsNotenizerObjects
             }
         }
 
-        public String Value
-        {
-            get { return _value; }
-        }
 
-        public NamedEntityType Type
-        {
-            get { return _neType; }
-        }
+        #endregion Methods
     }
 }

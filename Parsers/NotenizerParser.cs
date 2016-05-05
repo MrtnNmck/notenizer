@@ -9,9 +9,23 @@ namespace nsParsers
 {
     public class NotenizerParser
     {
+        #region Variables
+
+        #endregion Variables
+
+        #region Constructors
+
         public NotenizerParser()
         {
         }
+
+        #endregion Constuctors
+
+        #region Properties
+
+        #endregion Properties
+
+        #region Methods
 
         public virtual NotenizerNote Parse(NotenizerSentence sentence)
         {
@@ -22,5 +36,7 @@ namespace nsParsers
         {
             return false;
         }
+
+        #endregion Methods
     }
 }

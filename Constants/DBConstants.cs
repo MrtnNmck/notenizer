@@ -9,28 +9,17 @@ namespace nsConstants
     public class DBConstants
     {
         public const String DatabaseName = "notenizer";
-
         public const String POSFieldName = "pos";
         public const String IndexFieldName = "index";
         public const String GovernorFieldName = "governor";
         public const String DependentFieldName = "dependent";
         public const String PositionFieldName = "position";
-
         public const String DependenciesFieldName = "dependencies";
-        public const String OriginalSentenceDependenciesFieldName = "originalDependencies";
-
-        public const String OriginalSentenceFieldName = "originalSentence";
-
         public const String RelationNameFieldName = "relation_name";
-        public const String NoteDependenciesFieldName = "noteDependencies";
-
         public const String NoteFieldName = "note";
-        public const String CreatedByFieldName = "createdBy";
         public const String ArticleRefIdFieldName = "article_ref_id";
         public const String ComparisonTypeFieldName = "comparison_type";
-      
         public const String TokenTypeFieldName = "token_type";
-        public const String AdditionalInformationFieldName = "additionalInformation";
         public const String CreatedAtFieldName = "created_at";
         public const String UpdatedAtFieldName = "updated_at";
         public const String IdFieldName = "_id";
@@ -41,13 +30,11 @@ namespace nsConstants
         public const String SentenceTerminatorsFieldName = "sentence_terminators";
         public const String LemmaFieldName = "lemma";
         public const String NERFieldName = "ner";
-
         public const String TextFieldName = "text";
         public const String StructureRefIdFieldName = "structure_ref_id";
         public const String StructureDataFieldName = "structure_data";
         public const String SentenceRefIdFieldName = "sentence_ref_id";
         public const String NoteRefIdFieldName = "note_ref_id";
-
         public const String NotesCollectionName = "notes";
         public const String RulesCollectionName = "rules";
         public const String AndRulesCollectionName = "and_rules";

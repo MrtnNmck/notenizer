@@ -12,14 +12,38 @@ namespace nsGUI
 {
     public partial class FormOpenLink : Form
     {
+        #region Variables
+
         private String _url = String.Empty;
         private String _country = String.Empty;
+
+        #endregion Variables
+
+        #region Constructors
 
         public FormOpenLink()
         {
             InitializeComponent();
             CenterToParent();
         }
+
+        #endregion Constuctors
+
+        #region Properties
+
+        public String Url
+        {
+            get { return this._url; }
+        }
+
+        public String Country
+        {
+            get { return this._country; }
+        }
+
+        #endregion Properties
+
+        #region Event Handlers
 
         private void RadioButtonUrl_CheckedChanged(Object sender, EventArgs e)
         {
@@ -50,14 +74,10 @@ namespace nsGUI
             Dispose();
         }
 
-        public String Url
-        {
-            get { return this._url; }
-        }
+        #endregion Event Handlers
 
-        public String Country
-        {
-            get { return this._country; }
-        }
+        #region Methods
+
+        #endregion Methods
     }
 }
