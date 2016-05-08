@@ -7,4 +7,30 @@
 	\chapter{Záver}
 }
 \label{conclusions}
-...
+V práci sme zanalyzovali spracovanie prirodzeného jazyka, pričom sme sa zamerali na oblasti dôležité z hľadiska spracovania učebných textov. Vyskúšali a otestovali sme nástroje na spracovanie prirodzeného jazyka a nástroje na správu paralelných textov. Navrhli sme systém na spracovanie učebných textov. Systém vytvára poznámky z viet vstupného textu podľa pravidiel. Pravidlo určuje ako danú vetu spracovať, ktoré informácie sú podstatné a je naviazané sa štruktúru vety. Tým sme zabezpečili, že jedno pravidlo je aplikovateľné na viacero podobných viet. Pravidlo sa skladá z viacerých informácia, ale najmä zo závislostí slov vo vete. Ak veta obsahuje spojku a alebo informácie oddelené čiarkami, dokáže z nej vytvoriť viacnásobnú poznámku.  Štruktúru vieme reprezentovať stromom alebo priamo vo vete. Okrem tvorby poznámok systém určuje názvoslovné entity deviatich kategórií. Databázový model využíva textovú databázu. Pri návrhu databázového modelu sme vychádzali z princípu jednoduchých kolekcií so zoskupením súvisiacich dát a oddelenia ich od zvyšku.
+
+\hyphenation{MongoDB}
+Navrhnutý systém sme implementovali z využitím textovej databázy MongoDB a nástroja StanfordNLP na spracovanie prirodzeného jazyka a získania esenciálnych informácií pre náš systém, ako závislosti, značky slovných druhov, názvoslovné entity a ďalšie. Pri implementácií sme vyriešili fundamentálne otázky o práci s pravidlami, ktoré sú vyhľadanie, aplikovanie, vytvorenie a úprava pravidla. Pri vyhľadaní aplikovateľného pravidla sa určuje zhoda spracovávanej vety a viet v databáze. Zhoda sa skladá zo štrukturálnej, obsahovej a hodnotovej časti. V procese aplikovania pravidla a vytvorenia poznámky sa určuje zhoda závislostí pre udržanie dostatočnej všeobecnosti pravidla. Vytvorenú poznámku dokáže používateľ interaktívne upraviť, čím určuje, ktoré informácie sú pre neho relevantné.
+
+Na systéme sme vykonali tri experimenty. V prvom experimente sme systém porovnali so systémom na sumarizáciu textu. Zistili sme, že náš systém spracováva všetky vety a eliminuje priemerne väčší počet irelevantných slov za cenu väčšieho počtu výstupných informácií. Pri druhom experimente sme overovali použitie pravidiel na viacero viet s rovnakou štruktúrou. Potvrdilo sa použitie už existujúcich pravidiel pre približne $22,65\%$ viet. V posledom používateľskom experimente sme verifikovali zlepšenie systému pri použití väčšej východiskovej množiny pravidiel. Taktiež sa nám podarilo odhaliť chyby súvisiace s veľkou všeobecnosťou pravidla a zistiť, že medzi študentami je veľký dopyt po podobnom systéme.
+
+O systéme sme publikovali článok a následne ho na konferencií IIT.SRC prezentovali. Dostali sme viacero pozitívnych ohlasov, dobrých nápadov a pripomienok, z ktorých niektoré sa nám podarilo zapracovať.
+
+%
+% Priestor na rozvoj
+%
+\ifthenelse {\boolean{bachelor}}
+{
+	\subsection{Možnosti rozšírenia systému}
+}
+{
+	\section{Možnosti rozšírenia systému}
+}
+\label{subsection:system_continue}
+Systém ponúka priestor na jeho ďalší vývoj. Dostupných je niekoľko oblastí, v ktorých je možné ho ďalej rozvíjať.
+
+Aby bolo vytváranie poznámok čo najefektívnejšie, je potrebné vstupný text predspracovať. Elimináciou nepodstatných častí textu, konkrétne viet, by sa výrazne zredukoval počet viet, ktoré musí systém alebo používateľ spracovať. Eliminácia nepodstatných viet by sa nemusela vykonávať známymi algoritmami, ale mohla by sa vykonávať napríklad na základe kľúčových slov v poznámkach. Podľa toho, ako by si používateľ upravoval poznámky a tým definoval pravidla, by sa systém vedel naučiť podľa výskytu kľúčových slov v poznámkach, ktoré informácie sú pre používateľa dôležité. Na základe toho by vedel určiť dôležitosť vety pre používateľa a eliminovať ju ak by nevyhovovala rozmedziu, ktoré by stanovovalo, ktoré vety eliminovať, a ktoré nie.
+
+Ďalšou oblasťou rozvoja by mohlo byť definovanie si vlastných závislostí. Vďaka vlastným závislostiam by nebol systém odkázaný na závislostí slov vo vete a hľadaní vzoru vo vetách na vytvorenie poznámky. Mohol by byť modifikovaný na hľadanie iných vzorov, napríklad vo vetách.
+
+Bolo by potrebné nastaviť pravidlu väčšiu špecifickosť, aby nebolo závisle iba od štruktúry, ale aj od obsahovej časti vety. Pri hľadaní správnej miery závislosti od obsahovej časti treba vziať do úvahy, aby pravidlo ostalo dostatočné všeobecné a aplikovateľné na viacero viet, zatiaľ čo by bolo dostatočné špecifické na to, aby nezmenilo tvorbu poznámok nie veľmi podobných viet.

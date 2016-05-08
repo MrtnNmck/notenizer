@@ -34,20 +34,109 @@
 	%\chapter{User documentation}
 	\chapter{Dokumentácia}
 }
-Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. 
-\ifthenelse {\boolean{bachelor}}
-{
-	%\subsection{Instalation}
-	\subsection{Inštalácia}
-}
-{
-	%\section{Instalation}
-	\section{Inštalácia}
-}
-Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. 
-%\subsection{Run the application}
-\subsection{Spustenie aplikácie}
-Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi.
+
+\subsection{Inštalácia}
+Nástroj nie je potrebné inštalovať. Na elektronickom médiu sa nachádza spustiteľný súbor \textit{Notenizer.exe}, ktorý spustí nástroj. 
+
+\subsection{Spustenie systému}
+Nástroj ponúka prácu cez dve rozhrania - príkazový riadok a grafické používateľské rozhranie. Na príkazovom riadku nie su dostupné všetky vymoženosti systému, ako napríklad interaktívna úprava poznámok. Podľa zadaných argumentov sa spustenie a správanie systému prispôsobuje.
+
+\subsubsection{Možnosti spustenia systému}
+Argumenty systému: \\
+\\
+\hspace*{1cm} -t, \hyph\hyph text\hspace*{1cm} Text, ktorý sa má spracovať. \\
+\hspace*{1cm} -u, \hyph\hyph url\hspace*{1.07cm} URL adresa článku na wikipédií~\footnote{\label{footnote:simple_wiki}www.simple.wikipedia.org}. \\
+\hspace*{1cm} \hyph\hyph country\hspace*{0.84cm} Spracuje článok o krajine z wikipédie~\footref{footnote:simple_wiki}. \\
+\hspace*{1cm} -d, \hyph\hyph db\hspace*{1.16cm} Názov databázy, ku ktorej sa pripojí. \\
+\hspace*{1cm} -v\hspace*{2.08cm} Ladiace a pomocné výpisy programu. \\
+\hspace*{1cm} -c\hspace*{2.08cm} Program zbehne jednorázovo na príkazovom riadku. \\
+\hspace*{1cm} \hyph\hyph help\hspace*{1.42cm} Zobrazí túto pomocnú správu.
+\subsection{Používateľské rozhranie}
+
+Hlavné okno aplikácie (\imgref{appendix:gui:main_window}) pozostáva zo štyroch častí:
+\begin{my_enumerate}
+	\item menu File (\imgref{appendix:gui:menu_file}),
+	\item menu Edit (\imgref{appendix:gui:menu_edit}),
+	\item priestor na pôvodné vety,
+	\item priestor na poznámky,
+	\item zobrazí okno na editovanie poznámky (\imgref{appendix:gui:edit_window})
+\end{my_enumerate}
+
+\begin{figure}[H]
+	\begin{center}\includegraphics[scale=0.5]{gui_main_window}\end{center}
+	\caption[Grafické rozhranie - Hlavné okno]{Grafické rozhranie - Hlavné okno}\label{appendix:gui:main_window}
+\end{figure}
+
+Menu File (\imgref{appendix:gui:menu_file}) ponúka viacero operácií s textami:
+\begin{my_enumerate}
+	\item otvorí okno pre načítanie textu na spracovanie (\imgref{appendix:gui:input_window}),
+	\item získa text na spracovanie zo zvoleného textového súboru,
+	\item zobrazí okno na dotiahnutie textu z wikipédie (\imgref{appendix:gui:link_window}),
+	\item uloží vytvorené poznámky do textového súboru,
+	\item ukončí program.
+\end{my_enumerate}
+
+\begin{figure}[H]
+	\begin{center}\includegraphics[scale=1]{gui_menu_file}\end{center}
+	\caption[Grafické rozhranie - Menu File]{Grafické rozhranie - Menu File}\label{appendix:gui:menu_file}
+\end{figure}
+
+Menu Edit (\imgref{appendix:gui:menu_edit}) ponúka operácie:
+\begin{my_enumerate}
+	\item zo zobrazovacej plochy odstráni pôvodne vety a poznámky.
+\end{my_enumerate}
+
+\begin{figure}[H]
+	\begin{center}\includegraphics[scale=1]{gui_menu_edit}\end{center}
+	\caption[Grafické rozhranie - Menu Edit]{Grafické rozhranie - Menu Edit}\label{appendix:gui:menu_edit}
+\end{figure}
+
+Okno na načítanie textu na spracovanie (\imgref{appendix:gui:input_window}) obsahuje:
+\begin{my_enumerate}
+	\item textovú plochu na načítanie textu na spracovanie.
+\end{my_enumerate}
+\begin{figure}[H]
+	\begin{center}\includegraphics[scale=0.6]{gui_input_text}\end{center}
+	\caption[Grafické rozhranie - Okno na načítanie textu]{Grafické rozhranie - Okno na načítanie textu}\label{appendix:gui:input_window}
+\end{figure}
+
+Okno na dotiahnutie textu (\imgref{appendix:gui:link_window}) sa skladá z:
+\begin{my_enumerate}
+	\item výber dotiahnutia textu cez URL článku na wikipédií,
+	\item výber dotiahnutia text z článku na wikipédií podľa názvu krajiny,
+	\item zadanie URL alebo názvu krajiny.
+\end{my_enumerate}
+\begin{figure}[H]
+	\begin{center}\includegraphics[scale=0.7]{gui_link_window}\end{center}
+	\caption[Grafické rozhranie - Okno na dotiahnutie textu]{Grafické rozhranie - Okno na dotiahnutie textu}\label{appendix:gui:link_window}
+\end{figure}
+
+Editovacie okno poznámky (\imgref{appendix:gui:edit_window}) obsahuje prvky:
+\begin{my_enumerate}
+	\item znenie pôvodnej vety,
+	\item znenie poznámky,
+	\item interaktívne upraviteľný tvar poznámky,
+	\item slová z pôvodnej vety nepoužité v poznámke,
+	\item spoznámkovávač viacnásobných poznámok (\imgref{appendix:gui:andparser_window}).
+\end{my_enumerate}
+\begin{figure}[H]
+	\begin{center}\includegraphics[scale=0.7]{gui_edit_window}\end{center}
+	\caption[Grafické rozhranie - Editovacie okno poznámky]{Grafické rozhranie - Editovacie okno poznámky}\label{appendix:gui:edit_window}
+\end{figure}
+
+Editovacie okno viacnásobných poznámok (\imgref{appendix:gui:andparser_window}) ponúka:
+\begin{my_enumerate}
+	\item znenie pôvodnej vety,
+	\item viacnásobnú poznámku,
+	\item interaktívne upraviteľný tvar viacnásobnej poznámky,
+	\item slová z pôvodnej vety nepoužité vo viacnásobnej poznámke,
+	\item špeciálny prvok označujúci množinu viacnásobnej poznámky.
+\end{my_enumerate}
+\begin{figure}[H]
+	\begin{center}\includegraphics[scale=0.7]{gui_andparser_window}\end{center}
+	\caption[Grafické rozhranie - Editovacie okno viacnásobných poznámok]{Grafické rozhranie - Editovacie okno viacnásobných poznámok}\label{appendix:gui:andparser_window}
+\end{figure}
+
 %\\
 %\newpage
 %\ifthenelse {\boolean{bachelor}}
@@ -102,7 +191,7 @@ Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh 
 	%\chapter{Electronic medium}
 	\chapter{Zoznam vzťahov závislostí}
 }
-V nasledujúcej tabuľke sú zobrazené skratky vzťahov závislostí slov vo vete ako sa používajú v programe s celým názvom, vysvetlením, príkladom vety a použitím vzhľadom na príkladovú vetu.
+V nasledujúcej tabuľke sú zobrazené skratky vzťahov závislostí slov vo vete ako sa používajú v programe, s celým názvom, vysvetlením, príkladom vety a použitím vzhľadom na príkladovú vetu.
 
 \begin{figure}[H]
 	\begin{center}\includegraphics[scale=0.6]{dependencies_table}\end{center}

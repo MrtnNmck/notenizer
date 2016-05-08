@@ -25,39 +25,50 @@
 \BOOKMARK [3][-]{subsubsection.4.1.1}{Pravidlo na spracovanie}{subsection.4.1}% 25
 \BOOKMARK [3][-]{subsubsection.4.1.2}{Urcenie relevantn\375ch inform\341ci\355}{subsection.4.1}% 26
 \BOOKMARK [3][-]{subsubsection.4.1.3}{Viacn\341sobn\351 pozn\341mky}{subsection.4.1}% 27
-\BOOKMARK [2][-]{subsection.4.2}{Pou\236itie z\341vislost\355 pri tvorbe pozn\341mok}{section.4}% 28
-\BOOKMARK [2][-]{subsection.4.3}{\227trukt\372ra viet a pravidiel}{section.4}% 29
-\BOOKMARK [3][-]{subsubsection.4.3.1}{Reprezent\341cia stromom}{subsection.4.3}% 30
-\BOOKMARK [3][-]{subsubsection.4.3.2}{Reprezent\341cia vo vete}{subsection.4.3}% 31
-\BOOKMARK [2][-]{subsection.4.4}{Uchov\341vanie textov v datab\341zach}{section.4}% 32
-\BOOKMARK [3][-]{subsubsection.4.4.1}{Relacn\351 datab\341zy}{subsection.4.4}% 33
-\BOOKMARK [3][-]{subsubsection.4.4.2}{Textov\351 datab\341zy}{subsection.4.4}% 34
-\BOOKMARK [3][-]{subsubsection.4.4.3}{Porovnanie a v\375ber typu datab\341zy}{subsection.4.4}% 35
-\BOOKMARK [2][-]{subsection.4.5}{N\341vrh uchov\341vania textov v datab\341zach}{section.4}% 36
-\BOOKMARK [3][-]{subsubsection.4.5.1}{Kolekcia articles}{subsection.4.5}% 37
-\BOOKMARK [3][-]{subsubsection.4.5.2}{Kolekcia notes}{subsection.4.5}% 38
-\BOOKMARK [3][-]{subsubsection.4.5.3}{Kolekcia sentences}{subsection.4.5}% 39
-\BOOKMARK [3][-]{subsubsection.4.5.4}{Kolekcia structures}{subsection.4.5}% 40
-\BOOKMARK [3][-]{subsubsection.4.5.5}{Kolekcia rules}{subsection.4.5}% 41
-\BOOKMARK [3][-]{subsubsection.4.5.6}{Kolekcia and rules}{subsection.4.5}% 42
-\BOOKMARK [3][-]{subsubsection.4.5.7}{Zhrnutie kolekci\355}{subsection.4.5}% 43
-\BOOKMARK [2][-]{subsection.4.6}{Zhrnutie}{section.4}% 44
-\BOOKMARK [1][-]{section.5}{Syst\351m na tvorbu pozn\341mok}{}% 45
-\BOOKMARK [2][-]{subsection.5.1}{Pou\236it\351 technol\363gie}{section.5}% 46
-\BOOKMARK [2][-]{subsection.5.2}{Mana\236ment d\341t}{section.5}% 47
-\BOOKMARK [3][-]{subsubsection.5.2.1}{Vyhladanie pravidla}{subsection.5.2}% 48
-\BOOKMARK [3][-]{subsubsection.5.2.2}{Aplikovanie pravidla}{subsection.5.2}% 49
-\BOOKMARK [3][-]{subsubsection.5.2.3}{Vytvorenie pravidla}{subsection.5.2}% 50
-\BOOKMARK [3][-]{subsubsection.5.2.4}{\332prava pravidla}{subsection.5.2}% 51
-\BOOKMARK [2][-]{subsection.5.3}{Mo\236nosti roz\235\355renia syst\351mu}{section.5}% 52
-\BOOKMARK [2][-]{subsection.5.4}{Zhrnutie}{section.5}% 53
+\BOOKMARK [2][-]{subsection.4.2}{Urcenie n\341zvoslovn\375ch ent\355t}{section.4}% 28
+\BOOKMARK [2][-]{subsection.4.3}{Pou\236itie z\341vislost\355 pri tvorbe pozn\341mok}{section.4}% 29
+\BOOKMARK [2][-]{subsection.4.4}{\227trukt\372ra viet a pravidiel}{section.4}% 30
+\BOOKMARK [3][-]{subsubsection.4.4.1}{Reprezent\341cia stromom}{subsection.4.4}% 31
+\BOOKMARK [3][-]{subsubsection.4.4.2}{Reprezent\341cia vo vete}{subsection.4.4}% 32
+\BOOKMARK [2][-]{subsection.4.5}{Uchov\341vanie textov v datab\341zach}{section.4}% 33
+\BOOKMARK [3][-]{subsubsection.4.5.1}{Relacn\351 datab\341zy}{subsection.4.5}% 34
+\BOOKMARK [3][-]{subsubsection.4.5.2}{Textov\351 datab\341zy}{subsection.4.5}% 35
+\BOOKMARK [3][-]{subsubsection.4.5.3}{Porovnanie a v\375ber typu datab\341zy}{subsection.4.5}% 36
+\BOOKMARK [2][-]{subsection.4.6}{N\341vrh uchov\341vania textov v datab\341zach}{section.4}% 37
+\BOOKMARK [3][-]{subsubsection.4.6.1}{Kolekcia articles}{subsection.4.6}% 38
+\BOOKMARK [3][-]{subsubsection.4.6.2}{Kolekcia notes}{subsection.4.6}% 39
+\BOOKMARK [3][-]{subsubsection.4.6.3}{Kolekcia sentences}{subsection.4.6}% 40
+\BOOKMARK [3][-]{subsubsection.4.6.4}{Kolekcia structures}{subsection.4.6}% 41
+\BOOKMARK [3][-]{subsubsection.4.6.5}{Kolekcia rules}{subsection.4.6}% 42
+\BOOKMARK [3][-]{subsubsection.4.6.6}{Kolekcia and rules}{subsection.4.6}% 43
+\BOOKMARK [3][-]{subsubsection.4.6.7}{Zhrnutie kolekci\355}{subsection.4.6}% 44
+\BOOKMARK [2][-]{subsection.4.7}{Zhrnutie}{section.4}% 45
+\BOOKMARK [1][-]{section.5}{Syst\351m na tvorbu pozn\341mok}{}% 46
+\BOOKMARK [2][-]{subsection.5.1}{Pou\236it\351 technol\363gie}{section.5}% 47
+\BOOKMARK [2][-]{subsection.5.2}{Mana\236ment d\341t}{section.5}% 48
+\BOOKMARK [3][-]{subsubsection.5.2.1}{Vyhladanie pravidla}{subsection.5.2}% 49
+\BOOKMARK [3][-]{subsubsection.5.2.2}{Aplikovanie pravidla}{subsection.5.2}% 50
+\BOOKMARK [3][-]{subsubsection.5.2.3}{Vytvorenie pravidla}{subsection.5.2}% 51
+\BOOKMARK [3][-]{subsubsection.5.2.4}{\332prava pravidla}{subsection.5.2}% 52
+\BOOKMARK [2][-]{subsection.5.3}{Zhrnutie}{section.5}% 53
 \BOOKMARK [1][-]{section.6}{Experimenty}{}% 54
-\BOOKMARK [1][-]{section.7}{Zhodnotenie}{}% 55
-\BOOKMARK [1][-]{section.7}{Zoznam pou\236itej literat\372ry}{}% 56
-\BOOKMARK [1][-]{appendix.A}{Pou\236\355vatelsk\341 pr\355rucka}{}% 57
-\BOOKMARK [2][-]{subsection.A.1}{In\235tal\341cia}{appendix.A}% 58
-\BOOKMARK [2][-]{subsection.A.2}{Spustenie aplik\341cie}{appendix.A}% 59
-\BOOKMARK [1][-]{appendix.B}{Zoznam vztahov z\341vislost\355}{}% 60
-\BOOKMARK [1][-]{appendix.C}{Legenda diagramov kolekci\355}{}% 61
-\BOOKMARK [1][-]{appendix.D}{Uk\341\236ka cl\341nkov pou\236it\375ch v experimente}{}% 62
-\BOOKMARK [1][-]{appendix.E}{IIT.SRC cl\341nok}{}% 63
+\BOOKMARK [2][-]{subsection.6.1}{Porovnanie syst\351mu}{section.6}% 55
+\BOOKMARK [3][-]{subsubsection.6.1.1}{V\375sledky}{subsection.6.1}% 56
+\BOOKMARK [3][-]{subsubsection.6.1.2}{Vyhodnotenie porovnania}{subsection.6.1}% 57
+\BOOKMARK [2][-]{subsection.6.2}{Pou\236itie pravidiel}{section.6}% 58
+\BOOKMARK [2][-]{subsection.6.3}{Pou\236\355vatelsk\375 experiment}{section.6}% 59
+\BOOKMARK [3][-]{subsubsection.6.3.1}{V\375sledky}{subsection.6.3}% 60
+\BOOKMARK [3][-]{subsubsection.6.3.2}{Vyhodnotenie experimentu}{subsection.6.3}% 61
+\BOOKMARK [2][-]{subsection.6.4}{Zhrnutie}{section.6}% 62
+\BOOKMARK [1][-]{section.7}{Zhodnotenie}{}% 63
+\BOOKMARK [2][-]{subsection.7.1}{Mo\236nosti roz\235\355renia syst\351mu}{section.7}% 64
+\BOOKMARK [1][-]{subsection.7.1}{Zoznam pou\236itej literat\372ry}{}% 65
+\BOOKMARK [1][-]{appendix.A}{Pou\236\355vatelsk\341 pr\355rucka}{}% 66
+\BOOKMARK [2][-]{subsection.A.1}{In\235tal\341cia}{appendix.A}% 67
+\BOOKMARK [2][-]{subsection.A.2}{Spustenie syst\351mu}{appendix.A}% 68
+\BOOKMARK [3][-]{subsubsection.A.2.1}{Mo\236nosti spustenia syst\351mu}{subsection.A.2}% 69
+\BOOKMARK [2][-]{subsection.A.3}{Pou\236\355vatelsk\351 rozhranie}{appendix.A}% 70
+\BOOKMARK [1][-]{appendix.B}{Zoznam vztahov z\341vislost\355}{}% 71
+\BOOKMARK [1][-]{appendix.C}{Legenda diagramov kolekci\355}{}% 72
+\BOOKMARK [1][-]{appendix.D}{Uk\341\236ka cl\341nkov pou\236it\375ch v experimente}{}% 73
+\BOOKMARK [1][-]{appendix.E}{IIT.SRC cl\341nok}{}% 74

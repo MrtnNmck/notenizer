@@ -27,9 +27,9 @@ Systém na tvorbu poznámok vyžaduje splnenie viacerých požiadaviek. Hlavné 
 	\section{Tvorba poznámok}
 }
 \label{subsection:notes_creation}
-Pri spracovávaní viet potrebné extrahovať dôležité a konkrétne informácie, v našom prípade slová, a z extrahovaných informácií vytvoriť poznámku. Poznámka je zložená výhradne zo slov obsiahnutých vo vete, z ktorej bola vytvorená. Tým zabezpečíme, že poznámka nebude obsahovať irelevantné informácie z hľadiska vzťahu ku vete. 
+Pri spracovávaní viet je potrebné extrahovať dôležité a konkrétne informácie, v našom prípade slová, a z extrahovaných informácií vytvoriť poznámku. Poznámka je zložená výhradne zo slov obsiahnutých vo vete, z ktorej bola vytvorená. Tým zabezpečíme, že poznámka nebude obsahovať irelevantné informácie z hľadiska vzťahu ku vete. 
 
-Spracovávané vety sa môžu opakovať, a preto je dôležité, aby sa rovnaké a podobné vety spracovali vždy takým istým spôsobom. Pre tento účel je vhodné mať definované pravidlo (viď.~\fullref{subsubsection:rule_for_processing}), ktoré bude určovať, ako sa má daná veta spracovať. Aplikovaním pravidla na vetu vytvoríme poznámku. Používateľ má možnosť interaktívne upraviť poznámku, a tým pádom aj pravidlo, ktoré bolo použité na vytvorenie danej poznámku, v takom rozsahu, že sa vytvorená poznámka zmení podľa vykonaných zmien. Zmeny v pravidle sa musia prejaviť aj pri nasledujúcom aplikovaní pravidla na rovnakú alebo podobnú vetu. Používateľovi to poskytne kontrolou nad spôsobom, akým sa vytvárajú poznámky a bude si ich vedieť prispôsobiť - personalizovať.
+Spracovávané vety sa môžu opakovať, a preto je dôležité, aby sa rovnaké a podobné vety spracovali vždy takým istým spôsobom. Pre tento účel je vhodné mať definované pravidlo, ktoré bude určovať, ako sa má daná veta spracovať. Aplikovaním pravidla na vetu vytvoríme poznámku. Používateľ má možnosť interaktívne upraviť poznámku, a tým pádom aj pravidlo, ktoré bolo použité na vytvorenie danej poznámku, v takom rozsahu, že sa vytvorená poznámka zmení podľa vykonaných zmien. Zmeny v pravidle sa musia prejaviť aj pri nasledujúcom aplikovaní pravidla na rovnakú alebo podobnú vetu. Používateľovi to poskytne kontrolou nad spôsobom, akým sa vytvárajú poznámky a bude si ich vedieť prispôsobiť - personalizovať.
 
 %
 % Pravidlo na spracovanie
@@ -44,7 +44,7 @@ Spracovávané vety sa môžu opakovať, a preto je dôležité, aby sa rovnaké
 \label{subsubsection:rule_for_processing}
 Pravidlo na spracovanie určuje, ktoré informácie vo vete sú relevantné a majú byť použité v poznámke. Okrem určenia relevantnosti slov pravidlo taktiež určuje, na ktorej pozícií sa má konkrétna informácia vo výslednej poznámke nachádzať. Výsledná poznámka sa nemusí skladať iba z jednej vety, ale môže pozostávať z ľubovolného počtu viet. Počet viet, z ktorých bude poznámka pozostávať a miesta, na ktorých má byť pôvodná poznámka rozdelená na vety určuje pravidlo.
 
-Skladá sa primárne zo štruktúry, ktorá je zložená najmä zo závislostí. Viac informácií o štruktúre je v časti~\fullref{subsection:structure_of_sentences_and_rules}. Okrem štruktúry obsahuje aj informácie o pozíciách, na ktorých sa má výsledná poznámka rozdeliť na menšie časti - vety.
+Skladá sa primárne zo štruktúry, ktorá je zložená najmä zo závislostí. Okrem štruktúry obsahuje aj informácie o pozíciách, na ktorých sa má výsledná poznámka rozdeliť na menšie časti - vety.
 %zo závislostí slov, ktoré sa majú nachádzať v poznámke. Pomocou závislosti vieme jednoznačne identifikovať a extrahovať konkrétne slovo z vety a pridať ho do poznámky. Okrem závislostí obsahuje aj informácie o pozícií závislostí alebo type tokenu, ktorého slovo sa ma následne pridať do poznámky a informácie o tokenoch závislostí. Pre nadradený aj podradený token pravidlo obsahuje dáta o slove korešpondujúcom s daným tokenom. Sú to značka slovného druhu, index slova vo vete, názvoslovná entita a lema tvar.
 
 Pravidlo je aplikovateľné nielen na totožné vety, ale aj na vety s rovnakou štruktúrou a je nezávislé od obsahovej časti vety.
@@ -88,11 +88,37 @@ Viacnásobná poznámka je poznámka, ktorá sa skladá z viacerých viet, ktor�
 	\end{tabular}
 \end{table}
 
-Z tabuľky vidno, že rovnaký základ viet vo viacnásobnej poznámke je \textit{It is border by}, ktoré je rozšírené o prvky z množiny \textit{\{Austria in the southwest, Hungary in the south, Ukraine in the east, Poland in the north, Czech Republic in the northwest\}}.
+Z tabuľky vidno, že rovnaký základ viet vo viacnásobnej poznámke je \textit{It is border by}, ktorý je rozšírený o prvky z množiny \textit{\{Austria in the southwest, Hungary in the south, Ukraine in the east, Poland in the north, Czech Republic in the northwest\}}.
 
 Množina sa určuje pomocou dvoch závislostí. Prvá je závislosť so vzťahom \textit{conjuction} a špecifikom \textit{and}, ktorá nám určuje, ktoré slová sú prepojené spojkou \textit{a}. Druhá využívaná závislosť, je závislosť so vzťahom \textit{appositional modifier}, ktorá určuje slova prepojené čiarkou, keďže spojka \textit{a} môže byť nahradená čiarkou. Pomocou týchto závislostí vieme extrahovať z vety jednotlivé prvky množiny a množinu vytvoriť.
 
 Základ viet vo viacnásobnej poznámke je relevantná informácia z pôvodnej vety určená pravidlom, okrem prvkov množín. Po aplikovaní pravidla a získaní základu viet sa následne namnoží a spojí s jednotlivými prvkami množiny a vytvoria tak viacnásobnú poznámku.
+
+%
+% Určenie názvloslovných entít
+%
+\ifthenelse {\boolean{bachelor}}
+{
+	\subsection{Určenie názvoslovných entít}
+}
+{
+	\section{Určenie názvoslovných entít}
+}
+\label{design:named_enitities}
+Názvoslovné entity nám určujú typ entity slova. Pre využite týchto informácií rozdeľujeme názvoslovné entity do deviatich kategórií:
+\begin{my_itemize}
+	\myitem lokácia,
+	\myitem osoba,
+	\myitem organizácia,
+	\myitem mena,
+	\myitem percentá,
+	\myitem dátum,
+	\myitem čas,
+	\myitem číslo,
+	\myitem ostatné.
+\end{my_itemize}
+
+Kategórie názvoslovných entít sú súčasťou pravidiel. Pomocou nich dokážeme presnejšie identifikovať relevantnú informáciu vo vete. Pri určovaní zhôd viet vieme, vďaka kategóriám názvoslovných entít, presnejšie určiť zhodu, keďže dokážeme identifikovať, či vety obsahujú rovnaké kategórie názvoslovných entít. Je potrebné používateľovi odlíšiť jednotlivé kategórie, ako pomoc pri úprave poznámky a výbere relevantnej informácie.
 
 %
 % Použitie závislostí pri tvorbe poznámok
@@ -115,9 +141,9 @@ Závislosti majú viacero využití pri tvorbe poznámok. Hlavné z nich sú:
 
 Závislosť nám zoskupuje informácie o jej tokenoch a vzťahu medzi nimi. Na základe nich vieme, bez potreby iných vstupov, jednoznačne identifikovať konkrétnu informáciu vo vete alebo poznámke.
 
-Pravidlo, ktoré je tvorené prevažne zo závislostí, nie je viazané na konkrétnu vetu, pri spracovávaní ktorej vzniklo. Viaže sa na štruktúru vety (viď.~\fullref{subsection:structure_of_sentences_and_rules}). Táto vlastnosť nám umožňuje použiť jedno a to isté pravidlo na spracovanie viacerých viet.
+Pravidlo, ktoré je tvorené prevažne zo závislostí, nie je viazané na konkrétnu vetu, pri spracovávaní ktorej vzniklo, ale viaže sa na štruktúru vety. Táto vlastnosť nám umožňuje použiť jedno a to isté pravidlo na spracovanie viacerých viet.
 
-Keby sme vytvárali pravidlá napríklad, iba na základe značiek názvoslovných druhov a ukladali by sme si v akom poradí boli značky v pôvodnej vete a v akom poradí v poznámke, potrebovali by sme pre každú obmenu vety nové pravidlo. Keďže je pravidlo naviazané na štruktúru vety a nie na obsahovú časť, teda aj poradie slov, vieme jedným pravidlom spracovať viacero obmien jednej vety, za podmienky, že sa obmenou nezmenila štruktúra. Aplikovateľnosťou pravidla na viacero viet sa nám redukuje počet všetkých možných potrebných pravidiel.
+Keby sme vytvárali pravidlá napríklad, iba na základe značiek názvoslovných druhov a ukladali by sme si v akom poradí boli značky v pôvodnej vete a v akom poradí v poznámke, potrebovali by sme pre každú obmenu vety nové pravidlo. Keďže je pravidlo naviazané na štruktúru vety a nie na obsahovú časť, teda aj poradie slov, vieme jedným pravidlom spracovať viacero obmien jednej vety, za predpokladu, že sa obmenou nezmenila štruktúra. Aplikovateľnosťou pravidla na viacero viet sa nám redukuje počet všetkých možných potrebných pravidiel.
 
 %
 % Štruktúra viet a pravidiel
@@ -134,8 +160,8 @@ Všeobecná štruktúra je definovaná závislosťami, vzťahmi závislostí, po
 
 Štruktúru viet prezentujeme dvoma spôsobmi:
 \begin{my_itemize}
-	\myitem stromom (viď.~\fullref{subsubsection:structure_tree_representation}),
-	\myitem vo vete (viď.~\fullref{subsubsection:structure_representation_in_sentence})
+	\myitem stromom,
+	\myitem vo vete.
 \end{my_itemize}
 
 %
@@ -149,7 +175,7 @@ Všeobecná štruktúra je definovaná závislosťami, vzťahmi závislostí, po
 	\subsection{Tree representation}
 }
 \label{subsubsection:structure_tree_representation}
-Stromová reprezentácia uľahčuje reprezentáciu vzťahov a prepojení jednotlivých slov vo vete. Táto reprezentácia môže byť pre vetu \textit{,,The president of the Slovak Republic is Andrej Kiska.''} vyjadrená~\imgref{fig:tree_structure}. Reprezentácie je podobná reprezentácií na~\imgref{fig:dependency_tree} z časti~\fullref{subsubsec:dependencyparsing}, avšak je ešte rozšírená o značky slovných druhov, indexy, názvoslovné entity a lemy. V tomto poradí sú tieto informácie zobrazene v stromovej reprezentácia pod príslušným slovom.
+Stromová reprezentácia uľahčuje reprezentáciu vzťahov a prepojení jednotlivých slov vo vete. Táto reprezentácia môže byť pre vetu \textit{,,The president of the Slovak Republic is Andrej Kiska.''} vyjadrená~\imgref{fig:tree_structure}. Reprezentácia je podobná reprezentácií na~\imgref{fig:dependency_tree} z časti~\fullref{subsubsec:dependencyparsing}, avšak je ešte rozšírená o značky slovných druhov, indexy, názvoslovné entity a lemy. V tomto poradí sú tieto informácie zobrazene v stromovej reprezentácia pod príslušným slovom.
 
 \begin{figure}[H]
 	\begin{center}\includegraphics[scale=0.35]{tree_structure}\end{center}
@@ -167,7 +193,7 @@ Stromová reprezentácia uľahčuje reprezentáciu vzťahov a prepojení jednotl
 	\subsection{Representation in sentence}
 }
 \label{subsubsection:structure_representation_in_sentence}
-Reprezentácia vo vete taktiež reprezentuje vzťahy a prepojenia slov vo vete. Zo zobrazenia tejto reprezentácie sa dá jednoduchšie pochopiť celá štruktúra, keďže zobrazuje slová v pôvodnom poradí a celkovo vetu v originálnom formátovaní. Pre vetu \textit{,,The president of the Slovak Republic is Andrej Kiska.''} vyzerá \textit{reprezentácia vo vete} ako na~\imgref{fig:sentence_representation}.
+Reprezentácia vo vete taktiež reprezentuje vzťahy a prepojenia slov vo vete. Zo zobrazenia tejto reprezentácie sa dá jednoduchšie pochopiť celá štruktúra, keďže zobrazuje slová v pôvodnom poradí a celkovo vetu v pôvodnom formátovaní. Pre vetu \textit{,,The president of the Slovak Republic is Andrej Kiska.''} vyzerá \textit{reprezentácia vo vete} ako na~\imgref{fig:sentence_representation}.
 
 \begin{figure}[H]
 	\begin{center}\includegraphics[scale=0.4]{kiska_full_sentence}\end{center}
@@ -187,7 +213,7 @@ Reprezentácia vo vete taktiež reprezentuje vzťahy a prepojenia slov vo vete. 
 	\section{Uchovávanie textov v databázach}
 }
 \label{subsection:persisting_texts_in_db}
-Text je špecifický údajový model s variabilnou štruktúrou, ktorý potrebujeme efektívne ukladať v databáze. Je nevyhnutné použiť vhodnú databázu, ktorá je prispôsobená na ukladanie textov. Databáza musí obsahovať vlastnosti, ktoré umožňujú jednoduché narábanie s dátami s variabilnou štruktúrou a nemajú prebytočnú spotrebu pamäti pri ich uchovávaní. Taktiež je potrebná podpora bezproblémového ukladanie, získavania, vyhľadávania a spracovania textov na úrovni databázy. Pri výbere vhodnej databázy sme prešli viacero alternatív.
+Text je špecifický údajový model s variabilnou štruktúrou, ktorý potrebujeme efektívne ukladať v databáze. Je nevyhnutné použiť vhodnú databázu, ktorá je prispôsobená ukladaniu textov. Databáza musí obsahovať vlastnosti, ktoré umožňujú jednoduché narábanie s dátami s variabilnou štruktúrou a nemajú prebytočnú spotrebu pamäti pri ich uchovávaní. Taktiež je potrebná podpora bezproblémového ukladanie, získavania, vyhľadávania a spracovania textov na úrovni databázy. Pri výbere vhodnej databázy sme vyberali z viacerých alternatív.
 
 %
 % Relačné databázy
@@ -250,7 +276,7 @@ Porovnávame textové a relačné databázy. V oboch kategóriách sme vybrali j
 
 \begin{table}[H]
 	\centering
-	\caption{Porovnanie poskytovaných prvkov}
+	\caption[Porovnanie poskytovaných prvkov]{Porovnanie poskytovaných prvkov\footnotemark}
 	\label{table:features_of_mongodb}
 	\begin{tabular}{|l|l|l|}
 		\hline
@@ -267,13 +293,14 @@ Porovnávame textové a relačné databázy. V oboch kategóriách sme vybrali j
 	\end{tabular}
 \end{table}
 
-\textit{Bohatý dátový model} (angl. Rich Data Model) je poskytovanie rozšírenej funkcionality dátovým modelom. Princípom \textit{dynamickej štruktúry} (angl. Dynamic Structure) je jednoduchá zmena štruktúru, pričom nemusí byť vôbec zadefinovaná, a každý záznam môže mať odlišnú štruktúru. \textit{Lokálnosť dát} (angl. Data Locality) znamená uchovávanie súvisiacich dát pokope. \textit{Aktualizovanie polí} umožňuje vykonávať nad poliami operácie, ako sú inkrementácia podľa špecifikovaného množstva, vynásobenie hodnotou, premenovanie, aktualizácia iba ak je hodnota väčšia alebo menšia ako špecifická hodnota a ďalšie. \textit{Audit} (angl. Auditing) je funkcionalita, ktorá umožňuje administrátorom a používateľom sledovať aktivity systému. \textit{Auto-sharding} zabezpečuje zabránenie poklesu priepustnosti operácií čítania a zapisovania pri náraste dát ukladaním dát automaticky na viacero strojov.
+\footnotetext{https://www.mongodb.com/compare/mongodb-mysql}
+\textit{Bohatý dátový model} (angl. Rich Data Model) je poskytovanie rozšírenej funkcionality dátovým modelom. Princípom \textit{dynamickej štruktúry} (angl. Dynamic Structure) je jednoduchá zmena štruktúru, pričom nemusí byť vôbec zadefinovaná a každý záznam môže mať odlišnú štruktúru. \textit{Lokálnosť dát} (angl. Data Locality) znamená uchovávanie súvisiacich dát pokope. \textit{Aktualizovanie polí} umožňuje vykonávať nad poliami operácie, ako sú inkrementácia podľa špecifikovaného množstva, vynásobenie hodnotou, premenovanie, aktualizácia iba ak je hodnota väčšia alebo menšia ako špecifická hodnota a ďalšie. \textit{Audit} (angl. Auditing) je funkcionalita, ktorá umožňuje administrátorom a používateľom sledovať aktivity systému. \textit{Auto-sharding} zabezpečuje zabránenie poklesu priepustnosti operácií čítania a zapisovania pri náraste dát ukladaním dát automaticky na viacero strojov.
 
 MongoDB má vlastnú konvenciu názvov svojich častí. Tie sa v niektorých prípadoch líšia s názvami relačných databáz. Rozdiely sú zobrazene v tabuľke~\fullref{table:names_of_mongodb}.
 
 \begin{table}[H]
 	\centering
-	\caption{Porovnanie používaných pojmov~\cite{MongoDBvsMySQL2015}}
+	\caption[Porovnanie používaných pojmov]{Porovnanie používaných pojmov~\cite{MongoDBvsMySQL2015}}
 	\label{table:names_of_mongodb}
 	\begin{tabular}{|l|l|}
 		\hline
@@ -423,7 +450,7 @@ Ukladané dáta sa dajú rozdeliť do niekoľkých samostatných kolekcií. Sú 
 	\myitem and rules.
 \end{my_itemize}
 	
-Prepojenia medzi jednotlivými kolekciami sú zobrazené na~\imgref{fig:db_schema}. Nasledujúcich časti opisujú stručne každú kolekciu. Všetky kolekcie obsahujú okrem polí špecifických pre danú kolekciu, aj polia časových značiek označujúcich vytvorenie a aktualizáciu záznamu.
+Prepojenia medzi jednotlivými kolekciami sú zobrazené na~\imgref{fig:db_schema}. Nasledujúce časti stručne opisujú každú kolekciu. Všetky kolekcie obsahujú okrem polí špecifických pre danú kolekciu, aj polia časových značiek označujúcich vytvorenie a aktualizáciu záznamu.
 
 \begin{figure}[H]
 	\begin{center}\includegraphics[scale=0.60]{db_schema}\end{center}
