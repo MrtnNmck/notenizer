@@ -38,13 +38,15 @@ namespace nsNotenizer
         private List<NotenizerNote> _notes;
         private StaticParser _staticParser;
         private ComparsionsManager _comparsionManager;
+        private bool _verbose;
 
         #endregion Variables
 
         #region Constructors
 
-        public Notenizer()
+        public Notenizer(bool verbose)
         {
+            _verbose = verbose;
             _staticParser = new StaticParser();
             _comparsionManager = new ComparsionsManager();
         }
@@ -61,7 +63,7 @@ namespace nsNotenizer
         /// <summary>
         /// Pipeline to StanfordCoreNLP project.
         /// </summary>
-        private StanfordCoreNLP Pipeline
+        public StanfordCoreNLP Pipeline
         {
             get
             {
@@ -127,12 +129,15 @@ namespace nsNotenizer
                 Console.SetError(streamwriter);
             }
 
-            // Result - Pretty Print
-            using (ByteArrayOutputStream stream = new ByteArrayOutputStream())
+            if (_verbose)
             {
-                pipeLine.prettyPrint(annotation, new PrintWriter(stream));
-                Console.WriteLine(stream.toString());
-                stream.close();
+                // Result - Pretty Print
+                using (ByteArrayOutputStream stream = new ByteArrayOutputStream())
+                {
+                    pipeLine.prettyPrint(annotation, new PrintWriter(stream));
+                    Console.WriteLine(stream.toString());
+                    stream.close();
+                }
             }
 
             _notes = Parse(annotation);
@@ -293,7 +298,7 @@ namespace nsNotenizer
                     if (parsedNote.Note.AndRuleID != DBConstants.BsonNullValue)
                         parsedNote.AndRule = GetAndRuleForSentence(rule, parsedNote.Note.AndRuleID);
 
-                    Console.WriteLine("Parsed note: " + parsedNote.OriginalSentence + " ===> " + parsedNote.Text);
+                    //Console.WriteLine("Parsed note: " + parsedNote.OriginalSentence + " ===> " + parsedNote.Text);
                     sentencesNoted.Add(parsedNote);
 
                     continue;

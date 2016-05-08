@@ -26,32 +26,35 @@ namespace nsCLI
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             options = new Options();
-            notenizer = new Notenizer();
 
             if (CommandLine.Parser.Default.ParseArguments(args, options))
             {
+                notenizer = new Notenizer(options.Verbose);
+
                 if (options.DatabaseName != null)
                     ConnectionManager.DatabaseName = options.DatabaseName;
 
-                if (options.GUI)
+                if (options.RunAnalysis)
+                    Analyzator.Analyze();
+                else if (!options.IsConsole)
                 {
                     if (options.Text != String.Empty)
-                        Application.Run(new FormMain(options.Text));
+                        Application.Run(new FormMain(options.Text, options.Verbose));
                     else if (options.Url != String.Empty)
-                        Application.Run(new FormMain(WikiParser.Parse(options.Url)));
+                        Application.Run(new FormMain(WikiParser.Parse(options.Url), options.Verbose));
                     else if (options.Country != String.Empty)
-                        Application.Run(new FormMain(WikiParser.ParseCountry(options.Country)));
+                        Application.Run(new FormMain(WikiParser.ParseCountry(options.Country), options.Verbose));
                     else
-                        Application.Run(new FormMain());
+                        Application.Run(new FormMain(options.Verbose));
                 }
-                else if (!options.GUI)
+                else if (options.IsConsole)
                 {
                     if (options.Text != String.Empty)
                         notenizer.RunCoreNLP(options.Text);
                     else if (options.Url != String.Empty)
-                        Application.Run(new FormMain(WikiParser.Parse(options.Url)));
+                        notenizer.RunCoreNLP(WikiParser.Parse(options.Url));
                     else if (options.Country != String.Empty)
-                        Application.Run(new FormMain(WikiParser.ParseCountry(options.Country)));
+                        notenizer.RunCoreNLP(WikiParser.ParseCountry(options.Country));
                 }
             }
         }

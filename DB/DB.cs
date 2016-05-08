@@ -61,6 +61,23 @@ namespace nsDB
         }
 
         /// <summary>
+        /// Gets number of documents in collection.
+        /// </summary>
+        /// <param name="collectionName">Collection name</param>
+        /// <returns></returns>
+        public static async Task<long> GetCount(String collectionName)
+        {
+            try
+            {
+                return await GetCollection(collectionName).Find(Builders<BsonDocument>.Filter.Empty).CountAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error getting number of documents in collection " + collectionName + Environment.NewLine + Environment.NewLine + ex.Message);
+            }
+        }
+
+        /// <summary>
         /// Gets first documents from collections which fulfill filter conditions
         /// </summary>
         /// <param name="collectionName">Name of collections</param>

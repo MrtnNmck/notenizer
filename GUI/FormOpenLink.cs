@@ -28,6 +28,7 @@ namespace nsGUI
         {
             InitializeComponent();
             CenterToParent();
+            this.Text = "Text about country";
         }
 
         #endregion Constuctors
@@ -62,9 +63,15 @@ namespace nsGUI
         private void RadioButtonUrl_CheckedChanged(Object sender, EventArgs e)
         {
             if (this.radioButtonUrl.Checked)
+            {
                 this.labelUrl.Text = "Link";
+                this.Text = "Text from URL";
+            }
             else
+            {
                 this.labelUrl.Text = "Country";
+                this.Text = "Text about country";
+            }
         }
 
         /// <summary>

@@ -31,18 +31,21 @@ namespace nsGUI
         private AndParser _andParser;
         private List<NotenizerAdvancedTextBox> _noteTextBoxes;
         private String _article;
+        private bool _verbose;
 
         #endregion Variables
 
         #region Constructors
 
-        public FormMain()
+        public FormMain(bool verbose)
         {
+            this._verbose = verbose;
             Init();
         }
 
-        public FormMain(String text)
+        public FormMain(String text, bool verbose)
         {
+            _verbose = verbose;
             Init();
             ProcessText(text);
         }
@@ -176,7 +179,7 @@ namespace nsGUI
         {
             this.Icon = Properties.Resources.AppIcon;
 
-            this._notenizer = new Notenizer();
+            this._notenizer = new Notenizer(this._verbose);
             this._andParser = new AndParser();
             this._noteTextBoxes = new List<NotenizerAdvancedTextBox>();
 
