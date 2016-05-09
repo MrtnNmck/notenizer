@@ -12,7 +12,7 @@ V dnešnej dobe sme obklopení veľkým množstvom dát z rôznych zdrojov, či 
 
 Väčšina učebných textov je písaná v prirodzenom jazyku a má neštruktúrovanú formu. Stroje zatiaľ nedokážu úplne pochopiť prirodzený jazyk z dôvodu komplexnosti a variácie jednotlivých jazykov. Spracovanie prirodzeného jazyka je disciplína, ktorá sa zaoberá spracovaním prirodzeného jazyka strojmi. V našom systéme využívame niekoľko úloh tejto disciplíny.
 
-Náš navrhovaný systém sa zameriava na tvorbu poznámok z viet pomocou extrakcie relevantných informácií z nich. Na tvorbu poznámok sa používa najmä syntaktická analýza viet a extrakcia vzťahov a závislostí medzi slovami viet. Výstupom nami navrhnutého systému sú personalizované poznámky. Systém implementuje prvky interaktivity, ktoré umožňujú používateľovi modifikáciu automaticky vytvorených poznámok. Na základe zmien sa systém ,,naučí'' nove pravidlá ako spracovávať vety. Tieto nové pravidlá zohľadní pri nasledujúcom spracovávaní zdrojov.
+Náš navrhovaný systém sa zameriava na tvorbu poznámok z viet, pomocou extrakcie relevantných informácií z nich. Na tvorbu poznámok sa používa najmä syntaktická analýza viet a extrakcia vzťahov a závislostí medzi slovami viet. Výstupom nami navrhnutého systému sú personalizované poznámky. Systém implementuje prvky interaktivity, ktoré umožňujú používateľovi modifikáciu automaticky vytvorených poznámok. Na základe zmien sa systém ,,naučí'' nove pravidlá ako spracovávať vety. Tieto nové pravidlá zohľadní pri nasledujúcom spracovávaní zdrojov.
 
 \ifthenelse {\boolean{bachelor}}
 {
@@ -23,7 +23,7 @@ Náš navrhovaný systém sa zameriava na tvorbu poznámok z viet pomocou extrak
 	%\chapter{Introduction}				
 	\chapter{Motivation}
 }
-Študenti musia často spracovávať veľké množstvá dát, pričom dôležitá je pre nich iba časť dát, ktorá obsahuje relevantné informácie. Proces selekcie relevantných informácií časovo náročný. Pomocou nami navrhnutého systému by si vedeli z dát vytvoriť poznámky a tak získať podmnožinu, pre nich relevantných informácií, rýchlejšie. Vytvorené poznámky by boli personalizované, teda priamo prispôsobené tvorbe poznámok používateľa a tým väčšmi zredukujú potrebný čas, keďže používateľ nebude musieť získané  relevantné informácie ešte následne upravovať.
+Študenti musia často spracovávať veľké množstvá dát, pričom dôležitá je pre nich iba časť dát, ktorá obsahuje relevantné informácie. Proces selekcie relevantných informácií je časovo náročný. Pomocou nami navrhnutého systému by si vedeli z dát vytvoriť poznámky a tak získať podmnožinu, pre nich relevantných informácií, rýchlejšie. Vytvorené poznámky by boli personalizované, teda priamo prispôsobené tvorbe poznámok používateľa a tým väčšmi zredukujú potrebný čas, keďže používateľ nebude musieť získané  relevantné informácie ešte následne upravovať.
 
 \ifthenelse {\boolean{bachelor}}
 {
@@ -34,4 +34,26 @@ Náš navrhovaný systém sa zameriava na tvorbu poznámok z viet pomocou extrak
 	%\chapter{Introduction}				
 	\chapter{Prehľad práce}
 }
-Práca začína časťou analýzy~\fullref{analysis}, v ktorej je spracovanie prirodzeného jazyka, jeho úlohy a nástroje na podporu spracovania prirodzeného jazyka. Analýza pokračuje opisom a rozborom nástrojov na spracovanie paralelných textov v časti~\fullref{analysis2}. V časti~\fullref{design} sú rozpísané návrhové rozhodnutie systému na tvorbu poznámok. Implementačné rozhodnutie sú definované v časti~\fullref{implementation}. Nasleduje časť~\fullref{experiments}, v ktorej sa nachádzajú vyhodnotenia naším experimentov. Práca je ukončená časťou~\fullref{conclusions}.
+Práca začína časťou analýzy~\fullref{analysis}, v ktorej je spracovanie prirodzeného jazyka, jeho úlohy a nástroje na podporu spracovania prirodzeného jazyka. Analýza pokračuje opisom a rozborom nástrojov na spracovanie paralelných textov v časti~\fullref{analysis2}. V časti~\fullref{design} sú rozpísané návrhové rozhodnutia systému na tvorbu poznámok. Implementačné rozhodnutia sú definované v časti~\fullref{implementation}. Nasleduje časť~\fullref{experiments}, v ktorej sa nachádzajú vyhodnotenia našich experimentov. Práca je ukončená časťou~\fullref{conclusions}.
+
+\ifthenelse {\boolean{bachelor}}
+{
+	%\section{Introduction}
+	\subsection{Slovník pojmov}
+}
+{
+	%\chapter{Introduction}				
+	\chapter{Slovník pojmov}
+}
+
+\begin{table}[H]
+	\centering
+	\caption{Slovník pojmov}
+	\label{introduction:table:dictionary}
+	\begin{tabular}{|l|l|}
+		\hline
+		\textbf{Pojem} & \textbf{Vysvetlenie}  \\ \hline
+		token & Postupnosť znakov reprezentujúcich slovo vo vete. \\ \hline
+		framework & Abstrakcia ponúkajúca softvérovú generickú funkcionalitu. \\ \hline
+	\end{tabular}
+\end{table}

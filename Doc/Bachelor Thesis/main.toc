@@ -2,6 +2,7 @@
 \contentsline {section}{\numberline {1}\IeC {\'U}vod}{1}{section.1}
 \contentsline {subsection}{\numberline {1.1}Motiv\IeC {\'a}cia}{1}{subsection.1.1}
 \contentsline {subsection}{\numberline {1.2}Preh\IeC {\v l}ad pr\IeC {\'a}ce}{1}{subsection.1.2}
+\contentsline {subsection}{\numberline {1.3}Slovn\IeC {\'\i }k pojmov}{2}{subsection.1.3}
 \contentsline {section}{\numberline {2}Spracovanie prirodzen\IeC {\'e}ho jazyka}{3}{section.2}
 \contentsline {subsection}{\numberline {2.1}\IeC {\'U}lohy spracovania prirodzen\IeC {\'e}ho jazyka}{3}{subsection.2.1}
 \contentsline {subsubsection}{\numberline {2.1.1}Zna\IeC {\v c}kovanie slovn\IeC {\'y}ch druhov}{4}{subsubsection.2.1.1}
@@ -48,10 +49,10 @@
 \contentsline {subsection}{\numberline {5.1}Pou\IeC {\v z}it\IeC {\'e} technol\IeC {\'o}gie}{31}{subsection.5.1}
 \contentsline {subsection}{\numberline {5.2}Mana\IeC {\v z}ment d\IeC {\'a}t}{31}{subsection.5.2}
 \contentsline {subsubsection}{\numberline {5.2.1}Vyh\IeC {\v l}adanie pravidla}{32}{subsubsection.5.2.1}
-\contentsline {paragraph}{V\IeC {\'y}po\IeC {\v c}et zhody viet}{32}{section*.25}
-\contentsline {paragraph}{Nadraden\IeC {\'a} zna\IeC {\v c}ka slovn\IeC {\'e}ho druhu}{36}{section*.27}
+\contentsline {paragraph}{V\IeC {\'y}po\IeC {\v c}et zhody viet}{32}{section*.26}
+\contentsline {paragraph}{Nadraden\IeC {\'a} zna\IeC {\v c}ka slovn\IeC {\'e}ho druhu}{36}{section*.28}
 \contentsline {subsubsection}{\numberline {5.2.2}Aplikovanie pravidla}{36}{subsubsection.5.2.2}
-\contentsline {paragraph}{V\IeC {\'y}po\IeC {\v c}et zhody z\IeC {\'a}vislost\IeC {\'\i }}{38}{section*.30}
+\contentsline {paragraph}{V\IeC {\'y}po\IeC {\v c}et zhody z\IeC {\'a}vislost\IeC {\'\i }}{38}{section*.31}
 \contentsline {subsubsection}{\numberline {5.2.3}Vytvorenie pravidla}{38}{subsubsection.5.2.3}
 \contentsline {subsubsection}{\numberline {5.2.4}\IeC {\'U}prava pravidla}{39}{subsubsection.5.2.4}
 \contentsline {subsection}{\numberline {5.3}Zhrnutie}{40}{subsection.5.3}

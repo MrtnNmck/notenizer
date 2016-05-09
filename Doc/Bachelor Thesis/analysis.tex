@@ -55,7 +55,7 @@ Spracovanie prirodzeného jazyka má niekoľko hlavných úloh. V nasledujúcich
 	\myitem Značkovanie slovných druhov (angl. Part-of-speech tagging) \ref{subsubsec:postagging},
 	\myitem Rozdelenie vety na menšie časti (angl. Chunking),
 	\myitem Rozpoznávanie názvoslovných entít (angl. Named Entity Recognition) \ref{subsubsec:ner},
-	\myitem Označovanie sémantického postavenie (angl. Semantic Role Labeling),
+	\myitem Označovanie sémantického postavenia (angl. Semantic Role Labeling),
 	\myitem Rozpoznanie koreferencií (angl. Coreference resolution) \ref{subsubsec:corefparsing},
 	\myitem Morfologické segmentovanie (angl. Morphological Segmentation),
 	\myitem Generovanie prirodzeného jazyka (angl. Natural Language Generation),
@@ -123,7 +123,7 @@ Príkladom je \textit{Slovak University of Technology}. Avšak v iných jazykoch
 	\subsection{Identifikácia koreferencií}
 }
 \label{subsubsec:corefparsing}
-Identifikácia koreferencií (angl. Coreference resolution) predstavuje nájdenie alternatívnych pomenovaní rovnakej entity na základe referencií a kontextu. V texte sa často používajú zámena (angl. pronouns) \textit{to}, \textit{tí}, \textit{on}, anglicky \textit{it}, \textit{those}, \textit{he} alebo menné frázy (angl. noun phrase). Tieto referencie sa odkazujú na iné podstatné mená alebo mená a názvy. Rozpoznávanie koreferencií identifikuje entitu, väčšinou z reálneho sveta, na ktorú sa referencia odkazuje. Táto úloha spracovania prirodzeného jazyka sa využíva v aplikáciách spracovania prirodzeného jazyka, ako sú extrakcia informácií (viď. ~\fullref{subsubsec:information_extraction}) a odpovedanie na otázky~\cite{Bryl}.
+Identifikácia koreferencií (angl. Coreference resolution) predstavuje nájdenie alternatívnych pomenovaní rovnakej entity, na základe referencií a kontextu. V texte sa často používajú zámena (angl. pronouns) \textit{to}, \textit{tí}, \textit{on}, anglicky \textit{it}, \textit{those}, \textit{he} alebo menné frázy (angl. noun phrase). Tieto referencie sa odkazujú na iné podstatné mená alebo mená a názvy. Rozpoznávanie koreferencií identifikuje entitu, väčšinou z reálneho sveta, na ktorú sa referencia odkazuje. Táto úloha spracovania prirodzeného jazyka sa využíva v aplikáciách spracovania prirodzeného jazyka, ako sú extrakcia informácií (viď. ~\fullref{subsubsec:information_extraction}) a odpovedanie na otázky~\cite{Bryl}.
 
 Príklad:
 \textbf{Martin Nemček} napísal túto bakalársku prácu. \textbf{On} študuje na FIIT STU BA.
@@ -311,6 +311,7 @@ Tento nástroj okrem iného ponúka aj surové (angl. raw) dáta na stiahnutie.
 	\subsection{AlchemyAPI}
 }
 \label{subsubsec:alchemyapi}
+\hyphenation{AlchemyAPI}
 AlchemiAPI\footnote{www.alchemyapi.com} je súbor dvanástich nástrojov, z ktorých sú niektoré zamerané na úlohy spracovania prirodzeného jazyka popísané v časti \fullref{subsec:tasksofnlp}, ako napríklad extrakcia entít, extrakcia kľúčových slov, extrakcia vzťahov, ale aj iné zaujímave funkcie, napríklad extrakcia autora z textu.
 
 Na používanie tohto nástroja je potrebná registrácia pre obdržanie API kľúču. S týmto kľúčom je tisíc dopytov denne zdarma. Dostupnosť v programovacích jazykoch je široká. Ponúka knižnicu v deviatich najpoužívanejších programovacích jazykoch. Dostupné je aj online webové demo.
@@ -322,7 +323,7 @@ Na používanie tohto nástroja je potrebná registrácia pre obdržanie API kľ
 %\caption[AlchemyAPI online demo]{AlchemyAPI online demo}\label{fig:alchemyapi_visualization}
 %\end{figure}
 
-Dáta sú vo formáte JSON a okrem spracovania prirodzeného jazyka AlchemyAPI ponúka aj nástroje na extrahovanie obsahu z obrázku alebo rozpoznávanie tvárí na obrázkoch.
+Dáta sú vo formáte JSON a okrem spracovania prirodzeného jazyka, AlchemyAPI ponúka aj nástroje na extrahovanie obsahu z obrázku alebo rozpoznávanie tvárí na obrázkoch.
 
 %
 % Zhrnutie

@@ -1,52 +1,52 @@
 \select@language {slovak}
-\contentsline {figure}{\numberline {1}{\ignorespaces Strom vz\IeC {\v t}ahov}}{6}{figure.caption.5}
-\contentsline {figure}{\numberline {2}{\ignorespaces Vz\IeC {\v t}ahy vo vete}}{6}{figure.caption.6}
-\contentsline {figure}{\numberline {3}{\ignorespaces StanfordNLP online demo}}{8}{figure.caption.7}
-\contentsline {figure}{\numberline {4}{\ignorespaces Google Ngram Viewer}}{9}{figure.caption.8}
-\contentsline {figure}{\numberline {5}{\ignorespaces Aplik\IeC {\'a}cia InterText}}{12}{figure.caption.9}
-\contentsline {figure}{\numberline {6}{\ignorespaces Aplik\IeC {\'a}cia NOVA Text Aligner}}{13}{figure.caption.10}
-\contentsline {figure}{\numberline {7}{\ignorespaces Aplik\IeC {\'a}cia LF Aligner}}{14}{figure.caption.11}
-\contentsline {figure}{\numberline {8}{\ignorespaces Google Translate}}{15}{figure.caption.12}
-\contentsline {figure}{\numberline {9}{\ignorespaces Stromov\IeC {\'a} reprezent\IeC {\'a}cia \IeC {\v s}trukt\IeC {\'u}ry}}{20}{figure.caption.14}
-\contentsline {figure}{\numberline {10}{\ignorespaces Reprezent\IeC {\'a}cia \IeC {\v s}trukt\IeC {\'u}ry vo vete}}{21}{figure.caption.15}
-\contentsline {figure}{\numberline {11}{\ignorespaces Datab\IeC {\'a}zov\IeC {\'y} model}}{24}{figure.caption.18}
-\contentsline {figure}{\numberline {12}{\ignorespaces Model kolekcie articles}}{25}{figure.caption.19}
-\contentsline {figure}{\numberline {13}{\ignorespaces Model kolekcie notes}}{25}{figure.caption.20}
-\contentsline {figure}{\numberline {14}{\ignorespaces Model kolekcie sentences}}{26}{figure.caption.21}
-\contentsline {figure}{\numberline {15}{\ignorespaces Model kolekcie structures}}{27}{figure.caption.22}
-\contentsline {figure}{\numberline {16}{\ignorespaces Model kolekcie rules}}{28}{figure.caption.23}
-\contentsline {figure}{\numberline {17}{\ignorespaces Model kolekcie and rules}}{29}{figure.caption.24}
-\contentsline {figure}{\numberline {18}{\ignorespaces Pr\IeC {\'\i }klad ur\IeC {\v c}enia zhody viet}}{34}{figure.caption.26}
-\contentsline {figure}{\numberline {19}{\ignorespaces Z\IeC {\'a}vislost\IeC {\'\i } jednoduchej vety}}{38}{figure.caption.28}
-\contentsline {figure}{\numberline {20}{\ignorespaces Pr\IeC {\'\i }klad \IeC {\v s}trukt\IeC {\'u}ry pravidla}}{38}{figure.caption.29}
-\contentsline {figure}{\numberline {21}{\ignorespaces V\IeC {\'y}stupy porovnan\IeC {\'y}ch syst\IeC {\'e}mov\relax }}{41}{figure.caption.31}
+\contentsline {figure}{\numberline {1}{\ignorespaces Strom vz\IeC {\v t}ahov}}{6}{figure.caption.6}
+\contentsline {figure}{\numberline {2}{\ignorespaces Vz\IeC {\v t}ahy vo vete}}{6}{figure.caption.7}
+\contentsline {figure}{\numberline {3}{\ignorespaces StanfordNLP online demo}}{8}{figure.caption.8}
+\contentsline {figure}{\numberline {4}{\ignorespaces Google Ngram Viewer}}{9}{figure.caption.9}
+\contentsline {figure}{\numberline {5}{\ignorespaces Aplik\IeC {\'a}cia InterText}}{12}{figure.caption.10}
+\contentsline {figure}{\numberline {6}{\ignorespaces Aplik\IeC {\'a}cia NOVA Text Aligner}}{13}{figure.caption.11}
+\contentsline {figure}{\numberline {7}{\ignorespaces Aplik\IeC {\'a}cia LF Aligner}}{14}{figure.caption.12}
+\contentsline {figure}{\numberline {8}{\ignorespaces Google Translate}}{15}{figure.caption.13}
+\contentsline {figure}{\numberline {9}{\ignorespaces Stromov\IeC {\'a} reprezent\IeC {\'a}cia \IeC {\v s}trukt\IeC {\'u}ry}}{20}{figure.caption.15}
+\contentsline {figure}{\numberline {10}{\ignorespaces Reprezent\IeC {\'a}cia \IeC {\v s}trukt\IeC {\'u}ry vo vete}}{21}{figure.caption.16}
+\contentsline {figure}{\numberline {11}{\ignorespaces Datab\IeC {\'a}zov\IeC {\'y} model}}{24}{figure.caption.19}
+\contentsline {figure}{\numberline {12}{\ignorespaces Model kolekcie articles}}{25}{figure.caption.20}
+\contentsline {figure}{\numberline {13}{\ignorespaces Model kolekcie notes}}{25}{figure.caption.21}
+\contentsline {figure}{\numberline {14}{\ignorespaces Model kolekcie sentences}}{26}{figure.caption.22}
+\contentsline {figure}{\numberline {15}{\ignorespaces Model kolekcie structures}}{27}{figure.caption.23}
+\contentsline {figure}{\numberline {16}{\ignorespaces Model kolekcie rules}}{28}{figure.caption.24}
+\contentsline {figure}{\numberline {17}{\ignorespaces Model kolekcie and rules}}{29}{figure.caption.25}
+\contentsline {figure}{\numberline {18}{\ignorespaces Pr\IeC {\'\i }klad ur\IeC {\v c}enia zhody viet}}{34}{figure.caption.27}
+\contentsline {figure}{\numberline {19}{\ignorespaces Z\IeC {\'a}vislost\IeC {\'\i } jednoduchej vety}}{38}{figure.caption.29}
+\contentsline {figure}{\numberline {20}{\ignorespaces Pr\IeC {\'\i }klad \IeC {\v s}trukt\IeC {\'u}ry pravidla}}{38}{figure.caption.30}
+\contentsline {figure}{\numberline {21}{\ignorespaces V\IeC {\'y}stupy porovnan\IeC {\'y}ch syst\IeC {\'e}mov\relax }}{41}{figure.caption.32}
 \contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Po\IeC {\v c}et viet na v\IeC {\'y}stupe}}}{41}{subfigure.21.1}
 \contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Po\IeC {\v c}et slov na v\IeC {\'y}stupe}}}{41}{subfigure.21.2}
-\contentsline {figure}{\numberline {22}{\ignorespaces Spracovanie inform\IeC {\'a}ci\IeC {\'\i } porovnan\IeC {\'y}mi syst\IeC {\'e}mami\relax }}{42}{figure.caption.32}
+\contentsline {figure}{\numberline {22}{\ignorespaces Spracovanie inform\IeC {\'a}ci\IeC {\'\i } porovnan\IeC {\'y}mi syst\IeC {\'e}mami\relax }}{42}{figure.caption.33}
 \contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Po\IeC {\v c}et nespracovan\IeC {\'y}ch viet}}}{42}{subfigure.22.1}
 \contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Priemern\IeC {\'y} po\IeC {\v c}et eliminovan\IeC {\'y}ch irelevantn\IeC {\'y}ch slov vo v\IeC {\'y}slednej vete}}}{42}{subfigure.22.2}
-\contentsline {figure}{\numberline {23}{\ignorespaces Porovnanie v\IeC {\v s}eobecn\IeC {\'y}ch v\IeC {\'y}sledkov oboch \IeC {\v c}asti experimentu\relax }}{43}{figure.caption.33}
+\contentsline {figure}{\numberline {23}{\ignorespaces Porovnanie v\IeC {\v s}eobecn\IeC {\'y}ch v\IeC {\'y}sledkov oboch \IeC {\v c}asti experimentu\relax }}{43}{figure.caption.34}
 \contentsline {subfigure}{\numberline {(a)}{\ignorespaces {V\IeC {\v s}eobecn\IeC {\'e} v\IeC {\'y}sledky prvej \IeC {\v c}asti}}}{43}{subfigure.23.1}
 \contentsline {subfigure}{\numberline {(b)}{\ignorespaces {V\IeC {\v s}eobecn\IeC {\'e} v\IeC {\'y}sledky druhej \IeC {\v c}asti}}}{43}{subfigure.23.2}
-\contentsline {figure}{\numberline {24}{\ignorespaces Detailn\IeC {\'e} v\IeC {\'y}sledky prvej \IeC {\v c}asti experimentu\relax }}{44}{figure.caption.34}
+\contentsline {figure}{\numberline {24}{\ignorespaces Detailn\IeC {\'e} v\IeC {\'y}sledky prvej \IeC {\v c}asti experimentu\relax }}{44}{figure.caption.35}
 \contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Kateg\IeC {\'o}rie nespr\IeC {\'a}vnych pozn\IeC {\'a}mok}}}{44}{subfigure.24.1}
 \contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Kateg\IeC {\'o}rie spr\IeC {\'a}vnych pozn\IeC {\'a}mok}}}{44}{subfigure.24.2}
-\contentsline {figure}{\numberline {25}{\ignorespaces Detailn\IeC {\'e} v\IeC {\'y}sledky druhej \IeC {\v c}asti experimentu\relax }}{44}{figure.caption.35}
+\contentsline {figure}{\numberline {25}{\ignorespaces Detailn\IeC {\'e} v\IeC {\'y}sledky druhej \IeC {\v c}asti experimentu\relax }}{44}{figure.caption.36}
 \contentsline {subfigure}{\numberline {(a)}{\ignorespaces {Kateg\IeC {\'o}rie nespr\IeC {\'a}vnych pozn\IeC {\'a}mok}}}{44}{subfigure.25.1}
 \contentsline {subfigure}{\numberline {(b)}{\ignorespaces {Kateg\IeC {\'o}rie spr\IeC {\'a}vnych pozn\IeC {\'a}mok}}}{44}{subfigure.25.2}
-\contentsline {figure}{\numberline {26}{\ignorespaces Grafick\IeC {\'e} rozhranie - Hlavn\IeC {\'e} okno}}{51}{figure.caption.37}
-\contentsline {figure}{\numberline {27}{\ignorespaces Grafick\IeC {\'e} rozhranie - Menu File}}{52}{figure.caption.38}
-\contentsline {figure}{\numberline {28}{\ignorespaces Grafick\IeC {\'e} rozhranie - Menu Edit}}{52}{figure.caption.39}
-\contentsline {figure}{\numberline {29}{\ignorespaces Grafick\IeC {\'e} rozhranie - Okno na na\IeC {\v c}\IeC {\'\i }tanie textu}}{52}{figure.caption.40}
-\contentsline {figure}{\numberline {30}{\ignorespaces Grafick\IeC {\'e} rozhranie - Okno na dotiahnutie textu}}{53}{figure.caption.41}
-\contentsline {figure}{\numberline {31}{\ignorespaces Grafick\IeC {\'e} rozhranie - Editovacie okno pozn\IeC {\'a}mky}}{54}{figure.caption.42}
-\contentsline {figure}{\numberline {32}{\ignorespaces Grafick\IeC {\'e} rozhranie - Editovacie okno viacn\IeC {\'a}sobn\IeC {\'y}ch pozn\IeC {\'a}mok}}{55}{figure.caption.43}
-\contentsline {figure}{\numberline {33}{\ignorespaces Zoznam z\IeC {\'a}vislot\IeC {\'\i }}}{56}{figure.caption.44}
-\contentsline {figure}{\numberline {34}{\ignorespaces Legenda diagramov kolekci\IeC {\'\i }}}{57}{figure.caption.45}
-\contentsline {figure}{\numberline {35}{\ignorespaces Datab\IeC {\'a}zov\IeC {\'y} model}}{58}{figure.caption.46}
-\contentsline {figure}{\numberline {36}{\ignorespaces Model kolekcie articles}}{58}{figure.caption.47}
-\contentsline {figure}{\numberline {37}{\ignorespaces Model kolekcie notes}}{58}{figure.caption.48}
-\contentsline {figure}{\numberline {38}{\ignorespaces Model kolekcie sentences}}{59}{figure.caption.49}
-\contentsline {figure}{\numberline {39}{\ignorespaces Model kolekcie structures}}{59}{figure.caption.50}
-\contentsline {figure}{\numberline {40}{\ignorespaces Model kolekcie rules}}{60}{figure.caption.51}
-\contentsline {figure}{\numberline {41}{\ignorespaces Model kolekcie and rules}}{60}{figure.caption.52}
+\contentsline {figure}{\numberline {26}{\ignorespaces Grafick\IeC {\'e} rozhranie - Hlavn\IeC {\'e} okno}}{51}{figure.caption.39}
+\contentsline {figure}{\numberline {27}{\ignorespaces Grafick\IeC {\'e} rozhranie - Menu File}}{52}{figure.caption.40}
+\contentsline {figure}{\numberline {28}{\ignorespaces Grafick\IeC {\'e} rozhranie - Menu Edit}}{52}{figure.caption.41}
+\contentsline {figure}{\numberline {29}{\ignorespaces Grafick\IeC {\'e} rozhranie - Okno na na\IeC {\v c}\IeC {\'\i }tanie textu}}{52}{figure.caption.42}
+\contentsline {figure}{\numberline {30}{\ignorespaces Grafick\IeC {\'e} rozhranie - Okno na dotiahnutie textu}}{53}{figure.caption.43}
+\contentsline {figure}{\numberline {31}{\ignorespaces Grafick\IeC {\'e} rozhranie - Editovacie okno pozn\IeC {\'a}mky}}{54}{figure.caption.44}
+\contentsline {figure}{\numberline {32}{\ignorespaces Grafick\IeC {\'e} rozhranie - Editovacie okno viacn\IeC {\'a}sobn\IeC {\'y}ch pozn\IeC {\'a}mok}}{55}{figure.caption.45}
+\contentsline {figure}{\numberline {33}{\ignorespaces Zoznam z\IeC {\'a}vislot\IeC {\'\i }}}{56}{figure.caption.46}
+\contentsline {figure}{\numberline {34}{\ignorespaces Legenda diagramov kolekci\IeC {\'\i }}}{57}{figure.caption.47}
+\contentsline {figure}{\numberline {35}{\ignorespaces Datab\IeC {\'a}zov\IeC {\'y} model}}{58}{figure.caption.48}
+\contentsline {figure}{\numberline {36}{\ignorespaces Model kolekcie articles}}{58}{figure.caption.49}
+\contentsline {figure}{\numberline {37}{\ignorespaces Model kolekcie notes}}{58}{figure.caption.50}
+\contentsline {figure}{\numberline {38}{\ignorespaces Model kolekcie sentences}}{59}{figure.caption.51}
+\contentsline {figure}{\numberline {39}{\ignorespaces Model kolekcie structures}}{59}{figure.caption.52}
+\contentsline {figure}{\numberline {40}{\ignorespaces Model kolekcie rules}}{60}{figure.caption.53}
+\contentsline {figure}{\numberline {41}{\ignorespaces Model kolekcie and rules}}{60}{figure.caption.54}

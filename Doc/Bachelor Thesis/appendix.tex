@@ -36,21 +36,34 @@
 }
 
 \subsection{Inštalácia}
-Nástroj nie je potrebné inštalovať. Na elektronickom médiu sa nachádza spustiteľný súbor \textit{Notenizer.exe}, ktorý spustí nástroj. 
+Nástroj nie je potrebné inštalovať. Na elektronickom médiu sa nachádza spustiteľný súbor \textit{Notenizer.exe}, ktorý spustí systém.
 
 \subsection{Spustenie systému}
-Nástroj ponúka prácu cez dve rozhrania - príkazový riadok a grafické používateľské rozhranie. Na príkazovom riadku nie su dostupné všetky vymoženosti systému, ako napríklad interaktívna úprava poznámok. Podľa zadaných argumentov sa spustenie a správanie systému prispôsobuje.
+Systém ponúka prácu cez dve rozhrania - príkazový riadok a grafické používateľské rozhranie. Na príkazovom riadku nie su dostupné všetky vymoženosti systému, ako napríklad interaktívna úprava poznámok. Podľa zadaných argumentov sa spustenie a správanie systému prispôsobuje.
 
 \subsubsection{Možnosti spustenia systému}
-Argumenty systému: \\
-\\
-\hspace*{1cm} -t, \hyph\hyph text\hspace*{1cm} Text, ktorý sa má spracovať. \\
-\hspace*{1cm} -u, \hyph\hyph url\hspace*{1.07cm} URL adresa článku na wikipédií~\footnote{\label{footnote:simple_wiki}www.simple.wikipedia.org}. \\
-\hspace*{1cm} \hyph\hyph country\hspace*{0.84cm} Spracuje článok o krajine z wikipédie~\footref{footnote:simple_wiki}. \\
-\hspace*{1cm} -d, \hyph\hyph db\hspace*{1.16cm} Názov databázy, ku ktorej sa pripojí. \\
-\hspace*{1cm} -v\hspace*{2.08cm} Ladiace a pomocné výpisy programu. \\
-\hspace*{1cm} -c\hspace*{2.08cm} Program zbehne jednorázovo na príkazovom riadku. \\
-\hspace*{1cm} \hyph\hyph help\hspace*{1.42cm} Zobrazí túto pomocnú správu.
+\begin{table}[H]
+	\centering
+	\caption{Argumenty systému}
+	\label{appendix:run:table:arguments}
+	\begin{tabular}{|l|l|l|}
+		\hline
+		\textbf{Argument} & \textbf{Vykonaná akcia} & \textbf{Predvolené} \\ \hline
+		-t, \hyph\hyph text & Text, ktorý sa má spracovať & \\ \hline
+		\hyph\hyph url & URL adresa článku na wikipédií & \\ \hline
+		\hyph\hyph country & Spracuje článok o krajine z wikipédie & \\ \hline
+		-v & Zobrazí ladiace a pomocné výpisy programu & false \\ \hline
+		-c & Program zbehne jednorázovo na príkazovom riadku & false \\ \hline
+		\hyph\hyph analyze & Vykoná analýzu nad súčasnou databázou & false \\ \hline
+		-d, \hyph\hyph db & Názov databázy, ku ktorej sa pripojí & notenizer\\ \hline
+		-h, \hyph\hyph host & Názov servera, ku ktorému sa pripojí & localhost \\ \hline
+		-p, \hyph\hyph port & Port na ktorom počúva MongoDB databáza & 27017 \\ \hline
+		-u & Meno databázového používateľa & \\ \hline
+		\hyph\hyph password & Heslo databázového používateľa & \\ \hline
+		\hyph\hyph help & Zobrazí túto pomocnú správu & \\ \hline
+	\end{tabular}
+\end{table}
+
 \subsection{Používateľské rozhranie}
 
 Hlavné okno aplikácie (\imgref{appendix:gui:main_window}) pozostáva zo štyroch častí:

@@ -29,7 +29,7 @@ Systém na tvorbu poznámok vyžaduje splnenie viacerých požiadaviek. Hlavné 
 \label{subsection:notes_creation}
 Pri spracovávaní viet je potrebné extrahovať dôležité a konkrétne informácie, v našom prípade slová, a z extrahovaných informácií vytvoriť poznámku. Poznámka je zložená výhradne zo slov obsiahnutých vo vete, z ktorej bola vytvorená. Tým zabezpečíme, že poznámka nebude obsahovať irelevantné informácie z hľadiska vzťahu ku vete. 
 
-Spracovávané vety sa môžu opakovať, a preto je dôležité, aby sa rovnaké a podobné vety spracovali vždy takým istým spôsobom. Pre tento účel je vhodné mať definované pravidlo, ktoré bude určovať, ako sa má daná veta spracovať. Aplikovaním pravidla na vetu vytvoríme poznámku. Používateľ má možnosť interaktívne upraviť poznámku, a tým pádom aj pravidlo, ktoré bolo použité na vytvorenie danej poznámku, v takom rozsahu, že sa vytvorená poznámka zmení podľa vykonaných zmien. Zmeny v pravidle sa musia prejaviť aj pri nasledujúcom aplikovaní pravidla na rovnakú alebo podobnú vetu. Používateľovi to poskytne kontrolou nad spôsobom, akým sa vytvárajú poznámky a bude si ich vedieť prispôsobiť - personalizovať.
+Spracovávané vety sa môžu opakovať, a preto je dôležité, aby sa rovnaké a podobné vety spracovali vždy takým istým spôsobom. Pre tento účel je vhodné mať definované pravidlo, ktoré bude určovať, ako sa má daná veta spracovať. Aplikovaním pravidla na vetu vytvoríme poznámku. Používateľ má možnosť interaktívne upraviť poznámku, a tým pádom aj pravidlo, ktoré bolo použité na vytvorenie danej poznámky, v takom rozsahu, že sa vytvorená poznámka zmení podľa vykonaných zmien. Zmeny v pravidle sa musia prejaviť aj pri nasledujúcom aplikovaní pravidla na rovnakú alebo podobnú vetu. Používateľovi to poskytne kontrolu nad spôsobom, akým sa vytvárajú poznámky a bude si ich vedieť prispôsobiť - personalizovať.
 
 %
 % Pravidlo na spracovanie
@@ -42,7 +42,7 @@ Spracovávané vety sa môžu opakovať, a preto je dôležité, aby sa rovnaké
 	\subsection{Pravidlo na spracovanie}
 }
 \label{subsubsection:rule_for_processing}
-Pravidlo na spracovanie určuje, ktoré informácie vo vete sú relevantné a majú byť použité v poznámke. Okrem určenia relevantnosti slov pravidlo taktiež určuje, na ktorej pozícií sa má konkrétna informácia vo výslednej poznámke nachádzať. Výsledná poznámka sa nemusí skladať iba z jednej vety, ale môže pozostávať z ľubovolného počtu viet. Počet viet, z ktorých bude poznámka pozostávať a miesta, na ktorých má byť pôvodná poznámka rozdelená na vety určuje pravidlo.
+Pravidlo na spracovanie určuje, ktoré informácie vo vete sú relevantné a majú byť použité v poznámke. Okrem určenia relevantnosti slov pravidlo taktiež určuje, na ktorej pozícií sa má konkrétna informácia vo výslednej poznámke nachádzať. Výsledná poznámka sa nemusí skladať iba z jednej vety, ale môže pozostávať z ľubovolného počtu viet. Počet viet, z ktorých bude poznámka pozostávať a miesta, na ktorých má byť pôvodná poznámka rozdelená na vety, určuje pravidlo.
 
 Skladá sa primárne zo štruktúry, ktorá je zložená najmä zo závislostí. Okrem štruktúry obsahuje aj informácie o pozíciách, na ktorých sa má výsledná poznámka rozdeliť na menšie časti - vety.
 %zo závislostí slov, ktoré sa majú nachádzať v poznámke. Pomocou závislosti vieme jednoznačne identifikovať a extrahovať konkrétne slovo z vety a pridať ho do poznámky. Okrem závislostí obsahuje aj informácie o pozícií závislostí alebo type tokenu, ktorého slovo sa ma následne pridať do poznámky a informácie o tokenoch závislostí. Pre nadradený aj podradený token pravidlo obsahuje dáta o slove korešpondujúcom s daným tokenom. Sú to značka slovného druhu, index slova vo vete, názvoslovná entita a lema tvar.
@@ -156,7 +156,7 @@ Keby sme vytvárali pravidlá napríklad, iba na základe značiek názvoslovný
 	\section{Structure of sentences and rules}
 }
 \label{subsection:structure_of_sentences_and_rules}
-Všeobecná štruktúra je definovaná závislosťami, vzťahmi závislostí, pozíciami závislostí, a informáciami o nadradenom tokene a podradenom tokene závislostí. Tieto informácie sa skladajú zo značky slovného druhu, indexu, názvoslovnej entity a lemy. Štruktúra pravidla je oproti všeobecnej štruktúre, ktorú využíva veta, rozšírená o doplňujúce informácie. Sú to informácie potrebné pre správny chod systému. Skladajú sa z typu porovnania a typu tokenu. V náčrtoch sa nezobrazujú keďže sú využívané interne a nie sú nevyhnutné na pochopenie danej časti.
+Všeobecná štruktúra je definovaná závislosťami, vzťahmi závislostí, pozíciami závislostí a informáciami o nadradenom tokene a podradenom tokene závislostí. Tieto informácie sa skladajú zo značky slovného druhu, indexu, názvoslovnej entity a lemy. Štruktúra pravidla je oproti všeobecnej štruktúre, ktorú využíva veta, rozšírená o doplňujúce informácie. Sú to potrebné informácie pre správny chod systému. Skladajú sa z typu porovnania a typu tokenu. V náčrtoch sa nezobrazujú, keďže sú využívané interne a nie sú nevyhnutné na pochopenie danej časti.
 
 Štruktúru viet prezentujeme dvoma spôsobmi:
 \begin{my_itemize}
@@ -175,7 +175,7 @@ Všeobecná štruktúra je definovaná závislosťami, vzťahmi závislostí, po
 	\subsection{Tree representation}
 }
 \label{subsubsection:structure_tree_representation}
-Stromová reprezentácia uľahčuje reprezentáciu vzťahov a prepojení jednotlivých slov vo vete. Táto reprezentácia môže byť pre vetu \textit{,,The president of the Slovak Republic is Andrej Kiska.''} vyjadrená~\imgref{fig:tree_structure}. Reprezentácia je podobná reprezentácií na~\imgref{fig:dependency_tree} z časti~\fullref{subsubsec:dependencyparsing}, avšak je ešte rozšírená o značky slovných druhov, indexy, názvoslovné entity a lemy. V tomto poradí sú tieto informácie zobrazene v stromovej reprezentácia pod príslušným slovom.
+Stromová reprezentácia uľahčuje reprezentáciu vzťahov a prepojení jednotlivých slov vo vete. Táto reprezentácia môže byť pre vetu \textit{,,The president of the Slovak Republic is Andrej Kiska.''} vyjadrená~\imgref{fig:tree_structure}. Reprezentácia je podobná reprezentácií na~\imgref{fig:dependency_tree} z časti~\fullref{subsubsec:dependencyparsing}, avšak je ešte rozšírená o značky slovných druhov, indexy, názvoslovné entity a lemy. V tomto poradí sú tieto informácie zobrazene v stromovej reprezentácií pod príslušným slovom.
 
 \begin{figure}[H]
 	\begin{center}\includegraphics[scale=0.35]{tree_structure}\end{center}
