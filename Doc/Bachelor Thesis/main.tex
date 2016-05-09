@@ -70,11 +70,12 @@ pdfkeywords={key words},%
 %% Title Page
 %%
 \input{titlepage.tex}
-
+\pagenumbering{gobble}
+\includepdf[pages={1}, pagecommand={}]{zadanie.pdf}
 %%
 %% Anotation
 %%
-\pagenumbering{roman}\setcounter{page}{2}
+\pagenumbering{roman}\setcounter{page}{3}
 \input{anotation.tex}
 
 %%

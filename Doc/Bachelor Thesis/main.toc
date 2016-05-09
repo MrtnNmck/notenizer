@@ -68,12 +68,3 @@
 \contentsline {section}{\numberline {7}Zhodnotenie}{47}{section.7}
 \contentsline {subsection}{\numberline {7.1}Mo\IeC {\v z}nosti roz\IeC {\v s}\IeC {\'\i }renia syst\IeC {\'e}mu}{48}{subsection.7.1}
 \contentsline {section}{Zoznam pou\IeC {\v z}itej literat\IeC {\'u}ry}{49}{subsection.7.1}
-\contentsline {section}{\numberline {A}Pou\IeC {\v z}\IeC {\'\i }vate\IeC {\v l}sk\IeC {\'a} pr\IeC {\'\i }ru\IeC {\v c}ka}{50}{appendix.A}
-\contentsline {subsection}{\numberline {A.1}In\IeC {\v s}tal\IeC {\'a}cia}{50}{subsection.A.1}
-\contentsline {subsection}{\numberline {A.2}Spustenie syst\IeC {\'e}mu}{50}{subsection.A.2}
-\contentsline {subsubsection}{\numberline {A.2.1}Mo\IeC {\v z}nosti spustenia syst\IeC {\'e}mu}{50}{subsubsection.A.2.1}
-\contentsline {subsection}{\numberline {A.3}Pou\IeC {\v z}\IeC {\'\i }vate\IeC {\v l}sk\IeC {\'e} rozhranie}{50}{subsection.A.3}
-\contentsline {section}{\numberline {B}Zoznam vz\IeC {\v t}ahov z\IeC {\'a}vislost\IeC {\'\i }}{56}{appendix.B}
-\contentsline {section}{\numberline {C}Legenda diagramov kolekci\IeC {\'\i }}{57}{appendix.C}
-\contentsline {section}{\numberline {D}Uk\IeC {\'a}\IeC {\v z}ka \IeC {\v c}l\IeC {\'a}nkov pou\IeC {\v z}it\IeC {\'y}ch v experimente}{61}{appendix.D}
-\contentsline {section}{\numberline {E}IIT.SRC \IeC {\v c}l\IeC {\'a}nok}{66}{appendix.E}

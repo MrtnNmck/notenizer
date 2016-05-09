@@ -66,7 +66,7 @@ Systém ponúka prácu cez dve rozhrania - príkazový riadok a grafické použ�
 
 \subsection{Používateľské rozhranie}
 
-Hlavné okno aplikácie (\imgref{appendix:gui:main_window}) pozostáva zo štyroch častí:
+Hlavné okno aplikácie (\imgref{appendix:gui:main_window}) pozostáva z piatich častí:
 \begin{my_enumerate}
 	\item menu File (\imgref{appendix:gui:menu_file}),
 	\item menu Edit (\imgref{appendix:gui:menu_edit}),
@@ -84,7 +84,7 @@ Menu File (\imgref{appendix:gui:menu_file}) ponúka viacero operácií s textami
 \begin{my_enumerate}
 	\item otvorí okno pre načítanie textu na spracovanie (\imgref{appendix:gui:input_window}),
 	\item získa text na spracovanie zo zvoleného textového súboru,
-	\item zobrazí okno na dotiahnutie textu z wikipédie (\imgref{appendix:gui:link_window}),
+	\item zobrazí okno na stiahnutie textu z wikipédie (\imgref{appendix:gui:link_window}),
 	\item uloží vytvorené poznámky do textového súboru,
 	\item ukončí program.
 \end{my_enumerate}
@@ -113,10 +113,10 @@ Okno na načítanie textu na spracovanie (\imgref{appendix:gui:input_window}) ob
 	\caption[Grafické rozhranie - Okno na načítanie textu]{Grafické rozhranie - Okno na načítanie textu}\label{appendix:gui:input_window}
 \end{figure}
 
-Okno na dotiahnutie textu (\imgref{appendix:gui:link_window}) sa skladá z:
+Okno na stiahnutie textu (\imgref{appendix:gui:link_window}) sa skladá z:
 \begin{my_enumerate}
-	\item výber dotiahnutia textu cez URL článku na wikipédií,
-	\item výber dotiahnutia text z článku na wikipédií podľa názvu krajiny,
+	\item výber stiahnutia textu cez URL článku na wikipédií,
+	\item výber stiahnutia textu z článku na wikipédií podľa názvu krajiny,
 	\item zadanie URL alebo názvu krajiny.
 \end{my_enumerate}
 \begin{figure}[H]
@@ -129,7 +129,7 @@ Editovacie okno poznámky (\imgref{appendix:gui:edit_window}) obsahuje prvky:
 	\item znenie pôvodnej vety,
 	\item znenie poznámky,
 	\item interaktívne upraviteľný tvar poznámky,
-	\item slová z pôvodnej vety nepoužité v poznámke,
+	\item slová z pôvodnej vety, nepoužité v poznámke,
 	\item spoznámkovávač viacnásobných poznámok (\imgref{appendix:gui:andparser_window}).
 \end{my_enumerate}
 \begin{figure}[H]
@@ -142,7 +142,7 @@ Editovacie okno viacnásobných poznámok (\imgref{appendix:gui:andparser_window
 	\item znenie pôvodnej vety,
 	\item viacnásobnú poznámku,
 	\item interaktívne upraviteľný tvar viacnásobnej poznámky,
-	\item slová z pôvodnej vety nepoužité vo viacnásobnej poznámke,
+	\item slová z pôvodnej vety, nepoužité vo viacnásobnej poznámke,
 	\item špeciálny prvok označujúci množinu viacnásobnej poznámky.
 \end{my_enumerate}
 \begin{figure}[H]
@@ -150,49 +150,52 @@ Editovacie okno viacnásobných poznámok (\imgref{appendix:gui:andparser_window
 	\caption[Grafické rozhranie - Editovacie okno viacnásobných poznámok]{Grafické rozhranie - Editovacie okno viacnásobných poznámok}\label{appendix:gui:andparser_window}
 \end{figure}
 
-%\\
-%\newpage
-%\ifthenelse {\boolean{bachelor}}
-%{
-%	%\section{Electronic medium}
-%	\section{Electronické médium}
-%}
-%{
-%	%\chapter{Electronic medium}
-%	\chapter{Electronické médium}
-%}
-%Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat:
-%\begin{my_itemize}
-%\emptyitem /Application
-%	\begin{my_itemize}
-%	\myitem implementácia opisovaného riešenia
-%	\end{my_itemize}	
-%\emptyitem /Documentation
-%	\begin{my_itemize}
-%	\myitem bakalárska práca spolu s anotáciami v slovenskom a anglickom jazyku
-%	\end{my_itemize}
-%\emptyitem /Documentation/Latex
-%	\begin{my_itemize}
-%	\myitem latex zdrojové súbory dokumentácie
-%	\end{my_itemize}
-%\emptyitem /Documentation/BibTeX
-%	\begin{my_itemize}
-%	\myitem BibTeX súbor s použitými referenciami
-%	\end{my_itemize}
-%\emptyitem /Documentation/Resources
-%	\begin{my_itemize}
-%	\myitem dostupné použité zdroje
-%	\end{my_itemize}
-%\emptyitem /Resources
-%	\begin{my_itemize}
-%	\myitem vstupne/testovacie dáta opisované v dokumente
-%	\end{my_itemize}
-%\emptyitem /Source/Dependencies
-%	\begin{my_itemize}
-%	\myitem inštalačné súbory pre knižnice, ktoré potrebuje aplikácia
-%	\end{my_itemize}	
-%\emptyitem read.me	- popis obsahu média v slovenskom a~anglickom jazyku
-%\end{my_itemize}
+\newpage
+\ifthenelse {\boolean{bachelor}}
+{
+	%\section{Electronic medium}
+	\section{Electronické médium}
+}
+{
+	%\chapter{Electronic medium}
+	\chapter{Electronické médium}
+}
+Na elektronickom médiu sa nachádza implementácia nášho systému, ako aj zdrojové súbory k implementácií. Vstupné dáta experimentov v textovej podobe aj zálohované z MongoDB databázy. Dostupné sú aj Latex a BibTex zdrojové súbory tejto práce.
+\begin{my_itemize}
+\emptyitem /Application
+	\begin{my_itemize}
+	\myitem implementácia opisovaného riešenia
+	\end{my_itemize}	
+\emptyitem /Documentation
+	\begin{my_itemize}
+	\myitem bakalárska práca spolu s anotáciami v slovenskom a anglickom jazyku
+	\end{my_itemize}
+\emptyitem /Documentation/Latex
+	\begin{my_itemize}
+	\myitem latex zdrojové súbory dokumentácie
+	\end{my_itemize}
+\emptyitem /Documentation/BibTeX
+	\begin{my_itemize}
+	\myitem BibTeX súbor s použitými referenciami
+	\end{my_itemize}
+\emptyitem /Documentation/Resources
+	\begin{my_itemize}
+	\myitem dostupné použité zdroje
+	\end{my_itemize}
+\emptyitem /Resources/Data
+	\begin{my_itemize}
+		\myitem testovacie dáta opisované v dokumente
+	\end{my_itemize}
+\emptyitem Reqources/Backup
+	\begin{my_itemize}
+		\myitem zálohované testovacie dáta
+	\end{my_itemize}
+\emptyitem /Source/Dependencies
+	\begin{my_itemize}
+	\myitem inštalačné súbory pre knižnice, ktoré potrebuje aplikácia
+	\end{my_itemize}	
+\emptyitem read.me	- popis obsahu média v slovenskom a~anglickom jazyku
+\end{my_itemize}
 
 \newpage
 \ifthenelse {\boolean{bachelor}}
@@ -319,3 +322,4 @@ V priloženej tabuľke je legenda pre diagramy zobrazujúce štruktúru dát ukl
 	\chapter{Legenda diagramov kolekcií}
 }
 \includepdf[pages={1,2,3}, pagecommand={}]{interactive_system_for_creation_of_notes.pdf}
+\afterpage{\null\newpage}
