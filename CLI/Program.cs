@@ -29,10 +29,24 @@ namespace nsCLI
 
             if (CommandLine.Parser.Default.ParseArguments(args, options))
             {
+                if (options.User != String.Empty && options.Password == String.Empty
+                    || options.User == String.Empty && options.Password != String.Empty)
+                {
+                    Console.WriteLine("User or password missing.");
+                    return;
+                }
+
+                ConnectionManager.HostName = options.Host;
+                ConnectionManager.Password = options.Password;
+                ConnectionManager.Port = options.Port;
+                ConnectionManager.UserName = options.User;
+
                 notenizer = new Notenizer(options.Verbose);
 
                 if (options.DatabaseName != null)
                     ConnectionManager.DatabaseName = options.DatabaseName;
+
+                var c = ConnectionManager.Client;
 
                 if (options.RunAnalysis)
                     Analyzator.Analyze();
